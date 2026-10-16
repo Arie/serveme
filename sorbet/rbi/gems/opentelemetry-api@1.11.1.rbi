@@ -17,6 +17,8 @@
 # pkg:gem/opentelemetry-api#lib/opentelemetry/error.rb:6
 module OpenTelemetry
   extend ::OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
 
   # @return [Callable] configured error handler or a default that logs the
   #   exception and message at ERROR level.

@@ -16,7 +16,10 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation.rb:13
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
@@ -32,12 +35,18 @@ module OpenTelemetry::Instrumentation::LMDB; end
 #
 # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:13
 class OpenTelemetry::Instrumentation::LMDB::Instrumentation < ::OpenTelemetry::Instrumentation::Base
+  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:26
+  def semconv; end
+
   private
 
-  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:28
+  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:30
+  def determine_semconv; end
+
+  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:45
   def patch; end
 
-  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:33
+  # pkg:gem/opentelemetry-instrumentation-lmdb#lib/opentelemetry/instrumentation/lmdb/instrumentation.rb:59
   def require_dependencies; end
 end
 

@@ -548,6 +548,7 @@ module Anthropic
           proxy: T.nilable(T.any(String, URI::Generic)),
           max_retries: Integer,
           timeout: T.nilable(Float),
+          open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash)),
           initial_retry_delay: Float,
           max_retry_delay: Float,
           middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
@@ -565,6 +566,30 @@ module Anthropic
         max_retries: Anthropic::Client::DEFAULT_MAX_RETRIES, # Max number of retries to attempt after a failed retryable request.
         timeout: nil, # Request timeout in seconds. Defaults to
                       # `Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS` when `nil`.
+        open_telemetry: nil, # OpenTelemetry tracing of this client's API calls. Each call emits a span when
+                             # the application has registered a tracer provider with the OpenTelemetry API.
+                             # `true` and `false` are short for `{traces: true}` and `{traces: false}`. Keys
+                             # can be Strings, and an unknown key raises `ArgumentError`. A client that is
+                             # given no option reads `ENV["ANTHROPIC_OPEN_TELEMETRY"]`, where `false` is
+                             # `open_telemetry: false`, `ENV["ANTHROPIC_OPEN_TELEMETRY_PROPAGATION"]`, where
+                             # `false` is `propagation: false`,
+                             # `ENV["ANTHROPIC_OPEN_TELEMETRY_TRACES_CONTENT_MODE"]` and
+                             # `ENV["ANTHROPIC_OPEN_TELEMETRY_TRACES_MAX_CONTENT_BYTES"]`. A client that is
+                             # given the option, even `true` or `{}`, reads none of them.
+                             # - `:tracer_provider` is used in place of the registered tracer provider.
+                             # - `propagation: false` sends no trace context headers, such as `traceparent`,
+                             #   with this client's requests, for an application whose HTTP client
+                             #   instrumentation already sends them, so that a request does not carry them
+                             #   twice. The spans are unaffected. Defaults to `true`.
+                             # - `:traces` holds the settings of the spans. `true` and `false` are short for
+                             #   `{enabled: true}` and `{enabled: false}`. Its keys:
+                             #   - `enabled: false` disables the spans, and the other keys are then unused.
+                             #     Defaults to `true`.
+                             #   - `content_mode: :content` adds the content of requests and responses to the
+                             #     spans, and `:metadata_only` does not. Defaults to `:metadata_only`.
+                             #   - `:max_content_bytes` is the most bytes of content that one span holds, an
+                             #     Integer of 1 or more. Content over the bound is cut, and the span then has
+                             #     `anthropic.content.truncated`. Defaults to 0.75 MB.
         initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
         max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
         middleware: nil # Per-attempt HTTP around-middleware. Each entry is a
@@ -1194,7 +1219,8 @@ module Anthropic
               max_retries: Integer,
               timeout: T.nilable(Float),
               initial_retry_delay: Float,
-              max_retry_delay: Float
+              max_retry_delay: Float,
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash))
             ).returns(T.attached_class)
           end
           def new(
@@ -1211,7 +1237,8 @@ module Anthropic
             timeout: nil, # Request timeout in seconds. Defaults to
                           # `Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS` when `nil`.
             initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
-            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY
+            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
+            open_telemetry: nil # OpenTelemetry tracing of this client's API calls. See {Anthropic::Client}.
 ); end
         end
       end
@@ -1289,7 +1316,8 @@ module Anthropic
               aws_session_token: T.nilable(String),
               aws_profile: T.nilable(String),
               api_key: T.nilable(String),
-              middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray),
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash))
             ).returns(T.attached_class)
           end
           def new(
@@ -1305,9 +1333,10 @@ module Anthropic
             aws_session_token: nil,
             aws_profile: nil,
             api_key: nil,
-            middleware: nil # Per-attempt HTTP around-middleware. Middleware sees the canonical
-                            # Anthropic request shape; the Bedrock URL rewrite and SigV4 signing
-                            # happen inside the continuation, per attempt.
+            middleware: nil, # Per-attempt HTTP around-middleware. Middleware sees the canonical
+                             # Anthropic request shape; the Bedrock URL rewrite and SigV4 signing
+                             # happen inside the continuation, per attempt.
+            open_telemetry: nil # OpenTelemetry tracing of this client's API calls. See {Anthropic::Client}.
 ); end
         end
 
@@ -1371,7 +1400,8 @@ module Anthropic
               max_retries: Integer,
               timeout: T.nilable(Float),
               initial_retry_delay: Float,
-              max_retry_delay: Float
+              max_retry_delay: Float,
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash))
             ).returns(T.attached_class)
           end
           def new(
@@ -1387,7 +1417,8 @@ module Anthropic
             timeout: nil, # Request timeout in seconds. Defaults to
                           # `Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS` when `nil`.
             initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
-            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY
+            max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
+            open_telemetry: nil # OpenTelemetry tracing of this client's API calls. See {Anthropic::Client}.
 ); end
         end
       end
@@ -1443,7 +1474,8 @@ module Anthropic
               timeout: T.nilable(Float),
               initial_retry_delay: Float,
               max_retry_delay: Float,
-              middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray),
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash))
             ).returns(T.attached_class)
           end
           def new(
@@ -1459,8 +1491,9 @@ module Anthropic
                           # `Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS` when `nil`.
             initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
             max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
-            middleware: nil # Per-attempt HTTP around-middleware. The Google bearer is applied
-                            # per attempt, after user middleware.
+            middleware: nil, # Per-attempt HTTP around-middleware. The Google bearer is applied
+                             # per attempt, after user middleware.
+            open_telemetry: nil # OpenTelemetry tracing of this client's API calls. See {Anthropic::Client}.
 ); end
         end
 
@@ -1723,7 +1756,7 @@ module Anthropic
         Message = type_member(:in) { { fixed: Anthropic::Streaming::RawMessageEvent } }
         Elem = type_member(:out) { { fixed: Anthropic::Streaming::StreamEvent } }
 
-        sig { params(raw_stream: Anthropic::Internal::Stream[RawMessageEvent]).void }
+        sig { params(raw_stream: Anthropic::Internal::Type::BaseStream[T.noreturn, RawMessageEvent]).void }
         def initialize(raw_stream:); end
 
         sig do
@@ -1972,7 +2005,8 @@ module Anthropic
               timeout: T.nilable(Float),
               initial_retry_delay: Float,
               max_retry_delay: Float,
-              middleware: T.nilable(Anthropic::Middleware::EntryOrArray)
+              middleware: T.nilable(Anthropic::Middleware::EntryOrArray),
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash))
             ).returns(T.attached_class)
           end
           def new(
@@ -1984,9 +2018,10 @@ module Anthropic
                           # `Anthropic::Client::DEFAULT_TIMEOUT_IN_SECONDS` when `nil`.
             initial_retry_delay: Anthropic::Client::DEFAULT_INITIAL_RETRY_DELAY,
             max_retry_delay: Anthropic::Client::DEFAULT_MAX_RETRY_DELAY,
-            middleware: nil # Per-attempt HTTP around-middleware. Middleware sees the canonical
-                            # Anthropic request shape; the Vertex URL rewrite and OAuth header
-                            # happen inside the continuation, per attempt.
+            middleware: nil, # Per-attempt HTTP around-middleware. Middleware sees the canonical
+                             # Anthropic request shape; the Vertex URL rewrite and OAuth header
+                             # happen inside the continuation, per attempt.
+            open_telemetry: nil # OpenTelemetry tracing of this client's API calls. See {Anthropic::Client}.
 ); end
         end
 
@@ -2119,6 +2154,781 @@ module Anthropic
       def inspect; end
     end
 
+    # @api private
+    #
+    # What a streaming method returns when its API call has a recording span. Reading
+    # or closing it reads or closes the SDK's own stream, and ends the span.
+    class TracedStream
+      include Anthropic::Internal::Type::BaseStream
+
+      Message = type_member(:in) { { fixed: T.anything } }
+      Elem = type_member(:out)
+
+      # What a recorder that follows this stream has read of it.
+      sig { returns(T.nilable(T.anything)) }
+      attr_reader :streamed_message
+
+      # @api private
+      sig do
+        params(
+          stream: Anthropic::Internal::Type::BaseStream[T.noreturn, Elem],
+          iterator: T::Enumerable[Elem],
+          streamed_message: T.nilable(T.anything)
+        ).void
+      end
+      def initialize(
+        stream, # the SDK's own stream
+        iterator, # reads `stream`, and ends the span
+        streamed_message
+); end
+    end
+
+    # @api private
+    #
+    # One `CLIENT` span per API call: every retry of an SDK method's request, and
+    # reading the stream it returns. The SDK emits no span per HTTP attempt.
+    module Tracing
+      class << self
+        # A sampler reads only the attributes a span starts with, so everything known
+        # before the first attempt is here.
+        sig do
+          params(
+            client: Anthropic::Internal::Transport::BaseClient,
+            req: T::Hash[Symbol, T.anything]
+          ).returns(T::Hash[String, T.anything])
+        end
+        def api_call_span_attributes(
+          client,
+          req # the request, as the SDK method gave it to `BaseClient#request`
+); end
+
+        # The settings of a client's spans, frozen: its `open_telemetry` option with
+        # Symbol keys, where `:traces` is a Hash that has every one of {TRACES_KEYS}.
+        # `true` and `false` are `{traces: <it>}`, and a `:traces` of `true` or `false` is
+        # `{enabled: <it>}`. `nil`, for a client that is given no option, is what the
+        # environment says, and the environment is read here and nowhere else. Any other
+        # option is complete: what it leaves unset has the default, and no variable is
+        # read.
+        sig do
+          params(
+            option: T.nilable(
+                T.any(T::Hash[T.any(Symbol, String), T.anything], T::Boolean)
+              )
+          ).returns(T::Hash[Symbol, T.anything])
+        end
+        def client_option(option); end
+
+        # Whether a client's spans have the `content` attributes.
+        sig { params(option: T::Hash[Symbol, T.anything]).returns(T::Boolean) }
+        def content?(
+          option # from {client_option}
+); end
+
+        # The status is `ERROR` for `result[:error]`, `OK` for `result[:data]`, and unset
+        # when the call has neither because the application stopped it, such as with
+        # `Interrupt`.
+        sig { params(span: T.anything, result: T::Hash[Symbol, T.anything]).void }
+        def end_api_call_span(
+          span,
+          result # the result of the API call, as far as the call got
+); end
+
+        # Returns the stream that the application gets in place of `stream`: it ends
+        # `span` when the read ends ({iterate_and_end_span}). `result` is as for
+        # {end_api_call_span}.
+        sig do
+          params(
+            span: T.anything,
+            stream: Anthropic::Internal::Type::BaseStream[T.noreturn, T.anything],
+            result: T::Hash[Symbol, T.anything]
+          ).returns(Anthropic::Internal::Type::BaseStream[T.noreturn, T.anything])
+        end
+        def end_api_call_span_when_stream_ends(span, stream, result); end
+
+        # The trace context of `span` as request headers, with lowercase names: none when
+        # the propagator fails.
+        sig { params(span: T.anything).returns(T::Hash[String, String]) }
+        def inject(span); end
+
+        # The most bytes the `content` attributes of one of a client's spans hold.
+        sig { params(option: T::Hash[Symbol, T.anything]).returns(Integer) }
+        def max_content_bytes(
+          option # from {client_option}
+); end
+
+        # Whether a client's requests carry the trace context of their span.
+        sig { params(option: T::Hash[Symbol, T.anything]).returns(T::Boolean) }
+        def propagation?(
+          option # from {client_option}
+); end
+
+        # The first send sets the URL attributes ({url_attributes}). Every later one, a
+        # retry or a followed redirect, counts toward `http.request.resend_count`.
+        sig do
+          params(
+            span: T.anything,
+            client: Anthropic::Internal::Transport::BaseClient,
+            request: T::Hash[Symbol, T.anything],
+            url: URI::Generic
+          ).void
+        end
+        def record_send(
+          span,
+          client,
+          request, # the request, as `BaseClient#send_request` has it
+          url
+); end
+
+        # `span_name` is `nil` for every API call. The span starts with what
+        # `recorder.start_attributes(client, req)` returns, without its `nil` values, and
+        # `recorder.record(span, result)` runs right before the span ends, or before a
+        # streamed body takes the span with it. An error that either raises is logged, and
+        # does not fail the API call.
+        sig { params(span_name: T.nilable(String), recorder: T.anything).void }
+        def register_recorder(
+          span_name, # one of {SpanName}
+          recorder
+); end
+
+        # The `open_telemetry` request option with Symbol keys.
+        sig do
+          params(
+            option: T.nilable(T::Hash[T.any(Symbol, String), T.anything])
+          ).returns(T::Hash[Symbol, T.anything])
+        end
+        def request_option(option); end
+
+        # Anything but a `StandardError`, such as `Interrupt`, is the application stopping
+        # the operation, which leaves the status unset.
+        sig { params(span: T.anything, error: Exception).void }
+        def set_error_status(span, error); end
+
+        # A field that `response` lacks, or whose type is not the attribute's, sets
+        # nothing.
+        sig do
+          params(
+            span: T.anything,
+            span_name: T.nilable(String),
+            response: T.any(
+                Anthropic::Internal::Type::BaseModel,
+                T::Hash[Symbol, T.anything]
+              )
+          ).void
+        end
+        def set_response_attributes(span, span_name, response); end
+
+        # Returns `nil` when `req` has no `span_name`, or when the span neither records
+        # nor propagates a trace context: with `propagation` off, a span whose context is
+        # valid is kept, for the application's HTTP instrumentation to propagate. A span
+        # that cannot start is `nil` too, and the call goes on without one.
+        sig do
+          params(
+            tracer: T.anything,
+            req: T::Hash[Symbol, T.anything],
+            propagation: T::Boolean
+          ).returns(T.nilable(T.anything))
+        end
+        def start_api_call_span(
+          tracer,
+          req, # the request, as the SDK method gave it to `BaseClient#request`
+          propagation: # whether the client's requests carry the trace context
+); end
+
+        # The lowercase names of the headers that carry a trace context. A propagator may
+        # write headers that it does not list, so those {inject} writes for `span` count
+        # too. A propagator that fails to list its headers counts as listing the standard
+        # ones.
+        sig { params(span: T.nilable(T.anything)).returns(T::Array[String]) }
+        def trace_header_names(span); end
+
+        # The tracer for a client, or `nil` when its spans are disabled.
+        sig { params(option: T::Hash[Symbol, T.anything], scope: String).returns(T.nilable(T.anything)) }
+        def tracer(
+          option, # from {client_option}
+          scope = INSTRUMENTATION_SCOPE
+); end
+
+        private
+
+        # @api private
+        #
+        # `nil` for a value of another type than `type`, so that a response this SDK
+        # version does not know sets no attribute rather than a wrong one.
+        sig { params(value: T.anything, type: T.any(Symbol, T::Array[Symbol])).returns(T.anything) }
+        def attribute_value(value, type); end
+
+        # @api private
+        sig { params(data: T.anything, path: T::Array[Symbol]).returns(T.anything) }
+        def dig(data, path); end
+
+        # @api private
+        #
+        # Anything but `content`, in any case, is `:metadata_only`.
+        sig { returns(Symbol) }
+        def environment_content_mode; end
+
+        # @api private
+        #
+        # `nil` unless the variable is a whole number of 1 or more, in decimal digits.
+        sig { returns(T.nilable(Integer)) }
+        def environment_max_content_bytes; end
+
+        # @api private
+        #
+        # The `open_telemetry` option that the environment variables stand for. Only
+        # `false`, in any case, turns the spans or the propagation off.
+        sig { returns(T::Hash[Symbol, T.anything]) }
+        def environment_option; end
+
+        # @api private
+        sig { params(error: StandardError).returns(String) }
+        def error_type(error); end
+
+        # @api private
+        sig { params(value: T.nilable(String), type: T.any(Symbol, T::Array[Symbol])).returns(T.anything) }
+        def header_value(value, type); end
+
+        # @api private
+        #
+        # The first iteration ends `span` exactly once, however the read ends: `OK` when
+        # exhausted, `ERROR` when it fails, unset when the application closes it early.
+        # Server-sent events have no end that this code knows, so the server ending them
+        # (`events`) sets no status: whoever knows their end event does. A later iteration
+        # reads `source` as is, without touching the span.
+        sig do
+          params(
+            source: T::Enumerator[T.anything],
+            span: T.anything,
+            events: T::Boolean
+          ).returns(T::Enumerator[T.anything])
+        end
+        def iterate_and_end_span(source, span, events); end
+
+        # @api private
+        #
+        # `option` with Symbol keys. Raises unless it is a Hash whose keys are all in
+        # `keys`.
+        sig do
+          params(
+            option: T.anything,
+            keys: T::Array[Symbol],
+            name: String,
+            expected: String
+          ).returns(T::Hash[Symbol, T.anything])
+        end
+        def option_hash(option, keys, name, expected); end
+
+        # @api private
+        #
+        # The option can hold a tracer provider or content, so an error message shows a
+        # value only when it is a plain one, and its class otherwise.
+        sig { params(value: T.anything).returns(String) }
+        def plain(value); end
+
+        # @api private
+        sig { params(span: T.anything, result: T::Hash[Symbol, T.anything]).void }
+        def record_result(span, result); end
+
+        # @api private
+        sig { params(span_name: T.nilable(String)).returns(T::Array[T.anything]) }
+        def recorders(span_name); end
+
+        # @api private
+        #
+        # A failure to trace must not fail the API call, so an error raised in the block,
+        # such as one from a span processor of the application, is logged, and the value
+        # is then `nil`.
+        sig { params(span_name: T.nilable(String), blk: T.proc.returns(T.anything)).returns(T.anything) }
+        def recording(span_name, &blk); end
+
+        # @api private
+        sig do
+          params(
+            client: Anthropic::Internal::Transport::BaseClient,
+            req: T::Hash[Symbol, T.anything]
+          ).returns(T::Hash[String, T.anything])
+        end
+        def request_attributes(client, req); end
+
+        # @api private
+        #
+        # `span_created_id` names the attribute for the created object's `id`, or, as
+        # `{"<attribute>" => :user_id}`, for another of its fields.
+        sig { params(span: T.anything, result: T::Hash[Symbol, T.anything]).void }
+        def set_created_id(span, result); end
+
+        # @api private
+        sig { params(span: T.anything, result: T::Hash[Symbol, T.anything]).void }
+        def set_response_header_attributes(span, result); end
+
+        # @api private
+        sig { params(span: T.anything, result: T::Hash[Symbol, T.anything]).void }
+        def set_response_status_code(span, result); end
+
+        # @api private
+        #
+        # `url.query` and `url.full` keep only the pairs whose name the endpoint defines
+        # (`query_names`, or one of them followed by `[]`), so none that the application
+        # added. Both are left out when a kept pair is content
+        # ({CONTENT_QUERY_PARAMETERS}, `content_names`) and the client's spans have none.
+        sig do
+          params(
+            client: Anthropic::Internal::Transport::BaseClient,
+            url: URI::Generic,
+            query_names: T::Array[String],
+            content_names: T::Array[String]
+          ).returns(T::Hash[String, String])
+        end
+        def url_attributes(client, url, query_names, content_names); end
+      end
+
+      ANTHROPIC_BETA = "anthropic.beta"
+
+      ANTHROPIC_MESSAGE_COUNT_TOKENS_INPUT_TOKENS = "anthropic.message.count_tokens.input_tokens"
+
+      ANTHROPIC_MESSAGE_STOP_REASON = "anthropic.message.stop_reason"
+      ANTHROPIC_ORGANIZATION_ID = "anthropic.organization.id"
+      ANTHROPIC_REQUEST_ID = "anthropic.request.id"
+      ANTHROPIC_REQUEST_SERVICE_TIER = "anthropic.request.service_tier"
+      ANTHROPIC_RESPONSE_SERVICE_TIER = "anthropic.response.service_tier"
+      ANTHROPIC_SESSION_ENVIRONMENT_ID = "anthropic.session.environment.id"
+      ANTHROPIC_THINKING_BUDGET_TOKENS = "anthropic.thinking.budget_tokens"
+      ANTHROPIC_THINKING_TYPE = "anthropic.thinking.type"
+
+      ANTHROPIC_USAGE_CACHE_CREATION_EPHEMERAL_1H_INPUT_TOKENS = "anthropic.usage.cache_creation.ephemeral_1h_input_tokens"
+
+      ANTHROPIC_USAGE_CACHE_CREATION_EPHEMERAL_5M_INPUT_TOKENS = "anthropic.usage.cache_creation.ephemeral_5m_input_tokens"
+
+      ANTHROPIC_WORKSPACE_ID = "anthropic.workspace.id"
+      CLIENT_ATTRIBUTES = T.let(T.unsafe(nil), T::Hash[String, String])
+      CLIENT_OPTION_KEYS = T.let(T.unsafe(nil), T::Array[Symbol])
+      CONTENT_MODES = T.let(T.unsafe(nil), T::Array[Symbol])
+
+      # Query parameters whose value is content on every endpoint that defines them.
+      CONTENT_QUERY_PARAMETERS = T.let(T.unsafe(nil), T::Array[String])
+
+      # The most bytes the `content` attributes of one span hold when
+      # `max_content_bytes` sets no other bound.
+      DEFAULT_MAX_CONTENT_BYTES = T.let(T.unsafe(nil), Integer)
+
+      ERROR_TYPE = "error.type"
+      GEN_AI_AGENT_NAME = "gen_ai.agent.name"
+      GEN_AI_OPERATION_NAME = "gen_ai.operation.name"
+      GEN_AI_PROVIDER_NAME = "gen_ai.provider.name"
+      GEN_AI_REQUEST_MAX_TOKENS = "gen_ai.request.max_tokens"
+      GEN_AI_REQUEST_MODEL = "gen_ai.request.model"
+      GEN_AI_REQUEST_REASONING_LEVEL = "gen_ai.request.reasoning.level"
+      GEN_AI_REQUEST_STREAM = "gen_ai.request.stream"
+      GEN_AI_REQUEST_TEMPERATURE = "gen_ai.request.temperature"
+      GEN_AI_REQUEST_TOP_K = "gen_ai.request.top_k"
+      GEN_AI_REQUEST_TOP_P = "gen_ai.request.top_p"
+      GEN_AI_RESPONSE_ID = "gen_ai.response.id"
+      GEN_AI_RESPONSE_MODEL = "gen_ai.response.model"
+
+      GEN_AI_USAGE_CACHE_READ_INPUT_TOKENS = "gen_ai.usage.cache_read.input_tokens"
+
+      GEN_AI_USAGE_CACHE_WRITE_INPUT_TOKENS = "gen_ai.usage.cache_write.input_tokens"
+
+      GEN_AI_USAGE_OUTPUT_TOKENS = "gen_ai.usage.output_tokens"
+
+      GEN_AI_USAGE_REASONING_OUTPUT_TOKENS = "gen_ai.usage.reasoning.output_tokens"
+
+      HTTP_REQUEST_METHOD = "http.request.method"
+      HTTP_REQUEST_RESEND_COUNT = "http.request.resend_count"
+      HTTP_RESPONSE_STATUS_CODE = "http.response.status_code"
+      HTTP_ROUTE = "http.route"
+      INSTRUMENTATION_SCOPE = "com.anthropic.sdk.ruby"
+      REQUEST_OPTION_KEYS = T.let(T.unsafe(nil), T::Array[Symbol])
+
+      # Each attribute with the response header it comes from.
+      RESPONSE_HEADER_ATTRIBUTES = T.let(T.unsafe(nil), T::Hash[String, String])
+
+      SERVER_ADDRESS = "server.address"
+      SERVER_PORT = "server.port"
+
+      # By span name. `:request` and `:response` map an attribute to `[path, type]` in
+      # that body, `:request_headers` to `[header, type]`.
+      SPAN_ATTRIBUTES = T.let(T.unsafe(nil), T::Hash[String, T::Hash[Symbol, T.anything]])
+
+      # @api private
+      #
+      # The span name of each SDK method. Code that names a span through these fails to
+      # load once no method has the name.
+      module SpanName
+        AGENTS_ARCHIVE = "anthropic.agents.archive"
+        AGENTS_CREATE = "anthropic.agents.create"
+        AGENTS_LIST = "anthropic.agents.list"
+        AGENTS_RETRIEVE = "anthropic.agents.retrieve"
+        AGENTS_UPDATE = "anthropic.agents.update"
+        AGENTS_VERSIONS_LIST = "anthropic.agents.versions.list"
+        COMPLETIONS_CREATE = "anthropic.completions.create"
+        DEPLOYMENTS_ARCHIVE = "anthropic.deployments.archive"
+        DEPLOYMENTS_CREATE = "anthropic.deployments.create"
+        DEPLOYMENTS_LIST = "anthropic.deployments.list"
+        DEPLOYMENTS_PAUSE = "anthropic.deployments.pause"
+        DEPLOYMENTS_RETRIEVE = "anthropic.deployments.retrieve"
+        DEPLOYMENTS_RUN = "anthropic.deployments.run"
+        DEPLOYMENTS_UNPAUSE = "anthropic.deployments.unpause"
+        DEPLOYMENTS_UPDATE = "anthropic.deployments.update"
+        DEPLOYMENT_RUNS_LIST = "anthropic.deployment_runs.list"
+        DEPLOYMENT_RUNS_RETRIEVE = "anthropic.deployment_runs.retrieve"
+        DREAMS_ARCHIVE = "anthropic.dreams.archive"
+        DREAMS_CANCEL = "anthropic.dreams.cancel"
+        DREAMS_CREATE = "anthropic.dreams.create"
+        DREAMS_LIST = "anthropic.dreams.list"
+        DREAMS_RETRIEVE = "anthropic.dreams.retrieve"
+        ENVIRONMENTS_ARCHIVE = "anthropic.environments.archive"
+        ENVIRONMENTS_CREATE = "anthropic.environments.create"
+        ENVIRONMENTS_DELETE = "anthropic.environments.delete"
+        ENVIRONMENTS_LIST = "anthropic.environments.list"
+        ENVIRONMENTS_RETRIEVE = "anthropic.environments.retrieve"
+        ENVIRONMENTS_UPDATE = "anthropic.environments.update"
+        ENVIRONMENTS_WORK_ACK = "anthropic.environments.work.ack"
+        ENVIRONMENTS_WORK_HEARTBEAT = "anthropic.environments.work.heartbeat"
+        ENVIRONMENTS_WORK_LIST = "anthropic.environments.work.list"
+        ENVIRONMENTS_WORK_POLL = "anthropic.environments.work.poll"
+        ENVIRONMENTS_WORK_RETRIEVE = "anthropic.environments.work.retrieve"
+        ENVIRONMENTS_WORK_STATS = "anthropic.environments.work.stats"
+        ENVIRONMENTS_WORK_STOP = "anthropic.environments.work.stop"
+        ENVIRONMENTS_WORK_UPDATE = "anthropic.environments.work.update"
+        FILES_DELETE = "anthropic.files.delete"
+        FILES_DOWNLOAD = "anthropic.files.download"
+        FILES_LIST = "anthropic.files.list"
+        FILES_RETRIEVE_METADATA = "anthropic.files.retrieve_metadata"
+        FILES_UPLOAD = "anthropic.files.upload"
+        MEMORY_STORES_ARCHIVE = "anthropic.memory_stores.archive"
+        MEMORY_STORES_CREATE = "anthropic.memory_stores.create"
+        MEMORY_STORES_DELETE = "anthropic.memory_stores.delete"
+        MEMORY_STORES_LIST = "anthropic.memory_stores.list"
+
+        MEMORY_STORES_MEMORIES_CREATE = "anthropic.memory_stores.memories.create"
+
+        MEMORY_STORES_MEMORIES_DELETE = "anthropic.memory_stores.memories.delete"
+
+        MEMORY_STORES_MEMORIES_LIST = "anthropic.memory_stores.memories.list"
+
+        MEMORY_STORES_MEMORIES_RETRIEVE = "anthropic.memory_stores.memories.retrieve"
+
+        MEMORY_STORES_MEMORIES_UPDATE = "anthropic.memory_stores.memories.update"
+
+        MEMORY_STORES_MEMORY_VERSIONS_LIST = "anthropic.memory_stores.memory_versions.list"
+
+        MEMORY_STORES_MEMORY_VERSIONS_REDACT = "anthropic.memory_stores.memory_versions.redact"
+
+        MEMORY_STORES_MEMORY_VERSIONS_RETRIEVE = "anthropic.memory_stores.memory_versions.retrieve"
+
+        MEMORY_STORES_RETRIEVE = "anthropic.memory_stores.retrieve"
+        MEMORY_STORES_UPDATE = "anthropic.memory_stores.update"
+        MESSAGES_BATCHES_CANCEL = "anthropic.messages.batches.cancel"
+        MESSAGES_BATCHES_CREATE = "anthropic.messages.batches.create"
+        MESSAGES_BATCHES_DELETE = "anthropic.messages.batches.delete"
+        MESSAGES_BATCHES_LIST = "anthropic.messages.batches.list"
+        MESSAGES_BATCHES_RESULTS = "anthropic.messages.batches.results"
+        MESSAGES_BATCHES_RETRIEVE = "anthropic.messages.batches.retrieve"
+        MESSAGES_COUNT_TOKENS = "anthropic.messages.count_tokens"
+        MESSAGES_CREATE = "anthropic.messages.create"
+        MODELS_LIST = "anthropic.models.list"
+        MODELS_RETRIEVE = "anthropic.models.retrieve"
+
+        ORGANIZATION_ANALYTICS_APPS_CHAT_PROJECTS_LIST = "anthropic.organization.analytics.apps.chat.projects.list"
+
+        ORGANIZATION_ANALYTICS_ARTIFACTS_LIST = "anthropic.organization.analytics.artifacts.list"
+
+        ORGANIZATION_ANALYTICS_CONNECTORS_LIST = "anthropic.organization.analytics.connectors.list"
+
+        ORGANIZATION_ANALYTICS_COST_REPORT_LIST = "anthropic.organization.analytics.cost_report.list"
+
+        ORGANIZATION_ANALYTICS_PLUGINS_LIST = "anthropic.organization.analytics.plugins.list"
+
+        ORGANIZATION_ANALYTICS_SKILLS_LIST = "anthropic.organization.analytics.skills.list"
+
+        ORGANIZATION_ANALYTICS_SUMMARIES_LIST = "anthropic.organization.analytics.summaries.list"
+
+        ORGANIZATION_ANALYTICS_USAGE_REPORT_LIST = "anthropic.organization.analytics.usage_report.list"
+
+        ORGANIZATION_ANALYTICS_USERS_LIST = "anthropic.organization.analytics.users.list"
+
+        ORGANIZATION_ANALYTICS_USER_COST_REPORT_LIST = "anthropic.organization.analytics.user_cost_report.list"
+
+        ORGANIZATION_ANALYTICS_USER_USAGE_REPORT_LIST = "anthropic.organization.analytics.user_usage_report.list"
+
+        ORGANIZATION_API_KEYS_LIST = "anthropic.organization.api_keys.list"
+
+        ORGANIZATION_API_KEYS_RETRIEVE = "anthropic.organization.api_keys.retrieve"
+
+        ORGANIZATION_API_KEYS_UPDATE = "anthropic.organization.api_keys.update"
+
+        ORGANIZATION_COMPLIANCE_SETTINGS_RETRIEVE = "anthropic.organization.compliance_settings.retrieve"
+
+        ORGANIZATION_COMPLIANCE_SETTINGS_UPDATE = "anthropic.organization.compliance_settings.update"
+
+        ORGANIZATION_EXTERNAL_KEYS_CREATE = "anthropic.organization.external_keys.create"
+
+        ORGANIZATION_EXTERNAL_KEYS_DELETE = "anthropic.organization.external_keys.delete"
+
+        ORGANIZATION_EXTERNAL_KEYS_LIST = "anthropic.organization.external_keys.list"
+
+        ORGANIZATION_EXTERNAL_KEYS_RETRIEVE = "anthropic.organization.external_keys.retrieve"
+
+        ORGANIZATION_EXTERNAL_KEYS_UPDATE = "anthropic.organization.external_keys.update"
+
+        ORGANIZATION_EXTERNAL_KEYS_VALIDATE = "anthropic.organization.external_keys.validate"
+
+        ORGANIZATION_FEDERATION_ISSUERS_ARCHIVE = "anthropic.organization.federation.issuers.archive"
+
+        ORGANIZATION_FEDERATION_ISSUERS_CREATE = "anthropic.organization.federation.issuers.create"
+
+        ORGANIZATION_FEDERATION_ISSUERS_LIST = "anthropic.organization.federation.issuers.list"
+
+        ORGANIZATION_FEDERATION_ISSUERS_RETRIEVE = "anthropic.organization.federation.issuers.retrieve"
+
+        ORGANIZATION_FEDERATION_ISSUERS_UPDATE = "anthropic.organization.federation.issuers.update"
+
+        ORGANIZATION_FEDERATION_RULES_ARCHIVE = "anthropic.organization.federation.rules.archive"
+
+        ORGANIZATION_FEDERATION_RULES_CREATE = "anthropic.organization.federation.rules.create"
+
+        ORGANIZATION_FEDERATION_RULES_LIST = "anthropic.organization.federation.rules.list"
+
+        ORGANIZATION_FEDERATION_RULES_RETRIEVE = "anthropic.organization.federation.rules.retrieve"
+
+        ORGANIZATION_FEDERATION_RULES_UPDATE = "anthropic.organization.federation.rules.update"
+
+        ORGANIZATION_FEDERATION_RULES_WORKSPACES_ADD = "anthropic.organization.federation.rules.workspaces.add"
+
+        ORGANIZATION_FEDERATION_RULES_WORKSPACES_LIST = "anthropic.organization.federation.rules.workspaces.list"
+
+        ORGANIZATION_FEDERATION_RULES_WORKSPACES_REMOVE = "anthropic.organization.federation.rules.workspaces.remove"
+
+        ORGANIZATION_INVITES_CREATE = "anthropic.organization.invites.create"
+        ORGANIZATION_INVITES_DELETE = "anthropic.organization.invites.delete"
+        ORGANIZATION_INVITES_LIST = "anthropic.organization.invites.list"
+
+        ORGANIZATION_INVITES_RETRIEVE = "anthropic.organization.invites.retrieve"
+
+        ORGANIZATION_PLUGINS_CREATE = "anthropic.organization.plugins.create"
+        ORGANIZATION_PLUGINS_DELETE = "anthropic.organization.plugins.delete"
+
+        ORGANIZATION_PLUGINS_INSTALLATION_SETTINGS_LIST = "anthropic.organization.plugins.installation_settings.list"
+
+        ORGANIZATION_PLUGINS_INSTALLATION_SETTINGS_REMOVE = "anthropic.organization.plugins.installation_settings.remove"
+
+        ORGANIZATION_PLUGINS_INSTALLATION_SETTINGS_SET = "anthropic.organization.plugins.installation_settings.set"
+
+        ORGANIZATION_PLUGINS_LIST = "anthropic.organization.plugins.list"
+
+        ORGANIZATION_PLUGINS_RETRIEVE = "anthropic.organization.plugins.retrieve"
+
+        ORGANIZATION_PLUGINS_SHARES_LIST = "anthropic.organization.plugins.shares.list"
+
+        ORGANIZATION_PLUGINS_UPDATE = "anthropic.organization.plugins.update"
+
+        ORGANIZATION_PLUGINS_VERSIONS_CREATE = "anthropic.organization.plugins.versions.create"
+
+        ORGANIZATION_PLUGINS_VERSIONS_DOWNLOAD = "anthropic.organization.plugins.versions.download"
+
+        ORGANIZATION_PLUGINS_VERSIONS_LIST = "anthropic.organization.plugins.versions.list"
+
+        ORGANIZATION_PLUGINS_VERSIONS_RETRIEVE = "anthropic.organization.plugins.versions.retrieve"
+
+        ORGANIZATION_PLUGIN_MARKETPLACES_LIST = "anthropic.organization.plugin_marketplaces.list"
+
+        ORGANIZATION_PLUGIN_MARKETPLACES_RETRIEVE = "anthropic.organization.plugin_marketplaces.retrieve"
+
+        ORGANIZATION_PLUGIN_MARKETPLACES_UPDATE = "anthropic.organization.plugin_marketplaces.update"
+
+        ORGANIZATION_PLUGIN_MARKETPLACES_VALIDATE_ARCHIVE = "anthropic.organization.plugin_marketplaces.validate_archive"
+
+        ORGANIZATION_PLUGIN_MARKETPLACES_VALIDATE_REPOSITORY = "anthropic.organization.plugin_marketplaces.validate_repository"
+
+        ORGANIZATION_RATE_LIMITS_LIST = "anthropic.organization.rate_limits.list"
+
+        ORGANIZATION_RBAC_GROUPS_CREATE = "anthropic.organization.rbac_groups.create"
+
+        ORGANIZATION_RBAC_GROUPS_DELETE = "anthropic.organization.rbac_groups.delete"
+
+        ORGANIZATION_RBAC_GROUPS_LIST = "anthropic.organization.rbac_groups.list"
+
+        ORGANIZATION_RBAC_GROUPS_MEMBERS_ADD = "anthropic.organization.rbac_groups.members.add"
+
+        ORGANIZATION_RBAC_GROUPS_MEMBERS_LIST = "anthropic.organization.rbac_groups.members.list"
+
+        ORGANIZATION_RBAC_GROUPS_MEMBERS_REMOVE = "anthropic.organization.rbac_groups.members.remove"
+
+        ORGANIZATION_RBAC_GROUPS_RETRIEVE = "anthropic.organization.rbac_groups.retrieve"
+
+        ORGANIZATION_RBAC_GROUPS_UPDATE = "anthropic.organization.rbac_groups.update"
+
+        ORGANIZATION_RBAC_ROLES_LIST = "anthropic.organization.rbac_roles.list"
+
+        ORGANIZATION_RBAC_ROLES_PERMISSIONS_LIST = "anthropic.organization.rbac_roles.permissions.list"
+
+        ORGANIZATION_RBAC_ROLES_RETRIEVE = "anthropic.organization.rbac_roles.retrieve"
+
+        ORGANIZATION_RETRIEVE = "anthropic.organization.retrieve"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_ARCHIVE = "anthropic.organization.service_accounts.archive"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_CREATE = "anthropic.organization.service_accounts.create"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_LIST = "anthropic.organization.service_accounts.list"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_RETRIEVE = "anthropic.organization.service_accounts.retrieve"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_UPDATE = "anthropic.organization.service_accounts.update"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_WORKSPACES_ADD = "anthropic.organization.service_accounts.workspaces.add"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_WORKSPACES_LIST = "anthropic.organization.service_accounts.workspaces.list"
+
+        ORGANIZATION_SERVICE_ACCOUNTS_WORKSPACES_REMOVE = "anthropic.organization.service_accounts.workspaces.remove"
+
+        ORGANIZATION_SPEND_LIMITS_DELETE = "anthropic.organization.spend_limits.delete"
+
+        ORGANIZATION_SPEND_LIMITS_EFFECTIVE_LIST = "anthropic.organization.spend_limits.effective.list"
+
+        ORGANIZATION_SPEND_LIMITS_INCREASE_REQUESTS_APPROVE = "anthropic.organization.spend_limits.increase_requests.approve"
+
+        ORGANIZATION_SPEND_LIMITS_INCREASE_REQUESTS_DENY = "anthropic.organization.spend_limits.increase_requests.deny"
+
+        ORGANIZATION_SPEND_LIMITS_INCREASE_REQUESTS_LIST = "anthropic.organization.spend_limits.increase_requests.list"
+
+        ORGANIZATION_SPEND_LIMITS_INCREASE_REQUESTS_RETRIEVE = "anthropic.organization.spend_limits.increase_requests.retrieve"
+
+        ORGANIZATION_SPEND_LIMITS_LIST = "anthropic.organization.spend_limits.list"
+
+        ORGANIZATION_SPEND_LIMITS_RETRIEVE = "anthropic.organization.spend_limits.retrieve"
+
+        ORGANIZATION_SPEND_LIMITS_SET = "anthropic.organization.spend_limits.set"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_CREATE = "anthropic.organization.telemetry_destinations.create"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_DELETE = "anthropic.organization.telemetry_destinations.delete"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_LIST = "anthropic.organization.telemetry_destinations.list"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_RETRIEVE = "anthropic.organization.telemetry_destinations.retrieve"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_TEST = "anthropic.organization.telemetry_destinations.test"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_UPDATE = "anthropic.organization.telemetry_destinations.update"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_WORKSPACES_ADD = "anthropic.organization.telemetry_destinations.workspaces.add"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_WORKSPACES_LIST = "anthropic.organization.telemetry_destinations.workspaces.list"
+
+        ORGANIZATION_TELEMETRY_DESTINATIONS_WORKSPACES_REMOVE = "anthropic.organization.telemetry_destinations.workspaces.remove"
+
+        ORGANIZATION_USERS_LIST = "anthropic.organization.users.list"
+        ORGANIZATION_USERS_REMOVE = "anthropic.organization.users.remove"
+        ORGANIZATION_USERS_RETRIEVE = "anthropic.organization.users.retrieve"
+        ORGANIZATION_USERS_UPDATE = "anthropic.organization.users.update"
+
+        ORGANIZATION_WORKSPACES_ARCHIVE = "anthropic.organization.workspaces.archive"
+
+        ORGANIZATION_WORKSPACES_CREATE = "anthropic.organization.workspaces.create"
+
+        ORGANIZATION_WORKSPACES_LIST = "anthropic.organization.workspaces.list"
+
+        ORGANIZATION_WORKSPACES_MEMBERS_ADD = "anthropic.organization.workspaces.members.add"
+
+        ORGANIZATION_WORKSPACES_MEMBERS_LIST = "anthropic.organization.workspaces.members.list"
+
+        ORGANIZATION_WORKSPACES_MEMBERS_REMOVE = "anthropic.organization.workspaces.members.remove"
+
+        ORGANIZATION_WORKSPACES_MEMBERS_RETRIEVE = "anthropic.organization.workspaces.members.retrieve"
+
+        ORGANIZATION_WORKSPACES_MEMBERS_UPDATE = "anthropic.organization.workspaces.members.update"
+
+        ORGANIZATION_WORKSPACES_RATE_LIMITS_LIST = "anthropic.organization.workspaces.rate_limits.list"
+
+        ORGANIZATION_WORKSPACES_RETRIEVE = "anthropic.organization.workspaces.retrieve"
+
+        ORGANIZATION_WORKSPACES_SERVICE_ACCOUNTS_ADD = "anthropic.organization.workspaces.service_accounts.add"
+
+        ORGANIZATION_WORKSPACES_SERVICE_ACCOUNTS_LIST = "anthropic.organization.workspaces.service_accounts.list"
+
+        ORGANIZATION_WORKSPACES_SERVICE_ACCOUNTS_REMOVE = "anthropic.organization.workspaces.service_accounts.remove"
+
+        ORGANIZATION_WORKSPACES_SERVICE_ACCOUNTS_RETRIEVE = "anthropic.organization.workspaces.service_accounts.retrieve"
+
+        ORGANIZATION_WORKSPACES_SERVICE_ACCOUNTS_UPDATE = "anthropic.organization.workspaces.service_accounts.update"
+
+        ORGANIZATION_WORKSPACES_UPDATE = "anthropic.organization.workspaces.update"
+
+        SESSIONS_ARCHIVE = "anthropic.sessions.archive"
+        SESSIONS_CREATE = "anthropic.sessions.create"
+        SESSIONS_DELETE = "anthropic.sessions.delete"
+        SESSIONS_EVENTS_LIST = "anthropic.sessions.events.list"
+        SESSIONS_EVENTS_SEND = "anthropic.sessions.events.send"
+        SESSIONS_EVENTS_STREAM = "anthropic.sessions.events.stream"
+        SESSIONS_LIST = "anthropic.sessions.list"
+        SESSIONS_RESOURCES_ADD = "anthropic.sessions.resources.add"
+        SESSIONS_RESOURCES_DELETE = "anthropic.sessions.resources.delete"
+        SESSIONS_RESOURCES_LIST = "anthropic.sessions.resources.list"
+        SESSIONS_RESOURCES_RETRIEVE = "anthropic.sessions.resources.retrieve"
+        SESSIONS_RESOURCES_UPDATE = "anthropic.sessions.resources.update"
+        SESSIONS_RETRIEVE = "anthropic.sessions.retrieve"
+        SESSIONS_THREADS_ARCHIVE = "anthropic.sessions.threads.archive"
+        SESSIONS_THREADS_EVENTS_LIST = "anthropic.sessions.threads.events.list"
+
+        SESSIONS_THREADS_EVENTS_STREAM = "anthropic.sessions.threads.events.stream"
+
+        SESSIONS_THREADS_LIST = "anthropic.sessions.threads.list"
+        SESSIONS_THREADS_RETRIEVE = "anthropic.sessions.threads.retrieve"
+        SESSIONS_UPDATE = "anthropic.sessions.update"
+        SKILLS_CREATE = "anthropic.skills.create"
+        SKILLS_DELETE = "anthropic.skills.delete"
+        SKILLS_LIST = "anthropic.skills.list"
+        SKILLS_RETRIEVE = "anthropic.skills.retrieve"
+        SKILLS_VERSIONS_CREATE = "anthropic.skills.versions.create"
+        SKILLS_VERSIONS_DELETE = "anthropic.skills.versions.delete"
+        SKILLS_VERSIONS_DOWNLOAD = "anthropic.skills.versions.download"
+        SKILLS_VERSIONS_LIST = "anthropic.skills.versions.list"
+        SKILLS_VERSIONS_RETRIEVE = "anthropic.skills.versions.retrieve"
+        TUNNELS_ARCHIVE = "anthropic.tunnels.archive"
+        TUNNELS_CERTIFICATES_ARCHIVE = "anthropic.tunnels.certificates.archive"
+        TUNNELS_CERTIFICATES_CREATE = "anthropic.tunnels.certificates.create"
+        TUNNELS_CERTIFICATES_LIST = "anthropic.tunnels.certificates.list"
+
+        TUNNELS_CERTIFICATES_RETRIEVE = "anthropic.tunnels.certificates.retrieve"
+
+        TUNNELS_CREATE = "anthropic.tunnels.create"
+        TUNNELS_LIST = "anthropic.tunnels.list"
+        TUNNELS_RETRIEVE = "anthropic.tunnels.retrieve"
+        TUNNELS_REVEAL_TOKEN = "anthropic.tunnels.reveal_token"
+        TUNNELS_ROTATE_TOKEN = "anthropic.tunnels.rotate_token"
+        USER_PROFILES_CREATE = "anthropic.user_profiles.create"
+
+        USER_PROFILES_CREATE_ENROLLMENT_URL = "anthropic.user_profiles.create_enrollment_url"
+
+        USER_PROFILES_LIST = "anthropic.user_profiles.list"
+        USER_PROFILES_RETRIEVE = "anthropic.user_profiles.retrieve"
+        USER_PROFILES_UPDATE = "anthropic.user_profiles.update"
+        VAULTS_ARCHIVE = "anthropic.vaults.archive"
+        VAULTS_CREATE = "anthropic.vaults.create"
+        VAULTS_CREDENTIALS_ARCHIVE = "anthropic.vaults.credentials.archive"
+        VAULTS_CREDENTIALS_CREATE = "anthropic.vaults.credentials.create"
+        VAULTS_CREDENTIALS_DELETE = "anthropic.vaults.credentials.delete"
+        VAULTS_CREDENTIALS_LIST = "anthropic.vaults.credentials.list"
+
+        VAULTS_CREDENTIALS_MCP_OAUTH_VALIDATE = "anthropic.vaults.credentials.mcp_oauth_validate"
+
+        VAULTS_CREDENTIALS_RETRIEVE = "anthropic.vaults.credentials.retrieve"
+        VAULTS_CREDENTIALS_UPDATE = "anthropic.vaults.credentials.update"
+        VAULTS_DELETE = "anthropic.vaults.delete"
+        VAULTS_LIST = "anthropic.vaults.list"
+        VAULTS_RETRIEVE = "anthropic.vaults.retrieve"
+        VAULTS_UPDATE = "anthropic.vaults.update"
+      end
+
+      TRACES_KEYS = T.let(T.unsafe(nil), T::Array[Symbol])
+      URL_FULL = "url.full"
+      URL_PATH = "url.path"
+      URL_QUERY = "url.query"
+      URL_SCHEME = "url.scheme"
+    end
+
     module Transport
       # @api private
       class BaseClient
@@ -2148,6 +2958,11 @@ module Anthropic
         attr_reader :middleware
 
         # @api private
+        # The most bytes the `content` attributes of one of this client's spans hold.
+        sig { returns(Integer) }
+        attr_reader :open_telemetry_max_content_bytes
+
+        # @api private
         sig { returns(Anthropic::Internal::Transport::PooledNetRequester) }
         attr_reader :requester
 
@@ -2158,10 +2973,29 @@ module Anthropic
         sig { returns(String) }
         def inspect; end
 
+        # @api private
+        #
+        # What every span of this client starts with. A client for another platform
+        # overrides it.
+        sig { overridable.returns(T::Hash[String, String]) }
+        def open_telemetry_attributes; end
+
+        # @api private
+        #
+        # Whether this client's spans have the `content` attributes.
+        sig { overridable.returns(T::Boolean) }
+        def open_telemetry_content?; end
+
+        # @api private
+        #
+        # The tracer of this client's spans, or `nil` when they are disabled.
+        sig { returns(T.nilable(T.anything)) }
+        def open_telemetry_tracer; end
+
         # Execute the request specified by `req`. This is the method that all resource
         # methods call into.
         #
-        # @overload request(method, path, query: {}, headers: {}, body: nil, unwrap: nil, page: nil, stream: nil, model: Anthropic::Internal::Type::Unknown, options: {})
+        # @overload request(method, path, query: {}, headers: {}, body: nil, unwrap: nil, page: nil, stream: nil, model: Anthropic::Internal::Type::Unknown, span_name: nil, span_attributes: nil, span_created_id: nil, span_route: nil, span_query: nil, span_content_query: nil, options: {})
         sig do
           params(
             method: Symbol,
@@ -2206,10 +3040,16 @@ module Anthropic
                 ]
               ),
             model: T.nilable(Anthropic::Internal::Type::Converter::Input),
+            span_name: T.nilable(String),
+            span_attributes: T.nilable(T::Hash[String, T.anything]),
+            span_created_id: T.nilable(T.any(String, T::Hash[String, Symbol])),
+            span_route: T.nilable(String),
+            span_query: T.nilable(T::Array[String]),
+            span_content_query: T.nilable(T::Array[String]),
             options: T.nilable(Anthropic::RequestOptions::OrHash)
           ).returns(T.anything)
         end
-        def request(method, path, query: {}, headers: {}, body: nil, unwrap: nil, page: nil, stream: nil, model: Anthropic::Internal::Type::Unknown, options: {}); end
+        def request(method, path, query: {}, headers: {}, body: nil, unwrap: nil, page: nil, stream: nil, model: Anthropic::Internal::Type::Unknown, span_name: nil, span_attributes: nil, span_created_id: nil, span_route: nil, span_query: nil, span_content_query: nil, options: {}); end
 
         # @api private
         sig { params(status: Integer, headers: T::Hash[String, String]).returns(T::Boolean) }
@@ -2221,7 +3061,8 @@ module Anthropic
             request: Anthropic::Internal::Transport::BaseClient::RequestInput,
             redirect_count: Integer,
             retry_count: Integer,
-            send_retry_header: T::Boolean
+            send_retry_header: T::Boolean,
+            span: T.nilable(T.anything)
           ).returns([
               Integer,
               T.nilable(Net::HTTPResponse),
@@ -2229,7 +3070,13 @@ module Anthropic
               T::Enumerable[String]
             ])
         end
-        def send_request(request, redirect_count:, retry_count:, send_retry_header:); end
+        def send_request(
+          request,
+          redirect_count:,
+          retry_count:,
+          send_retry_header:,
+          span: nil # the span of the API call
+); end
 
         private
 
@@ -2248,8 +3095,32 @@ module Anthropic
         def build_request(req, opts); end
 
         # @api private
+        #
+        # Yields the final response's status and headers before the body is decoded.
+        sig do
+          params(
+            req: Anthropic::Internal::Transport::BaseClient::RequestComponents,
+            span: T.nilable(T.anything),
+            blk: T.nilable(
+                T
+                  .proc
+                  .params(status: Integer, headers: T::Hash[String, String])
+                  .void
+              )
+          ).returns(T.anything)
+        end
+        def execute_request(req, span: nil, &blk); end
+
+        # @api private
         sig { returns(String) }
         def generate_idempotency_key; end
+
+        # @api private
+        #
+        # The instrumentation scope of this client's spans. A client for another platform
+        # overrides it.
+        sig { overridable.returns(String) }
+        def open_telemetry_scope; end
 
         # @api private
         sig { overridable.returns(T.nilable(Anthropic::Middleware::Entry)) }
@@ -2269,10 +3140,16 @@ module Anthropic
             params(
               request: Anthropic::Internal::Transport::BaseClient::RequestInput,
               status: Integer,
-              response_headers: T::Hash[String, String]
+              response_headers: T::Hash[String, String],
+              span: T.nilable(T.anything)
             ).returns(Anthropic::Internal::Transport::BaseClient::RequestInput)
           end
-          def follow_redirect(request, status:, response_headers:); end
+          def follow_redirect(
+            request,
+            status:,
+            response_headers:,
+            span: nil # the span of the API call
+); end
 
           # @api private
           sig do
@@ -2302,6 +3179,7 @@ module Anthropic
               max_retries: Integer,
               initial_retry_delay: Float,
               max_retry_delay: Float,
+              open_telemetry: T.nilable(T.any(T::Boolean, Anthropic::Internal::AnyHash)),
               headers: T::Hash[
                 String,
                 T.nilable(
@@ -2317,7 +3195,7 @@ module Anthropic
               requester: T.nilable(Anthropic::Internal::Transport::PooledNetRequester)
             ).returns(T.attached_class)
           end
-          def new(base_url:, proxy: nil, timeout: 0.0, max_retries: 0, initial_retry_delay: 0.0, max_retry_delay: 0.0, headers: {}, idempotency_header: nil, middleware: nil, requester: nil); end
+          def new(base_url:, proxy: nil, timeout: 0.0, max_retries: 0, initial_retry_delay: 0.0, max_retry_delay: 0.0, open_telemetry: nil, headers: {}, idempotency_header: nil, middleware: nil, requester: nil); end
         end
 
         # from whatwg fetch spec
@@ -2374,6 +3252,13 @@ module Anthropic
                   ]
                 ),
               model: T.nilable(Anthropic::Internal::Type::Converter::Input),
+              span_name: T.nilable(String),
+              span_attributes: T.nilable(T::Hash[String, T.anything]),
+              span_created_id:
+                T.nilable(T.any(String, T::Hash[String, Symbol])),
+              span_route: T.nilable(String),
+              span_query: T.nilable(T::Array[String]),
+              span_content_query: T.nilable(T::Array[String]),
               options: T.nilable(Anthropic::RequestOptions::OrHash)
             }
           end
@@ -2398,6 +3283,8 @@ module Anthropic
                     T.proc.params(arg0: T.anything).returns(T.anything)
                   )
                 ),
+              span_query: T.nilable(T::Array[String]),
+              span_content_query: T.nilable(T::Array[String]),
               options: T::Hash[Symbol, T.anything],
               middleware: T::Array[Anthropic::Middleware::Entry],
               metadata: T::Hash[Symbol, T.anything]
@@ -2862,6 +3749,9 @@ module Anthropic
       #
       # This module provides a base implementation for streaming responses in the SDK.
       module BaseStream
+        # Before `Enumerable`, so that `Enumerable#select` stays ahead of `Kernel#select`, as it is at run time.
+        include Kernel
+
         include Enumerable
 
         Message = type_member(:in)
@@ -4193,6 +5083,11 @@ module Anthropic
           Anthropic::AnthropicBeta::TaggedSymbol
         )
 
+      TELEMETRY_DESTINATIONS_2026_08_11 = T.let(
+          :"telemetry-destinations-2026-08-11",
+          Anthropic::AnthropicBeta::TaggedSymbol
+        )
+
       THINKING_BINDING_CONTROLS_2026_08_01 = T.let(
           :"thinking-binding-controls-2026-08-01",
           Anthropic::AnthropicBeta::TaggedSymbol
@@ -4770,7 +5665,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :agent_id
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -4816,7 +5712,8 @@ module Anthropic
           end
           def new(
             agent_id:, # Unique identifier of the agent to archive.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -4838,7 +5735,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -4852,6 +5750,18 @@ module Anthropic
         # Description of what the agent does.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
+
+        # Execution principal for runs of this agent. Omitting it, sending null, or
+        # sending `{"type": "service_account"}` stores the default.
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+                Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+              )
+            ))
+        end
+        attr_accessor :execution_identity
 
         # MCP servers this agent connects to. Maximum 20. Names must be unique within the
         # array. Every server must be referenced by an `mcp_toolset` in `tools`;
@@ -4883,7 +5793,7 @@ module Anthropic
 
         # Model identifier. Accepts the
         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-        # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+        # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
         # control
         sig do
           returns(T.any(
@@ -4989,6 +5899,13 @@ module Anthropic
                 ),
               name: String,
               description: T.nilable(String),
+              execution_identity:
+                T.nilable(
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+                    Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+                  )
+                ),
               mcp_servers:
                 T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams],
               metadata: T::Hash[Symbol, String],
@@ -5033,6 +5950,12 @@ module Anthropic
               ),
               name: String,
               description: T.nilable(String),
+              execution_identity: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams::OrHash
+                )
+              ),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
               ],
@@ -5065,10 +5988,12 @@ module Anthropic
           def new(
             model:, # Model identifier. Accepts the
                     # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-                    # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+                    # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
                     # control
             name:, # Human-readable name for the agent.
             description: nil, # Description of what the agent does.
+            execution_identity: nil, # Execution principal for runs of this agent. Omitting it, sending null, or
+                                     # sending `{"type": "service_account"}` stores the default.
             mcp_servers: nil, # MCP servers this agent connects to. Maximum 20. Names must be unique within the
                               # array. Every server must be referenced by an `mcp_toolset` in `tools`;
                               # unreferenced servers are rejected. See the
@@ -5080,7 +6005,8 @@ module Anthropic
             system_: nil, # System prompt for the agent.
             tools: nil, # Tool configurations available to the agent. Maximum of 256 tools across all
                         # toolsets allowed.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -5092,7 +6018,7 @@ module Anthropic
 
         # Model identifier. Accepts the
         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-        # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+        # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
         # control
         module Model
           extend Anthropic::Internal::Type::Union
@@ -5224,7 +6150,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -5317,7 +6244,8 @@ module Anthropic
             include_archived: nil, # Include archived agents in results. Defaults to false.
             limit: nil, # Maximum results per page. Default 20, maximum 100.
             page: nil, # Opaque pagination cursor from a previous response.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -5343,7 +6271,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :agent_id
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -5401,7 +6330,8 @@ module Anthropic
             agent_id:, # Unique identifier of the agent to retrieve.
             version: nil, # Agent version. Omit for the most recent version. Must be at least 1 if
                           # specified.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -5427,7 +6357,8 @@ module Anthropic
         sig { returns(String) }
         attr_accessor :agent_id
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -5441,6 +6372,18 @@ module Anthropic
         # Description. Omit to preserve; send empty string or null to clear.
         sig { returns(T.nilable(String)) }
         attr_accessor :description
+
+        # Execution principal for runs of this agent. Full replacement. Omit to preserve;
+        # send null or `{"type": "service_account"}` to restore the default.
+        sig do
+          returns(T.nilable(
+              T.any(
+                Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+                Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+              )
+            ))
+        end
+        attr_accessor :execution_identity
 
         # MCP servers. Full replacement. Omit to preserve; send empty array or `null` to
         # clear. Names must be unique. Maximum 20. Every server must be referenced by an
@@ -5462,7 +6405,7 @@ module Anthropic
 
         # Model identifier. Accepts the
         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-        # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+        # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
         # control. Omit to preserve. Cannot be cleared.
         sig do
           returns(T.nilable(
@@ -5565,6 +6508,13 @@ module Anthropic
             .returns({
               agent_id: String,
               description: T.nilable(String),
+              execution_identity:
+                T.nilable(
+                  T.any(
+                    Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+                    Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+                  )
+                ),
               mcp_servers:
                 T.nilable(
                   T::Array[Anthropic::Beta::BetaManagedAgentsURLMCPServerParams]
@@ -5618,6 +6568,12 @@ module Anthropic
             params(
               agent_id: String,
               description: T.nilable(String),
+              execution_identity: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams::OrHash
+                )
+              ),
               mcp_servers: T.nilable(
                 T::Array[
                   Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
@@ -5663,6 +6619,8 @@ module Anthropic
           def new(
             agent_id:, # Unique identifier of the agent to update.
             description: nil, # Description. Omit to preserve; send empty string or null to clear.
+            execution_identity: nil, # Execution principal for runs of this agent. Full replacement. Omit to preserve;
+                                     # send null or `{"type": "service_account"}` to restore the default.
             mcp_servers: nil, # MCP servers. Full replacement. Omit to preserve; send empty array or `null` to
                               # clear. Names must be unique. Maximum 20. Every server must be referenced by an
                               # `mcp_toolset` in the agent's resulting `tools`; unreferenced servers are
@@ -5673,7 +6631,7 @@ module Anthropic
                            # each) with values up to 512 chars.
             model: nil, # Model identifier. Accepts the
                         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-                        # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+                        # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
                         # control. Omit to preserve. Cannot be cleared.
             multiagent: nil, # Multiagent orchestration configuration. Full replacement. Omit to preserve; send
                              # null to clear.
@@ -5687,7 +6645,8 @@ module Anthropic
                           # value from a create or retrieve response. Must be at least 1 if specified. When
                           # supplied, the request fails if it does not match the server's current version;
                           # omit to apply the update unconditionally.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -5699,7 +6658,7 @@ module Anthropic
 
         # Model identifier. Accepts the
         # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-        # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+        # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
         # control. Omit to preserve. Cannot be cleared.
         module Model
           extend Anthropic::Internal::Type::Union
@@ -5836,7 +6795,8 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :agent_id
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -5902,7 +6862,8 @@ module Anthropic
               agent_id:, # Agent ID to list versions for.
               limit: nil, # Maximum results per page. Default 20, maximum 100.
               page: nil, # Opaque pagination cursor.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -24718,8 +25679,9 @@ module Anthropic
                                   # every default.
               display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                             # thinking is returned normally. When set to `omitted`, thinking content is
-                            # redacted but a signature is returned for multi-turn continuity. Defaults to
-                            # `summarized`.
+                            # redacted but a signature is returned for multi-turn continuity. The default
+                            # depends on the model; see
+                            # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
 ); end
 
             sig { override.returns(T::Array[Anthropic::Beta::BetaFallbackParam::Thinking::Variants]) }
@@ -24890,8 +25852,12 @@ module Anthropic
 
       # Opt-in server-side retry on one or more substitute models when the requested
       # model declines for policy reasons. Tried in order: if the first entry also
-      # declines, the second is tried, and so on. The string "default" requests the
-      # requested model's server-defined default fallback configuration.
+      # declines, the second is tried, and so on. Some models don't support fallbacks;
+      # on those models, a list of fallback models returns a 400 error. See
+      # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+      # The string "default" requests the requested model's server-defined default
+      # fallback configuration. On a model that doesn't support fallbacks, the request
+      # runs on the requested model alone, so a declined request stays declined.
       module BetaFallbacksParam
         extend Anthropic::Internal::Type::Union
 
@@ -26240,6 +27206,64 @@ module Anthropic
           end
       end
 
+      class BetaManagedAgentsAWSRoleExecutionIdentity < Anthropic::Internal::Type::BaseModel
+        # The IAM role's ARN.
+        sig { returns(String) }
+        attr_accessor :role_arn
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ role_arn: String, type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # An AWS IAM role principal as returned in API responses.
+          sig { params(role_arn: String, type: Symbol).returns(T.attached_class) }
+          def new(
+            role_arn:, # The IAM role's ARN.
+            type: :aws_role
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsAWSRoleExecutionIdentityParams < Anthropic::Internal::Type::BaseModel
+        # The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner".
+        # Maximum 2048 characters.
+        sig { returns(String) }
+        attr_accessor :role_arn
+
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ role_arn: String, type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # An AWS IAM role principal.
+          sig { params(role_arn: String, type: Symbol).returns(T.attached_class) }
+          def new(
+            role_arn:, # The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner".
+                       # Maximum 2048 characters.
+            type: :aws_role
+); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaManagedAgentsAdvisor < Anthropic::Internal::Type::BaseModel
         # The advisor model id.
         sig { returns(String) }
@@ -26390,6 +27414,11 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
+        # Execution principal for runs of this agent. Always present;
+        # `{"type": "service_account"}` when runs carry no customer-named principal.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants) }
+        attr_accessor :execution_identity
+
         sig { returns(String) }
         attr_accessor :id
 
@@ -26441,6 +27470,8 @@ module Anthropic
               archived_at: T.nilable(Time),
               created_at: Time,
               description: T.nilable(String),
+              execution_identity:
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants,
               mcp_servers:
                 T::Array[
                   Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
@@ -26476,6 +27507,10 @@ module Anthropic
               archived_at: T.nilable(Time),
               created_at: Time,
               description: T.nilable(String),
+              execution_identity: T.any(
+                Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+              ),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
               ],
@@ -26512,6 +27547,8 @@ module Anthropic
             archived_at:, # When the agent was archived. Null if not archived.
             created_at:, # A timestamp in RFC 3339 format
             description:,
+            execution_identity:, # Execution principal for runs of this agent. Always present;
+                                 # `{"type": "service_account"}` when runs carry no customer-named principal.
             mcp_servers:,
             metadata:,
             model:, # Model identifier and configuration.
@@ -28155,7 +29192,7 @@ module Anthropic
         end
         attr_writer :mcp_servers
 
-        # Replacement model. Accepts the model string, e.g. `claude-opus-5`, or a
+        # Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a
         # `model_config` object. Omit to use the agent's model.
         sig do
           returns(T.nilable(
@@ -28321,7 +29358,7 @@ module Anthropic
             type:,
             mcp_servers: nil, # Replacement MCP server list. Full replacement: the provided array becomes the
                               # MCP servers. Send an empty array to clear; omit to preserve the agent's servers.
-            model: nil, # Replacement model. Accepts the model string, e.g. `claude-opus-5`, or a
+            model: nil, # Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a
                         # `model_config` object. Omit to use the agent's model.
             skills: nil, # Replacement skill list. Full replacement: the provided array becomes the skills.
                          # Send an empty array to clear; omit to preserve the agent's skills.
@@ -28333,7 +29370,7 @@ module Anthropic
 ); end
         end
 
-        # Replacement model. Accepts the model string, e.g. `claude-opus-5`, or a
+        # Replacement model. Accepts the model string, e.g. `claude-opus-5-5`, or a
         # `model_config` object. Omit to use the agent's model.
         module Model
           extend Anthropic::Internal::Type::Union
@@ -32607,6 +33644,144 @@ module Anthropic
         end
       end
 
+      # Execution principal for runs of this agent as returned in API responses.
+      module BetaManagedAgentsExecutionIdentity
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          # Creates a new instance of the variant class whose `type` matches the given
+          # value, passing the remaining arguments to its constructor.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Type::OrSymbol,
+              role_arn: String
+            ).returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants)
+          end
+          def new(
+            type:,
+            role_arn: nil # The IAM role's ARN.
+); end
+
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AWS_ROLE = T.let(
+              :aws_role,
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SERVICE_ACCOUNT = T.let(
+              :service_account,
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Type
+              )
+            end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity,
+              Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity
+            )
+          end
+      end
+
+      # Execution principal for runs of this agent: `service_account` (the default) or
+      # `aws_role`.
+      module BetaManagedAgentsExecutionIdentityParams
+        extend Anthropic::Internal::Type::Union
+
+        class << self
+          # Creates a new instance of the variant class whose `type` matches the given
+          # value, passing the remaining arguments to its constructor.
+          sig do
+            params(
+              type: Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Type::OrSymbol,
+              role_arn: String
+            ).returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Variants)
+          end
+          def new(
+            type:,
+            role_arn: nil # The IAM role's ARN, e.g. "arn:aws:iam::123456789012:role/my-agent-runner".
+                          # Maximum 2048 characters.
+); end
+
+          sig do
+            override
+              .returns(T::Array[
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Variants
+            ])
+          end
+          def variants; end
+        end
+
+        module Type
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Type::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          AWS_ROLE = T.let(
+              :aws_role,
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Type::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          SERVICE_ACCOUNT = T.let(
+              :service_account,
+              Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Type::TaggedSymbol
+            )
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentityParams::Type
+              )
+            end
+        end
+
+        Variants = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams,
+              Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+            )
+          end
+      end
+
       class BetaManagedAgentsFileNotFoundDeploymentPausedReasonError < Anthropic::Internal::Type::BaseModel
         sig { returns(Anthropic::Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError::Type::TaggedSymbol) }
         attr_accessor :type
@@ -35420,13 +36595,11 @@ module Anthropic
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
-        # Fastest model with near-frontier intelligence
         CLAUDE_HAIKU_4_5 = T.let(
             :"claude-haiku-4-5",
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
           )
 
-        # Fastest model with near-frontier intelligence
         CLAUDE_HAIKU_4_5_20251001 = T.let(
             :"claude-haiku-4-5-20251001",
             Anthropic::Beta::BetaManagedAgentsModel::TaggedSymbol
@@ -38865,6 +40038,49 @@ module Anthropic
           end
       end
 
+      class BetaManagedAgentsServiceAccountExecutionIdentity < Anthropic::Internal::Type::BaseModel
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # The Anthropic-managed service account as returned in API responses.
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(type: :service_account); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
+      class BetaManagedAgentsServiceAccountExecutionIdentityParams < Anthropic::Internal::Type::BaseModel
+        sig { returns(Symbol) }
+        attr_accessor :type
+
+        sig { override.returns({ type: Symbol }) }
+        def to_hash; end
+
+        class << self
+          # The Anthropic-managed service account — the default execution principal. Carries
+          # no identifier.
+          sig { params(type: Symbol).returns(T.attached_class) }
+          def new(type: :service_account); end
+        end
+
+        OrHash = T.type_alias do
+            T.any(
+              Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams,
+              Anthropic::Internal::AnyHash
+            )
+          end
+      end
+
       class BetaManagedAgentsSession < Anthropic::Internal::Type::BaseModel
         # Resolved `agent` definition for a `session`. Snapshot of the `agent` at
         # `session` creation time.
@@ -39120,6 +40336,12 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
+        # Execution principal snapshotted from the agent at session creation. Always
+        # present; `{"type": "service_account"}` when runs carry no customer-named
+        # principal.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants) }
+        attr_accessor :execution_identity
+
         sig { returns(String) }
         attr_accessor :id
 
@@ -39173,6 +40395,8 @@ module Anthropic
             .returns({
               id: String,
               description: T.nilable(String),
+              execution_identity:
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants,
               mcp_servers:
                 T::Array[
                   Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
@@ -39206,6 +40430,10 @@ module Anthropic
             params(
               id: String,
               description: T.nilable(String),
+              execution_identity: T.any(
+                Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+              ),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
               ],
@@ -39238,6 +40466,9 @@ module Anthropic
           def new(
             id:,
             description:,
+            execution_identity:, # Execution principal snapshotted from the agent at session creation. Always
+                                 # present; `{"type": "service_account"}` when runs carry no customer-named
+                                 # principal.
             mcp_servers:,
             model:, # Model identifier and configuration.
             multiagent:, # Resolved multiagent orchestration configuration. Null when the agent is
@@ -39947,6 +41178,10 @@ module Anthropic
                 ),
                 id: String,
                 description: T.nilable(String),
+                execution_identity: T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+                ),
                 mcp_servers: T::Array[
                   Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
                 ],
@@ -39973,6 +41208,9 @@ module Anthropic
               model:, # Model identifier and configuration.
               id: nil,
               description: nil,
+              execution_identity: nil, # Execution principal snapshotted from the agent at session creation. Always
+                                       # present; `{"type": "service_account"}` when runs carry no customer-named
+                                       # principal.
               mcp_servers: nil,
               name: nil,
               skills: nil,
@@ -40669,6 +41907,12 @@ module Anthropic
         sig { returns(T.nilable(String)) }
         attr_accessor :description
 
+        # Execution principal snapshotted from the agent at session creation. Always
+        # present; `{"type": "service_account"}` when runs carry no customer-named
+        # principal.
+        sig { returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants) }
+        attr_accessor :execution_identity
+
         sig { returns(String) }
         attr_accessor :id
 
@@ -40713,6 +41957,8 @@ module Anthropic
             .returns({
               id: String,
               description: T.nilable(String),
+              execution_identity:
+                Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants,
               mcp_servers:
                 T::Array[
                   Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
@@ -40743,6 +41989,10 @@ module Anthropic
             params(
               id: String,
               description: T.nilable(String),
+              execution_identity: T.any(
+                Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+              ),
               mcp_servers: T::Array[
                 Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
               ],
@@ -40769,6 +42019,9 @@ module Anthropic
           def new(
             id:,
             description:,
+            execution_identity:, # Execution principal snapshotted from the agent at session creation. Always
+                                 # present; `{"type": "service_account"}` when runs carry no customer-named
+                                 # principal.
             mcp_servers:,
             model:, # Model identifier and configuration.
             name:,
@@ -45518,7 +46771,6 @@ module Anthropic
         # (model sampling iterations, such as the turns of a server-side tool use loop),
         # this allows you to:
         #
-        # - Determine which iterations exceeded long context thresholds (>=200k tokens)
         # - Calculate the context window size from the last `message` entry
         # - Understand token accumulation across server-side tool use loops
         #
@@ -45618,7 +46870,6 @@ module Anthropic
                          # counts and cache statistics, discriminated by `type`. For `message` entries
                          # (model sampling iterations, such as the turns of a server-side tool use loop),
                          # this allows you to:
-                         # - Determine which iterations exceeded long context thresholds (>=200k tokens)
                          # - Calculate the context window size from the last `message` entry
                          # - Understand token accumulation across server-side tool use loops
                          # A `compaction` entry reports the token usage of the compaction operation itself
@@ -51948,8 +53199,9 @@ module Anthropic
 
         # Controls how thinking content appears in the response. When set to `summarized`,
         # thinking is returned normally. When set to `omitted`, thinking content is
-        # redacted but a signature is returned for multi-turn continuity. Defaults to
-        # `summarized`.
+        # redacted but a signature is returned for multi-turn continuity. The default
+        # depends on the model; see
+        # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaThinkingConfigAdaptive::Display::OrSymbol
@@ -51990,16 +53242,18 @@ module Anthropic
                                 # every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
-                           # redacted but a signature is returned for multi-turn continuity. Defaults to
-                           # `summarized`.
+                           # redacted but a signature is returned for multi-turn continuity. The default
+                           # depends on the model; see
+                           # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
             type: :adaptive
 ); end
         end
 
         # Controls how thinking content appears in the response. When set to `summarized`,
         # thinking is returned normally. When set to `omitted`, thinking content is
-        # redacted but a signature is returned for multi-turn continuity. Defaults to
-        # `summarized`.
+        # redacted but a signature is returned for multi-turn continuity. The default
+        # depends on the model; see
+        # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
         module Display
           extend Anthropic::Internal::Type::Enum
 
@@ -52110,8 +53364,9 @@ module Anthropic
 
         # Controls how thinking content appears in the response. When set to `summarized`,
         # thinking is returned normally. When set to `omitted`, thinking content is
-        # redacted but a signature is returned for multi-turn continuity. Defaults to
-        # `summarized`.
+        # redacted but a signature is returned for multi-turn continuity. The default
+        # depends on the model; see
+        # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
         sig do
           returns(T.nilable(
               Anthropic::Beta::BetaThinkingConfigEnabled::Display::OrSymbol
@@ -52161,16 +53416,18 @@ module Anthropic
                                 # every default.
             display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                            # thinking is returned normally. When set to `omitted`, thinking content is
-                           # redacted but a signature is returned for multi-turn continuity. Defaults to
-                           # `summarized`.
+                           # redacted but a signature is returned for multi-turn continuity. The default
+                           # depends on the model; see
+                           # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
             type: :enabled
 ); end
         end
 
         # Controls how thinking content appears in the response. When set to `summarized`,
         # thinking is returned normally. When set to `omitted`, thinking content is
-        # redacted but a signature is returned for multi-turn continuity. Defaults to
-        # `summarized`.
+        # redacted but a signature is returned for multi-turn continuity. The default
+        # depends on the model; see
+        # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
         module Display
           extend Anthropic::Internal::Type::Enum
 
@@ -52214,15 +53471,16 @@ module Anthropic
           end
       end
 
-      # Configuration for enabling Claude's extended thinking.
+      # Configuration for Claude's thinking.
       #
-      # When enabled, responses include `thinking` content blocks showing Claude's
-      # thinking process before the final answer. Requires a minimum budget of 1,024
-      # tokens and counts towards your `max_tokens` limit.
+      # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+      # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+      # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
       #
-      # See
-      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-      # for details.
+      # Which `type` values are accepted, and what happens when you omit `thinking`,
+      # depend on the model. See
+      # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+      # for each model's behavior.
       module BetaThinkingConfigParam
         extend Anthropic::Internal::Type::Union
 
@@ -52258,8 +53516,9 @@ module Anthropic
                                 # every default.
             display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                           # thinking is returned normally. When set to `omitted`, thinking content is
-                          # redacted but a signature is returned for multi-turn continuity. Defaults to
-                          # `summarized`.
+                          # redacted but a signature is returned for multi-turn continuity. The default
+                          # depends on the model; see
+                          # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
 ); end
 
           sig { override.returns(T::Array[Anthropic::Beta::BetaThinkingConfigParam::Variants]) }
@@ -52696,9 +53955,23 @@ module Anthropic
         sig { params(adaptive: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
         attr_writer :adaptive
 
+        # Whether the model accepts thinking with type 'between_tools' (thinking turned
+        # off, and any short progress updates the model writes between tool calls come
+        # back as thinking blocks). False exactly when a request that sends it gets a 400
+        # from this model. A request that sends 'between_tools' can still be rejected for
+        # another reason, such as an effort level the model does not allow with thinking
+        # off.
+        sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
+        attr_reader :between_tools
+
+        sig { params(between_tools: Anthropic::Beta::BetaCapabilitySupport::OrHash).void }
+        attr_writer :between_tools
+
         # Whether the model accepts thinking with type 'disabled' (thinking turned off).
         # False exactly when a request that sends it gets a 400 from this model. True on a
-        # model that does not support thinking.
+        # model that does not support thinking. A request that sends 'disabled' can still
+        # be rejected for another reason, such as an effort level the model does not allow
+        # with thinking off.
         sig { returns(Anthropic::Beta::BetaCapabilitySupport) }
         attr_reader :disabled
 
@@ -52717,6 +53990,7 @@ module Anthropic
           override
             .returns({
               adaptive: Anthropic::Beta::BetaCapabilitySupport,
+              between_tools: Anthropic::Beta::BetaCapabilitySupport,
               disabled: Anthropic::Beta::BetaCapabilitySupport,
               enabled: Anthropic::Beta::BetaCapabilitySupport
             })
@@ -52729,6 +54003,7 @@ module Anthropic
           sig do
             params(
               adaptive: Anthropic::Beta::BetaCapabilitySupport::OrHash,
+              between_tools: Anthropic::Beta::BetaCapabilitySupport::OrHash,
               disabled: Anthropic::Beta::BetaCapabilitySupport::OrHash,
               enabled: Anthropic::Beta::BetaCapabilitySupport::OrHash
             ).returns(T.attached_class)
@@ -52736,9 +54011,17 @@ module Anthropic
           def new(
             adaptive:, # Whether the model accepts thinking with type 'adaptive' (the model decides
                        # whether and how much to think).
+            between_tools:, # Whether the model accepts thinking with type 'between_tools' (thinking turned
+                            # off, and any short progress updates the model writes between tool calls come
+                            # back as thinking blocks). False exactly when a request that sends it gets a 400
+                            # from this model. A request that sends 'between_tools' can still be rejected for
+                            # another reason, such as an effort level the model does not allow with thinking
+                            # off.
             disabled:, # Whether the model accepts thinking with type 'disabled' (thinking turned off).
                        # False exactly when a request that sends it gets a 400 from this model. True on a
-                       # model that does not support thinking.
+                       # model that does not support thinking. A request that sends 'disabled' can still
+                       # be rejected for another reason, such as an effort level the model does not allow
+                       # with thinking off.
             enabled: # Whether the model accepts thinking with type 'enabled' (extended thinking with a
                      # caller-set `budget_tokens`).
 ); end
@@ -56793,7 +58076,6 @@ module Anthropic
         # (model sampling iterations, such as the turns of a server-side tool use loop),
         # this allows you to:
         #
-        # - Determine which iterations exceeded long context thresholds (>=200k tokens)
         # - Calculate the context window size from the last `message` entry
         # - Understand token accumulation across server-side tool use loops
         #
@@ -56914,7 +58196,6 @@ module Anthropic
                          # counts and cache statistics, discriminated by `type`. For `message` entries
                          # (model sampling iterations, such as the turns of a server-side tool use loop),
                          # this allows you to:
-                         # - Determine which iterations exceeded long context thresholds (>=200k tokens)
                          # - Calculate the context window size from the last `message` entry
                          # - Understand token accumulation across server-side tool use loops
                          # A `compaction` entry reports the token usage of the compaction operation itself
@@ -63722,7 +65003,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -63772,7 +65054,8 @@ module Anthropic
           end
           def new(
             deployment_id:, # Unique identifier of the deployment to archive.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -63800,7 +65083,8 @@ module Anthropic
         sig { returns(T.any(Anthropic::Beta::BetaManagedAgentsAgentParams, String)) }
         attr_accessor :agent
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64013,7 +65297,8 @@ module Anthropic
                            # automatically. Both expression and timezone are required when schedule is set.
             vault_ids: nil, # Vault IDs for stored credentials the agent can use during sessions created from
                             # this deployment. Maximum 50.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64157,7 +65442,8 @@ module Anthropic
         sig { params(agent_id: String).void }
         attr_writer :agent_id
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64270,7 +65556,8 @@ module Anthropic
             page: nil, # Opaque pagination cursor.
             status: nil, # Filter by status: `active` or `paused`. Omit for both. To include archived
                          # deployments, use `include_archived` instead; the two cannot be combined.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64292,7 +65579,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64342,7 +65630,8 @@ module Anthropic
           end
           def new(
             deployment_id:, # Unique identifier of the deployment to pause.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64364,7 +65653,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64414,7 +65704,8 @@ module Anthropic
           end
           def new(
             deployment_id:, # Unique identifier of the deployment.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64436,7 +65727,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64578,7 +65870,8 @@ module Anthropic
             page: nil, # Opaque pagination cursor. Pass `next_page` from the previous response. Invalid
                        # or expired cursors return 400.
             trigger_type: nil, # Filter runs by what triggered them. Omit to return all runs.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64600,7 +65893,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64650,7 +65944,8 @@ module Anthropic
           end
           def new(
             deployment_id:, # Unique identifier of the deployment to run.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64672,7 +65967,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64722,7 +66018,8 @@ module Anthropic
           end
           def new(
             deployment_run_id:, # Unique identifier of the deployment run.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64744,7 +66041,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -64794,7 +66092,8 @@ module Anthropic
           end
           def new(
             deployment_id:, # Unique identifier of the deployment to unpause.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -64836,7 +66135,8 @@ module Anthropic
         end
         attr_writer :agent
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65062,7 +66362,8 @@ module Anthropic
                            # manual-only).
             vault_ids: nil, # Vault IDs. Full replacement. Omit to preserve; send empty array or null to
                             # clear. Maximum 50.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -65199,7 +66500,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65249,7 +66551,8 @@ module Anthropic
           end
           def new(
             dream_id:, # The ID of the dream to archive (`drm_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -65271,7 +66574,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65321,7 +66625,8 @@ module Anthropic
           end
           def new(
             dream_id:, # The ID of the dream to cancel (`drm_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -65343,7 +66648,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65481,7 +66787,8 @@ module Anthropic
                                # for what kinds of instructions work well.
             output_behavior: nil, # Which memory store a dream writes its result to. Defaults to `create_new` when
                                   # left out of a create request.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -65524,7 +66831,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65637,7 +66945,8 @@ module Anthropic
             statuses: nil, # Return only dreams that have one of these statuses.
                            # Repeat the parameter to give more than one status. Leave it out to return dreams
                            # of every status.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -65659,7 +66968,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -65709,7 +67019,8 @@ module Anthropic
           end
           def new(
             dream_id:, # The ID of the dream to get (`drm_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68023,7 +69334,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68077,7 +69389,8 @@ module Anthropic
             memory_store_id:, # ID of the memory store to archive (a `memstore_...` identifier). Required.
                               # Archiving is one-way and idempotent; archived stores cannot be unarchived.
                               # Enumerate IDs via `GET /v1/memory_stores`.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68099,7 +69412,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68183,7 +69497,8 @@ module Anthropic
             metadata: nil, # Arbitrary key-value tags for your own bookkeeping (such as the end user a store
                            # belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512 characters.
                            # Not visible to the agent.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68205,7 +69520,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68259,7 +69575,8 @@ module Anthropic
             memory_store_id:, # ID of the memory store to permanently delete (a `memstore_...` identifier).
                               # Required. Deletion cascades to all memories and memory versions in the store and
                               # cannot be undone.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68281,7 +69598,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68384,7 +69702,8 @@ module Anthropic
                         # to 20 when omitted.
             page: nil, # Opaque pagination cursor (a `page_...` value). Pass the `next_page` value from a
                        # previous response to fetch the next page; omit for the first page.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68406,7 +69725,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68458,7 +69778,8 @@ module Anthropic
           def new(
             memory_store_id:, # ID of the memory store to retrieve (a `memstore_...` identifier). Required.
                               # Enumerate IDs via `GET /v1/memory_stores`.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -68480,7 +69801,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+        # `managed-agents-2026-04-01` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -68565,7 +69887,8 @@ module Anthropic
             name: nil, # New human-readable name for the store. 1–255 characters; no control characters.
                        # Renaming changes the slug used for the store's `mount_path` in sessions created
                        # after the update.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -70199,7 +71522,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70296,7 +71620,8 @@ module Anthropic
                          # `content`. When omitted, the default is endpoint-specific: retrieve operations
                          # default to `full`; list, create, and update operations default to `basic`.
                          # Listing with `view=full` caps `limit` at 20.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -70318,7 +71643,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70392,7 +71718,8 @@ module Anthropic
                                             # as 64 lowercase hexadecimal characters. Omit it to delete unconditionally.
                                             # If the hashes differ, the request fails with HTTP status 409 and nothing is
                                             # deleted.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -70414,7 +71741,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70537,7 +71865,8 @@ module Anthropic
               view: nil, # Which projection of each `memory` to return. Defaults to `basic` (content
                          # omitted). `full` populates `content` on each item and caps `limit` at 20; use
                          # this as the bulk-read path for export and sync.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -70559,7 +71888,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70639,7 +71969,8 @@ module Anthropic
                          # `content`. When omitted, the default is endpoint-specific: retrieve operations
                          # default to `full`; list, create, and update operations default to `basic`.
                          # Listing with `view=full` caps `limit` at 20.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -70661,7 +71992,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70788,7 +72120,8 @@ module Anthropic
                                  # only if the memory's current state matches; on mismatch the request returns
                                  # `memory_precondition_failed_error` (HTTP 409). When omitted, the update is
                                  # unconditional.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -70817,7 +72150,8 @@ module Anthropic
           sig { params(api_key_id: String).void }
           attr_writer :api_key_id
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -70989,7 +72323,8 @@ module Anthropic
                          # `content`. When omitted, the default is endpoint-specific: retrieve operations
                          # default to `full`; list, create, and update operations default to `basic`.
                          # Listing with `view=full` caps `limit` at 20.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -71011,7 +72346,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -71068,7 +72404,8 @@ module Anthropic
             def new(
               memory_store_id:, # The ID of the memory store that holds the version (`memstore_...`).
               memory_version_id:, # The ID of the memory version to redact (`memver_...`).
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -71090,7 +72427,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+          # `managed-agents-2026-04-01` in this header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -71170,7 +72508,8 @@ module Anthropic
                          # `content`. When omitted, the default is endpoint-specific: retrieve operations
                          # default to `full`; list, create, and update operations default to `basic`.
                          # Listing with `view=full` caps `limit` at 20.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -71268,7 +72607,10 @@ module Anthropic
         #
         # If the final message uses the `assistant` role, the response content will
         # continue immediately from the content in that message. This can be used to
-        # constrain part of the model's response.
+        # constrain part of the model's response. This is called prefill. On models that
+        # don't support prefill, creating a message that ends with a partial `assistant`
+        # response returns a 400 error. See
+        # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
         #
         # Example with a single `user` message:
         #
@@ -71286,7 +72628,8 @@ module Anthropic
         # ]
         # ```
         #
-        # Example with a partially-filled response from Claude:
+        # Example with a partially-filled response from Claude, for models that support
+        # prefill:
         #
         # ```json
         # [
@@ -71350,6 +72693,11 @@ module Anthropic
 
         # The inference speed mode for this request. `"fast"` enables high
         # output-tokens-per-second inference.
+        #
+        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+        # value. See
+        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+        # which models.
         sig do
           returns(T.nilable(
               Anthropic::Beta::MessageCountTokensParams::Speed::OrSymbol
@@ -71372,15 +72720,16 @@ module Anthropic
         sig { params(system_: Anthropic::Beta::MessageCountTokensParams::System::Variants).void }
         attr_writer :system_
 
-        # Configuration for enabling Claude's extended thinking.
+        # Configuration for Claude's thinking.
         #
-        # When enabled, responses include `thinking` content blocks showing Claude's
-        # thinking process before the final answer. Requires a minimum budget of 1,024
-        # tokens and counts towards your `max_tokens` limit.
+        # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+        # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+        # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
         #
-        # See
-        # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-        # for details.
+        # Which `type` values are accepted, and what happens when you omit `thinking`,
+        # depend on the model. See
+        # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+        # for each model's behavior.
         sig do
           returns(T.nilable(
               T.any(
@@ -71759,7 +73108,10 @@ module Anthropic
                        # `assistant` messages.
                        # If the final message uses the `assistant` role, the response content will
                        # continue immediately from the content in that message. This can be used to
-                       # constrain part of the model's response.
+                       # constrain part of the model's response. This is called prefill. On models that
+                       # don't support prefill, creating a message that ends with a partial `assistant`
+                       # response returns a 400 error. See
+                       # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                        # Example with a single `user` message:
                        # ```json
                        # [{ "role": "user", "content": "Hello, Claude" }]
@@ -71772,7 +73124,8 @@ module Anthropic
                        #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                        # ]
                        # ```
-                       # Example with a partially-filled response from Claude:
+                       # Example with a partially-filled response from Claude, for models that support
+                       # prefill:
                        # ```json
                        # [
                        #   {
@@ -71823,17 +73176,22 @@ module Anthropic
                                 # removed in a future release.
             speed: nil, # The inference speed mode for this request. `"fast"` enables high
                         # output-tokens-per-second inference.
+                        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                        # value. See
+                        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                        # which models.
             system_: nil, # System prompt.
                           # A system prompt is a way of providing context and instructions to Claude, such
                           # as specifying a particular goal or role. See our
                           # [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role).
-            thinking: nil, # Configuration for enabling Claude's extended thinking.
-                           # When enabled, responses include `thinking` content blocks showing Claude's
-                           # thinking process before the final answer. Requires a minimum budget of 1,024
-                           # tokens and counts towards your `max_tokens` limit.
-                           # See
-                           # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                           # for details.
+            thinking: nil, # Configuration for Claude's thinking.
+                           # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                           # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                           # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                           # Which `type` values are accepted, and what happens when you omit `thinking`,
+                           # depend on the model. See
+                           # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                           # for each model's behavior.
             tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                               # any available tool, decide by itself, or not use tools at all.
             tools: nil, # Definitions of tools that the model may use.
@@ -71922,6 +73280,11 @@ module Anthropic
 
         # The inference speed mode for this request. `"fast"` enables high
         # output-tokens-per-second inference.
+        #
+        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+        # value. See
+        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+        # which models.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -72119,8 +73482,12 @@ module Anthropic
 
         # Opt-in server-side retry on one or more substitute models when the requested
         # model declines for policy reasons. Tried in order: if the first entry also
-        # declines, the second is tried, and so on. The string "default" requests the
-        # requested model's server-defined default fallback configuration.
+        # declines, the second is tried, and so on. Some models don't support fallbacks;
+        # on those models, a list of fallback models returns a 400 error. See
+        # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+        # The string "default" requests the requested model's server-defined default
+        # fallback configuration. On a model that doesn't support fallbacks, the request
+        # runs on the requested model alone, so a declined request stays declined.
         sig do
           returns(T.nilable(
               T.any(Symbol, T::Array[Anthropic::Beta::BetaFallbackParam])
@@ -72179,7 +73546,10 @@ module Anthropic
         #
         # If the final message uses the `assistant` role, the response content will
         # continue immediately from the content in that message. This can be used to
-        # constrain part of the model's response.
+        # constrain part of the model's response. This is called prefill. On models that
+        # don't support prefill, creating a message that ends with a partial `assistant`
+        # response returns a 400 error. See
+        # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
         #
         # Example with a single `user` message:
         #
@@ -72197,7 +73567,8 @@ module Anthropic
         # ]
         # ```
         #
-        # Example with a partially-filled response from Claude:
+        # Example with a partially-filled response from Claude, for models that support
+        # prefill:
         #
         # ```json
         # [
@@ -72284,6 +73655,11 @@ module Anthropic
 
         # The inference speed mode for this request. `"fast"` enables high
         # output-tokens-per-second inference.
+        #
+        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+        # value. See
+        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+        # which models.
         sig { returns(T.nilable(Anthropic::Beta::MessageCreateParams::Speed::OrSymbol)) }
         attr_accessor :speed
 
@@ -72327,15 +73703,16 @@ module Anthropic
         sig { params(temperature: Float).void }
         attr_writer :temperature
 
-        # Configuration for enabling Claude's extended thinking.
+        # Configuration for Claude's thinking.
         #
-        # When enabled, responses include `thinking` content blocks showing Claude's
-        # thinking process before the final answer. Requires a minimum budget of 1,024
-        # tokens and counts towards your `max_tokens` limit.
+        # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+        # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+        # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
         #
-        # See
-        # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-        # for details.
+        # Which `type` values are accepted, and what happens when you omit `thinking`,
+        # depend on the model. See
+        # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+        # for each model's behavior.
         sig do
           returns(T.nilable(
               T.any(
@@ -72789,7 +74166,10 @@ module Anthropic
                        # `assistant` messages.
                        # If the final message uses the `assistant` role, the response content will
                        # continue immediately from the content in that message. This can be used to
-                       # constrain part of the model's response.
+                       # constrain part of the model's response. This is called prefill. On models that
+                       # don't support prefill, creating a message that ends with a partial `assistant`
+                       # response returns a 400 error. See
+                       # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                        # Example with a single `user` message:
                        # ```json
                        # [{ "role": "user", "content": "Hello, Claude" }]
@@ -72802,7 +74182,8 @@ module Anthropic
                        #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                        # ]
                        # ```
-                       # Example with a partially-filled response from Claude:
+                       # Example with a partially-filled response from Claude, for models that support
+                       # prefill:
                        # ```json
                        # [
                        #   {
@@ -72868,8 +74249,12 @@ module Anthropic
                                         # assistant-turn prefill, this token also authorizes that one prefill.
             fallbacks: nil, # Opt-in server-side retry on one or more substitute models when the requested
                             # model declines for policy reasons. Tried in order: if the first entry also
-                            # declines, the second is tried, and so on. The string "default" requests the
-                            # requested model's server-defined default fallback configuration.
+                            # declines, the second is tried, and so on. Some models don't support fallbacks;
+                            # on those models, a list of fallback models returns a 400 error. See
+                            # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+                            # The string "default" requests the requested model's server-defined default
+                            # fallback configuration. On a model that doesn't support fallbacks, the request
+                            # runs on the requested model alone, so a declined request stays declined.
             inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                 # workspace's `default_inference_geo` is used.
             mcp_servers: nil, # MCP servers to be utilized in this request
@@ -72886,6 +74271,10 @@ module Anthropic
                                # details.
             speed: nil, # The inference speed mode for this request. `"fast"` enables high
                         # output-tokens-per-second inference.
+                        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                        # value. See
+                        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                        # which models.
             stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                  # Our models will normally stop when they have naturally completed their turn,
                                  # which will result in a response `stop_reason` of `"end_turn"`.
@@ -72903,13 +74292,14 @@ module Anthropic
                               # generative tasks.
                               # Note that even with `temperature` of `0.0`, the results will not be fully
                               # deterministic.
-            thinking: nil, # Configuration for enabling Claude's extended thinking.
-                           # When enabled, responses include `thinking` content blocks showing Claude's
-                           # thinking process before the final answer. Requires a minimum budget of 1,024
-                           # tokens and counts towards your `max_tokens` limit.
-                           # See
-                           # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                           # for details.
+            thinking: nil, # Configuration for Claude's thinking.
+                           # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                           # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                           # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                           # Which `type` values are accepted, and what happens when you omit `thinking`,
+                           # depend on the model. See
+                           # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                           # for each model's behavior.
             tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                               # any available tool, decide by itself, or not use tools at all.
             tools: nil, # Definitions of tools that the model may use.
@@ -73097,6 +74487,11 @@ module Anthropic
 
         # The inference speed mode for this request. `"fast"` enables high
         # output-tokens-per-second inference.
+        #
+        # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+        # value. See
+        # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+        # which models.
         module Speed
           extend Anthropic::Internal::Type::Enum
 
@@ -73461,8 +74856,12 @@ module Anthropic
 
               # Opt-in server-side retry on one or more substitute models when the requested
               # model declines for policy reasons. Tried in order: if the first entry also
-              # declines, the second is tried, and so on. The string "default" requests the
-              # requested model's server-defined default fallback configuration.
+              # declines, the second is tried, and so on. Some models don't support fallbacks;
+              # on those models, a list of fallback models returns a 400 error. See
+              # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+              # The string "default" requests the requested model's server-defined default
+              # fallback configuration. On a model that doesn't support fallbacks, the request
+              # runs on the requested model alone, so a declined request stays declined.
               sig do
                 returns(T.nilable(
                     T.any(Symbol, T::Array[Anthropic::Beta::BetaFallbackParam])
@@ -73521,7 +74920,10 @@ module Anthropic
               #
               # If the final message uses the `assistant` role, the response content will
               # continue immediately from the content in that message. This can be used to
-              # constrain part of the model's response.
+              # constrain part of the model's response. This is called prefill. On models that
+              # don't support prefill, creating a message that ends with a partial `assistant`
+              # response returns a 400 error. See
+              # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
               #
               # Example with a single `user` message:
               #
@@ -73539,7 +74941,8 @@ module Anthropic
               # ]
               # ```
               #
-              # Example with a partially-filled response from Claude:
+              # Example with a partially-filled response from Claude, for models that support
+              # prefill:
               #
               # ```json
               # [
@@ -73630,6 +75033,11 @@ module Anthropic
 
               # The inference speed mode for this request. `"fast"` enables high
               # output-tokens-per-second inference.
+              #
+              # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+              # value. See
+              # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+              # which models.
               sig do
                 returns(T.nilable(
                     Anthropic::Beta::Messages::BatchCreateParams::Request::Params::Speed::OrSymbol
@@ -73699,15 +75107,16 @@ module Anthropic
               sig { params(temperature: Float).void }
               attr_writer :temperature
 
-              # Configuration for enabling Claude's extended thinking.
+              # Configuration for Claude's thinking.
               #
-              # When enabled, responses include `thinking` content blocks showing Claude's
-              # thinking process before the final answer. Requires a minimum budget of 1,024
-              # tokens and counts towards your `max_tokens` limit.
+              # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+              # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+              # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
               #
-              # See
-              # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-              # for details.
+              # Which `type` values are accepted, and what happens when you omit `thinking`,
+              # depend on the model. See
+              # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+              # for each model's behavior.
               sig do
                 returns(T.nilable(
                     T.any(
@@ -74162,7 +75571,10 @@ module Anthropic
                              # `assistant` messages.
                              # If the final message uses the `assistant` role, the response content will
                              # continue immediately from the content in that message. This can be used to
-                             # constrain part of the model's response.
+                             # constrain part of the model's response. This is called prefill. On models that
+                             # don't support prefill, creating a message that ends with a partial `assistant`
+                             # response returns a 400 error. See
+                             # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                              # Example with a single `user` message:
                              # ```json
                              # [{ "role": "user", "content": "Hello, Claude" }]
@@ -74175,7 +75587,8 @@ module Anthropic
                              #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                              # ]
                              # ```
-                             # Example with a partially-filled response from Claude:
+                             # Example with a partially-filled response from Claude, for models that support
+                             # prefill:
                              # ```json
                              # [
                              #   {
@@ -74241,8 +75654,12 @@ module Anthropic
                                               # assistant-turn prefill, this token also authorizes that one prefill.
                   fallbacks: nil, # Opt-in server-side retry on one or more substitute models when the requested
                                   # model declines for policy reasons. Tried in order: if the first entry also
-                                  # declines, the second is tried, and so on. The string "default" requests the
-                                  # requested model's server-defined default fallback configuration.
+                                  # declines, the second is tried, and so on. Some models don't support fallbacks;
+                                  # on those models, a list of fallback models returns a 400 error. See
+                                  # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+                                  # The string "default" requests the requested model's server-defined default
+                                  # fallback configuration. On a model that doesn't support fallbacks, the request
+                                  # runs on the requested model alone, so a declined request stays declined.
                   inference_geo: nil, # Specifies the geographic region for inference processing. If not specified, the
                                       # workspace's `default_inference_geo` is used.
                   mcp_servers: nil, # MCP servers to be utilized in this request
@@ -74259,6 +75676,10 @@ module Anthropic
                                      # details.
                   speed: nil, # The inference speed mode for this request. `"fast"` enables high
                               # output-tokens-per-second inference.
+                              # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                              # value. See
+                              # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                              # which models.
                   stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                        # Our models will normally stop when they have naturally completed their turn,
                                        # which will result in a response `stop_reason` of `"end_turn"`.
@@ -74283,13 +75704,14 @@ module Anthropic
                                     # generative tasks.
                                     # Note that even with `temperature` of `0.0`, the results will not be fully
                                     # deterministic.
-                  thinking: nil, # Configuration for enabling Claude's extended thinking.
-                                 # When enabled, responses include `thinking` content blocks showing Claude's
-                                 # thinking process before the final answer. Requires a minimum budget of 1,024
-                                 # tokens and counts towards your `max_tokens` limit.
-                                 # See
-                                 # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                                 # for details.
+                  thinking: nil, # Configuration for Claude's thinking.
+                                 # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                                 # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                                 # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                                 # Which `type` values are accepted, and what happens when you omit `thinking`,
+                                 # depend on the model. See
+                                 # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                                 # for each model's behavior.
                   tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                                     # any available tool, decide by itself, or not use tools at all.
                   tools: nil, # Definitions of tools that the model may use.
@@ -74473,6 +75895,11 @@ module Anthropic
 
               # The inference speed mode for this request. `"fast"` enables high
               # output-tokens-per-second inference.
+              #
+              # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+              # value. See
+              # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+              # which models.
               module Speed
                 extend Anthropic::Internal::Type::Enum
 
@@ -81761,9 +83188,9 @@ module Anthropic
           attr_accessor :list_amount
 
           # Model that produced the usage or cost, as a model name in the form the
-          # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-          # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-          # attributed to a specific model, such as code execution.
+          # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+          # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+          # not attributed to a specific model, such as code execution.
           sig { returns(T.nilable(String)) }
           attr_accessor :model
 
@@ -81923,9 +83350,9 @@ module Anthropic
                               # (the rows that `inference_geos[]=not_available` matches).
               list_amount:, # List-price amount (pre-discount) in fractional cents.
               model:, # Model that produced the usage or cost, as a model name in the form the
-                      # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-                      # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-                      # attributed to a specific model, such as code execution.
+                      # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+                      # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+                      # not attributed to a specific model, such as code execution.
               product:, # Product surface that produced the usage or cost. Null unless product is in
                         # `group_by[]`; it can also be null on grouped rows whose usage cannot be
                         # attributed to a known surface. Values include `chat`, `claude_code`, `cowork`,
@@ -82214,9 +83641,9 @@ module Anthropic
           attr_accessor :list_amount
 
           # Model that produced the usage or cost, as a model name in the form the
-          # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-          # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-          # attributed to a specific model, such as code execution.
+          # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+          # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+          # not attributed to a specific model, such as code execution.
           sig { returns(T.nilable(String)) }
           attr_accessor :model
 
@@ -82390,9 +83817,9 @@ module Anthropic
                               # (the rows that `inference_geos[]=not_available` matches).
               list_amount:, # List-price amount (pre-discount) in fractional cents.
               model:, # Model that produced the usage or cost, as a model name in the form the
-                      # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-                      # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-                      # attributed to a specific model, such as code execution.
+                      # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+                      # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+                      # not attributed to a specific model, such as code execution.
               product:, # Product surface that produced the usage or cost. Null unless product is in
                         # `group_by[]`; it can also be null on grouped rows whose usage cannot be
                         # attributed to a known surface. Values include `chat`, `claude_code`, `cowork`,
@@ -84933,9 +86360,9 @@ module Anthropic
           attr_accessor :inference_geo
 
           # Model that produced the usage or cost, as a model name in the form the
-          # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-          # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-          # attributed to a specific model, such as code execution.
+          # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+          # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+          # not attributed to a specific model, such as code execution.
           sig { returns(T.nilable(String)) }
           attr_accessor :model
 
@@ -85088,9 +86515,9 @@ module Anthropic
                               # `group_by[]`; it can also be null on grouped rows where the region is not set
                               # (the rows that `inference_geos[]=not_available` matches).
               model:, # Model that produced the usage or cost, as a model name in the form the
-                      # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-                      # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-                      # attributed to a specific model, such as code execution.
+                      # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+                      # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+                      # not attributed to a specific model, such as code execution.
               output_tokens:, # The number of output tokens generated.
               product:, # Product surface that produced the usage or cost. Null unless product is in
                         # `group_by[]`; it can also be null on grouped rows whose usage cannot be
@@ -85332,9 +86759,9 @@ module Anthropic
           attr_accessor :inference_geo
 
           # Model that produced the usage or cost, as a model name in the form the
-          # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-          # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-          # attributed to a specific model, such as code execution.
+          # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+          # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+          # not attributed to a specific model, such as code execution.
           sig { returns(T.nilable(String)) }
           attr_accessor :model
 
@@ -85509,9 +86936,9 @@ module Anthropic
                               # `group_by[]`; it can also be null on grouped rows where the region is not set
                               # (the rows that `inference_geos[]=not_available` matches).
               model:, # Model that produced the usage or cost, as a model name in the form the
-                      # `models[]` filter accepts (for example, `claude-opus-5`). Null unless `model` is
-                      # in `group_by[]`; it can also be null on grouped rows whose usage or cost is not
-                      # attributed to a specific model, such as code execution.
+                      # `models[]` filter accepts (for example, `claude-opus-5-5`). Null unless `model`
+                      # is in `group_by[]`; it can also be null on grouped rows whose usage or cost is
+                      # not attributed to a specific model, such as code execution.
               output_tokens:, # The number of output tokens generated.
               product:, # Product surface that produced the usage or cost. Null unless product is in
                         # `group_by[]`; it can also be null on grouped rows whose usage cannot be
@@ -86911,6 +88338,34 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Organization::BetaDeletedPlugin,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaDeletedTelemetryDestination < Anthropic::Internal::Type::BaseModel
+          # ID of the deleted destination (`tdst_...`).
+          sig { returns(String) }
+          attr_accessor :id
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ id: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Confirmation that a destination was deleted.
+            sig { params(id: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              id:, # ID of the deleted destination (`tdst_...`).
+              type: :telemetry_destination_deleted
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaDeletedTelemetryDestination,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -89957,8 +91412,8 @@ module Anthropic
           attr_accessor :id
 
           # Read-only. `false` when extra usage is switched off for this organization
-          # (`organization` limit) or for this member (`user` limit); `amount` is kept and
-          # applies again when it's switched back on. Always `true` for other limits.
+          # (`organization` limit); `amount` is kept and applies again when it's switched
+          # back on. Always `true` for other limits.
           sig { returns(T::Boolean) }
           attr_accessor :is_enabled
 
@@ -90014,7 +91469,8 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope::OrHash,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope::OrHash
                 ),
                 updated_at: Time,
                 type: Symbol
@@ -90028,8 +91484,8 @@ module Anthropic
               created_at:, # RFC 3339 datetime at which the spend limit was created.
               currency:, # ISO 4217 code of the organization's billing currency; the unit for `amount`.
               is_enabled:, # Read-only. `false` when extra usage is switched off for this organization
-                           # (`organization` limit) or for this member (`user` limit); `amount` is kept and
-                           # applies again when it's switched back on. Always `true` for other limits.
+                           # (`organization` limit); `amount` is kept and applies again when it's switched
+                           # back on. Always `true` for other limits.
               period:, # Length of the window the limit resets over. `amount` caps spend within each
                        # period.
               scope:, # What the limit applies to. A tagged union on `type`; each variant carries the
@@ -90124,6 +91580,11 @@ module Anthropic
                   )
                 end
 
+              USAGE_TIER = T.let(
+                  :usage_tier,
+                  Anthropic::Beta::Organization::BetaSpendLimit::Scope::Type::TaggedSymbol
+                )
+
               USER = T.let(
                   :user,
                   Anthropic::Beta::Organization::BetaSpendLimit::Scope::Type::TaggedSymbol
@@ -90142,7 +91603,8 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope
                 )
               end
           end
@@ -90291,6 +91753,33 @@ module Anthropic
           OrHash = T.type_alias do
               T.any(
                 Anthropic::Beta::Organization::BetaSpendLimitSeatTierScope,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaSpendLimitUsageTierScope < Anthropic::Internal::Type::BaseModel
+          # Scope type. Always `usage_tier` for this scope.
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Scope of the monthly spend cap Anthropic sets for a Claude Console organization
+            # from its usage tier, or a higher cap Anthropic granted the organization.
+            # Read-only; its `created_at` and `updated_at` are the organization's creation
+            # time, so `amount` can change while `updated_at` stays the same.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(
+              type: :usage_tier # Scope type. Always `usage_tier` for this scope.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope,
                 Anthropic::Internal::AnyHash
               )
             end
@@ -90495,7 +91984,8 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope::OrHash,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope::OrHash
                 ),
                 source: T.any(
                   Anthropic::Beta::Organization::BetaSpendLimitUserScope::OrHash,
@@ -90503,7 +91993,8 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope::OrHash,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope::OrHash,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope::OrHash,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope::OrHash
                 ),
                 spend_limit_id: String
               ).returns(T.attached_class)
@@ -90688,6 +92179,11 @@ module Anthropic
                   )
                 end
 
+              USAGE_TIER = T.let(
+                  :usage_tier,
+                  Anthropic::Beta::Organization::BetaSpendSummary::Scope::Type::TaggedSymbol
+                )
+
               USER = T.let(
                   :user,
                   Anthropic::Beta::Organization::BetaSpendSummary::Scope::Type::TaggedSymbol
@@ -90706,7 +92202,8 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope
                 )
               end
           end
@@ -90787,6 +92284,11 @@ module Anthropic
                   )
                 end
 
+              USAGE_TIER = T.let(
+                  :usage_tier,
+                  Anthropic::Beta::Organization::BetaSpendSummary::Source::Type::TaggedSymbol
+                )
+
               USER = T.let(
                   :user,
                   Anthropic::Beta::Organization::BetaSpendSummary::Source::Type::TaggedSymbol
@@ -90805,10 +92307,1449 @@ module Anthropic
                   Anthropic::Beta::Organization::BetaSpendLimitRBACGroupScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationServiceScope,
                   Anthropic::Beta::Organization::BetaSpendLimitOrganizationScope,
-                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope
+                  Anthropic::Beta::Organization::BetaSpendLimitWorkspaceScope,
+                  Anthropic::Beta::Organization::BetaSpendLimitUsageTierScope
                 )
               end
           end
+        end
+
+        class BetaTelemetryDestination < Anthropic::Internal::Type::BaseModel
+          # Time the destination was created.
+          sig { returns(Time) }
+          attr_accessor :created_at
+
+          # The most recent delivery results for this destination.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationDeliveryHealth) }
+          attr_reader :delivery_health
+
+          sig do
+            params(
+              delivery_health: Anthropic::Beta::Organization::BetaTelemetryDestinationDeliveryHealth::OrHash
+            ).void
+          end
+          attr_writer :delivery_health
+
+          # Human-readable name for the destination. Null when none was set.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :display_name
+
+          # The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+          #
+          # The API appends the per-signal path, such as `/v1/traces`, on delivery, unless
+          # `traces.endpoint_url` is set.
+          sig { returns(String) }
+          attr_accessor :endpoint_url
+
+          # Names of the registered request headers. Header values are write-only and are
+          # never returned.
+          sig { returns(T::Array[String]) }
+          attr_accessor :header_names
+
+          # The unique ID of the destination (`tdst_...`).
+          sig { returns(String) }
+          attr_accessor :id
+
+          # Whether the destination receives deliveries.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationState::Variants) }
+          attr_accessor :state
+
+          # The destination's settings for the traces it receives.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationTraces) }
+          attr_reader :traces
+
+          sig { params(traces: Anthropic::Beta::Organization::BetaTelemetryDestinationTraces::OrHash).void }
+          attr_writer :traces
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          # Time of the last change to the destination's configuration or state. Changes to
+          # `delivery_health` don't change it.
+          #
+          # An update that sets a header value always changes it, even when the value is the
+          # same as before. Adding or removing a single workspace on the destination's list
+          # doesn't change it. An update that changes the list does.
+          sig { returns(Time) }
+          attr_accessor :updated_at
+
+          # Which of the organization's workspaces the destination covers.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Variants) }
+          attr_accessor :workspaces
+
+          sig do
+            override
+              .returns({
+                id: String,
+                created_at: Time,
+                delivery_health:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDeliveryHealth,
+                display_name: T.nilable(String),
+                endpoint_url: String,
+                header_names: T::Array[String],
+                state:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationState::Variants,
+                traces:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTraces,
+                type: Symbol,
+                updated_at: Time,
+                workspaces:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Variants
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # An OpenTelemetry destination: an OTLP/HTTP endpoint, the request headers sent
+            # with every delivery to it, what the exported spans contain, and which workspaces
+            # it covers. A destination belongs to an organization. A workspace's spans go to
+            # every enabled destination that covers it.
+            sig do
+              params(
+                id: String,
+                created_at: Time,
+                delivery_health: Anthropic::Beta::Organization::BetaTelemetryDestinationDeliveryHealth::OrHash,
+                display_name: T.nilable(String),
+                endpoint_url: String,
+                header_names: T::Array[String],
+                state: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabled::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabled::OrHash
+                ),
+                traces: Anthropic::Beta::Organization::BetaTelemetryDestinationTraces::OrHash,
+                updated_at: Time,
+                workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAll::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesInclude::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExclude::OrHash
+                ),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              id:, # The unique ID of the destination (`tdst_...`).
+              created_at:, # Time the destination was created.
+              delivery_health:, # The most recent delivery results for this destination.
+              display_name:, # Human-readable name for the destination. Null when none was set.
+              endpoint_url:, # The base URL of the destination's OTLP/HTTP endpoint, exactly as registered.
+                             # The API appends the per-signal path, such as `/v1/traces`, on delivery, unless
+                             # `traces.endpoint_url` is set.
+              header_names:, # Names of the registered request headers. Header values are write-only and are
+                             # never returned.
+              state:, # Whether the destination receives deliveries.
+              traces:, # The destination's settings for the traces it receives.
+              updated_at:, # Time of the last change to the destination's configuration or state. Changes to
+                           # `delivery_health` don't change it.
+                           # An update that sets a header value always changes it, even when the value is the
+                           # same as before. Adding or removing a single workspace on the destination's list
+                           # doesn't change it. An update that changes the list does.
+              workspaces:, # Which of the organization's workspaces the destination covers.
+              type: :telemetry_destination
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestination,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # What the spans that the API exports to a telemetry destination contain.
+        #
+        # See the
+        # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-a-content-mode)
+        # to learn what the spans contain in each content mode.
+        module BetaTelemetryDestinationContentMode
+          extend Anthropic::Internal::Type::Enum
+
+          class << self
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::TaggedSymbol
+              ])
+            end
+            def values; end
+          end
+
+          # The spans contain the same metadata as `metadata_only`, plus message and tool content.
+          #
+          # An organization with a data-handling restriction, such as under HIPAA, can't choose this mode. The API exports only metadata for such an organization, even to a destination that already has `content`.
+          CONTENT = T.let(
+              :content,
+              Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::TaggedSymbol
+            )
+
+          # The spans contain identifiers, timing, status, token counts, and similar metadata. They don't contain prompt text, completion text, or tool inputs and outputs.
+          METADATA_ONLY = T.let(
+              :metadata_only,
+              Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::TaggedSymbol
+            )
+
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          TaggedSymbol = T.type_alias do
+              T.all(
+                Symbol,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationDeliveryHealth < Anthropic::Internal::Type::BaseModel
+          # A message that describes the most recent failed delivery to the destination, or
+          # `null` if no delivery has failed yet.
+          #
+          # Examples are `temporary DNS failure`, `TLS failure`, `timeout`,
+          # `connection failure`, `invalid address`, `HTTP error (status 503)`, and
+          # `redirect (status 301)`. The message is `invalid address` both for a hostname
+          # that doesn't exist and for an address that isn't publicly routable. It never
+          # contains the endpoint's response body, a header value, a network address, or TLS
+          # details.
+          #
+          # `last_error` and `last_error_at` always change together. A later successful
+          # delivery doesn't clear them. If `last_success_at` is later than `last_error_at`,
+          # a delivery has succeeded since this failure.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-errors)
+          # to learn the likely cause of each error.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :last_error
+
+          # Time of the failure that `last_error` describes. Changes together with
+          # `last_error`. Null until a delivery first fails.
+          sig { returns(T.nilable(Time)) }
+          attr_accessor :last_error_at
+
+          # Time of the most recent successful delivery to the destination, or `null` if no
+          # delivery has succeeded yet.
+          sig { returns(T.nilable(Time)) }
+          attr_accessor :last_success_at
+
+          sig do
+            override
+              .returns({
+                last_error: T.nilable(String),
+                last_error_at: T.nilable(Time),
+                last_success_at: T.nilable(Time)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The most recent delivery results that the API records for a telemetry
+            # destination.
+            #
+            # Changes to the destination's configuration or state don't reset these fields.
+            # Changes to these fields don't change `updated_at`. The values can lag behind the
+            # latest deliveries.
+            #
+            # See the
+            # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health)
+            # to learn how the API delivers spans and when it disables a destination.
+            sig do
+              params(
+                last_error: T.nilable(String),
+                last_error_at: T.nilable(Time),
+                last_success_at: T.nilable(Time)
+              ).returns(T.attached_class)
+            end
+            def new(
+              last_error:, # A message that describes the most recent failed delivery to the destination, or
+                           # `null` if no delivery has failed yet.
+                           # Examples are `temporary DNS failure`, `TLS failure`, `timeout`,
+                           # `connection failure`, `invalid address`, `HTTP error (status 503)`, and
+                           # `redirect (status 301)`. The message is `invalid address` both for a hostname
+                           # that doesn't exist and for an address that isn't publicly routable. It never
+                           # contains the endpoint's response body, a header value, a network address, or TLS
+                           # details.
+                           # `last_error` and `last_error_at` always change together. A later successful
+                           # delivery doesn't clear them. If `last_success_at` is later than `last_error_at`,
+                           # a delivery has succeeded since this failure.
+                           # See the
+                           # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-errors)
+                           # to learn the likely cause of each error.
+              last_error_at:, # Time of the failure that `last_error` describes. Changes together with
+                              # `last_error`. Null until a delivery first fails.
+              last_success_at: # Time of the most recent successful delivery to the destination, or `null` if no
+                               # delivery has succeeded yet.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDeliveryHealth,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # Why the destination is disabled: `caller` when a caller disabled it, or the
+        # reason the API disabled it automatically (`sustained_failure`,
+        # `invalid_address`, or `redirect`). Every automatic disable is reversible with an
+        # update that sets `state` to `enabled`. An update that sets `disabled` on a
+        # destination that is already disabled keeps its reason.
+        module BetaTelemetryDestinationDisabledReason
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::OrSymbol
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Variants)
+            end
+            def new(type:); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            CALLER = T.let(
+                :caller,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::TaggedSymbol
+              )
+
+            INVALID_ADDRESS = T.let(
+                :invalid_address,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            REDIRECT = T.let(
+                :redirect,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::TaggedSymbol
+              )
+
+            SUSTAINED_FAILURE = T.let(
+                :sustained_failure,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonCaller,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonSustainedFailure,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonInvalidAddress,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonRedirect
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationDisabledReasonCaller < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # A caller disabled the destination with an update that set `state` to `disabled`.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :caller); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonCaller,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationDisabledReasonInvalidAddress < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The API disabled the destination because deliveries to it failed for longer than
+            # the same threshold as for `sustained_failure`, and the most recent failed
+            # delivery failed with an invalid address: the DNS answer says that the endpoint's
+            # hostname doesn't exist or doesn't have an address, or the address that the API
+            # would connect to isn't publicly routable or is reserved, for example a loopback,
+            # link-local, private-network, or cloud-metadata address. The API doesn't connect
+            # to such an address, and retries the delivery a bounded number of times as it
+            # does after a timeout. A timeout or a server failure of the DNS lookup is a
+            # temporary DNS failure instead, not an invalid address.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :invalid_address); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonInvalidAddress,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationDisabledReasonRedirect < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The API disabled the destination because the endpoint answered a delivery with a
+            # 3xx status. Redirects are never followed, and one such answer disables the
+            # destination at once.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :redirect); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonRedirect,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationDisabledReasonSustainedFailure < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The API disabled the destination because deliveries to it failed, with no
+            # successful delivery in between, for longer than a threshold that Anthropic
+            # configures and that is not part of this contract. The reason is
+            # `invalid_address` instead when the most recent failed delivery failed with an
+            # invalid address.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :sustained_failure); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonSustainedFailure,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # Whether a telemetry destination receives deliveries.
+        #
+        # A caller can set either state. The API also disables an enabled destination on
+        # its own in some cases. The `reason` of the disabled state says whether a caller
+        # or the API disabled the destination and, when the API did, why.
+        #
+        # See the
+        # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health)
+        # to learn when the API disables a destination.
+        module BetaTelemetryDestinationState
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationState::Type::OrSymbol,
+                reason: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonCaller::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonSustainedFailure::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonInvalidAddress::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonRedirect::OrHash
+                )
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationState::Variants)
+            end
+            def new(
+              type:,
+              reason: nil # Whether a caller or the API disabled the destination and, when the API did, why.
+                          # Read-only.
+); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationState::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationState::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            DISABLED = T.let(
+                :disabled,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationState::Type::TaggedSymbol
+              )
+
+            ENABLED = T.let(
+                :enabled,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationState::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationState::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabled,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabled
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationStateDisabled < Anthropic::Internal::Type::BaseModel
+          # Whether a caller or the API disabled the destination and, when the API did, why.
+          # Read-only.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Variants) }
+          attr_accessor :reason
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                reason:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReason::Variants,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The API doesn't deliver anything to the telemetry destination.
+            #
+            # Spans produced while it is disabled aren't delivered later.
+            sig do
+              params(
+                reason: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonCaller::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonSustainedFailure::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonInvalidAddress::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationDisabledReasonRedirect::OrHash
+                ),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              reason:, # Whether a caller or the API disabled the destination and, when the API did, why.
+                       # Read-only.
+              type: :disabled
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabled,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationStateDisabledParams < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Stop deliveries to the telemetry destination.
+            #
+            # Spans produced while it is disabled aren't delivered later. A destination that
+            # is already disabled keeps its `reason`.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :disabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationStateEnabled < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The telemetry destination receives the spans of the workspaces that it covers.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :enabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabled,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationStateEnabledParams < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Start deliveries to the telemetry destination again.
+            #
+            # This doesn't reset `delivery_health`.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :enabled); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # The state to set on a telemetry destination, by `type` alone.
+        #
+        # A caller can't set the `reason` of a disabled state. Only the API sets it.
+        module BetaTelemetryDestinationStateParams
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Type::OrSymbol
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Variants)
+            end
+            def new(type:); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            DISABLED = T.let(
+                :disabled,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Type::TaggedSymbol
+              )
+
+            ENABLED = T.let(
+                :enabled,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateParams::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationTestFailure < Anthropic::Internal::Type::BaseModel
+          # A message that describes why the test span was not delivered, including the HTTP
+          # status code when the destination returned one. Examples:
+          # `HTTP error (status 403)`, `timeout`, `TLS failure`. It has the same form as the
+          # destination's `delivery_health.last_error` and never contains the destination's
+          # response body, any header value, a network address, or TLS details.
+          sig { returns(String) }
+          attr_accessor :error
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ error: String, type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The test span was not delivered.
+            sig { params(error: String, type: Symbol).returns(T.attached_class) }
+            def new(
+              error:, # A message that describes why the test span was not delivered, including the HTTP
+                      # status code when the destination returned one. Examples:
+                      # `HTTP error (status 403)`, `timeout`, `TLS failure`. It has the same form as the
+                      # destination's `delivery_health.last_error` and never contains the destination's
+                      # response body, any header value, a network address, or TLS details.
+              type: :failure
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestFailure,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationTestResponse < Anthropic::Internal::Type::BaseModel
+          # How the test went: `success` when the destination answered with a 2xx status,
+          # else `failure` with the reason.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Variants) }
+          attr_accessor :result
+
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig do
+            override
+              .returns({
+                result:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Variants,
+                type: Symbol
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The result of one test span sent to a destination.
+            sig do
+              params(
+                result: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTestSuccess::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTestFailure::OrHash
+                ),
+                type: Symbol
+              ).returns(T.attached_class)
+            end
+            def new(
+              result:, # How the test went: `success` when the destination answered with a 2xx status,
+                       # else `failure` with the reason.
+              type: :telemetry_destination_test
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestResponse,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # The outcome of a test: `success`, or `failure` with the reason.
+        module BetaTelemetryDestinationTestResult
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Type::OrSymbol,
+                error: String
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Variants)
+            end
+            def new(
+              type:,
+              error: nil # A message that describes why the test span was not delivered, including the HTTP
+                         # status code when the destination returned one. Examples:
+                         # `HTTP error (status 403)`, `timeout`, `TLS failure`. It has the same form as the
+                         # destination's `delivery_health.last_error` and never contains the destination's
+                         # response body, any header value, a network address, or TLS details.
+); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            FAILURE = T.let(
+                :failure,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            SUCCESS = T.let(
+                :success,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Type::TaggedSymbol
+              )
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTestResult::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestSuccess,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestFailure
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationTestSuccess < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The destination answered the test span with a 2xx status.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :success); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTestSuccess,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationTraces < Anthropic::Internal::Type::BaseModel
+          # What the exported spans contain.
+          sig { returns(Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::TaggedSymbol) }
+          attr_accessor :content_mode
+
+          # Whether the destination receives traces. A destination whose `enabled` is false
+          # keeps its other settings.
+          sig { returns(T::Boolean) }
+          attr_accessor :enabled
+
+          # The full URL that the API posts traces to, exactly as registered, or `null` if
+          # the destination doesn't have one.
+          #
+          # When it is `null`, the API posts traces to `endpoint_url` with `/v1/traces`
+          # appended.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :endpoint_url
+
+          # The most bytes of content that one exported span can contain, or `null` if only
+          # the API's maximum applies.
+          #
+          # Content means model prompts and responses, and tool inputs and outputs. The API
+          # shortens longer content to this size before it delivers the span. A destination
+          # whose `content_mode` is `metadata_only` keeps this value. It applies once
+          # `content_mode` is `content`.
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :max_content_bytes
+
+          sig do
+            override
+              .returns({
+                content_mode:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::TaggedSymbol,
+                enabled: T::Boolean,
+                endpoint_url: T.nilable(String),
+                max_content_bytes: T.nilable(Integer)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # A telemetry destination's settings for the traces it receives.
+            sig do
+              params(
+                content_mode: Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::OrSymbol,
+                enabled: T::Boolean,
+                endpoint_url: T.nilable(String),
+                max_content_bytes: T.nilable(Integer)
+              ).returns(T.attached_class)
+            end
+            def new(
+              content_mode:, # What the exported spans contain.
+              enabled:, # Whether the destination receives traces. A destination whose `enabled` is false
+                        # keeps its other settings.
+              endpoint_url:, # The full URL that the API posts traces to, exactly as registered, or `null` if
+                             # the destination doesn't have one.
+                             # When it is `null`, the API posts traces to `endpoint_url` with `/v1/traces`
+                             # appended.
+              max_content_bytes: # The most bytes of content that one exported span can contain, or `null` if only
+                                 # the API's maximum applies.
+                                 # Content means model prompts and responses, and tool inputs and outputs. The API
+                                 # shortens longer content to this size before it delivers the span. A destination
+                                 # whose `content_mode` is `metadata_only` keeps this value. It applies once
+                                 # `content_mode` is `content`.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTraces,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationTracesParams < Anthropic::Internal::Type::BaseModel
+          # What the exported spans contain. Defaults to `metadata_only` on create.
+          #
+          # On update, `null` sets `metadata_only`.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::OrSymbol
+              ))
+          end
+          attr_accessor :content_mode
+
+          # Whether the destination receives traces. Defaults to true on create. It cannot
+          # be null.
+          sig { returns(T.nilable(T::Boolean)) }
+          attr_reader :enabled
+
+          sig { params(enabled: T::Boolean).void }
+          attr_writer :enabled
+
+          # The full URL of your collector's traces endpoint, for a collector that takes
+          # traces on a path other than `/v1/traces`. The API posts traces to it exactly as
+          # given and appends nothing.
+          #
+          # The same rules as for `endpoint_url` apply, except that any path is allowed. It
+          # must have the same scheme, host, and port as `endpoint_url`. At most 2,048
+          # characters.
+          #
+          # On create, `null` is the same as leaving it out. On update, `null` removes it.
+          # The API then posts traces to `endpoint_url` with `/v1/traces` appended. A change
+          # of this URL alone keeps the registered headers.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :endpoint_url
+
+          # The most bytes of content that one exported span can contain, from 1 up to the
+          # API's maximum. `null` sets no bound, so only the API's maximum applies.
+          #
+          # On create, leaving it out is the same as `null`. The error for a value above the
+          # maximum states the maximum.
+          sig { returns(T.nilable(Integer)) }
+          attr_accessor :max_content_bytes
+
+          sig do
+            override
+              .returns({
+                content_mode:
+                  T.nilable(
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::OrSymbol
+                  ),
+                enabled: T::Boolean,
+                endpoint_url: T.nilable(String),
+                max_content_bytes: T.nilable(Integer)
+              })
+          end
+          def to_hash; end
+
+          class << self
+            # The settings for the traces that a telemetry destination receives, as a create
+            # or update request sets them. An omitted field takes its default on create and
+            # keeps its stored value on update.
+            sig do
+              params(
+                content_mode: T.nilable(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationContentMode::OrSymbol
+                ),
+                enabled: T::Boolean,
+                endpoint_url: T.nilable(String),
+                max_content_bytes: T.nilable(Integer)
+              ).returns(T.attached_class)
+            end
+            def new(
+              content_mode: nil, # What the exported spans contain. Defaults to `metadata_only` on create.
+                                 # On update, `null` sets `metadata_only`.
+              enabled: nil, # Whether the destination receives traces. Defaults to true on create. It cannot
+                            # be null.
+              endpoint_url: nil, # The full URL of your collector's traces endpoint, for a collector that takes
+                                 # traces on a path other than `/v1/traces`. The API posts traces to it exactly as
+                                 # given and appends nothing.
+                                 # The same rules as for `endpoint_url` apply, except that any path is allowed. It
+                                 # must have the same scheme, host, and port as `endpoint_url`. At most 2,048
+                                 # characters.
+                                 # On create, `null` is the same as leaving it out. On update, `null` removes it.
+                                 # The API then posts traces to `endpoint_url` with `/v1/traces` appended. A change
+                                 # of this URL alone keeps the registered headers.
+              max_content_bytes: nil # The most bytes of content that one exported span can contain, from 1 up to the
+                                     # API's maximum. `null` sets no bound, so only the API's maximum applies.
+                                     # On create, leaving it out is the same as `null`. The error for a value above the
+                                     # maximum states the maximum.
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # Which of the organization's workspaces a telemetry destination covers.
+        #
+        # Several destinations can cover the same workspace. Each of them receives the
+        # workspace's spans while it is enabled.
+        #
+        # The workspace list of an `include` or `exclude` destination isn't part of the
+        # destination object. List the destination's workspaces to read it. Add or remove
+        # one workspace at a time, or replace the whole list with an update. A list holds
+        # at most 1,000 workspaces.
+        module BetaTelemetryDestinationWorkspaces
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type::OrSymbol
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Variants)
+            end
+            def new(type:); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ALL = T.let(
+                :all,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type::TaggedSymbol
+              )
+
+            EXCLUDE = T.let(
+                :exclude,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type::TaggedSymbol
+              )
+
+            INCLUDE = T.let(
+                :include,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspaces::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAll,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesInclude,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExclude
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesAll < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The destination covers every workspace of the organization, including the
+            # default workspace, archived workspaces, and workspaces created later. It doesn't
+            # have a list.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :all); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAll,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesAllParams < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # Cover every workspace of the organization. Doesn't take `workspace_ids`.
+            #
+            # An update that sets `all` empties the destination's workspace list.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :all); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesExclude < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The destination covers every workspace of the organization except the workspaces
+            # on its list. A workspace created later is covered until it is added to the list.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :exclude); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExclude,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesExcludeParams < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          # The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100
+          # per request.
+          #
+          # On create, these workspaces become the destination's list. If you leave
+          # `workspace_ids` out, the list starts empty. If the API refuses one of the IDs,
+          # it doesn't create the destination.
+          #
+          # On update, `workspace_ids` replaces the whole list. A workspace that stays on
+          # the list keeps its entry and its `created_at`. An empty array empties the list.
+          # If you leave `workspace_ids` out and the type stays the same, the list doesn't
+          # change. If you leave it out and the type changes, the new list starts empty.
+          # After a change to `include` without `workspace_ids`, the destination doesn't
+          # cover any workspace until one is added. After a change to `exclude` without
+          # `workspace_ids`, it covers every workspace.
+          #
+          # An ID sent more than once is added once. An archived workspace can't be added to
+          # a list. An update can keep an archived workspace that is already on the list.
+          sig { returns(T.nilable(T::Array[String])) }
+          attr_reader :workspace_ids
+
+          sig { params(workspace_ids: T::Array[String]).void }
+          attr_writer :workspace_ids
+
+          sig { override.returns({ type: Symbol, workspace_ids: T::Array[String] }) }
+          def to_hash; end
+
+          class << self
+            # Cover every workspace of the organization except the workspaces on the list.
+            sig { params(workspace_ids: T::Array[String], type: Symbol).returns(T.attached_class) }
+            def new(
+              workspace_ids: nil, # The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100
+                                  # per request.
+                                  # On create, these workspaces become the destination's list. If you leave
+                                  # `workspace_ids` out, the list starts empty. If the API refuses one of the IDs,
+                                  # it doesn't create the destination.
+                                  # On update, `workspace_ids` replaces the whole list. A workspace that stays on
+                                  # the list keeps its entry and its `created_at`. An empty array empties the list.
+                                  # If you leave `workspace_ids` out and the type stays the same, the list doesn't
+                                  # change. If you leave it out and the type changes, the new list starts empty.
+                                  # After a change to `include` without `workspace_ids`, the destination doesn't
+                                  # cover any workspace until one is added. After a change to `exclude` without
+                                  # `workspace_ids`, it covers every workspace.
+                                  # An ID sent more than once is added once. An archived workspace can't be added to
+                                  # a list. An update can keep an archived workspace that is already on the list.
+              type: :exclude
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesInclude < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          sig { override.returns({ type: Symbol }) }
+          def to_hash; end
+
+          class << self
+            # The destination covers the workspaces on its list, and no others.
+            sig { params(type: Symbol).returns(T.attached_class) }
+            def new(type: :include); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesInclude,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class BetaTelemetryDestinationWorkspacesIncludeParams < Anthropic::Internal::Type::BaseModel
+          sig { returns(Symbol) }
+          attr_accessor :type
+
+          # The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100
+          # per request.
+          #
+          # On create, these workspaces become the destination's list. If you leave
+          # `workspace_ids` out, the list starts empty. If the API refuses one of the IDs,
+          # it doesn't create the destination.
+          #
+          # On update, `workspace_ids` replaces the whole list. A workspace that stays on
+          # the list keeps its entry and its `created_at`. An empty array empties the list.
+          # If you leave `workspace_ids` out and the type stays the same, the list doesn't
+          # change. If you leave it out and the type changes, the new list starts empty.
+          # After a change to `include` without `workspace_ids`, the destination doesn't
+          # cover any workspace until one is added. After a change to `exclude` without
+          # `workspace_ids`, it covers every workspace.
+          #
+          # An ID sent more than once is added once. An archived workspace can't be added to
+          # a list. An update can keep an archived workspace that is already on the list.
+          sig { returns(T.nilable(T::Array[String])) }
+          attr_reader :workspace_ids
+
+          sig { params(workspace_ids: T::Array[String]).void }
+          attr_writer :workspace_ids
+
+          sig { override.returns({ type: Symbol, workspace_ids: T::Array[String] }) }
+          def to_hash; end
+
+          class << self
+            # Cover only the workspaces on the list.
+            sig { params(workspace_ids: T::Array[String], type: Symbol).returns(T.attached_class) }
+            def new(
+              workspace_ids: nil, # The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100
+                                  # per request.
+                                  # On create, these workspaces become the destination's list. If you leave
+                                  # `workspace_ids` out, the list starts empty. If the API refuses one of the IDs,
+                                  # it doesn't create the destination.
+                                  # On update, `workspace_ids` replaces the whole list. A workspace that stays on
+                                  # the list keeps its entry and its `created_at`. An empty array empties the list.
+                                  # If you leave `workspace_ids` out and the type stays the same, the list doesn't
+                                  # change. If you leave it out and the type changes, the new list starts empty.
+                                  # After a change to `include` without `workspace_ids`, the destination doesn't
+                                  # cover any workspace until one is added. After a change to `exclude` without
+                                  # `workspace_ids`, it covers every workspace.
+                                  # An ID sent more than once is added once. An archived workspace can't be added to
+                                  # a list. An update can keep an archived workspace that is already on the list.
+              type: :include
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        # Which of the organization's workspaces a telemetry destination covers, as a
+        # create or update request sets it.
+        module BetaTelemetryDestinationWorkspacesParams
+          extend Anthropic::Internal::Type::Union
+
+          class << self
+            # Creates a new instance of the variant class whose `type` matches the given
+            # value, passing the remaining arguments to its constructor.
+            sig do
+              params(
+                type: Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type::OrSymbol,
+                workspace_ids: T::Array[String]
+              ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Variants)
+            end
+            def new(
+              type:,
+              workspace_ids: nil # The IDs of the workspaces on the destination's list (`wrkspc_...`). At most 100
+                                 # per request.
+                                 # On create, these workspaces become the destination's list. If you leave
+                                 # `workspace_ids` out, the list starts empty. If the API refuses one of the IDs,
+                                 # it doesn't create the destination.
+                                 # On update, `workspace_ids` replaces the whole list. A workspace that stays on
+                                 # the list keeps its entry and its `created_at`. An empty array empties the list.
+                                 # If you leave `workspace_ids` out and the type stays the same, the list doesn't
+                                 # change. If you leave it out and the type changes, the new list starts empty.
+                                 # After a change to `include` without `workspace_ids`, the destination doesn't
+                                 # cover any workspace until one is added. After a change to `exclude` without
+                                 # `workspace_ids`, it covers every workspace.
+                                 # An ID sent more than once is added once. An archived workspace can't be added to
+                                 # a list. An update can keep an archived workspace that is already on the list.
+); end
+
+            sig do
+              override
+                .returns(T::Array[
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Variants
+              ])
+            end
+            def variants; end
+          end
+
+          module Type
+            extend Anthropic::Internal::Type::Enum
+
+            class << self
+              sig do
+                override
+                  .returns(T::Array[
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type::TaggedSymbol
+                ])
+              end
+              def values; end
+            end
+
+            ALL = T.let(
+                :all,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type::TaggedSymbol
+              )
+
+            EXCLUDE = T.let(
+                :exclude,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type::TaggedSymbol
+              )
+
+            INCLUDE = T.let(
+                :include,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type::TaggedSymbol
+              )
+
+            OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+            TaggedSymbol = T.type_alias do
+                T.all(
+                  Symbol,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesParams::Type
+                )
+              end
+          end
+
+          Variants = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams
+              )
+            end
         end
 
         class BetaWorkspace < Anthropic::Internal::Type::BaseModel
@@ -93997,7 +96938,8 @@ module Anthropic
           # The accepted values depend on the organization type. Console and API
           # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
           # `admin` cannot be assigned through the API. Claude Enterprise organizations
-          # accept `user` and `managed`.
+          # accept `user` and `managed`; inviting with the `managed` role requires the
+          # `write:rbac_groups` scope in addition to `write:members`.
           sig { returns(Anthropic::Beta::Organization::InviteCreateParams::Role::OrSymbol) }
           attr_accessor :role
 
@@ -94028,7 +96970,8 @@ module Anthropic
                      # The accepted values depend on the organization type. Console and API
                      # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                      # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                     # accept `user` and `managed`.
+                     # accept `user` and `managed`; inviting with the `managed` role requires the
+                     # `write:rbac_groups` scope in addition to `write:members`.
               rbac_group_ids: nil, # RBAC group IDs to assign to the User when the Invite is accepted. A non-empty
                                    # array is accepted only for a Claude Enterprise organization with RBAC groups,
                                    # and requires the key to carry the `write:rbac_groups` scope.
@@ -94048,7 +96991,8 @@ module Anthropic
           # The accepted values depend on the organization type. Console and API
           # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
           # `admin` cannot be assigned through the API. Claude Enterprise organizations
-          # accept `user` and `managed`.
+          # accept `user` and `managed`; inviting with the `managed` role requires the
+          # `write:rbac_groups` scope in addition to `write:members`.
           module Role
             extend Anthropic::Internal::Type::Enum
 
@@ -98814,10 +101758,7 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :page
 
-          # Return only limits with these scope types. A Claude Console organization has
-          # `organization` and `workspace` limits; a Claude Enterprise organization has
-          # `organization`, `seat_tier`, `rbac_group`, `organization_service` and `user`
-          # limits. Omit for all.
+          # Return only limits with these scope types. Omit for all.
           sig do
             returns(T.nilable(
                 T::Array[
@@ -98862,10 +101803,7 @@ module Anthropic
             def new(
               limit: nil, # Maximum number of limits per page. Defaults to `20`.
               page: nil, # Opaque cursor from a previous response's `next_page` field.
-              scope_type: nil, # Return only limits with these scope types. A Claude Console organization has
-                               # `organization` and `workspace` limits; a Claude Enterprise organization has
-                               # `organization`, `seat_tier`, `rbac_group`, `organization_service` and `user`
-                               # limits. Omit for all.
+              scope_type: nil, # Return only limits with these scope types. Omit for all.
               betas: nil, # This endpoint is in beta: requests must send `spend-limit-reads-2026-09-26` in
                           # this header.
               request_options: {}
@@ -100089,6 +103027,940 @@ module Anthropic
           end
         end
 
+        class TelemetryDestinationCreateParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # Human-readable name for the destination. Optional. 1 to 255 characters.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :display_name
+
+          # The base URL of your collector's OTLP/HTTP endpoint, for example
+          # `https://gateway.example.com`.
+          #
+          # The URL must use `https` and a hostname, not an IP address. The port, if given,
+          # must be 443. The URL must not contain a query string, a fragment, or a username
+          # and password. At most 2,048 characters.
+          #
+          # A path prefix, such as `/otlp`, is allowed. Don't include the per-signal path
+          # (`/v1/traces`), because the API appends it on delivery. If your collector takes
+          # traces on another path, also set `traces.endpoint_url`.
+          sig { returns(String) }
+          attr_accessor :endpoint_url
+
+          # Request headers that the API sends with every delivery, typically your
+          # collector's authentication header (for example `authorization`).
+          #
+          # The API stores the values encrypted and never returns them. Reads show only
+          # `header_names`.
+          #
+          # At most 20 headers. Names are at most 128 characters. Two names can't differ
+          # only in case. Values are printable ASCII, at most 4,096 characters, and can't
+          # begin or end with a space. Names and values together are at most 16,384 bytes.
+          #
+          # Reserved names are rejected, for example `host`, `cookie`, `user-agent`, and
+          # names that start with `content-`, `proxy-`, `x-forwarded-`, or `anthropic-`. For
+          # this check, `_` in a name counts as `-`.
+          sig { returns(T.nilable(T::Hash[Symbol, String])) }
+          attr_reader :headers
+
+          sig { params(headers: T::Hash[Symbol, String]).void }
+          attr_writer :headers
+
+          # The settings for the traces that the destination receives. If you leave it out,
+          # every setting takes its default.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams
+              ))
+          end
+          attr_reader :traces
+
+          sig { params(traces: Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash).void }
+          attr_writer :traces
+
+          # Which of the organization's workspaces the destination covers.
+          sig do
+            returns(T.any(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams
+              ))
+          end
+          attr_accessor :workspaces
+
+          sig do
+            override
+              .returns({
+                endpoint_url: String,
+                workspaces:
+                  T.any(
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams
+                  ),
+                display_name: T.nilable(String),
+                headers: T::Hash[Symbol, String],
+                traces:
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams,
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                endpoint_url: String,
+                workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams::OrHash
+                ),
+                display_name: T.nilable(String),
+                headers: T::Hash[Symbol, String],
+                traces: Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              endpoint_url:, # The base URL of your collector's OTLP/HTTP endpoint, for example
+                             # `https://gateway.example.com`.
+                             # The URL must use `https` and a hostname, not an IP address. The port, if given,
+                             # must be 443. The URL must not contain a query string, a fragment, or a username
+                             # and password. At most 2,048 characters.
+                             # A path prefix, such as `/otlp`, is allowed. Don't include the per-signal path
+                             # (`/v1/traces`), because the API appends it on delivery. If your collector takes
+                             # traces on another path, also set `traces.endpoint_url`.
+              workspaces:, # Which of the organization's workspaces the destination covers.
+              display_name: nil, # Human-readable name for the destination. Optional. 1 to 255 characters.
+              headers: nil, # Request headers that the API sends with every delivery, typically your
+                            # collector's authentication header (for example `authorization`).
+                            # The API stores the values encrypted and never returns them. Reads show only
+                            # `header_names`.
+                            # At most 20 headers. Names are at most 128 characters. Two names can't differ
+                            # only in case. Values are printable ASCII, at most 4,096 characters, and can't
+                            # begin or end with a space. Names and values together are at most 16,384 bytes.
+                            # Reserved names are rejected, for example `host`, `cookie`, `user-agent`, and
+                            # names that start with `content-`, `proxy-`, `x-forwarded-`, or `anthropic-`. For
+                            # this check, `_` in a name counts as `-`.
+              traces: nil, # The settings for the traces that the destination receives. If you leave it out,
+                           # every setting takes its default.
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationCreateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class TelemetryDestinationDeleteParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # ID of the destination (`tdst_...`).
+          sig { returns(String) }
+          attr_accessor :destination_id
+
+          sig do
+            override
+              .returns({
+                destination_id: String,
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                destination_id: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              destination_id:, # ID of the destination (`tdst_...`).
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationDeleteParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class TelemetryDestinationListParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # Number of destinations to return per page, between 1 and 1,000. Defaults to 20.
+          sig { returns(T.nilable(Integer)) }
+          attr_reader :limit
+
+          sig { params(limit: Integer).void }
+          attr_writer :limit
+
+          # Opaque cursor from a previous response's `next_page`. Leave it out to get the
+          # first page.
+          sig { returns(T.nilable(String)) }
+          attr_reader :page
+
+          sig { params(page: String).void }
+          attr_writer :page
+
+          # Return only the destinations that cover at least one of these workspaces
+          # (`wrkspc_...`).
+          #
+          # Send at most 100 IDs, as `workspace_ids[]`. A destination covers a workspace
+          # when its `workspaces.type` is `all`, when its `include` list has the workspace,
+          # or when its `exclude` list doesn't have it. Destinations in either state can
+          # match. An ID that isn't the ID of one of the organization's workspaces doesn't
+          # match any destination, not even one whose type is `all`.
+          sig { returns(T.nilable(T::Array[String])) }
+          attr_reader :workspace_ids
+
+          sig { params(workspace_ids: T::Array[String]).void }
+          attr_writer :workspace_ids
+
+          sig do
+            override
+              .returns({
+                limit: Integer,
+                page: String,
+                workspace_ids: T::Array[String],
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                limit: Integer,
+                page: String,
+                workspace_ids: T::Array[String],
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              limit: nil, # Number of destinations to return per page, between 1 and 1,000. Defaults to 20.
+              page: nil, # Opaque cursor from a previous response's `next_page`. Leave it out to get the
+                         # first page.
+              workspace_ids: nil, # Return only the destinations that cover at least one of these workspaces
+                                  # (`wrkspc_...`).
+                                  # Send at most 100 IDs, as `workspace_ids[]`. A destination covers a workspace
+                                  # when its `workspaces.type` is `all`, when its `include` list has the workspace,
+                                  # or when its `exclude` list doesn't have it. Destinations in either state can
+                                  # match. An ID that isn't the ID of one of the organization's workspaces doesn't
+                                  # match any destination, not even one whose type is `all`.
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationListParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class TelemetryDestinationRetrieveParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # ID of the destination (`tdst_...`).
+          sig { returns(String) }
+          attr_accessor :destination_id
+
+          sig do
+            override
+              .returns({
+                destination_id: String,
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                destination_id: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              destination_id:, # ID of the destination (`tdst_...`).
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationRetrieveParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class TelemetryDestinationTestParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # ID of the destination to test (starts with `tdst_`).
+          sig { returns(String) }
+          attr_accessor :destination_id
+
+          sig do
+            override
+              .returns({
+                destination_id: String,
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                destination_id: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              destination_id:, # ID of the destination to test (starts with `tdst_`).
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationTestParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        class TelemetryDestinationUpdateParams < Anthropic::Internal::Type::BaseModel
+          extend Anthropic::Internal::Type::RequestParameters::Converter
+          include Anthropic::Internal::Type::RequestParameters
+
+          # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+          # in this header.
+          sig do
+            returns(T.nilable(
+                T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+              ))
+          end
+          attr_reader :betas
+
+          sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+          attr_writer :betas
+
+          # ID of the destination (`tdst_...`).
+          sig { returns(String) }
+          attr_accessor :destination_id
+
+          # New human-readable name, 1 to 255 characters. Null clears it.
+          sig { returns(T.nilable(String)) }
+          attr_accessor :display_name
+
+          # The new base URL of the destination's OTLP/HTTP endpoint. The same rules as on
+          # create apply.
+          #
+          # A change of hostname or port first removes every registered header, so send the
+          # headers for the new endpoint in the same request. When the destination has a
+          # `traces.endpoint_url`, such a change must also set `traces.endpoint_url` to a
+          # URL with the new hostname and port, or to `null`. A change of the path alone
+          # keeps the headers.
+          sig { returns(T.nilable(String)) }
+          attr_reader :endpoint_url
+
+          sig { params(endpoint_url: String).void }
+          attr_writer :endpoint_url
+
+          # Headers to set or remove. The API merges them into the destination's headers by
+          # name.
+          #
+          # Names compare case-insensitively. A string value sets or replaces that header. A
+          # `null` value removes it. Headers that you omit don't change. The field itself
+          # can't be `null`.
+          #
+          # A request that sets a header value must also include `endpoint_url`. The current
+          # URL is accepted.
+          #
+          # The resulting set must stay within the same limits as on create. When the
+          # request sets a value, each stored value that it doesn't set counts as 4,096
+          # bytes toward the 16,384-byte limit, because you can't read its real length. So
+          # to change one header of a destination that has four or more other headers, send
+          # the values of the others again in the same request.
+          sig { returns(T.nilable(T::Hash[Symbol, T.nilable(String)])) }
+          attr_accessor :headers
+
+          # Whether the destination receives deliveries after the update. The field can't be
+          # `null`.
+          sig do
+            returns(T.nilable(
+                T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams
+                )
+              ))
+          end
+          attr_reader :state
+
+          sig do
+            params(
+              state: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams::OrHash
+                )
+            ).void
+          end
+          attr_writer :state
+
+          # The traces settings to change. Omitted settings keep their stored values.
+          #
+          # `null` sets every traces setting to its create default.
+          sig do
+            returns(T.nilable(
+                Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams
+              ))
+          end
+          attr_reader :traces
+
+          sig do
+            params(
+              traces: T.nilable(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash
+                )
+            ).void
+          end
+          attr_writer :traces
+
+          # The new workspace scope, in the same form as on create. The field can't be
+          # `null`.
+          #
+          # The API refuses an update that changes the type or sends `workspace_ids` while
+          # the destination's list has more than 750 workspaces. Remove workspaces one at a
+          # time until 750 or fewer remain, then send the update again.
+          sig do
+            returns(T.nilable(
+                T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams
+                )
+              ))
+          end
+          attr_reader :workspaces
+
+          sig do
+            params(
+              workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams::OrHash
+                )
+            ).void
+          end
+          attr_writer :workspaces
+
+          sig do
+            override
+              .returns({
+                destination_id: String,
+                display_name: T.nilable(String),
+                endpoint_url: String,
+                headers: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+                state:
+                  T.any(
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams,
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams
+                  ),
+                traces:
+                  T.nilable(
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams
+                  ),
+                workspaces:
+                  T.any(
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams,
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams,
+                    Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams
+                  ),
+                betas:
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions
+              })
+          end
+          def to_hash; end
+
+          class << self
+            sig do
+              params(
+                destination_id: String,
+                display_name: T.nilable(String),
+                endpoint_url: String,
+                headers: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+                state: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams::OrHash
+                ),
+                traces: T.nilable(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash
+                ),
+                workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams::OrHash
+                ),
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(T.attached_class)
+            end
+            def new(
+              destination_id:, # ID of the destination (`tdst_...`).
+              display_name: nil, # New human-readable name, 1 to 255 characters. Null clears it.
+              endpoint_url: nil, # The new base URL of the destination's OTLP/HTTP endpoint. The same rules as on
+                                 # create apply.
+                                 # A change of hostname or port first removes every registered header, so send the
+                                 # headers for the new endpoint in the same request. When the destination has a
+                                 # `traces.endpoint_url`, such a change must also set `traces.endpoint_url` to a
+                                 # URL with the new hostname and port, or to `null`. A change of the path alone
+                                 # keeps the headers.
+              headers: nil, # Headers to set or remove. The API merges them into the destination's headers by
+                            # name.
+                            # Names compare case-insensitively. A string value sets or replaces that header. A
+                            # `null` value removes it. Headers that you omit don't change. The field itself
+                            # can't be `null`.
+                            # A request that sets a header value must also include `endpoint_url`. The current
+                            # URL is accepted.
+                            # The resulting set must stay within the same limits as on create. When the
+                            # request sets a value, each stored value that it doesn't set counts as 4,096
+                            # bytes toward the 16,384-byte limit, because you can't read its real length. So
+                            # to change one header of a destination that has four or more other headers, send
+                            # the values of the others again in the same request.
+              state: nil, # Whether the destination receives deliveries after the update. The field can't be
+                          # `null`.
+              traces: nil, # The traces settings to change. Omitted settings keep their stored values.
+                           # `null` sets every traces setting to its create default.
+              workspaces: nil, # The new workspace scope, in the same form as on create. The field can't be
+                               # `null`.
+                               # The API refuses an update that changes the type or sends `workspace_ids` while
+                               # the destination's list has more than 750 workspaces. Remove workspaces one at a
+                               # time until 750 or fewer remain, then send the update again.
+              betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                          # in this header.
+              request_options: {}
+); end
+          end
+
+          OrHash = T.type_alias do
+              T.any(
+                Anthropic::Beta::Organization::TelemetryDestinationUpdateParams,
+                Anthropic::Internal::AnyHash
+              )
+            end
+        end
+
+        module TelemetryDestinations
+          class BetaDeletedTelemetryDestinationWorkspace < Anthropic::Internal::Type::BaseModel
+            # ID of the telemetry destination (`tdst_...`).
+            sig { returns(String) }
+            attr_accessor :telemetry_destination_id
+
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            # ID of the workspace that was removed (`wrkspc_...`).
+            sig { returns(String) }
+            attr_accessor :workspace_id
+
+            sig do
+              override
+                .returns({
+                  telemetry_destination_id: String,
+                  type: Symbol,
+                  workspace_id: String
+                })
+            end
+            def to_hash; end
+
+            class << self
+              # Confirmation that a workspace was removed from a destination's list.
+              sig do
+                params(
+                  telemetry_destination_id: String,
+                  workspace_id: String,
+                  type: Symbol
+                ).returns(T.attached_class)
+              end
+              def new(
+                telemetry_destination_id:, # ID of the telemetry destination (`tdst_...`).
+                workspace_id:, # ID of the workspace that was removed (`wrkspc_...`).
+                type: :telemetry_destination_workspace_deleted
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::TelemetryDestinations::BetaDeletedTelemetryDestinationWorkspace,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+
+          class BetaTelemetryDestinationWorkspace < Anthropic::Internal::Type::BaseModel
+            # Time the workspace was added to the list.
+            sig { returns(Time) }
+            attr_accessor :created_at
+
+            # ID of the telemetry destination (`tdst_...`).
+            sig { returns(String) }
+            attr_accessor :telemetry_destination_id
+
+            sig { returns(Symbol) }
+            attr_accessor :type
+
+            # ID of the workspace (`wrkspc_...`).
+            sig { returns(String) }
+            attr_accessor :workspace_id
+
+            sig do
+              override
+                .returns({
+                  created_at: Time,
+                  telemetry_destination_id: String,
+                  type: Symbol,
+                  workspace_id: String
+                })
+            end
+            def to_hash; end
+
+            class << self
+              # A workspace on a telemetry destination's workspace list.
+              #
+              # Under `include`, the destination covers the workspace. Under `exclude`, the
+              # destination covers every workspace except this one. The entry doesn't have an
+              # `id`. Its `telemetry_destination_id` and `workspace_id` together identify it.
+              sig do
+                params(
+                  created_at: Time,
+                  telemetry_destination_id: String,
+                  workspace_id: String,
+                  type: Symbol
+                ).returns(T.attached_class)
+              end
+              def new(
+                created_at:, # Time the workspace was added to the list.
+                telemetry_destination_id:, # ID of the telemetry destination (`tdst_...`).
+                workspace_id:, # ID of the workspace (`wrkspc_...`).
+                type: :telemetry_destination_workspace
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::TelemetryDestinations::BetaTelemetryDestinationWorkspace,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+
+          class WorkspaceAddParams < Anthropic::Internal::Type::BaseModel
+            extend Anthropic::Internal::Type::RequestParameters::Converter
+            include Anthropic::Internal::Type::RequestParameters
+
+            # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+            # in this header.
+            sig do
+              returns(T.nilable(
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+                ))
+            end
+            attr_reader :betas
+
+            sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+            attr_writer :betas
+
+            # ID of the destination (`tdst_...`).
+            sig { returns(String) }
+            attr_accessor :destination_id
+
+            # ID of the workspace to add (`wrkspc_...`).
+            sig { returns(String) }
+            attr_accessor :workspace_id
+
+            sig do
+              override
+                .returns({
+                  destination_id: String,
+                  workspace_id: String,
+                  betas:
+                    T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions
+                })
+            end
+            def to_hash; end
+
+            class << self
+              sig do
+                params(
+                  destination_id: String,
+                  workspace_id: String,
+                  betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions::OrHash
+                ).returns(T.attached_class)
+              end
+              def new(
+                destination_id:, # ID of the destination (`tdst_...`).
+                workspace_id:, # ID of the workspace to add (`wrkspc_...`).
+                betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                            # in this header.
+                request_options: {}
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::TelemetryDestinations::WorkspaceAddParams,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+
+          class WorkspaceListParams < Anthropic::Internal::Type::BaseModel
+            extend Anthropic::Internal::Type::RequestParameters::Converter
+            include Anthropic::Internal::Type::RequestParameters
+
+            # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+            # in this header.
+            sig do
+              returns(T.nilable(
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+                ))
+            end
+            attr_reader :betas
+
+            sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+            attr_writer :betas
+
+            # ID of the destination (`tdst_...`).
+            sig { returns(String) }
+            attr_accessor :destination_id
+
+            # Number of entries to return per page, between 1 and 1,000. Defaults to 20.
+            sig { returns(T.nilable(Integer)) }
+            attr_reader :limit
+
+            sig { params(limit: Integer).void }
+            attr_writer :limit
+
+            # Opaque cursor from a previous response's `next_page`. Leave it out to get the
+            # first page.
+            sig { returns(T.nilable(String)) }
+            attr_reader :page
+
+            sig { params(page: String).void }
+            attr_writer :page
+
+            sig do
+              override
+                .returns({
+                  destination_id: String,
+                  limit: Integer,
+                  page: String,
+                  betas:
+                    T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions
+                })
+            end
+            def to_hash; end
+
+            class << self
+              sig do
+                params(
+                  destination_id: String,
+                  limit: Integer,
+                  page: String,
+                  betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions::OrHash
+                ).returns(T.attached_class)
+              end
+              def new(
+                destination_id:, # ID of the destination (`tdst_...`).
+                limit: nil, # Number of entries to return per page, between 1 and 1,000. Defaults to 20.
+                page: nil, # Opaque cursor from a previous response's `next_page`. Leave it out to get the
+                           # first page.
+                betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                            # in this header.
+                request_options: {}
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::TelemetryDestinations::WorkspaceListParams,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+
+          class WorkspaceRemoveParams < Anthropic::Internal::Type::BaseModel
+            extend Anthropic::Internal::Type::RequestParameters::Converter
+            include Anthropic::Internal::Type::RequestParameters
+
+            # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+            # in this header.
+            sig do
+              returns(T.nilable(
+                  T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
+                ))
+            end
+            attr_reader :betas
+
+            sig { params(betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]).void }
+            attr_writer :betas
+
+            # ID of the destination (`tdst_...`).
+            sig { returns(String) }
+            attr_accessor :destination_id
+
+            # ID of the workspace to remove (`wrkspc_...`).
+            sig { returns(String) }
+            attr_accessor :workspace_id
+
+            sig do
+              override
+                .returns({
+                  destination_id: String,
+                  workspace_id: String,
+                  betas:
+                    T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions
+                })
+            end
+            def to_hash; end
+
+            class << self
+              sig do
+                params(
+                  destination_id: String,
+                  workspace_id: String,
+                  betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                  request_options: Anthropic::RequestOptions::OrHash
+                ).returns(T.attached_class)
+              end
+              def new(
+                destination_id:, # ID of the destination (`tdst_...`).
+                workspace_id:, # ID of the workspace to remove (`wrkspc_...`).
+                betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                            # in this header.
+                request_options: {}
+); end
+            end
+
+            OrHash = T.type_alias do
+                T.any(
+                  Anthropic::Beta::Organization::TelemetryDestinations::WorkspaceRemoveParams,
+                  Anthropic::Internal::AnyHash
+                )
+              end
+          end
+        end
+
         class UserListParams < Anthropic::Internal::Type::BaseModel
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
@@ -100292,7 +104164,8 @@ module Anthropic
           # The accepted values depend on the organization type. Console and API
           # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
           # `admin` cannot be assigned through the API. Claude Enterprise organizations
-          # accept `user` and `managed`.
+          # accept `user` and `managed`; changing a User's role to `managed` requires the
+          # `write:rbac_groups` scope in addition to `write:members`.
           sig { returns(Anthropic::Beta::Organization::UserUpdateParams::Role::OrSymbol) }
           attr_accessor :role
 
@@ -100325,7 +104198,8 @@ module Anthropic
                      # The accepted values depend on the organization type. Console and API
                      # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                      # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                     # accept `user` and `managed`.
+                     # accept `user` and `managed`; changing a User's role to `managed` requires the
+                     # `write:rbac_groups` scope in addition to `write:members`.
               request_options: {}
 ); end
           end
@@ -100342,7 +104216,8 @@ module Anthropic
           # The accepted values depend on the organization type. Console and API
           # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
           # `admin` cannot be assigned through the API. Claude Enterprise organizations
-          # accept `user` and `managed`.
+          # accept `user` and `managed`; changing a User's role to `managed` requires the
+          # `write:rbac_groups` scope in addition to `write:members`.
           module Role
             extend Anthropic::Internal::Type::Enum
 
@@ -102079,7 +105954,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -102128,7 +106004,8 @@ module Anthropic
           end
           def new(
             session_id:,
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -102161,7 +106038,8 @@ module Anthropic
         end
         attr_accessor :agent
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -102353,7 +106231,8 @@ module Anthropic
             resources: nil, # Resources (e.g. repositories, files) to mount into the session's container.
             title: nil, # Human-readable session title.
             vault_ids: nil, # Vault IDs for stored credentials the agent can use during the session.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -102573,7 +106452,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -102622,7 +106502,8 @@ module Anthropic
           end
           def new(
             session_id:,
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -102658,7 +106539,8 @@ module Anthropic
         sig { params(agent_version: Integer).void }
         attr_writer :agent_version
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -102828,7 +106710,8 @@ module Anthropic
             page: nil, # Opaque pagination cursor from a previous response.
             statuses: nil, # Filter by session status. Repeat the parameter to match any of multiple
                            # statuses.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -102913,7 +106796,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -102962,7 +106846,8 @@ module Anthropic
           end
           def new(
             session_id:,
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -102993,7 +106878,8 @@ module Anthropic
         sig { params(agent: Anthropic::Beta::BetaManagedAgentsSessionAgentUpdate::OrHash).void }
         attr_writer :agent
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -103099,7 +106985,8 @@ module Anthropic
             title: nil, # Human-readable session title.
             vault_ids: nil, # Vault IDs (`vlt_*`) to attach to the session. Not yet supported; requests
                             # setting this field are rejected. Reserved for future use.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -103326,7 +107213,9 @@ module Anthropic
 
           class << self
             # Event emitted when the agent calls a custom tool. The session goes idle until
-            # the client sends a `user.custom_tool_result` event with the result.
+            # the client sends a `user.custom_tool_result` event with the result. The client
+            # can send it as soon as this event arrives, without waiting for
+            # `session.status_idle`.
             sig do
               params(
                 id: String,
@@ -105911,8 +109800,8 @@ module Anthropic
                                 # `stop_reason.event_ids` field.
               deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                  # result is 'deny'.
-              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                       # can be found in the last `session.status_idle`
+              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                       # also listed in the last `session.status_idle`
                                        # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                        # `stop_reason.event_ids` field.
               is_error: nil, # Whether the tool execution resulted in an error.
@@ -106712,6 +110601,10 @@ module Anthropic
           sig { returns(T.nilable(String)) }
           attr_accessor :description
 
+          # The session's execution principal.
+          sig { returns(Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants) }
+          attr_accessor :execution_identity
+
           sig { returns(T::Array[Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition]) }
           attr_accessor :mcp_servers
 
@@ -106750,6 +110643,8 @@ module Anthropic
             override
               .returns({
                 description: T.nilable(String),
+                execution_identity:
+                  Anthropic::Beta::BetaManagedAgentsExecutionIdentity::Variants,
                 mcp_servers:
                   T::Array[
                     Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition
@@ -106777,6 +110672,10 @@ module Anthropic
             sig do
               params(
                 description: T.nilable(String),
+                execution_identity: T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+                ),
                 mcp_servers: T::Array[
                   Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
                 ],
@@ -106801,6 +110700,7 @@ module Anthropic
             end
             def new(
               description:,
+              execution_identity:, # The session's execution principal.
               mcp_servers:,
               model:, # Model identifier and configuration.
               name:, # The name that the agent's definition gave, or one that the server assigned.
@@ -109309,8 +113209,8 @@ module Anthropic
                                   # `stop_reason.event_ids` field.
                 deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                    # result is 'deny'.
-                custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                         # can be found in the last `session.status_idle`
+                custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                         # also listed in the last `session.status_idle`
                                          # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                          # `stop_reason.event_ids` field.
                 is_error: nil, # Whether the tool execution resulted in an error.
@@ -110000,8 +113900,8 @@ module Anthropic
                                 # `stop_reason.event_ids` field.
               deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                  # result is 'deny'.
-              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                       # can be found in the last `session.status_idle`
+              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                       # also listed in the last `session.status_idle`
                                        # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                        # `stop_reason.event_ids` field.
               is_error: nil, # Whether the tool execution resulted in an error.
@@ -111548,6 +115448,10 @@ module Anthropic
                   ),
                   id: String,
                   description: T.nilable(String),
+                  execution_identity: T.any(
+                    Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentity::OrHash,
+                    Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentity::OrHash
+                  ),
                   mcp_servers: T::Array[
                     Anthropic::Beta::BetaManagedAgentsMCPServerURLDefinition::OrHash
                   ],
@@ -111574,6 +115478,9 @@ module Anthropic
                 model:, # Model identifier and configuration.
                 id: nil,
                 description: nil,
+                execution_identity: nil, # Execution principal snapshotted from the agent at session creation. Always
+                                         # present; `{"type": "service_account"}` when runs carry no customer-named
+                                         # principal.
                 mcp_servers: nil,
                 name: nil, # The name that the agent's definition gave, or one that the server assigned.
                 skills: nil,
@@ -113369,8 +117276,8 @@ module Anthropic
                                 # `stop_reason.event_ids` field.
               deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                  # result is 'deny'.
-              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                       # can be found in the last `session.status_idle`
+              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                       # also listed in the last `session.status_idle`
                                        # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                        # `stop_reason.event_ids` field.
               is_error: nil, # Whether the tool execution resulted in an error.
@@ -113894,8 +117801,8 @@ module Anthropic
                                 # `stop_reason.event_ids` field.
               deny_message: nil, # Optional message providing context for a 'deny' decision. Only allowed when
                                  # result is 'deny'.
-              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                       # can be found in the last `session.status_idle`
+              custom_tool_use_id: nil, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                       # also listed in the last `session.status_idle`
                                        # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                        # `stop_reason.event_ids` field.
               is_error: nil, # Whether the tool execution resulted in an error.
@@ -114951,8 +118858,8 @@ module Anthropic
           end
           attr_writer :content
 
-          # The id of the `agent.custom_tool_use` event this result corresponds to, which
-          # can be found in the last `session.status_idle`
+          # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+          # also listed in the last `session.status_idle`
           # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
           # `stop_reason.event_ids` field.
           sig { returns(String) }
@@ -115018,8 +118925,8 @@ module Anthropic
             end
             def new(
               id:, # Unique identifier for this event.
-              custom_tool_use_id:, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                   # can be found in the last `session.status_idle`
+              custom_tool_use_id:, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                   # also listed in the last `session.status_idle`
                                    # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                    # `stop_reason.event_ids` field.
               type:,
@@ -115203,8 +119110,8 @@ module Anthropic
           end
           attr_writer :content
 
-          # The id of the `agent.custom_tool_use` event this result corresponds to, which
-          # can be found in the last `session.status_idle`
+          # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+          # also listed in the last `session.status_idle`
           # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
           # `stop_reason.event_ids` field.
           sig { returns(String) }
@@ -115255,8 +119162,8 @@ module Anthropic
               ).returns(T.attached_class)
             end
             def new(
-              custom_tool_use_id:, # The id of the `agent.custom_tool_use` event this result corresponds to, which
-                                   # can be found in the last `session.status_idle`
+              custom_tool_use_id:, # The id of the `agent.custom_tool_use` event this result corresponds to. It is
+                                   # also listed in the last `session.status_idle`
                                    # [event's](https://platform.claude.com/docs/en/api/beta/sessions/events/list#beta_managed_agents_session_requires_action.event_ids)
                                    # `stop_reason.event_ids` field.
               type:,
@@ -117589,7 +121496,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -117751,7 +121659,8 @@ module Anthropic
               page: nil, # Opaque pagination cursor from a previous response's `next_page`.
               types: nil, # Filter by event type. Values match the `type` field on returned events (for
                           # example, `user.message` or `agent.tool_use`). Omit to return all event types.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -117805,7 +121714,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -117894,7 +121804,8 @@ module Anthropic
             def new(
               session_id:,
               events:, # Events to send to the `session`.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -117916,7 +121827,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118000,7 +121912,8 @@ module Anthropic
                                  # start-only — a signal that the agent has begun extended thinking, concluded by
                                  # the `agent.thinking` event itself. Only previews of the requested event types
                                  # are sent.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118022,7 +121935,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118071,7 +121985,8 @@ module Anthropic
             end
             def new(
               session_id:,
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118093,7 +122008,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118148,7 +122064,8 @@ module Anthropic
             def new(
               session_id:,
               resource_id:,
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118170,7 +122087,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118241,7 +122159,8 @@ module Anthropic
               limit: nil, # Maximum number of resources to return per page (max 1000). If omitted, returns
                           # all resources.
               page: nil, # Opaque cursor from a previous response's `next_page` field.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118263,7 +122182,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118318,7 +122238,8 @@ module Anthropic
             def new(
               session_id:,
               resource_id:,
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118454,7 +122375,8 @@ module Anthropic
           sig { returns(String) }
           attr_accessor :authorization_token
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118513,7 +122435,8 @@ module Anthropic
               resource_id:,
               authorization_token:, # New authorization token for the resource. Currently only `github_repository`
                                     # resources support token rotation.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118644,7 +122567,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118699,7 +122623,8 @@ module Anthropic
             def new(
               session_id:,
               thread_id:,
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118721,7 +122646,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118822,7 +122748,8 @@ module Anthropic
               statuses: nil, # Return only threads that have one of these statuses.
                              # Repeat the parameter to give more than one status. Leave it out to return
                              # threads of every status.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118844,7 +122771,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118899,7 +122827,8 @@ module Anthropic
             def new(
               session_id:,
               thread_id:,
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -118922,7 +122851,8 @@ module Anthropic
             extend Anthropic::Internal::Type::RequestParameters::Converter
             include Anthropic::Internal::Type::RequestParameters
 
-            # Optional header to specify the beta version(s) you want to use.
+            # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+            # header.
             sig do
               returns(T.nilable(
                   T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -118995,7 +122925,8 @@ module Anthropic
                 thread_id:,
                 limit: nil,
                 page: nil,
-                betas: nil, # Optional header to specify the beta version(s) you want to use.
+                betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                            # header.
                 workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                    # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                    # Only needed for credentials that can act on more than one Workspace. A
@@ -119017,7 +122948,8 @@ module Anthropic
             extend Anthropic::Internal::Type::RequestParameters::Converter
             include Anthropic::Internal::Type::RequestParameters
 
-            # Optional header to specify the beta version(s) you want to use.
+            # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+            # header.
             sig do
               returns(T.nilable(
                   T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -119117,7 +123049,8 @@ module Anthropic
                                    # start-only — a signal that the agent has begun extended thinking, concluded by
                                    # the `agent.thinking` event itself. Only previews of the requested event types
                                    # are sent.
-                betas: nil, # Optional header to specify the beta version(s) you want to use.
+                betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                            # header.
                 workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                    # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                    # Only needed for credentials that can act on more than one Workspace. A
@@ -120045,7 +123978,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120095,7 +124029,8 @@ module Anthropic
           end
           def new(
             tunnel_id:, # ID of the tunnel (`tnl_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120117,7 +124052,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120167,7 +124103,8 @@ module Anthropic
           end
           def new(
             display_name: nil, # Optional human-readable name for the tunnel (1-255 characters).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120189,7 +124126,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120262,7 +124200,8 @@ module Anthropic
             include_archived: nil, # Whether to include archived tunnels in the results. Defaults to false.
             limit: nil, # Maximum number of tunnels to return per page. Defaults to 20, maximum 1000.
             page: nil, # Opaque pagination cursor from a previous `list_tunnels` response.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120284,7 +124223,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120334,7 +124274,8 @@ module Anthropic
           end
           def new(
             tunnel_id:, # ID of the tunnel (`tnl_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120356,7 +124297,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120406,7 +124348,8 @@ module Anthropic
           end
           def new(
             tunnel_id:, # ID of the tunnel (`tnl_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120428,7 +124371,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120485,7 +124429,8 @@ module Anthropic
           def new(
             tunnel_id:, # ID of the tunnel (`tnl_...`).
             reason: nil, # Optional free-text reason for the rotation, recorded for audit.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -120586,7 +124531,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120643,7 +124589,8 @@ module Anthropic
             def new(
               tunnel_id:, # ID of the tunnel (`tnl_...`).
               certificate_id:, # ID of the certificate to archive (`tcrt_...`).
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -120665,7 +124612,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120724,7 +124672,8 @@ module Anthropic
               tunnel_id:, # ID of the tunnel (`tnl_...`).
               ca_certificate_pem:, # PEM-encoded X.509 CA certificate. Must contain exactly one certificate and no
                                    # private-key material. Maximum 8KB.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -120746,7 +124695,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120826,7 +124776,8 @@ module Anthropic
               include_archived: nil, # Whether to include archived certificates in the results. Defaults to false.
               limit: nil, # Maximum number of certificates to return per page. Defaults to 20, maximum 1000.
               page: nil, # Opaque pagination cursor from a previous `list_tunnel_certificates` response.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -120848,7 +124799,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120905,7 +124857,8 @@ module Anthropic
             def new(
               tunnel_id:, # ID of the tunnel (`tnl_...`).
               certificate_id:, # ID of the certificate (`tcrt_...`).
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -120930,7 +124883,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -120980,7 +124934,8 @@ module Anthropic
           end
           def new(
             user_profile_id:, # The ID of the user profile to create an enrollment URL for (`uprof_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121016,7 +124971,8 @@ module Anthropic
         sig { params(access_type: Anthropic::Beta::UserProfileCreateParams::AccessType::OrSymbol).void }
         attr_writer :access_type
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121141,7 +125097,8 @@ module Anthropic
                        # (company or individual); for a company the platform resells Claude access to
                        # (`access_type` `passthrough`), that company's name where known. Maximum 255
                        # characters.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121202,7 +125159,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121295,7 +125253,8 @@ module Anthropic
             page: nil, # The cursor for the page to return, taken from `next_page` in a previous
                        # response.
                        # Leave it out to get the first page.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121385,7 +125344,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121435,7 +125395,8 @@ module Anthropic
           end
           def new(
             user_profile_id:, # The ID of the user profile to get (`uprof_...`).
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121465,7 +125426,8 @@ module Anthropic
         end
         attr_accessor :access_type
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121596,7 +125558,8 @@ module Anthropic
                            # values up to 512 characters.
             name: nil, # If present, replaces the stored name. Omit to leave unchanged. Maximum 255
                        # characters.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                        # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121654,7 +125617,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121704,7 +125668,8 @@ module Anthropic
           end
           def new(
             vault_id:, # Unique identifier of the vault to archive.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121726,7 +125691,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121788,7 +125754,8 @@ module Anthropic
             display_name:, # Human-readable name for the vault. 1-255 characters.
             metadata: nil, # Arbitrary key-value metadata to attach to the vault. Maximum 16 pairs, keys up
                            # to 64 chars, values up to 512 chars.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121810,7 +125777,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121860,7 +125828,8 @@ module Anthropic
           end
           def new(
             vault_id:, # Unique identifier of the vault to delete.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121882,7 +125851,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -121955,7 +125925,8 @@ module Anthropic
             include_archived: nil, # Whether to include archived vaults in the results.
             limit: nil, # Maximum number of vaults to return per page. Defaults to 20, maximum 100.
             page: nil, # Opaque pagination token from a previous `list_vaults` response.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -121977,7 +125948,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -122027,7 +125999,8 @@ module Anthropic
           end
           def new(
             vault_id:, # Unique identifier of the vault to retrieve.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -122049,7 +126022,8 @@ module Anthropic
         extend Anthropic::Internal::Type::RequestParameters::Converter
         include Anthropic::Internal::Type::RequestParameters
 
-        # Optional header to specify the beta version(s) you want to use.
+        # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+        # header.
         sig do
           returns(T.nilable(
               T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -122115,7 +126089,8 @@ module Anthropic
             display_name: nil, # Updated human-readable name for the vault. 1-255 characters.
             metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                            # Omitted keys are preserved.
-            betas: nil, # Optional header to specify the beta version(s) you want to use.
+            betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                        # header.
             workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -125114,7 +129089,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125171,7 +129147,8 @@ module Anthropic
             def new(
               vault_id:, # Identifier of the vault containing the credential.
               credential_id:, # Unique identifier of the credential to archive.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125203,7 +129180,8 @@ module Anthropic
           end
           attr_accessor :auth
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125284,7 +129262,8 @@ module Anthropic
               display_name: nil, # Human-readable name for the credential. Up to 255 characters.
               metadata: nil, # Arbitrary key-value metadata to attach to the credential. Maximum 16 pairs, keys
                              # up to 64 chars, values up to 512 chars.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125401,7 +129380,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125458,7 +129438,8 @@ module Anthropic
             def new(
               vault_id:, # Identifier of the vault containing the credential.
               credential_id:, # Unique identifier of the credential to delete.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125480,7 +129461,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125560,7 +129542,8 @@ module Anthropic
               include_archived: nil, # Whether to include archived credentials in the results.
               limit: nil, # Maximum number of credentials to return per page. Defaults to 20, maximum 100.
               page: nil, # Opaque pagination token from a previous `list_credentials` response.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125582,7 +129565,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125639,7 +129623,8 @@ module Anthropic
             def new(
               vault_id:, # Identifier of the vault containing the credential.
               credential_id:, # Unique identifier of the credential to validate.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125661,7 +129646,8 @@ module Anthropic
           extend Anthropic::Internal::Type::RequestParameters::Converter
           include Anthropic::Internal::Type::RequestParameters
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125718,7 +129704,8 @@ module Anthropic
             def new(
               vault_id:, # Identifier of the vault containing the credential.
               credential_id:, # Unique identifier of the credential to retrieve.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -125764,7 +129751,8 @@ module Anthropic
           end
           attr_writer :auth
 
-          # Optional header to specify the beta version(s) you want to use.
+          # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+          # header.
           sig do
             returns(T.nilable(
                 T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)]
@@ -125850,7 +129838,8 @@ module Anthropic
               display_name: nil, # Updated human-readable name for the credential. 1-255 characters.
               metadata: nil, # Metadata patch. Set a key to a string to upsert it, or to null to delete it.
                              # Omitted keys are preserved.
-              betas: nil, # Optional header to specify the beta version(s) you want to use.
+              betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                          # header.
               workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                                  # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -126630,6 +130619,11 @@ module Anthropic
     BetaMCPToolUseBlock = Beta::BetaMCPToolUseBlock
     BetaMCPToolUseBlockParam = Beta::BetaMCPToolUseBlockParam
     BetaMCPToolset = Beta::BetaMCPToolset
+
+    BetaManagedAgentsAWSRoleExecutionIdentity = Beta::BetaManagedAgentsAWSRoleExecutionIdentity
+
+    BetaManagedAgentsAWSRoleExecutionIdentityParams = Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams
+
     BetaManagedAgentsAdvisor = Beta::BetaManagedAgentsAdvisor
     BetaManagedAgentsAdvisorParams = Beta::BetaManagedAgentsAdvisorParams
     BetaManagedAgentsAgent = Beta::BetaManagedAgentsAgent
@@ -126748,6 +130742,10 @@ module Anthropic
     BetaManagedAgentsEnvironmentNotFoundRunError = Beta::BetaManagedAgentsEnvironmentNotFoundRunError
 
     BetaManagedAgentsErrorDeploymentPausedReason = Beta::BetaManagedAgentsErrorDeploymentPausedReason
+
+    BetaManagedAgentsExecutionIdentity = Beta::BetaManagedAgentsExecutionIdentity
+
+    BetaManagedAgentsExecutionIdentityParams = Beta::BetaManagedAgentsExecutionIdentityParams
 
     BetaManagedAgentsFileNotFoundDeploymentPausedReasonError = Beta::BetaManagedAgentsFileNotFoundDeploymentPausedReasonError
 
@@ -126892,6 +130890,11 @@ module Anthropic
     BetaManagedAgentsSelfHostedResourcesUnsupportedRunError = Beta::BetaManagedAgentsSelfHostedResourcesUnsupportedRunError
 
     BetaManagedAgentsServerToolUsage = Beta::BetaManagedAgentsServerToolUsage
+
+    BetaManagedAgentsServiceAccountExecutionIdentity = Beta::BetaManagedAgentsServiceAccountExecutionIdentity
+
+    BetaManagedAgentsServiceAccountExecutionIdentityParams = Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams
+
     BetaManagedAgentsSession = Beta::BetaManagedAgentsSession
     BetaManagedAgentsSessionAgent = Beta::BetaManagedAgentsSessionAgent
 
@@ -141306,7 +145309,10 @@ module Anthropic
       #
       # If the final message uses the `assistant` role, the response content will
       # continue immediately from the content in that message. This can be used to
-      # constrain part of the model's response.
+      # constrain part of the model's response. This is called prefill. On models that
+      # don't support prefill, creating a message that ends with a partial `assistant`
+      # response returns a 400 error. See
+      # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
       #
       # Example with a single `user` message:
       #
@@ -141324,7 +145330,8 @@ module Anthropic
       # ]
       # ```
       #
-      # Example with a partially-filled response from Claude:
+      # Example with a partially-filled response from Claude, for models that support
+      # prefill:
       #
       # ```json
       # [
@@ -141375,6 +145382,16 @@ module Anthropic
       sig { params(output_config: Anthropic::OutputConfig::OrHash).void }
       attr_writer :output_config
 
+      # The inference speed mode for this request. `"fast"` enables high
+      # output-tokens-per-second inference.
+      #
+      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+      # value. See
+      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+      # which models.
+      sig { returns(T.nilable(Anthropic::MessageCountTokensParams::Speed::OrSymbol)) }
+      attr_accessor :speed
+
       # System prompt.
       #
       # A system prompt is a way of providing context and instructions to Claude, such
@@ -141386,15 +145403,16 @@ module Anthropic
       sig { params(system_: Anthropic::MessageCountTokensParams::System::Variants).void }
       attr_writer :system_
 
-      # Configuration for enabling Claude's extended thinking.
+      # Configuration for Claude's thinking.
       #
-      # When enabled, responses include `thinking` content blocks showing Claude's
-      # thinking process before the final answer. Requires a minimum budget of 1,024
-      # tokens and counts towards your `max_tokens` limit.
+      # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+      # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+      # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
       #
-      # See
-      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-      # for details.
+      # Which `type` values are accepted, and what happens when you omit `thinking`,
+      # depend on the model. See
+      # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+      # for each model's behavior.
       sig do
         returns(T.nilable(
             T.any(
@@ -141611,6 +145629,8 @@ module Anthropic
             model: T.any(Anthropic::Model::OrSymbol, String),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral),
             output_config: Anthropic::OutputConfig,
+            speed:
+              T.nilable(Anthropic::MessageCountTokensParams::Speed::OrSymbol),
             system_: Anthropic::MessageCountTokensParams::System::Variants,
             thinking:
               T.any(
@@ -141666,6 +145686,7 @@ module Anthropic
             model: T.any(Anthropic::Model::OrSymbol, String),
             cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
             output_config: Anthropic::OutputConfig::OrHash,
+            speed: T.nilable(Anthropic::MessageCountTokensParams::Speed::OrSymbol),
             system_: Anthropic::MessageCountTokensParams::System::Variants,
             thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
@@ -141721,7 +145742,10 @@ module Anthropic
                      # `assistant` messages.
                      # If the final message uses the `assistant` role, the response content will
                      # continue immediately from the content in that message. This can be used to
-                     # constrain part of the model's response.
+                     # constrain part of the model's response. This is called prefill. On models that
+                     # don't support prefill, creating a message that ends with a partial `assistant`
+                     # response returns a 400 error. See
+                     # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                      # Example with a single `user` message:
                      # ```json
                      # [{ "role": "user", "content": "Hello, Claude" }]
@@ -141734,7 +145758,8 @@ module Anthropic
                      #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                      # ]
                      # ```
-                     # Example with a partially-filled response from Claude:
+                     # Example with a partially-filled response from Claude, for models that support
+                     # prefill:
                      # ```json
                      # [
                      #   {
@@ -141767,17 +145792,24 @@ module Anthropic
           cache_control: nil, # Top-level cache control automatically applies a cache_control marker to the last
                               # cacheable block in the request.
           output_config: nil, # Configuration options for the model's output, such as the output format.
+          speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                      # output-tokens-per-second inference.
+                      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                      # value. See
+                      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                      # which models.
           system_: nil, # System prompt.
                         # A system prompt is a way of providing context and instructions to Claude, such
                         # as specifying a particular goal or role. See our
                         # [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role).
-          thinking: nil, # Configuration for enabling Claude's extended thinking.
-                         # When enabled, responses include `thinking` content blocks showing Claude's
-                         # thinking process before the final answer. Requires a minimum budget of 1,024
-                         # tokens and counts towards your `max_tokens` limit.
-                         # See
-                         # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                         # for details.
+          thinking: nil, # Configuration for Claude's thinking.
+                         # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                         # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                         # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                         # Which `type` values are accepted, and what happens when you omit `thinking`,
+                         # depend on the model. See
+                         # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                         # for each model's behavior.
           tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                             # any available tool, decide by itself, or not use tools at all.
           tools: nil, # Definitions of tools that the model may use.
@@ -141862,6 +145894,35 @@ module Anthropic
             Anthropic::Internal::AnyHash
           )
         end
+
+      # The inference speed mode for this request. `"fast"` enables high
+      # output-tokens-per-second inference.
+      #
+      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+      # value. See
+      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+      # which models.
+      module Speed
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::MessageCountTokensParams::Speed::TaggedSymbol]) }
+          def values; end
+        end
+
+        FAST = T.let(:fast, Anthropic::MessageCountTokensParams::Speed::TaggedSymbol)
+
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        STANDARD = T.let(
+            :standard,
+            Anthropic::MessageCountTokensParams::Speed::TaggedSymbol
+          )
+
+        TaggedSymbol = T.type_alias do
+            T.all(Symbol, Anthropic::MessageCountTokensParams::Speed)
+          end
+      end
 
       # System prompt.
       #
@@ -141979,7 +146040,10 @@ module Anthropic
       #
       # If the final message uses the `assistant` role, the response content will
       # continue immediately from the content in that message. This can be used to
-      # constrain part of the model's response.
+      # constrain part of the model's response. This is called prefill. On models that
+      # don't support prefill, creating a message that ends with a partial `assistant`
+      # response returns a 400 error. See
+      # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
       #
       # Example with a single `user` message:
       #
@@ -141997,7 +146061,8 @@ module Anthropic
       # ]
       # ```
       #
-      # Example with a partially-filled response from Claude:
+      # Example with a partially-filled response from Claude, for models that support
+      # prefill:
       #
       # ```json
       # [
@@ -142067,6 +146132,16 @@ module Anthropic
       sig { params(service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol).void }
       attr_writer :service_tier
 
+      # The inference speed mode for this request. `"fast"` enables high
+      # output-tokens-per-second inference.
+      #
+      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+      # value. See
+      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+      # which models.
+      sig { returns(T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol)) }
+      attr_accessor :speed
+
       # Custom text sequences that will cause the model to stop generating.
       #
       # Our models will normally stop when they have naturally completed their turn,
@@ -142107,15 +146182,16 @@ module Anthropic
       sig { params(temperature: Float).void }
       attr_writer :temperature
 
-      # Configuration for enabling Claude's extended thinking.
+      # Configuration for Claude's thinking.
       #
-      # When enabled, responses include `thinking` content blocks showing Claude's
-      # thinking process before the final answer. Requires a minimum budget of 1,024
-      # tokens and counts towards your `max_tokens` limit.
+      # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+      # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+      # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
       #
-      # See
-      # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-      # for details.
+      # Which `type` values are accepted, and what happens when you omit `thinking`,
+      # depend on the model. See
+      # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+      # for each model's behavior.
       sig do
         returns(T.nilable(
             T.any(
@@ -142363,6 +146439,7 @@ module Anthropic
             metadata: Anthropic::Metadata,
             output_config: Anthropic::OutputConfig,
             service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol,
+            speed: T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol),
             stop_sequences: T::Array[String],
             system_: Anthropic::MessageCreateParams::System::Variants,
             temperature: Float,
@@ -142428,6 +146505,7 @@ module Anthropic
             metadata: Anthropic::Metadata::OrHash,
             output_config: Anthropic::OutputConfig::OrHash,
             service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol,
+            speed: T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol),
             stop_sequences: T::Array[String],
             system_: Anthropic::MessageCreateParams::System::Variants,
             temperature: Float,
@@ -142496,7 +146574,10 @@ module Anthropic
                      # `assistant` messages.
                      # If the final message uses the `assistant` role, the response content will
                      # continue immediately from the content in that message. This can be used to
-                     # constrain part of the model's response.
+                     # constrain part of the model's response. This is called prefill. On models that
+                     # don't support prefill, creating a message that ends with a partial `assistant`
+                     # response returns a 400 error. See
+                     # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                      # Example with a single `user` message:
                      # ```json
                      # [{ "role": "user", "content": "Hello, Claude" }]
@@ -142509,7 +146590,8 @@ module Anthropic
                      #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                      # ]
                      # ```
-                     # Example with a partially-filled response from Claude:
+                     # Example with a partially-filled response from Claude, for models that support
+                     # prefill:
                      # ```json
                      # [
                      #   {
@@ -142554,6 +146636,12 @@ module Anthropic
                              # Anthropic offers different levels of service for your API requests. See
                              # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                              # details.
+          speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                      # output-tokens-per-second inference.
+                      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                      # value. See
+                      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                      # which models.
           stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                # Our models will normally stop when they have naturally completed their turn,
                                # which will result in a response `stop_reason` of `"end_turn"`.
@@ -142571,13 +146659,14 @@ module Anthropic
                             # generative tasks.
                             # Note that even with `temperature` of `0.0`, the results will not be fully
                             # deterministic.
-          thinking: nil, # Configuration for enabling Claude's extended thinking.
-                         # When enabled, responses include `thinking` content blocks showing Claude's
-                         # thinking process before the final answer. Requires a minimum budget of 1,024
-                         # tokens and counts towards your `max_tokens` limit.
-                         # See
-                         # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                         # for details.
+          thinking: nil, # Configuration for Claude's thinking.
+                         # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                         # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                         # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                         # Which `type` values are accepted, and what happens when you omit `thinking`,
+                         # depend on the model. See
+                         # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                         # for each model's behavior.
           tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                             # any available tool, decide by itself, or not use tools at all.
           tools: nil, # Definitions of tools that the model may use.
@@ -142698,6 +146787,29 @@ module Anthropic
         TaggedSymbol = T.type_alias do
             T.all(Symbol, Anthropic::MessageCreateParams::ServiceTier)
           end
+      end
+
+      # The inference speed mode for this request. `"fast"` enables high
+      # output-tokens-per-second inference.
+      #
+      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+      # value. See
+      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+      # which models.
+      module Speed
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::MessageCreateParams::Speed::TaggedSymbol]) }
+          def values; end
+        end
+
+        FAST = T.let(:fast, Anthropic::MessageCreateParams::Speed::TaggedSymbol)
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+        STANDARD = T.let(:standard, Anthropic::MessageCreateParams::Speed::TaggedSymbol)
+
+        TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::MessageCreateParams::Speed) }
       end
 
       # System prompt.
@@ -143146,7 +147258,10 @@ module Anthropic
             #
             # If the final message uses the `assistant` role, the response content will
             # continue immediately from the content in that message. This can be used to
-            # constrain part of the model's response.
+            # constrain part of the model's response. This is called prefill. On models that
+            # don't support prefill, creating a message that ends with a partial `assistant`
+            # response returns a 400 error. See
+            # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
             #
             # Example with a single `user` message:
             #
@@ -143164,7 +147279,8 @@ module Anthropic
             # ]
             # ```
             #
-            # Example with a partially-filled response from Claude:
+            # Example with a partially-filled response from Claude, for models that support
+            # prefill:
             #
             # ```json
             # [
@@ -143242,6 +147358,20 @@ module Anthropic
             end
             attr_writer :service_tier
 
+            # The inference speed mode for this request. `"fast"` enables high
+            # output-tokens-per-second inference.
+            #
+            # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+            # value. See
+            # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+            # which models.
+            sig do
+              returns(T.nilable(
+                  Anthropic::Messages::BatchCreateParams::Request::Params::Speed::OrSymbol
+                ))
+            end
+            attr_accessor :speed
+
             # Custom text sequences that will cause the model to stop generating.
             #
             # Our models will normally stop when they have naturally completed their turn,
@@ -143300,15 +147430,16 @@ module Anthropic
             sig { params(temperature: Float).void }
             attr_writer :temperature
 
-            # Configuration for enabling Claude's extended thinking.
+            # Configuration for Claude's thinking.
             #
-            # When enabled, responses include `thinking` content blocks showing Claude's
-            # thinking process before the final answer. Requires a minimum budget of 1,024
-            # tokens and counts towards your `max_tokens` limit.
+            # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+            # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+            # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
             #
-            # See
-            # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-            # for details.
+            # Which `type` values are accepted, and what happens when you omit `thinking`,
+            # depend on the model. See
+            # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+            # for each model's behavior.
             sig do
               returns(T.nilable(
                   T.any(
@@ -143538,6 +147669,10 @@ module Anthropic
                   output_config: Anthropic::OutputConfig,
                   service_tier:
                     Anthropic::Messages::BatchCreateParams::Request::Params::ServiceTier::OrSymbol,
+                  speed:
+                    T.nilable(
+                      Anthropic::Messages::BatchCreateParams::Request::Params::Speed::OrSymbol
+                    ),
                   stop_sequences: T::Array[String],
                   stream: T::Boolean,
                   system_:
@@ -143607,6 +147742,9 @@ module Anthropic
                   metadata: Anthropic::Metadata::OrHash,
                   output_config: Anthropic::OutputConfig::OrHash,
                   service_tier: Anthropic::Messages::BatchCreateParams::Request::Params::ServiceTier::OrSymbol,
+                  speed: T.nilable(
+                    Anthropic::Messages::BatchCreateParams::Request::Params::Speed::OrSymbol
+                  ),
                   stop_sequences: T::Array[String],
                   stream: T::Boolean,
                   system_: Anthropic::Messages::BatchCreateParams::Request::Params::System::Variants,
@@ -143673,7 +147811,10 @@ module Anthropic
                            # `assistant` messages.
                            # If the final message uses the `assistant` role, the response content will
                            # continue immediately from the content in that message. This can be used to
-                           # constrain part of the model's response.
+                           # constrain part of the model's response. This is called prefill. On models that
+                           # don't support prefill, creating a message that ends with a partial `assistant`
+                           # response returns a 400 error. See
+                           # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                            # Example with a single `user` message:
                            # ```json
                            # [{ "role": "user", "content": "Hello, Claude" }]
@@ -143686,7 +147827,8 @@ module Anthropic
                            #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                            # ]
                            # ```
-                           # Example with a partially-filled response from Claude:
+                           # Example with a partially-filled response from Claude, for models that support
+                           # prefill:
                            # ```json
                            # [
                            #   {
@@ -143731,6 +147873,12 @@ module Anthropic
                                    # Anthropic offers different levels of service for your API requests. See
                                    # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                                    # details.
+                speed: nil, # The inference speed mode for this request. `"fast"` enables high
+                            # output-tokens-per-second inference.
+                            # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                            # value. See
+                            # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                            # which models.
                 stop_sequences: nil, # Custom text sequences that will cause the model to stop generating.
                                      # Our models will normally stop when they have naturally completed their turn,
                                      # which will result in a response `stop_reason` of `"end_turn"`.
@@ -143755,13 +147903,14 @@ module Anthropic
                                   # generative tasks.
                                   # Note that even with `temperature` of `0.0`, the results will not be fully
                                   # deterministic.
-                thinking: nil, # Configuration for enabling Claude's extended thinking.
-                               # When enabled, responses include `thinking` content blocks showing Claude's
-                               # thinking process before the final answer. Requires a minimum budget of 1,024
-                               # tokens and counts towards your `max_tokens` limit.
-                               # See
-                               # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                               # for details.
+                thinking: nil, # Configuration for Claude's thinking.
+                               # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                               # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                               # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                               # Which `type` values are accepted, and what happens when you omit `thinking`,
+                               # depend on the model. See
+                               # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                               # for each model's behavior.
                 tool_choice: nil, # How the model should use the provided tools. The model can use a specific tool,
                                   # any available tool, decide by itself, or not use tools at all.
                 tools: nil, # Definitions of tools that the model may use.
@@ -143883,6 +148032,46 @@ module Anthropic
                   T.all(
                     Symbol,
                     Anthropic::Messages::BatchCreateParams::Request::Params::ServiceTier
+                  )
+                end
+            end
+
+            # The inference speed mode for this request. `"fast"` enables high
+            # output-tokens-per-second inference.
+            #
+            # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+            # value. See
+            # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+            # which models.
+            module Speed
+              extend Anthropic::Internal::Type::Enum
+
+              class << self
+                sig do
+                  override
+                    .returns(T::Array[
+                    Anthropic::Messages::BatchCreateParams::Request::Params::Speed::TaggedSymbol
+                  ])
+                end
+                def values; end
+              end
+
+              FAST = T.let(
+                  :fast,
+                  Anthropic::Messages::BatchCreateParams::Request::Params::Speed::TaggedSymbol
+                )
+
+              OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+              STANDARD = T.let(
+                  :standard,
+                  Anthropic::Messages::BatchCreateParams::Request::Params::Speed::TaggedSymbol
+                )
+
+              TaggedSymbol = T.type_alias do
+                  T.all(
+                    Symbol,
+                    Anthropic::Messages::BatchCreateParams::Request::Params::Speed
                   )
                 end
             end
@@ -144719,10 +148908,8 @@ module Anthropic
       # Frontier intelligence for ambitious tasks across coding, scientific discovery, and enterprise workflows
       CLAUDE_FABLE_5_1 = T.let(:"claude-fable-5-1", Anthropic::Model::TaggedSymbol)
 
-      # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5 = T.let(:"claude-haiku-4-5", Anthropic::Model::TaggedSymbol)
 
-      # Fastest model with near-frontier intelligence
       CLAUDE_HAIKU_4_5_20251001 = T.let(:"claude-haiku-4-5-20251001", Anthropic::Model::TaggedSymbol)
 
       # Fastest model for high-volume, real-time tasks
@@ -149940,7 +154127,8 @@ module Anthropic
         # The accepted values depend on the organization type. Console and API
         # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
         # `admin` cannot be assigned through the API. Claude Enterprise organizations
-        # accept `user` and `managed`.
+        # accept `user` and `managed`; inviting with the `managed` role requires the
+        # `write:rbac_groups` scope in addition to `write:members`.
         sig { returns(Anthropic::Organization::InviteCreateParams::Role::OrSymbol) }
         attr_accessor :role
 
@@ -149970,7 +154158,8 @@ module Anthropic
                    # The accepted values depend on the organization type. Console and API
                    # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                    # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                   # accept `user` and `managed`.
+                   # accept `user` and `managed`; inviting with the `managed` role requires the
+                   # `write:rbac_groups` scope in addition to `write:members`.
             rbac_group_ids: nil, # RBAC group IDs to assign to the User when the Invite is accepted. A non-empty
                                  # array is accepted only for a Claude Enterprise organization with RBAC groups,
                                  # and requires the key to carry the `write:rbac_groups` scope.
@@ -149990,7 +154179,8 @@ module Anthropic
         # The accepted values depend on the organization type. Console and API
         # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
         # `admin` cannot be assigned through the API. Claude Enterprise organizations
-        # accept `user` and `managed`.
+        # accept `user` and `managed`; inviting with the `managed` role requires the
+        # `write:rbac_groups` scope in addition to `write:members`.
         module Role
           extend Anthropic::Internal::Type::Enum
 
@@ -152053,7 +156243,8 @@ module Anthropic
         # The accepted values depend on the organization type. Console and API
         # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
         # `admin` cannot be assigned through the API. Claude Enterprise organizations
-        # accept `user` and `managed`.
+        # accept `user` and `managed`; changing a User's role to `managed` requires the
+        # `write:rbac_groups` scope in addition to `write:members`.
         sig { returns(Anthropic::Organization::UserUpdateParams::Role::OrSymbol) }
         attr_accessor :role
 
@@ -152085,7 +156276,8 @@ module Anthropic
                    # The accepted values depend on the organization type. Console and API
                    # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                    # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                   # accept `user` and `managed`.
+                   # accept `user` and `managed`; changing a User's role to `managed` requires the
+                   # `write:rbac_groups` scope in addition to `write:members`.
             request_options: {}
 ); end
         end
@@ -152102,7 +156294,8 @@ module Anthropic
         # The accepted values depend on the organization type. Console and API
         # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
         # `admin` cannot be assigned through the API. Claude Enterprise organizations
-        # accept `user` and `managed`.
+        # accept `user` and `managed`; changing a User's role to `managed` requires the
+        # `write:rbac_groups` scope in addition to `write:members`.
         module Role
           extend Anthropic::Internal::Type::Enum
 
@@ -157639,8 +161832,9 @@ module Anthropic
     class ThinkingConfigAdaptive < Anthropic::Internal::Type::BaseModel
       # Controls how thinking content appears in the response. When set to `summarized`,
       # thinking is returned normally. When set to `omitted`, thinking content is
-      # redacted but a signature is returned for multi-turn continuity. Defaults to
-      # `summarized`.
+      # redacted but a signature is returned for multi-turn continuity. The default
+      # depends on the model; see
+      # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
       sig { returns(T.nilable(Anthropic::ThinkingConfigAdaptive::Display::OrSymbol)) }
       attr_accessor :display_
 
@@ -157667,16 +161861,18 @@ module Anthropic
         def new(
           display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                          # thinking is returned normally. When set to `omitted`, thinking content is
-                         # redacted but a signature is returned for multi-turn continuity. Defaults to
-                         # `summarized`.
+                         # redacted but a signature is returned for multi-turn continuity. The default
+                         # depends on the model; see
+                         # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
           type: :adaptive
 ); end
       end
 
       # Controls how thinking content appears in the response. When set to `summarized`,
       # thinking is returned normally. When set to `omitted`, thinking content is
-      # redacted but a signature is returned for multi-turn continuity. Defaults to
-      # `summarized`.
+      # redacted but a signature is returned for multi-turn continuity. The default
+      # depends on the model; see
+      # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
       module Display
         extend Anthropic::Internal::Type::Enum
 
@@ -157759,8 +161955,9 @@ module Anthropic
 
       # Controls how thinking content appears in the response. When set to `summarized`,
       # thinking is returned normally. When set to `omitted`, thinking content is
-      # redacted but a signature is returned for multi-turn continuity. Defaults to
-      # `summarized`.
+      # redacted but a signature is returned for multi-turn continuity. The default
+      # depends on the model; see
+      # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
       sig { returns(T.nilable(Anthropic::ThinkingConfigEnabled::Display::OrSymbol)) }
       attr_accessor :display_
 
@@ -157796,16 +161993,18 @@ module Anthropic
                           # for details.
           display_: nil, # Controls how thinking content appears in the response. When set to `summarized`,
                          # thinking is returned normally. When set to `omitted`, thinking content is
-                         # redacted but a signature is returned for multi-turn continuity. Defaults to
-                         # `summarized`.
+                         # redacted but a signature is returned for multi-turn continuity. The default
+                         # depends on the model; see
+                         # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
           type: :enabled
 ); end
       end
 
       # Controls how thinking content appears in the response. When set to `summarized`,
       # thinking is returned normally. When set to `omitted`, thinking content is
-      # redacted but a signature is returned for multi-turn continuity. Defaults to
-      # `summarized`.
+      # redacted but a signature is returned for multi-turn continuity. The default
+      # depends on the model; see
+      # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
       module Display
         extend Anthropic::Internal::Type::Enum
 
@@ -157836,15 +162035,16 @@ module Anthropic
         end
     end
 
-    # Configuration for enabling Claude's extended thinking.
+    # Configuration for Claude's thinking.
     #
-    # When enabled, responses include `thinking` content blocks showing Claude's
-    # thinking process before the final answer. Requires a minimum budget of 1,024
-    # tokens and counts towards your `max_tokens` limit.
+    # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+    # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+    # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
     #
-    # See
-    # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-    # for details.
+    # Which `type` values are accepted, and what happens when you omit `thinking`,
+    # depend on the model. See
+    # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+    # for each model's behavior.
     module ThinkingConfigParam
       extend Anthropic::Internal::Type::Union
 
@@ -157872,8 +162072,9 @@ module Anthropic
                               # for details.
           display_: nil # Controls how thinking content appears in the response. When set to `summarized`,
                         # thinking is returned normally. When set to `omitted`, thinking content is
-                        # redacted but a signature is returned for multi-turn continuity. Defaults to
-                        # `summarized`.
+                        # redacted but a signature is returned for multi-turn continuity. The default
+                        # depends on the model; see
+                        # [Controlling thinking display](https://platform.claude.com/docs/en/build-with-claude/thinking#controlling-thinking-display).
 ); end
 
         sig { override.returns(T::Array[Anthropic::ThinkingConfigParam::Variants]) }
@@ -157951,9 +162152,23 @@ module Anthropic
       sig { params(adaptive: Anthropic::CapabilitySupport::OrHash).void }
       attr_writer :adaptive
 
+      # Whether the model accepts thinking with type 'between_tools' (thinking turned
+      # off, and any short progress updates the model writes between tool calls come
+      # back as thinking blocks). False exactly when a request that sends it gets a 400
+      # from this model. A request that sends 'between_tools' can still be rejected for
+      # another reason, such as an effort level the model does not allow with thinking
+      # off.
+      sig { returns(Anthropic::CapabilitySupport) }
+      attr_reader :between_tools
+
+      sig { params(between_tools: Anthropic::CapabilitySupport::OrHash).void }
+      attr_writer :between_tools
+
       # Whether the model accepts thinking with type 'disabled' (thinking turned off).
       # False exactly when a request that sends it gets a 400 from this model. True on a
-      # model that does not support thinking.
+      # model that does not support thinking. A request that sends 'disabled' can still
+      # be rejected for another reason, such as an effort level the model does not allow
+      # with thinking off.
       sig { returns(Anthropic::CapabilitySupport) }
       attr_reader :disabled
 
@@ -157972,6 +162187,7 @@ module Anthropic
         override
           .returns({
             adaptive: Anthropic::CapabilitySupport,
+            between_tools: Anthropic::CapabilitySupport,
             disabled: Anthropic::CapabilitySupport,
             enabled: Anthropic::CapabilitySupport
           })
@@ -157984,6 +162200,7 @@ module Anthropic
         sig do
           params(
             adaptive: Anthropic::CapabilitySupport::OrHash,
+            between_tools: Anthropic::CapabilitySupport::OrHash,
             disabled: Anthropic::CapabilitySupport::OrHash,
             enabled: Anthropic::CapabilitySupport::OrHash
           ).returns(T.attached_class)
@@ -157991,9 +162208,17 @@ module Anthropic
         def new(
           adaptive:, # Whether the model accepts thinking with type 'adaptive' (the model decides
                      # whether and how much to think).
+          between_tools:, # Whether the model accepts thinking with type 'between_tools' (thinking turned
+                          # off, and any short progress updates the model writes between tool calls come
+                          # back as thinking blocks). False exactly when a request that sends it gets a 400
+                          # from this model. A request that sends 'between_tools' can still be rejected for
+                          # another reason, such as an effort level the model does not allow with thinking
+                          # off.
           disabled:, # Whether the model accepts thinking with type 'disabled' (thinking turned off).
                      # False exactly when a request that sends it gets a 400 from this model. True on a
-                     # model that does not support thinking.
+                     # model that does not support thinking. A request that sends 'disabled' can still
+                     # be rejected for another reason, such as an effort level the model does not allow
+                     # with thinking off.
           enabled: # Whether the model accepts thinking with type 'enabled' (extended thinking with a
                    # caller-set `budget_tokens`).
 ); end
@@ -160430,6 +164655,10 @@ module Anthropic
       sig { returns(T.nilable(Anthropic::Usage::ServiceTier::TaggedSymbol)) }
       attr_accessor :service_tier
 
+      # The inference speed mode used for this request.
+      sig { returns(T.nilable(Anthropic::Usage::Speed::TaggedSymbol)) }
+      attr_accessor :speed
+
       sig do
         override
           .returns({
@@ -160441,7 +164670,9 @@ module Anthropic
             output_tokens: Integer,
             output_tokens_details: T.nilable(Anthropic::OutputTokensDetails),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage),
-            service_tier: T.nilable(Anthropic::Usage::ServiceTier::TaggedSymbol)
+            service_tier:
+              T.nilable(Anthropic::Usage::ServiceTier::TaggedSymbol),
+            speed: T.nilable(Anthropic::Usage::Speed::TaggedSymbol)
           })
       end
       def to_hash; end
@@ -160457,7 +164688,8 @@ module Anthropic
             output_tokens: Integer,
             output_tokens_details: T.nilable(Anthropic::OutputTokensDetails::OrHash),
             server_tool_use: T.nilable(Anthropic::ServerToolUsage::OrHash),
-            service_tier: T.nilable(Anthropic::Usage::ServiceTier::OrSymbol)
+            service_tier: T.nilable(Anthropic::Usage::ServiceTier::OrSymbol),
+            speed: T.nilable(Anthropic::Usage::Speed::OrSymbol)
           ).returns(T.attached_class)
         end
         def new(
@@ -160473,7 +164705,8 @@ module Anthropic
                                   # how many of the billed output tokens were spent on internal reasoning that may
                                   # have been summarized before being returned to you.
           server_tool_use:, # The number of server tool requests.
-          service_tier: # If the request used the priority, standard, or batch tier.
+          service_tier:, # If the request used the priority, standard, or batch tier.
+          speed: # The inference speed mode used for this request.
 ); end
       end
 
@@ -160494,6 +164727,21 @@ module Anthropic
         STANDARD = T.let(:standard, Anthropic::Usage::ServiceTier::TaggedSymbol)
 
         TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Usage::ServiceTier) }
+      end
+
+      # The inference speed mode used for this request.
+      module Speed
+        extend Anthropic::Internal::Type::Enum
+
+        class << self
+          sig { override.returns(T::Array[Anthropic::Usage::Speed::TaggedSymbol]) }
+          def values; end
+        end
+
+        FAST = T.let(:fast, Anthropic::Usage::Speed::TaggedSymbol)
+        OrSymbol = T.type_alias { T.any(Symbol, String) }
+        STANDARD = T.let(:standard, Anthropic::Usage::Speed::TaggedSymbol)
+        TaggedSymbol = T.type_alias { T.all(Symbol, Anthropic::Usage::Speed) }
       end
     end
 
@@ -163572,6 +167820,11 @@ module Anthropic
     sig { returns(T.nilable(Anthropic::Middleware::EntryOrArray)) }
     attr_accessor :middleware
 
+    # OpenTelemetry settings for this request's span. Its one key is
+    # `:conversation_id`, the ID of the conversation that the request is part of.
+    sig { returns(T.nilable({ conversation_id: T.nilable(String) })) }
+    attr_accessor :open_telemetry
+
     # Request timeout in seconds.
     sig { returns(T.nilable(Float)) }
     attr_accessor :timeout
@@ -163662,7 +167915,8 @@ module Anthropic
         end
         def archive(
           agent_id, # Unique identifier of the agent to archive.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163681,6 +167935,12 @@ module Anthropic
               ),
             name: String,
             description: T.nilable(String),
+            execution_identity: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams::OrHash
+                )
+              ),
             mcp_servers: T::Array[
                 Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
               ],
@@ -163713,10 +167973,12 @@ module Anthropic
         def create(
           model:, # Body param: Model identifier. Accepts the
                   # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-                  # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+                  # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
                   # control
           name:, # Body param: Human-readable name for the agent.
           description: nil, # Body param: Description of what the agent does.
+          execution_identity: nil, # Body param: Execution principal for runs of this agent. Omitting it, sending
+                                   # null, or sending `{"type": "service_account"}` stores the default.
           mcp_servers: nil, # Body param: MCP servers this agent connects to. Maximum 20. Names must be unique
                             # within the array. Every server must be referenced by an `mcp_toolset` in
                             # `tools`; unreferenced servers are rejected. See the
@@ -163728,7 +167990,8 @@ module Anthropic
           system_: nil, # Body param: System prompt for the agent.
           tools: nil, # Body param: Tool configurations available to the agent. Maximum of 256 tools
                       # across all toolsets allowed.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163758,7 +168021,8 @@ module Anthropic
           include_archived: nil, # Query param: Include archived agents in results. Defaults to false.
           limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
           page: nil, # Query param: Opaque pagination cursor from a previous response.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163781,7 +168045,8 @@ module Anthropic
           agent_id, # Path param: Unique identifier of the agent to retrieve.
           version: nil, # Query param: Agent version. Omit for the most recent version. Must be at least 1
                         # if specified.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163795,6 +168060,12 @@ module Anthropic
           params(
             agent_id: String,
             description: T.nilable(String),
+            execution_identity: T.nilable(
+                T.any(
+                  Anthropic::Beta::BetaManagedAgentsAWSRoleExecutionIdentityParams::OrHash,
+                  Anthropic::Beta::BetaManagedAgentsServiceAccountExecutionIdentityParams::OrHash
+                )
+              ),
             mcp_servers: T.nilable(
                 T::Array[
                   Anthropic::Beta::BetaManagedAgentsURLMCPServerParams::OrHash
@@ -163840,6 +168111,8 @@ module Anthropic
         def update(
           agent_id, # Path param: Unique identifier of the agent to update.
           description: nil, # Body param: Description. Omit to preserve; send empty string or null to clear.
+          execution_identity: nil, # Body param: Execution principal for runs of this agent. Full replacement. Omit
+                                   # to preserve; send null or `{"type": "service_account"}` to restore the default.
           mcp_servers: nil, # Body param: MCP servers. Full replacement. Omit to preserve; send empty array or
                             # `null` to clear. Names must be unique. Maximum 20. Every server must be
                             # referenced by an `mcp_toolset` in the agent's resulting `tools`; unreferenced
@@ -163850,7 +168123,7 @@ module Anthropic
                          # to 64 chars each) with values up to 512 chars.
           model: nil, # Body param: Model identifier. Accepts the
                       # [model string](https://platform.claude.com/docs/en/about-claude/models/overview#latest-models-comparison),
-                      # e.g. `claude-opus-5`, or a `model_config` object for additional configuration
+                      # e.g. `claude-opus-5-5`, or a `model_config` object for additional configuration
                       # control. Omit to preserve. Cannot be cleared.
           multiagent: nil, # Body param: Multiagent orchestration configuration. Full replacement. Omit to
                            # preserve; send null to clear.
@@ -163866,7 +168139,8 @@ module Anthropic
                         # Obtain this value from a create or retrieve response. Must be at least 1 if
                         # specified. When supplied, the request fails if it does not match the server's
                         # current version; omit to apply the update unconditionally.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163899,7 +168173,8 @@ module Anthropic
             agent_id, # Path param: Agent ID to list versions for.
             limit: nil, # Query param: Maximum results per page. Default 20, maximum 100.
             page: nil, # Query param: Opaque pagination cursor.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -163950,7 +168225,8 @@ module Anthropic
           page: nil, # Query param: Opaque pagination cursor. Pass `next_page` from the previous
                      # response. Invalid or expired cursors return 400.
           trigger_type: nil, # Query param: Filter runs by what triggered them. Omit to return all runs.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163970,7 +168246,8 @@ module Anthropic
         end
         def retrieve(
           deployment_run_id, # Unique identifier of the deployment run.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -163998,7 +168275,8 @@ module Anthropic
         end
         def archive(
           deployment_id, # Unique identifier of the deployment to archive.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164065,7 +168343,8 @@ module Anthropic
                          # automatically. Both expression and timezone are required when schedule is set.
           vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during sessions
                           # created from this deployment. Maximum 50.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164102,7 +168381,8 @@ module Anthropic
           status: nil, # Query param: Filter by status: `active` or `paused`. Omit for both. To include
                        # archived deployments, use `include_archived` instead; the two cannot be
                        # combined.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164122,7 +168402,8 @@ module Anthropic
         end
         def pause(
           deployment_id, # Unique identifier of the deployment to pause.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164142,7 +168423,8 @@ module Anthropic
         end
         def retrieve(
           deployment_id, # Unique identifier of the deployment.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164162,7 +168444,8 @@ module Anthropic
         end
         def run(
           deployment_id, # Unique identifier of the deployment to run.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164182,7 +168465,8 @@ module Anthropic
         end
         def unpause(
           deployment_id, # Unique identifier of the deployment to unpause.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164255,7 +168539,8 @@ module Anthropic
                          # clear (revert to manual-only).
           vault_ids: nil, # Body param: Vault IDs. Full replacement. Omit to preserve; send empty array or
                           # null to clear. Maximum 50.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164292,7 +168577,8 @@ module Anthropic
         end
         def archive(
           dream_id, # The ID of the dream to archive (`drm_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164321,7 +168607,8 @@ module Anthropic
         end
         def cancel(
           dream_id, # The ID of the dream to cancel (`drm_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164376,7 +168663,8 @@ module Anthropic
                              # for what kinds of instructions work well.
           output_behavior: nil, # Body param: Which memory store a dream writes its result to. Defaults to
                                 # `create_new` when left out of a create request.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send `dreaming-2026-04-21`
+                      # in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164419,7 +168707,8 @@ module Anthropic
           statuses: nil, # Query param: Return only dreams that have one of these statuses.
                          # Repeat the parameter to give more than one status. Leave it out to return dreams
                          # of every status.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send `dreaming-2026-04-21`
+                      # in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -164445,7 +168734,8 @@ module Anthropic
         end
         def retrieve(
           dream_id, # The ID of the dream to get (`drm_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `dreaming-2026-04-21` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165003,7 +169293,8 @@ module Anthropic
           memory_store_id, # ID of the memory store to archive (a `memstore_...` identifier). Required.
                            # Archiving is one-way and idempotent; archived stores cannot be unarchived.
                            # Enumerate IDs via `GET /v1/memory_stores`.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165034,7 +169325,8 @@ module Anthropic
           metadata: nil, # Body param: Arbitrary key-value tags for your own bookkeeping (such as the end
                          # user a store belongs to). Up to 16 pairs; keys 1–64 characters; values up to 512
                          # characters. Not visible to the agent.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165056,7 +169348,8 @@ module Anthropic
           memory_store_id, # ID of the memory store to permanently delete (a `memstore_...` identifier).
                            # Required. Deletion cascades to all memories and memory versions in the store and
                            # cannot be undone.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165091,7 +169384,8 @@ module Anthropic
                       # and 100. Defaults to 20 when omitted.
           page: nil, # Query param: Opaque pagination cursor (a `page_...` value). Pass the `next_page`
                      # value from a previous response to fetch the next page; omit for the first page.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165112,7 +169406,8 @@ module Anthropic
         def retrieve(
           memory_store_id, # ID of the memory store to retrieve (a `memstore_...` identifier). Required.
                            # Enumerate IDs via `GET /v1/memory_stores`.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `agent-memory-2026-07-22` or
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165145,7 +169440,8 @@ module Anthropic
           name: nil, # Body param: New human-readable name for the store. 1–255 characters; no control
                      # characters. Renaming changes the slug used for the store's `mount_path` in
                      # sessions created after the update.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -165187,7 +169483,8 @@ module Anthropic
                        # populates `content`. When omitted, the default is endpoint-specific: retrieve
                        # operations default to `full`; list, create, and update operations default to
                        # `basic`. Listing with `view=full` caps `limit` at 20.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165215,7 +169512,8 @@ module Anthropic
                                           # unconditionally.
                                           # If the hashes differ, the request fails with HTTP status 409 and nothing is
                                           # deleted.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165257,7 +169555,8 @@ module Anthropic
             view: nil, # Query param: Which projection of each `memory` to return. Defaults to `basic`
                        # (content omitted). `full` populates `content` on each item and caps `limit` at
                        # 20; use this as the bulk-read path for export and sync.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165285,7 +169584,8 @@ module Anthropic
                        # populates `content`. When omitted, the default is endpoint-specific: retrieve
                        # operations default to `full`; list, create, and update operations default to
                        # `basic`. Listing with `view=full` caps `limit` at 20.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165328,7 +169628,8 @@ module Anthropic
                                # update applies only if the memory's current state matches; on mismatch the
                                # request returns `memory_precondition_failed_error` (HTTP 409). When omitted, the
                                # update is unconditional.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165387,7 +169688,8 @@ module Anthropic
                        # populates `content`. When omitted, the default is endpoint-specific: retrieve
                        # operations default to `full`; list, create, and update operations default to
                        # `basic`. Listing with `view=full` caps `limit` at 20.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165409,7 +169711,8 @@ module Anthropic
           def redact(
             memory_version_id, # Path param: The ID of the memory version to redact (`memver_...`).
             memory_store_id:, # Path param: The ID of the memory store that holds the version (`memstore_...`).
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165437,7 +169740,8 @@ module Anthropic
                        # populates `content`. When omitted, the default is endpoint-specific: retrieve
                        # operations default to `full`; list, create, and update operations default to
                        # `basic`. Listing with `view=full` caps `limit` at 20.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `agent-memory-2026-07-22` or `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -165543,7 +169847,10 @@ module Anthropic
                      # `assistant` messages.
                      # If the final message uses the `assistant` role, the response content will
                      # continue immediately from the content in that message. This can be used to
-                     # constrain part of the model's response.
+                     # constrain part of the model's response. This is called prefill. On models that
+                     # don't support prefill, creating a message that ends with a partial `assistant`
+                     # response returns a 400 error. See
+                     # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                      # Example with a single `user` message:
                      # ```json
                      # [{ "role": "user", "content": "Hello, Claude" }]
@@ -165556,7 +169863,8 @@ module Anthropic
                      #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                      # ]
                      # ```
-                     # Example with a partially-filled response from Claude:
+                     # Example with a partially-filled response from Claude, for models that support
+                     # prefill:
                      # ```json
                      # [
                      #   {
@@ -165608,17 +169916,22 @@ module Anthropic
                               # removed in a future release.
           speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
                       # output-tokens-per-second inference.
+                      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                      # value. See
+                      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                      # which models.
           system_: nil, # Body param: System prompt.
                         # A system prompt is a way of providing context and instructions to Claude, such
                         # as specifying a particular goal or role. See our
                         # [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role).
-          thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                         # When enabled, responses include `thinking` content blocks showing Claude's
-                         # thinking process before the final answer. Requires a minimum budget of 1,024
-                         # tokens and counts towards your `max_tokens` limit.
-                         # See
-                         # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                         # for details.
+          thinking: nil, # Body param: Configuration for Claude's thinking.
+                         # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                         # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                         # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                         # Which `type` values are accepted, and what happens when you omit `thinking`,
+                         # depend on the model. See
+                         # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                         # for each model's behavior.
           tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                             # specific tool, any available tool, decide by itself, or not use tools at all.
           tools: nil, # Body param: Definitions of tools that the model may use.
@@ -165818,7 +170131,10 @@ module Anthropic
                      # `assistant` messages.
                      # If the final message uses the `assistant` role, the response content will
                      # continue immediately from the content in that message. This can be used to
-                     # constrain part of the model's response.
+                     # constrain part of the model's response. This is called prefill. On models that
+                     # don't support prefill, creating a message that ends with a partial `assistant`
+                     # response returns a 400 error. See
+                     # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                      # Example with a single `user` message:
                      # ```json
                      # [{ "role": "user", "content": "Hello, Claude" }]
@@ -165831,7 +170147,8 @@ module Anthropic
                      #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                      # ]
                      # ```
-                     # Example with a partially-filled response from Claude:
+                     # Example with a partially-filled response from Claude, for models that support
+                     # prefill:
                      # ```json
                      # [
                      #   {
@@ -165897,8 +170214,12 @@ module Anthropic
                                       # assistant-turn prefill, this token also authorizes that one prefill.
           fallbacks: nil, # Body param: Opt-in server-side retry on one or more substitute models when the
                           # requested model declines for policy reasons. Tried in order: if the first entry
-                          # also declines, the second is tried, and so on. The string "default" requests the
-                          # requested model's server-defined default fallback configuration.
+                          # also declines, the second is tried, and so on. Some models don't support
+                          # fallbacks; on those models, a list of fallback models returns a 400 error. See
+                          # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+                          # The string "default" requests the requested model's server-defined default
+                          # fallback configuration. On a model that doesn't support fallbacks, the request
+                          # runs on the requested model alone, so a declined request stays declined.
           inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                               # specified, the workspace's `default_inference_geo` is used.
           mcp_servers: nil, # Body param: MCP servers to be utilized in this request
@@ -165916,6 +170237,10 @@ module Anthropic
                              # details.
           speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
                       # output-tokens-per-second inference.
+                      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                      # value. See
+                      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                      # which models.
           stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                                # Our models will normally stop when they have naturally completed their turn,
                                # which will result in a response `stop_reason` of `"end_turn"`.
@@ -165933,13 +170258,14 @@ module Anthropic
                             # generative tasks.
                             # Note that even with `temperature` of `0.0`, the results will not be fully
                             # deterministic.
-          thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                         # When enabled, responses include `thinking` content blocks showing Claude's
-                         # thinking process before the final answer. Requires a minimum budget of 1,024
-                         # tokens and counts towards your `max_tokens` limit.
-                         # See
-                         # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                         # for details.
+          thinking: nil, # Body param: Configuration for Claude's thinking.
+                         # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                         # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                         # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                         # Which `type` values are accepted, and what happens when you omit `thinking`,
+                         # depend on the model. See
+                         # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                         # for each model's behavior.
           tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                             # specific tool, any available tool, decide by itself, or not use tools at all.
           tools: nil, # Body param: Definitions of tools that the model may use.
@@ -166458,7 +170784,8 @@ module Anthropic
             workspace_id: String,
             stream: T.noreturn,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Internal::Stream[
+          ).returns(Anthropic::Internal::Type::BaseStream[
+              T.noreturn,
               Anthropic::Beta::BetaRawMessageStreamEvent::Variants
             ])
         end
@@ -166483,7 +170810,10 @@ module Anthropic
                      # `assistant` messages.
                      # If the final message uses the `assistant` role, the response content will
                      # continue immediately from the content in that message. This can be used to
-                     # constrain part of the model's response.
+                     # constrain part of the model's response. This is called prefill. On models that
+                     # don't support prefill, creating a message that ends with a partial `assistant`
+                     # response returns a 400 error. See
+                     # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                      # Example with a single `user` message:
                      # ```json
                      # [{ "role": "user", "content": "Hello, Claude" }]
@@ -166496,7 +170826,8 @@ module Anthropic
                      #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                      # ]
                      # ```
-                     # Example with a partially-filled response from Claude:
+                     # Example with a partially-filled response from Claude, for models that support
+                     # prefill:
                      # ```json
                      # [
                      #   {
@@ -166562,8 +170893,12 @@ module Anthropic
                                       # assistant-turn prefill, this token also authorizes that one prefill.
           fallbacks: nil, # Body param: Opt-in server-side retry on one or more substitute models when the
                           # requested model declines for policy reasons. Tried in order: if the first entry
-                          # also declines, the second is tried, and so on. The string "default" requests the
-                          # requested model's server-defined default fallback configuration.
+                          # also declines, the second is tried, and so on. Some models don't support
+                          # fallbacks; on those models, a list of fallback models returns a 400 error. See
+                          # [Server-side fallback](https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback#server-side-fallback).
+                          # The string "default" requests the requested model's server-defined default
+                          # fallback configuration. On a model that doesn't support fallbacks, the request
+                          # runs on the requested model alone, so a declined request stays declined.
           inference_geo: nil, # Body param: Specifies the geographic region for inference processing. If not
                               # specified, the workspace's `default_inference_geo` is used.
           mcp_servers: nil, # Body param: MCP servers to be utilized in this request
@@ -166581,6 +170916,10 @@ module Anthropic
                              # details.
           speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
                       # output-tokens-per-second inference.
+                      # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                      # value. See
+                      # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                      # which models.
           stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                                # Our models will normally stop when they have naturally completed their turn,
                                # which will result in a response `stop_reason` of `"end_turn"`.
@@ -166598,13 +170937,14 @@ module Anthropic
                             # generative tasks.
                             # Note that even with `temperature` of `0.0`, the results will not be fully
                             # deterministic.
-          thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                         # When enabled, responses include `thinking` content blocks showing Claude's
-                         # thinking process before the final answer. Requires a minimum budget of 1,024
-                         # tokens and counts towards your `max_tokens` limit.
-                         # See
-                         # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                         # for details.
+          thinking: nil, # Body param: Configuration for Claude's thinking.
+                         # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                         # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                         # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                         # Which `type` values are accepted, and what happens when you omit `thinking`,
+                         # depend on the model. See
+                         # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                         # for each model's behavior.
           tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                             # specific tool, any available tool, decide by itself, or not use tools at all.
           tools: nil, # Body param: Definitions of tools that the model may use.
@@ -167070,7 +171410,8 @@ module Anthropic
               betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
               workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
-            ).returns(Anthropic::Internal::JsonLStream[
+            ).returns(Anthropic::Internal::Type::BaseStream[
+                T.noreturn,
                 Anthropic::Beta::Messages::BetaMessageBatchIndividualResponse
               ])
           end
@@ -167223,6 +171564,9 @@ module Anthropic
 
         sig { returns(Anthropic::Resources::Beta::Organization::SpendLimits) }
         attr_reader :spend_limits
+
+        sig { returns(Anthropic::Resources::Beta::Organization::TelemetryDestinations) }
+        attr_reader :telemetry_destinations
 
         sig { returns(Anthropic::Resources::Beta::Organization::Users) }
         attr_reader :users
@@ -169105,7 +173449,8 @@ module Anthropic
                    # The accepted values depend on the organization type. Console and API
                    # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                    # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                   # accept `user` and `managed`.
+                   # accept `user` and `managed`; inviting with the `managed` role requires the
+                   # `write:rbac_groups` scope in addition to `write:members`.
             rbac_group_ids: nil, # RBAC group IDs to assign to the User when the Invite is accepted. A non-empty
                                  # array is accepted only for a Claude Enterprise organization with RBAC groups,
                                  # and requires the key to carry the `write:rbac_groups` scope.
@@ -170615,8 +174960,9 @@ module Anthropic
           # For a Claude Enterprise organization, this deletes a per-user override, and the
           # member falls back to any inherited spend limit at that period. Its seat-tier,
           # group, and organization-level rows cannot be deleted via this endpoint. A Claude
-          # Console organization deletes its organization and workspace limits. Deleting
-          # them through the API is in an early access preview.
+          # Console organization deletes its organization and workspace limits, but not its
+          # `usage_tier` limit. Deleting organization and workspace limits through the API
+          # is in an early access preview.
           sig do
             params(
               spend_limit_id: String,
@@ -170630,12 +174976,10 @@ module Anthropic
 
           # List the organization's spend limits.
           #
-          # A Claude Console organization's limits come in an order that is stable across
-          # pages. A Claude Enterprise organization's are grouped by scope type, in the
-          # order `organization`, `seat_tier`, `rbac_group`, `organization_service`, `user`;
-          # within a type they come in a fixed order that is not creation order. Listing
-          # Claude Console limits is in an early access preview. To request access, contact
-          # your Anthropic account team.
+          # Limits are grouped by scope type, in the order `organization`, `seat_tier`,
+          # `rbac_group`, `organization_service`, `user`; within a type they come in a fixed
+          # order that is not creation order. Supported for Claude Enterprise organizations
+          # only, not for Claude Console organizations.
           sig do
             params(
               limit: Integer,
@@ -170654,10 +174998,7 @@ module Anthropic
           def list(
             limit: nil, # Query param: Maximum number of limits per page. Defaults to `20`.
             page: nil, # Query param: Opaque cursor from a previous response's `next_page` field.
-            scope_type: nil, # Query param: Return only limits with these scope types. A Claude Console
-                             # organization has `organization` and `workspace` limits; a Claude Enterprise
-                             # organization has `organization`, `seat_tier`, `rbac_group`,
-                             # `organization_service` and `user` limits. Omit for all.
+            scope_type: nil, # Query param: Return only limits with these scope types. Omit for all.
             betas: nil, # Header param: This endpoint is in beta: requests must send
                         # `spend-limit-reads-2026-09-26` in this header.
             request_options: {}
@@ -170722,8 +175063,8 @@ module Anthropic
             #
             # Returns one row per (member, period) the member resolves a spend limit for, with
             # the `source` scope the spend limit was inherited from. Paginates by member, so a
-            # member's periods never split across pages. Listing Claude Console limits is in
-            # an early access preview. To request access, contact your Anthropic account team.
+            # member's periods never split across pages. Supported for Claude Enterprise
+            # organizations only, not for Claude Console organizations.
             sig do
               params(
                 limit: Integer,
@@ -170849,6 +175190,336 @@ module Anthropic
           end
         end
 
+        class TelemetryDestinations
+          sig { returns(Anthropic::Resources::Beta::Organization::TelemetryDestinations::Workspaces) }
+          attr_reader :workspaces
+
+          # Register an OpenTelemetry destination for the organization.
+          #
+          # The destination starts in state `enabled`. An organization can have at most 10
+          # destinations, including disabled ones.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#add-a-destination)
+          # to learn more about adding a destination.
+          sig do
+            params(
+              endpoint_url: String,
+              workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams::OrHash
+                ),
+              display_name: T.nilable(String),
+              headers: T::Hash[Symbol, String],
+              traces: Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash,
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaTelemetryDestination)
+          end
+          def create(
+            endpoint_url:, # Body param: The base URL of your collector's OTLP/HTTP endpoint, for example
+                           # `https://gateway.example.com`.
+                           # The URL must use `https` and a hostname, not an IP address. The port, if given,
+                           # must be 443. The URL must not contain a query string, a fragment, or a username
+                           # and password. At most 2,048 characters.
+                           # A path prefix, such as `/otlp`, is allowed. Don't include the per-signal path
+                           # (`/v1/traces`), because the API appends it on delivery. If your collector takes
+                           # traces on another path, also set `traces.endpoint_url`.
+            workspaces:, # Body param: Which of the organization's workspaces the destination covers.
+            display_name: nil, # Body param: Human-readable name for the destination. Optional. 1 to 255
+                               # characters.
+            headers: nil, # Body param: Request headers that the API sends with every delivery, typically
+                          # your collector's authentication header (for example `authorization`).
+                          # The API stores the values encrypted and never returns them. Reads show only
+                          # `header_names`.
+                          # At most 20 headers. Names are at most 128 characters. Two names can't differ
+                          # only in case. Values are printable ASCII, at most 4,096 characters, and can't
+                          # begin or end with a space. Names and values together are at most 16,384 bytes.
+                          # Reserved names are rejected, for example `host`, `cookie`, `user-agent`, and
+                          # names that start with `content-`, `proxy-`, `x-forwarded-`, or `anthropic-`. For
+                          # this check, `_` in a name counts as `-`.
+            traces: nil, # Body param: The settings for the traces that the destination receives. If you
+                         # leave it out, every setting takes its default.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `telemetry-destinations-2026-08-11` in this header.
+            request_options: {}
+); end
+
+          # Delete a destination and its workspace list.
+          #
+          # The API stops sending spans to the destination. The spans of the workspaces it
+          # covered still go to the other destinations that cover them. A deleted
+          # destination can't be read, listed, or restored.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health)
+          # to learn more about managing a destination.
+          sig do
+            params(
+              destination_id: String,
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaDeletedTelemetryDestination)
+          end
+          def delete(
+            destination_id, # ID of the destination (`tdst_...`).
+            betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                        # in this header.
+            request_options: {}
+); end
+
+          # List the organization's destinations, newest first, optionally only those that
+          # cover given workspaces.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#set-up-api-tracing)
+          # to learn more about destinations.
+          sig do
+            params(
+              limit: Integer,
+              page: String,
+              workspace_ids: T::Array[String],
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Internal::PageCursor[
+                Anthropic::Beta::Organization::BetaTelemetryDestination
+              ])
+          end
+          def list(
+            limit: nil, # Query param: Number of destinations to return per page, between 1 and 1,000.
+                        # Defaults to 20.
+            page: nil, # Query param: Opaque cursor from a previous response's `next_page`. Leave it out
+                       # to get the first page.
+            workspace_ids: nil, # Query param: Return only the destinations that cover at least one of these
+                                # workspaces (`wrkspc_...`).
+                                # Send at most 100 IDs, as `workspace_ids[]`. A destination covers a workspace
+                                # when its `workspaces.type` is `all`, when its `include` list has the workspace,
+                                # or when its `exclude` list doesn't have it. Destinations in either state can
+                                # match. An ID that isn't the ID of one of the organization's workspaces doesn't
+                                # match any destination, not even one whose type is `all`.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `telemetry-destinations-2026-08-11` in this header.
+            request_options: {}
+); end
+
+          # Read a destination's configuration, state, and most recent delivery results.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health)
+          # to learn how the API delivers spans and when it disables a destination.
+          sig do
+            params(
+              destination_id: String,
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaTelemetryDestination)
+          end
+          def retrieve(
+            destination_id, # ID of the destination (`tdst_...`).
+            betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                        # in this header.
+            request_options: {}
+); end
+
+          # Send one test span, named `anthropic.test`, to the destination with its
+          # registered headers, once and without retries, and report the destination's
+          # answer. The response is 200 whether or not the destination answered with a 2xx
+          # status: its `result` has the type `success`, or the type `failure` and the
+          # reason in `error`. The destination's configuration, `state` and
+          # `delivery_health` do not change. A disabled destination can be tested too. Wait
+          # 10 seconds between tests of one destination; a request that comes sooner may be
+          # answered with status 429.
+          sig do
+            params(
+              destination_id: String,
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaTelemetryDestinationTestResponse)
+          end
+          def test_(
+            destination_id, # ID of the destination to test (starts with `tdst_`).
+            betas: nil, # This endpoint is in beta: requests must send `telemetry-destinations-2026-08-11`
+                        # in this header.
+            request_options: {}
+); end
+
+          # Change a telemetry destination's settings, its state, or which workspaces it
+          # covers.
+          #
+          # Send at least one field. Omitted fields keep their stored values, except the
+          # registered headers, which a change of the endpoint's hostname or port removes.
+          # Only `display_name`, `traces`, `traces.endpoint_url`, `traces.content_mode`,
+          # `traces.max_content_bytes`, and individual `headers` values accept `null`.
+          #
+          # If another request changes the destination while the update runs, the API
+          # returns a 409 `conflict_error`. Read the destination again, then retry the
+          # update.
+          #
+          # See the
+          # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#delivery-and-health)
+          # to learn more about changing a destination.
+          sig do
+            params(
+              destination_id: String,
+              display_name: T.nilable(String),
+              endpoint_url: String,
+              headers: T.nilable(T::Hash[Symbol, T.nilable(String)]),
+              state: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateEnabledParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationStateDisabledParams::OrHash
+                ),
+              traces: T.nilable(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationTracesParams::OrHash
+                ),
+              workspaces: T.any(
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesAllParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesIncludeParams::OrHash,
+                  Anthropic::Beta::Organization::BetaTelemetryDestinationWorkspacesExcludeParams::OrHash
+                ),
+              betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+              request_options: Anthropic::RequestOptions::OrHash
+            ).returns(Anthropic::Beta::Organization::BetaTelemetryDestination)
+          end
+          def update(
+            destination_id, # Path param: ID of the destination (`tdst_...`).
+            display_name: nil, # Body param: New human-readable name, 1 to 255 characters. Null clears it.
+            endpoint_url: nil, # Body param: The new base URL of the destination's OTLP/HTTP endpoint. The same
+                               # rules as on create apply.
+                               # A change of hostname or port first removes every registered header, so send the
+                               # headers for the new endpoint in the same request. When the destination has a
+                               # `traces.endpoint_url`, such a change must also set `traces.endpoint_url` to a
+                               # URL with the new hostname and port, or to `null`. A change of the path alone
+                               # keeps the headers.
+            headers: nil, # Body param: Headers to set or remove. The API merges them into the destination's
+                          # headers by name.
+                          # Names compare case-insensitively. A string value sets or replaces that header. A
+                          # `null` value removes it. Headers that you omit don't change. The field itself
+                          # can't be `null`.
+                          # A request that sets a header value must also include `endpoint_url`. The current
+                          # URL is accepted.
+                          # The resulting set must stay within the same limits as on create. When the
+                          # request sets a value, each stored value that it doesn't set counts as 4,096
+                          # bytes toward the 16,384-byte limit, because you can't read its real length. So
+                          # to change one header of a destination that has four or more other headers, send
+                          # the values of the others again in the same request.
+            state: nil, # Body param: Whether the destination receives deliveries after the update. The
+                        # field can't be `null`.
+            traces: nil, # Body param: The traces settings to change. Omitted settings keep their stored
+                         # values.
+                         # `null` sets every traces setting to its create default.
+            workspaces: nil, # Body param: The new workspace scope, in the same form as on create. The field
+                             # can't be `null`.
+                             # The API refuses an update that changes the type or sends `workspace_ids` while
+                             # the destination's list has more than 750 workspaces. Remove workspaces one at a
+                             # time until 750 or fewer remain, then send the update again.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `telemetry-destinations-2026-08-11` in this header.
+            request_options: {}
+); end
+
+          class << self
+            # @api private
+            sig { params(client: Anthropic::Client).returns(T.attached_class) }
+            def new(client:); end
+          end
+
+          class Workspaces
+            # Add one workspace to a destination's workspace list.
+            #
+            # Under `include` the workspace's spans start going to the destination. Under
+            # `exclude` they stop. A list holds at most 1,000 workspaces.
+            #
+            # Adding a workspace that is already on the list changes nothing and returns the
+            # existing entry. An archived workspace that isn't on the list yet can't be added.
+            # A destination whose `workspaces.type` is `all` doesn't have a list, so the API
+            # returns 400. To change which workspaces such a destination covers, update its
+            # `workspaces`.
+            #
+            # See the
+            # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-workspaces-for-a-destination)
+            # to learn more about choosing the workspaces of a destination.
+            sig do
+              params(
+                workspace_id: String,
+                destination_id: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(Anthropic::Beta::Organization::TelemetryDestinations::BetaTelemetryDestinationWorkspace)
+            end
+            def add(
+              workspace_id, # Path param: ID of the workspace to add (`wrkspc_...`).
+              destination_id:, # Path param: ID of the destination (`tdst_...`).
+              betas: nil, # Header param: This endpoint is in beta: requests must send
+                          # `telemetry-destinations-2026-08-11` in this header.
+              request_options: {}
+); end
+
+            # List the workspaces on a destination's workspace list, newest entry first.
+            #
+            # A destination whose `workspaces.type` is `all` doesn't have a list, so its page
+            # is empty. The list includes archived workspaces.
+            #
+            # See the
+            # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-workspaces-for-a-destination)
+            # to learn more about choosing the workspaces of a destination.
+            sig do
+              params(
+                destination_id: String,
+                limit: Integer,
+                page: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(Anthropic::Internal::PageCursor[
+                  Anthropic::Beta::Organization::TelemetryDestinations::BetaTelemetryDestinationWorkspace
+                ])
+            end
+            def list(
+              destination_id, # Path param: ID of the destination (`tdst_...`).
+              limit: nil, # Query param: Number of entries to return per page, between 1 and 1,000. Defaults
+                          # to 20.
+              page: nil, # Query param: Opaque cursor from a previous response's `next_page`. Leave it out
+                         # to get the first page.
+              betas: nil, # Header param: This endpoint is in beta: requests must send
+                          # `telemetry-destinations-2026-08-11` in this header.
+              request_options: {}
+); end
+
+            # Remove one workspace from a destination's workspace list.
+            #
+            # Under `include` the workspace's spans stop going to the destination. Under
+            # `exclude` they start. An archived workspace can be removed too.
+            #
+            # The API returns 404 when the workspace isn't on the list. A destination whose
+            # `workspaces.type` is `all` doesn't have a list, so the API returns 400.
+            #
+            # See the
+            # [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-claude/opentelemetry#choose-workspaces-for-a-destination)
+            # to learn more about choosing the workspaces of a destination.
+            sig do
+              params(
+                workspace_id: String,
+                destination_id: String,
+                betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
+                request_options: Anthropic::RequestOptions::OrHash
+              ).returns(Anthropic::Beta::Organization::TelemetryDestinations::BetaDeletedTelemetryDestinationWorkspace)
+            end
+            def remove(
+              workspace_id, # Path param: ID of the workspace to remove (`wrkspc_...`).
+              destination_id:, # Path param: ID of the destination (`tdst_...`).
+              betas: nil, # Header param: This endpoint is in beta: requests must send
+                          # `telemetry-destinations-2026-08-11` in this header.
+              request_options: {}
+); end
+
+            class << self
+              # @api private
+              sig { params(client: Anthropic::Client).returns(T.attached_class) }
+              def new(client:); end
+            end
+          end
+        end
+
         class Users
           # List the organization's members.
           sig do
@@ -170918,7 +175589,8 @@ module Anthropic
                    # The accepted values depend on the organization type. Console and API
                    # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                    # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                   # accept `user` and `managed`.
+                   # accept `user` and `managed`; changing a User's role to `managed` requires the
+                   # `write:rbac_groups` scope in addition to `write:members`.
             request_options: {}
 ); end
 
@@ -171374,7 +176046,8 @@ module Anthropic
         end
         def archive(
           session_id,
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171434,7 +176107,8 @@ module Anthropic
           title: nil, # Body param: Human-readable session title.
           vault_ids: nil, # Body param: Vault IDs for stored credentials the agent can use during the
                           # session.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171454,7 +176128,8 @@ module Anthropic
         end
         def delete(
           session_id,
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171504,7 +176179,8 @@ module Anthropic
           page: nil, # Query param: Opaque pagination cursor from a previous response.
           statuses: nil, # Query param: Filter by session status. Repeat the parameter to match any of
                          # multiple statuses.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171524,7 +176200,8 @@ module Anthropic
         end
         def retrieve(
           session_id,
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171565,7 +176242,8 @@ module Anthropic
           title: nil, # Body param: Human-readable session title.
           vault_ids: nil, # Body param: Vault IDs (`vlt_*`) to attach to the session. Not yet supported;
                           # requests setting this field are rejected. Reserved for future use.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -171619,7 +176297,8 @@ module Anthropic
             types: nil, # Query param: Filter by event type. Values match the `type` field on returned
                         # events (for example, `user.message` or `agent.tool_use`). Omit to return all
                         # event types.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171651,7 +176330,8 @@ module Anthropic
           def send_(
             session_id, # Path param
             events:, # Body param: Events to send to the `session`.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171668,7 +176348,8 @@ module Anthropic
               betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
               workspace_id: String,
               request_options: Anthropic::RequestOptions::OrHash
-            ).returns(Anthropic::Internal::Stream[
+            ).returns(Anthropic::Internal::Type::BaseStream[
+                T.noreturn,
                 Anthropic::Beta::Sessions::BetaManagedAgentsStreamSessionEvents::Variants
               ])
           end
@@ -171684,7 +176365,8 @@ module Anthropic
                                # start-only — a signal that the agent has begun extended thinking, concluded by
                                # the `agent.thinking` event itself. Only previews of the requested event types
                                # are sent.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171719,7 +176401,8 @@ module Anthropic
             type:, # Body param
             mount_path: nil, # Body param: Mount path in the container. Defaults to
                              # `/mnt/session/uploads/<file_id>`.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171741,7 +176424,8 @@ module Anthropic
           def delete(
             resource_id, # Path param
             session_id:, # Path param
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171768,7 +176452,8 @@ module Anthropic
             limit: nil, # Query param: Maximum number of resources to return per page (max 1000). If
                         # omitted, returns all resources.
             page: nil, # Query param: Opaque cursor from a previous response's `next_page` field.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171790,7 +176475,8 @@ module Anthropic
           def retrieve(
             resource_id, # Path param
             session_id:, # Path param
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171815,7 +176501,8 @@ module Anthropic
             session_id:, # Path param
             authorization_token:, # Body param: New authorization token for the resource. Currently only
                                   # `github_repository` resources support token rotation.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171848,7 +176535,8 @@ module Anthropic
           def archive(
             thread_id, # Path param
             session_id:, # Path param
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171881,7 +176569,8 @@ module Anthropic
             statuses: nil, # Query param: Return only threads that have one of these statuses.
                            # Repeat the parameter to give more than one status. Leave it out to return
                            # threads of every status.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171903,7 +176592,8 @@ module Anthropic
           def retrieve(
             thread_id, # Path param
             session_id:, # Path param
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -171938,7 +176628,8 @@ module Anthropic
               session_id:, # Path param
               limit: nil, # Query param
               page: nil, # Query param
-              betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+              betas: nil, # Header param: This endpoint is in beta: requests must send
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                  # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -171958,7 +176649,8 @@ module Anthropic
                 betas: T::Array[T.any(Anthropic::AnthropicBeta::OrSymbol, String)],
                 workspace_id: String,
                 request_options: Anthropic::RequestOptions::OrHash
-              ).returns(Anthropic::Internal::Stream[
+              ).returns(Anthropic::Internal::Type::BaseStream[
+                  T.noreturn,
                   Anthropic::Beta::Sessions::BetaManagedAgentsStreamSessionThreadEvents::Variants
                 ])
             end
@@ -171975,7 +176667,8 @@ module Anthropic
                                  # start-only — a signal that the agent has begun extended thinking, concluded by
                                  # the `agent.thinking` event itself. Only previews of the requested event types
                                  # are sent.
-              betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+              betas: nil, # Header param: This endpoint is in beta: requests must send
+                          # `managed-agents-2026-04-01` in this header.
               workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                  # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                  # Only needed for credentials that can act on more than one Workspace. A
@@ -172262,7 +176955,8 @@ module Anthropic
         end
         def archive(
           tunnel_id, # ID of the tunnel (`tnl_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172289,7 +176983,8 @@ module Anthropic
         end
         def create(
           display_name: nil, # Body param: Optional human-readable name for the tunnel (1-255 characters).
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `mcp-tunnels-2026-06-22` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172321,7 +177016,8 @@ module Anthropic
           limit: nil, # Query param: Maximum number of tunnels to return per page. Defaults to 20,
                       # maximum 1000.
           page: nil, # Query param: Opaque pagination cursor from a previous `list_tunnels` response.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `mcp-tunnels-2026-06-22` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172346,7 +177042,8 @@ module Anthropic
         end
         def retrieve(
           tunnel_id, # ID of the tunnel (`tnl_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172374,7 +177071,8 @@ module Anthropic
         end
         def reveal_token(
           tunnel_id, # ID of the tunnel (`tnl_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `mcp-tunnels-2026-06-22` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172403,7 +177101,8 @@ module Anthropic
         def rotate_token(
           tunnel_id, # Path param: ID of the tunnel (`tnl_...`).
           reason: nil, # Body param: Optional free-text reason for the rotation, recorded for audit.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `mcp-tunnels-2026-06-22` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172440,7 +177139,8 @@ module Anthropic
           def archive(
             certificate_id, # Path param: ID of the certificate to archive (`tcrt_...`).
             tunnel_id:, # Path param: ID of the tunnel (`tnl_...`).
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `mcp-tunnels-2026-06-22` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172470,7 +177170,8 @@ module Anthropic
             tunnel_id, # Path param: ID of the tunnel (`tnl_...`).
             ca_certificate_pem:, # Body param: PEM-encoded X.509 CA certificate. Must contain exactly one
                                  # certificate and no private-key material. Maximum 8KB.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `mcp-tunnels-2026-06-22` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172507,7 +177208,8 @@ module Anthropic
                         # maximum 1000.
             page: nil, # Query param: Opaque pagination cursor from a previous `list_tunnel_certificates`
                        # response.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `mcp-tunnels-2026-06-22` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172534,7 +177236,8 @@ module Anthropic
           def retrieve(
             certificate_id, # Path param: ID of the certificate (`tcrt_...`).
             tunnel_id:, # Path param: ID of the tunnel (`tnl_...`).
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `mcp-tunnels-2026-06-22` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172591,7 +177294,9 @@ module Anthropic
                      # profile represents (company or individual); for a company the platform resells
                      # Claude access to (`access_type` `passthrough`), that company's name where known.
                      # Maximum 255 characters.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `user-profiles-2026-03-24`, `user-profiles-2026-08-18`, or
+                      # `user-profiles-2026-09-04` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172611,7 +177316,8 @@ module Anthropic
         end
         def create_enrollment_url(
           user_profile_id, # The ID of the user profile to create an enrollment URL for (`uprof_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                      # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172642,7 +177348,9 @@ module Anthropic
           page: nil, # Query param: The cursor for the page to return, taken from `next_page` in a
                      # previous response.
                      # Leave it out to get the first page.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `user-profiles-2026-03-24`, `user-profiles-2026-08-18`, or
+                      # `user-profiles-2026-09-04` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172662,7 +177370,8 @@ module Anthropic
         end
         def retrieve(
           user_profile_id, # The ID of the user profile to get (`uprof_...`).
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `user-profiles-2026-03-24`,
+                      # `user-profiles-2026-08-18`, or `user-profiles-2026-09-04` in this header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172711,7 +177420,9 @@ module Anthropic
                          # characters and values up to 512 characters.
           name: nil, # Body param: If present, replaces the stored name. Omit to leave unchanged.
                      # Maximum 255 characters.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `user-profiles-2026-03-24`, `user-profiles-2026-08-18`, or
+                      # `user-profiles-2026-09-04` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172742,7 +177453,8 @@ module Anthropic
         end
         def archive(
           vault_id, # Unique identifier of the vault to archive.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172765,7 +177477,8 @@ module Anthropic
           display_name:, # Body param: Human-readable name for the vault. 1-255 characters.
           metadata: nil, # Body param: Arbitrary key-value metadata to attach to the vault. Maximum 16
                          # pairs, keys up to 64 chars, values up to 512 chars.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172785,7 +177498,8 @@ module Anthropic
         end
         def delete(
           vault_id, # Unique identifier of the vault to delete.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172812,7 +177526,8 @@ module Anthropic
           limit: nil, # Query param: Maximum number of vaults to return per page. Defaults to 20,
                       # maximum 100.
           page: nil, # Query param: Opaque pagination token from a previous `list_vaults` response.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172832,7 +177547,8 @@ module Anthropic
         end
         def retrieve(
           vault_id, # Unique identifier of the vault to retrieve.
-          betas: nil, # Optional header to specify the beta version(s) you want to use.
+          betas: nil, # This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this
+                      # header.
           workspace_id: nil, # Optional header to select the Workspace for this request. The value is a
                              # Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172857,7 +177573,8 @@ module Anthropic
           display_name: nil, # Body param: Updated human-readable name for the vault. 1-255 characters.
           metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                          # delete it. Omitted keys are preserved.
-          betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+          betas: nil, # Header param: This endpoint is in beta: requests must send
+                      # `managed-agents-2026-04-01` in this header.
           workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                              # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                              # Only needed for credentials that can act on more than one Workspace. A
@@ -172886,7 +177603,8 @@ module Anthropic
           def archive(
             credential_id, # Path param: Unique identifier of the credential to archive.
             vault_id:, # Path param: Identifier of the vault containing the credential.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172917,7 +177635,8 @@ module Anthropic
             display_name: nil, # Body param: Human-readable name for the credential. Up to 255 characters.
             metadata: nil, # Body param: Arbitrary key-value metadata to attach to the credential. Maximum 16
                            # pairs, keys up to 64 chars, values up to 512 chars.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172939,7 +177658,8 @@ module Anthropic
           def delete(
             credential_id, # Path param: Unique identifier of the credential to delete.
             vault_id:, # Path param: Identifier of the vault containing the credential.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172969,7 +177689,8 @@ module Anthropic
                         # maximum 100.
             page: nil, # Query param: Opaque pagination token from a previous `list_credentials`
                        # response.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -172991,7 +177712,8 @@ module Anthropic
           def mcp_oauth_validate(
             credential_id, # Path param: Unique identifier of the credential to validate.
             vault_id:, # Path param: Identifier of the vault containing the credential.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -173013,7 +177735,8 @@ module Anthropic
           def retrieve(
             credential_id, # Path param: Unique identifier of the credential to retrieve.
             vault_id:, # Path param: Identifier of the vault containing the credential.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -173047,7 +177770,8 @@ module Anthropic
             display_name: nil, # Body param: Updated human-readable name for the credential. 1-255 characters.
             metadata: nil, # Body param: Metadata patch. Set a key to a string to upsert it, or to null to
                            # delete it. Omitted keys are preserved.
-            betas: nil, # Header param: Optional header to specify the beta version(s) you want to use.
+            betas: nil, # Header param: This endpoint is in beta: requests must send
+                        # `managed-agents-2026-04-01` in this header.
             workspace_id: nil, # Header param: Optional header to select the Workspace for this request. The
                                # value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
                                # Only needed for credentials that can act on more than one Workspace. A
@@ -173197,7 +177921,10 @@ module Anthropic
           workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
-        ).returns(Anthropic::Internal::Stream[Anthropic::Completion])
+        ).returns(Anthropic::Internal::Type::BaseStream[
+            T.noreturn,
+            Anthropic::Completion
+          ])
       end
       def create_streaming(
         max_tokens_to_sample:, # Body param: The maximum number of tokens to generate before stopping.
@@ -173386,6 +178113,7 @@ module Anthropic
           model: T.any(Anthropic::Model::OrSymbol, String),
           cache_control: T.nilable(Anthropic::CacheControlEphemeral::OrHash),
           output_config: Anthropic::OutputConfig::OrHash,
+          speed: T.nilable(Anthropic::MessageCountTokensParams::Speed::OrSymbol),
           system_: Anthropic::MessageCountTokensParams::System::Variants,
           thinking: T.any(
               Anthropic::ThinkingConfigEnabled::OrHash,
@@ -173441,7 +178169,10 @@ module Anthropic
                    # `assistant` messages.
                    # If the final message uses the `assistant` role, the response content will
                    # continue immediately from the content in that message. This can be used to
-                   # constrain part of the model's response.
+                   # constrain part of the model's response. This is called prefill. On models that
+                   # don't support prefill, creating a message that ends with a partial `assistant`
+                   # response returns a 400 error. See
+                   # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                    # Example with a single `user` message:
                    # ```json
                    # [{ "role": "user", "content": "Hello, Claude" }]
@@ -173454,7 +178185,8 @@ module Anthropic
                    #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                    # ]
                    # ```
-                   # Example with a partially-filled response from Claude:
+                   # Example with a partially-filled response from Claude, for models that support
+                   # prefill:
                    # ```json
                    # [
                    #   {
@@ -173488,17 +178220,24 @@ module Anthropic
                             # to the last cacheable block in the request.
         output_config: nil, # Body param: Configuration options for the model's output, such as the output
                             # format.
+        speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                    # output-tokens-per-second inference.
+                    # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                    # value. See
+                    # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                    # which models.
         system_: nil, # Body param: System prompt.
                       # A system prompt is a way of providing context and instructions to Claude, such
                       # as specifying a particular goal or role. See our
                       # [guide to system prompts](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role).
-        thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                       # When enabled, responses include `thinking` content blocks showing Claude's
-                       # thinking process before the final answer. Requires a minimum budget of 1,024
-                       # tokens and counts towards your `max_tokens` limit.
-                       # See
-                       # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                       # for details.
+        thinking: nil, # Body param: Configuration for Claude's thinking.
+                       # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                       # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                       # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                       # Which `type` values are accepted, and what happens when you omit `thinking`,
+                       # depend on the model. See
+                       # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                       # for each model's behavior.
         tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                           # specific tool, any available tool, decide by itself, or not use tools at all.
         tools: nil, # Body param: Definitions of tools that the model may use.
@@ -173599,6 +178338,7 @@ module Anthropic
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
           service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol,
+          speed: T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol),
           stop_sequences: T::Array[String],
           system_: Anthropic::MessageCreateParams::System::Variants,
           temperature: Float,
@@ -173668,7 +178408,10 @@ module Anthropic
                    # `assistant` messages.
                    # If the final message uses the `assistant` role, the response content will
                    # continue immediately from the content in that message. This can be used to
-                   # constrain part of the model's response.
+                   # constrain part of the model's response. This is called prefill. On models that
+                   # don't support prefill, creating a message that ends with a partial `assistant`
+                   # response returns a 400 error. See
+                   # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                    # Example with a single `user` message:
                    # ```json
                    # [{ "role": "user", "content": "Hello, Claude" }]
@@ -173681,7 +178424,8 @@ module Anthropic
                    #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                    # ]
                    # ```
-                   # Example with a partially-filled response from Claude:
+                   # Example with a partially-filled response from Claude, for models that support
+                   # prefill:
                    # ```json
                    # [
                    #   {
@@ -173727,6 +178471,12 @@ module Anthropic
                            # Anthropic offers different levels of service for your API requests. See
                            # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                            # details.
+        speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                    # output-tokens-per-second inference.
+                    # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                    # value. See
+                    # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                    # which models.
         stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                              # Our models will normally stop when they have naturally completed their turn,
                              # which will result in a response `stop_reason` of `"end_turn"`.
@@ -173744,13 +178494,14 @@ module Anthropic
                           # generative tasks.
                           # Note that even with `temperature` of `0.0`, the results will not be fully
                           # deterministic.
-        thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                       # When enabled, responses include `thinking` content blocks showing Claude's
-                       # thinking process before the final answer. Requires a minimum budget of 1,024
-                       # tokens and counts towards your `max_tokens` limit.
-                       # See
-                       # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                       # for details.
+        thinking: nil, # Body param: Configuration for Claude's thinking.
+                       # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                       # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                       # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                       # Which `type` values are accepted, and what happens when you omit `thinking`,
+                       # depend on the model. See
+                       # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                       # for each model's behavior.
         tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                           # specific tool, any available tool, decide by itself, or not use tools at all.
         tools: nil, # Body param: Definitions of tools that the model may use.
@@ -173862,6 +178613,7 @@ module Anthropic
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
           service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol,
+          speed: T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol),
           stop_sequences: T::Array[String],
           system_: Anthropic::MessageCreateParams::System::Variants,
           temperature: Float,
@@ -173990,6 +178742,8 @@ module Anthropic
                            # Anthropic offers different levels of service for your API requests. See
                            # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                            # details.
+        speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                    # output-tokens-per-second inference.
         stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                              # Our models will normally stop when they have naturally completed their turn,
                              # which will result in a response `stop_reason` of `"end_turn"`.
@@ -174125,6 +178879,7 @@ module Anthropic
           metadata: Anthropic::Metadata::OrHash,
           output_config: Anthropic::OutputConfig::OrHash,
           service_tier: Anthropic::MessageCreateParams::ServiceTier::OrSymbol,
+          speed: T.nilable(Anthropic::MessageCreateParams::Speed::OrSymbol),
           stop_sequences: T::Array[String],
           system_: Anthropic::MessageCreateParams::System::Variants,
           temperature: Float,
@@ -174171,7 +178926,8 @@ module Anthropic
           workspace_id: String,
           stream: T.noreturn,
           request_options: Anthropic::RequestOptions::OrHash
-        ).returns(Anthropic::Internal::Stream[
+        ).returns(Anthropic::Internal::Type::BaseStream[
+            T.noreturn,
             Anthropic::RawMessageStreamEvent::Variants
           ])
       end
@@ -174196,7 +178952,10 @@ module Anthropic
                    # `assistant` messages.
                    # If the final message uses the `assistant` role, the response content will
                    # continue immediately from the content in that message. This can be used to
-                   # constrain part of the model's response.
+                   # constrain part of the model's response. This is called prefill. On models that
+                   # don't support prefill, creating a message that ends with a partial `assistant`
+                   # response returns a 400 error. See
+                   # [Prefill not supported](https://platform.claude.com/docs/en/api/errors#prefill-not-supported).
                    # Example with a single `user` message:
                    # ```json
                    # [{ "role": "user", "content": "Hello, Claude" }]
@@ -174209,7 +178968,8 @@ module Anthropic
                    #   { "role": "user", "content": "Can you explain LLMs in plain English?" }
                    # ]
                    # ```
-                   # Example with a partially-filled response from Claude:
+                   # Example with a partially-filled response from Claude, for models that support
+                   # prefill:
                    # ```json
                    # [
                    #   {
@@ -174255,6 +179015,12 @@ module Anthropic
                            # Anthropic offers different levels of service for your API requests. See
                            # [service-tiers](https://platform.claude.com/docs/en/api/service-tiers) for
                            # details.
+        speed: nil, # Body param: The inference speed mode for this request. `"fast"` enables high
+                    # output-tokens-per-second inference.
+                    # Some models require the `fast-mode-2026-02-01` beta header for any `speed`
+                    # value. See
+                    # [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for
+                    # which models.
         stop_sequences: nil, # Body param: Custom text sequences that will cause the model to stop generating.
                              # Our models will normally stop when they have naturally completed their turn,
                              # which will result in a response `stop_reason` of `"end_turn"`.
@@ -174272,13 +179038,14 @@ module Anthropic
                           # generative tasks.
                           # Note that even with `temperature` of `0.0`, the results will not be fully
                           # deterministic.
-        thinking: nil, # Body param: Configuration for enabling Claude's extended thinking.
-                       # When enabled, responses include `thinking` content blocks showing Claude's
-                       # thinking process before the final answer. Requires a minimum budget of 1,024
-                       # tokens and counts towards your `max_tokens` limit.
-                       # See
-                       # [extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
-                       # for details.
+        thinking: nil, # Body param: Configuration for Claude's thinking.
+                       # With `{"type": "adaptive"}`, Claude decides when and how much to think. With
+                       # `{"type": "enabled"}` (manual extended thinking), you set a `budget_tokens` of
+                       # at least 1,024. Thinking tokens count toward your `max_tokens` limit.
+                       # Which `type` values are accepted, and what happens when you omit `thinking`,
+                       # depend on the model. See
+                       # [thinking](https://platform.claude.com/docs/en/build-with-claude/thinking#configuring-thinking)
+                       # for each model's behavior.
         tool_choice: nil, # Body param: How the model should use the provided tools. The model can use a
                           # specific tool, any available tool, decide by itself, or not use tools at all.
         tools: nil, # Body param: Definitions of tools that the model may use.
@@ -174502,7 +179269,8 @@ module Anthropic
             message_batch_id: String,
             workspace_id: String,
             request_options: Anthropic::RequestOptions::OrHash
-          ).returns(Anthropic::Internal::JsonLStream[
+          ).returns(Anthropic::Internal::Type::BaseStream[
+              T.noreturn,
               Anthropic::Messages::MessageBatchIndividualResponse
             ])
         end
@@ -175375,7 +180143,8 @@ module Anthropic
                  # The accepted values depend on the organization type. Console and API
                  # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                  # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                 # accept `user` and `managed`.
+                 # accept `user` and `managed`; inviting with the `managed` role requires the
+                 # `write:rbac_groups` scope in addition to `write:members`.
           rbac_group_ids: nil, # RBAC group IDs to assign to the User when the Invite is accepted. A non-empty
                                # array is accepted only for a Claude Enterprise organization with RBAC groups,
                                # and requires the key to carry the `write:rbac_groups` scope.
@@ -175789,7 +180558,8 @@ module Anthropic
                  # The accepted values depend on the organization type. Console and API
                  # organizations accept `user`, `developer`, `billing`, and `claude_code_user`;
                  # `admin` cannot be assigned through the API. Claude Enterprise organizations
-                 # accept `user` and `managed`.
+                 # accept `user` and `managed`; changing a User's role to `managed` requires the
+                 # `write:rbac_groups` scope in addition to `write:members`.
           request_options: {}
 ); end
 

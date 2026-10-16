@@ -715,7 +715,7 @@ class Faraday::Connection
   #
   # @overload options(url, params = nil, headers = nil)
   #   Makes an OPTIONS HTTP request to the given URL.
-  #   @param url [String, URI, nil] String base URL to sue as a prefix for all requests.
+  #   @param url [String, URI, nil] String base URL to use as a prefix for all requests.
   #   @param params [Hash, nil] Hash of URI query unencoded key/value pairs.
   #   @param headers [Hash, nil] unencoded HTTP header key/value pairs.
   #
@@ -1896,7 +1896,7 @@ class Faraday::RackBuilder
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:66
   def initialize(&block); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:184
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:185
   def ==(other); end
 
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:84
@@ -1913,7 +1913,7 @@ class Faraday::RackBuilder
   #
   # Returns an object that responds to `call` and returns a Response.
   #
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:168
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:169
   def app; end
 
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:78
@@ -1936,7 +1936,7 @@ class Faraday::RackBuilder
   #     :password   - Proxy server password
   # :ssl - Hash of options for configuring SSL requests.
   #
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:206
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:207
   def build_env(connection, request); end
 
   # Processes a Request into a Response by passing it through this Builder's
@@ -1947,10 +1947,10 @@ class Faraday::RackBuilder
   #
   # @return [Faraday::Response]
   #
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:157
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:158
   def build_response(connection, request); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:145
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:146
   def delete(handler); end
 
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:23
@@ -1961,13 +1961,13 @@ class Faraday::RackBuilder
 
   # methods to push onto the various positions in the stack:
   #
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:124
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:125
   def insert(index, *, **, &); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:133
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:134
   def insert_after(index, *, **, &); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:131
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:132
   def insert_before(index, *, **, &); end
 
   # Locks the middleware stack to ensure no further modifications are made.
@@ -1984,10 +1984,10 @@ class Faraday::RackBuilder
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:111
   def response(*, **, &); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:138
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:139
   def swap(index, *, **, &); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:176
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:177
   def to_app; end
 
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:97
@@ -1995,25 +1995,22 @@ class Faraday::RackBuilder
 
   private
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:233
-  def adapter_set?; end
-
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:241
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:238
   def assert_index(index); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:229
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:230
   def ensure_adapter!; end
 
   # pkg:gem/faraday#lib/faraday/rack_builder.rb:72
   def initialize_dup(original); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:223
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:224
   def raise_if_adapter(klass); end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:219
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:220
   def raise_if_locked; end
 
-  # pkg:gem/faraday#lib/faraday/rack_builder.rb:237
+  # pkg:gem/faraday#lib/faraday/rack_builder.rb:234
   def use_symbol(mod, key, *, **, &); end
 end
 

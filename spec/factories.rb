@@ -154,8 +154,9 @@ FactoryBot.define do
   factory :file_upload do
     association :user
     file do
-      temp = Tempfile.new([ 'map', '.bsp' ], MAPS_DIR)
-      temp.write('VBSP foobar')
+      temp = Tempfile.new([ 'upload', '.zip' ])
+      temp.binmode
+      temp.write(File.binread(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip')))
       temp.close
       temp
     end

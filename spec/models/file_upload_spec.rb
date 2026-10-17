@@ -9,6 +9,28 @@ describe FileUpload do
     subject.should have(1).error_on(:user_id)
   end
 
+  describe 'storage' do
+    let(:admin) { create(:user, groups: [ Group.admin_group ]) }
+
+    it 'only accepts zip files' do
+      html = Tempfile.new([ 'evil', '.html' ])
+      html.write('<script>alert(1)</script>')
+      html.close
+
+      file_upload = build(:file_upload, user: admin, file: html)
+
+      expect(file_upload).not_to be_valid
+      expect(file_upload.errors[:file]).to be_present
+    end
+
+    it "stores uploads outside public/, so they aren't served" do
+      file_upload = create(:file_upload, user: admin)
+
+      expect(file_upload.file.path).to start_with(Rails.root.join('tmp', 'file_uploads').to_s)
+      expect(file_upload.file.path).not_to include('/public/')
+    end
+  end
+
   context 'archives', :map_archive do
     context 'zip' do
       let(:zip_fixture) do

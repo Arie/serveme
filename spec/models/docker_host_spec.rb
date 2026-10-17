@@ -5,6 +5,12 @@ require 'spec_helper'
 
 describe DockerHost do
   describe 'validations' do
+    it 'rejects hostnames and ssh users that could break out of setup scripts' do
+      expect(build(:docker_host, hostname: 'ams1.serveme.tf; rm -rf /')).not_to be_valid
+      expect(build(:docker_host, ssh_user: 'tf2$(id)')).not_to be_valid
+      expect(build(:docker_host, hostname: 'fra-2.example.com', ssh_user: 'tf2')).to be_valid
+    end
+
     it 'requires city' do
       host = DockerHost.new(ip: '10.0.0.1', location: create(:location))
       expect(host).not_to be_valid

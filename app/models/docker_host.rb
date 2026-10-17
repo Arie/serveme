@@ -23,6 +23,9 @@ class DockerHost < ActiveRecord::Base
   validates :city, :hostname, presence: true
   validates :ip, presence: true, unless: :provider?
   validates :hostname, uniqueness: true
+  # Both end up in root shell scripts and the Caddyfile during setup
+  validates :hostname, format: { with: /\A[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+\z/i }
+  validates :ssh_user, format: { with: /\A[a-z_][a-z0-9_-]{0,31}\z/ }, allow_nil: true
   validates :start_port, numericality: { greater_than_or_equal_to: 27015 }
   validates :setup_status, inclusion: { in: SETUP_STATUSES }
   normalizes :provider, with: ->(v) { v.presence }

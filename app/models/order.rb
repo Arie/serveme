@@ -14,6 +14,7 @@ class Order < ActiveRecord::Base
   delegate :name, to: :product, allow_nil: true, prefix: true
 
   validates_presence_of :user_id, :product_id
+  validate :product_must_be_active, on: :create
 
   sig { returns(T.nilable(String)) }
   def handle_successful_payment!
@@ -33,6 +34,12 @@ class Order < ActiveRecord::Base
       GrantPerks.new(T.must(product), T.must(user)).perform
     end
     announce_donator
+  end
+
+  sig { void }
+  def product_must_be_active
+    current_product = product
+    errors.add(:product, "is not available") if current_product && !current_product.active?
   end
 
   sig { returns(T.nilable(String)) }

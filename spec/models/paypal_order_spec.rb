@@ -4,6 +4,13 @@
 require 'spec_helper'
 
 describe PaypalOrder do
+  it "can't be created for a product that is no longer sold" do
+    order = build(:paypal_order, product: create(:product, active: false))
+
+    expect(order).not_to be_valid
+    expect(order.errors[:product]).to include('is not available')
+  end
+
   describe '#handle_successful_payment!' do
     let(:order) { create(:paypal_order) }
 

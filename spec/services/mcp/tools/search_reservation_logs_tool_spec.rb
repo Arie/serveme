@@ -93,6 +93,14 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
 
         expect(result[:lines].size).to eq(2)
       end
+
+      it "treats a search term starting with dashes as text, not as an rg option" do
+        expect(IO).to receive(:popen).with(array_including("-e", "--pre=/bin/sh", "--")).and_call_original
+
+        result = tool.execute(reservation_id: reservation.id, search_term: "--pre=/bin/sh")
+
+        expect(result[:lines]).to be_empty
+      end
     end
 
     context "with no search term" do

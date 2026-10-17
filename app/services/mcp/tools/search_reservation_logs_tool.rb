@@ -146,7 +146,7 @@ module Mcp
 
         args = [ "rg", "--line-number", "--ignore-case", "--fixed-strings" ]
         args += [ "-C", context_lines.to_s ] if context_lines > 0
-        args += [ sanitized_term, log_file ]
+        args += [ "-e", sanitized_term, "--", log_file ]
 
         lines = []
         skipped = 0

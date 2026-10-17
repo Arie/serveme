@@ -85,7 +85,7 @@ class LiveMatchStats
     sig { params(reservation: Reservation).returns(T.nilable(T::Array[T::Hash[Symbol, T.untyped]])) }
     def get_or_rebuild_stats(reservation)
       unless rebuilt?(reservation.id)
-        filepath = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
+        filepath = StreamingLog.readable_path(reservation.logsecret)
         rebuild(reservation.id, filepath) if File.exist?(filepath)
       end
       get_stats(reservation.id)

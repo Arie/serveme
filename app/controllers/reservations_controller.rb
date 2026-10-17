@@ -261,7 +261,7 @@ class ReservationsController < ApplicationController
   end
 
   def streaming_log_path
-    Rails.root.join("log", "streaming", "#{@logsecret}.log")
+    StreamingLog.readable_path(@logsecret)
   end
 
   def render_log_view_json

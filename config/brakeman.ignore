@@ -174,29 +174,6 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "0dc7117b253be8bf9064160e921b91ae39b0b8f50dc7fb1a7b54f2750b916481",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/workers/cleanup_worker.rb",
-      "line": 30,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`find #{Rails.root.join(\"log\", \"streaming\").to_s.shellescape} -type f -name '*.log' -mtime +#{Reservation.cleanup_age_in_days.to_i} -delete`",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CleanupWorker",
-        "method": "remove_old_reservation_logs_and_zips"
-      },
-      "user_input": "Reservation.cleanup_age_in_days",
-      "confidence": "High",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
       "fingerprint": "a0b9451e9116bcb89f3efb7d7b6211637630d552114465502ebc9eaf72779d39",
       "check_name": "Execute",
       "message": "Possible command injection",

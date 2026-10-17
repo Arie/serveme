@@ -124,7 +124,7 @@ module Mcp
       def log_file_path(reservation)
         return nil if reservation.logsecret.blank?
 
-        path = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
+        path = StreamingLog.readable_path(reservation.logsecret)
         File.exist?(path) ? path : nil
       end
 

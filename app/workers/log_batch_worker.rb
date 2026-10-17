@@ -233,7 +233,7 @@ class LogBatchWorker
   end
 
   def rebuild_from_log(reservation)
-    filepath = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log").to_s
+    filepath = StreamingLog.readable_path(reservation.logsecret)
     LiveMatchStats.rebuild(reservation.id, filepath)
   rescue StandardError => e
     Rails.logger.error("[LiveMatchStats] Error rebuilding from log for reservation #{reservation.id}: #{e.message}")

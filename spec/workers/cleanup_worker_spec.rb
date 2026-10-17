@@ -30,6 +30,61 @@ describe CleanupWorker do
     expect(young_user.reload.api_key).not_to be_present
   end
 
+  describe 'streaming logs' do
+    let(:worker) { described_class.new }
+    let(:tmpdir) { Pathname.new(Dir.mktmpdir('streaming')) }
+    let(:streaming_dir) { tmpdir.join('streaming') }
+
+    before do
+      FileUtils.mkdir_p(tmpdir.join('real'))
+      File.symlink(tmpdir.join('real'), streaming_dir)
+      allow(StreamingLog).to receive(:dir).and_return(streaming_dir)
+    end
+
+    after { FileUtils.remove_entry(tmpdir) }
+
+    let(:write_log) do
+      lambda do |name, age|
+        path = streaming_dir.join(name)
+        File.write(path, "log line\n")
+        File.utime(age.ago.to_time, age.ago.to_time, path)
+        path
+      end
+    end
+
+    it 'compresses logs older than a week through a symlinked dir' do
+      old = write_log.call('old.log', 8.days)
+      young = write_log.call('young.log', 1.day)
+
+      worker.compress_old_streaming_logs
+
+      expect(File.exist?(old)).to be false
+      expect(File.exist?("#{old}.zst")).to be true
+      expect(File.exist?(young)).to be true
+      expect(StreamingLog.readable_path('old')).to end_with('unpacked/old.log')
+    end
+
+    it 'leaves unpacked copies alone when compressing' do
+      FileUtils.mkdir_p(StreamingLog.unpacked_dir)
+      unpacked = write_log.call('unpacked/old.log', 8.days)
+
+      worker.compress_old_streaming_logs
+
+      expect(File.exist?(unpacked)).to be true
+    end
+
+    it 'prunes unpacked copies older than a day' do
+      FileUtils.mkdir_p(StreamingLog.unpacked_dir)
+      stale = write_log.call('unpacked/stale.log', 25.hours)
+      fresh = write_log.call('unpacked/fresh.log', 1.hour)
+
+      worker.prune_unpacked_streaming_logs
+
+      expect(File.exist?(stale)).to be false
+      expect(File.exist?(fresh)).to be true
+    end
+  end
+
   describe '#cleanup_local_orphaned_temp_directories' do
     let(:worker) { described_class.new }
     let(:old_temp_dir) { "/tmp/reservation-123" }

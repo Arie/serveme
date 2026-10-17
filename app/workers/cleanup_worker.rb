@@ -24,12 +24,26 @@ class CleanupWorker
   def remove_old_reservation_logs_and_zips
     age = Reservation.cleanup_age_in_days
     server_logs = Rails.root.join("server_logs").to_s
-    streaming_logs = Rails.root.join("log", "streaming").to_s
     uploads = Rails.root.join("public", "uploads").to_s
 
     `find #{server_logs.shellescape} -mindepth 1 -type d -ctime +#{age.to_i} -exec rm -rf {} +`
-    `find #{streaming_logs.shellescape} -type f -name '*.log' -mtime +#{age.to_i} -delete`
     `find #{uploads.shellescape} -type f -name '*.zip' -mtime +#{age.to_i} -delete`
+    compress_old_streaming_logs
+    prune_unpacked_streaming_logs
+  end
+
+  # Streaming logs are kept forever, zstd-compressed. -H because on EU
+  # log/streaming is a symlink and find won't descend a symlinked start path.
+  def compress_old_streaming_logs
+    system("find", "-H", StreamingLog.dir.to_s, "-maxdepth", "1", "-type", "f", "-name", "*.log",
+           "-mtime", "+#{StreamingLog::COMPRESS_AFTER_DAYS}", "-exec", "zstd", "-q", "-f", "-9", "--rm", "{}", "+")
+  end
+
+  def prune_unpacked_streaming_logs
+    unpacked = StreamingLog.unpacked_dir.to_s
+    return unless File.directory?(unpacked)
+
+    system("find", "-H", unpacked, "-type", "f", "-mmin", "+#{StreamingLog::UNPACKED_TTL_MINUTES}", "-delete")
   end
 
   def remove_old_statistics

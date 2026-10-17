@@ -80,7 +80,7 @@ module Api
     end
 
     def log_lines
-      log_path = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
+      log_path = StreamingLog.readable_path(reservation.logsecret)
       return render(json: { error: "Logfile not found" }, status: :not_found) unless File.exist?(log_path)
 
       service = LogStreamingService.new(log_path)

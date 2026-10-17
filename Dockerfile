@@ -90,8 +90,9 @@ LABEL service=serveme
 #   openssh-client           — `scp` (cloud_server.rb#scp_command), `ssh`, `sftp`
 #   zip, unzip               — local_zip_file_creator (Open3.capture3 "zip"), DepotDownloader install below
 #   ripgrep                  — log_streaming_service.rb shells out to `rg` for search
+#   zstd                     — streaming_log.rb / cleanup_worker.rb (de)compress old streaming logs
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip unzip ripgrep && \
+    apt-get install --no-install-recommends -y libpq5 libmaxminddb0 libyaml-0-2 openssh-client zip unzip ripgrep zstd && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # docker CLI — CloudImageBuildWorker (EU only) shells out to `docker build`

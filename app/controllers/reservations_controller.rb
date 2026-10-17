@@ -86,7 +86,8 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    target_user = if params[:user_id].present?
+    # Other users' lists show live connect info (passwords), so admins only
+    target_user = if params[:user_id].present? && (current_user.admin? || current_user.league_admin?)
                     User.find(params[:user_id])
     else
                     current_user

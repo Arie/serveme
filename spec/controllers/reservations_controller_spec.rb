@@ -475,7 +475,18 @@ describe ReservationsController do
     end
 
     context 'when viewing another user reservations' do
-      it 'shows specified user reservations when user_id param is present' do
+      it "ignores user_id for regular users, since the list shows server passwords" do
+        regular_user = create :user
+        sign_in regular_user
+        other_user = create :user
+        create :reservation, user: other_user
+
+        get :index, params: { user_id: other_user.id }
+
+        expect(assigns(:target_user)).to eq(regular_user)
+      end
+
+      it 'shows specified user reservations to admins' do
         other_user = create :user
         reservation = create :reservation, user: other_user
         own_reservation = create :reservation, user: @user

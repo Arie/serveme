@@ -7,17 +7,34 @@ class TestApiController < Api::ApplicationController
   def index
     render plain: 'ok'
   end
+
+  def create
+    params.require(:missing)
+  end
 end
 
 describe TestApiController do
   before(:all) do
     Rails.application.routes.draw do
       get '/' => 'test_api#index'
+      post '/' => 'test_api#create'
     end
   end
 
   after(:all) do
     Rails.application.reload_routes!
+  end
+
+  it "doesn't log secrets when rejecting a request" do
+    create :user, api_key: 'foobar'
+    logged = []
+    allow(Rails.logger).to receive(:warn) { |msg| logged << msg }
+
+    post :create, params: { api_key: 'foobar', reservation: { rcon: 'secret-rcon', password: 'secret-password' } }, as: :json
+
+    expect(response.status).to eq(422)
+    expect(logged.join).to include('UNPROCESSABLE ENTITY')
+    expect(logged.join).not_to include('foobar', 'secret-rcon', 'secret-password')
   end
 
   it 'responds with 401 if api key invalid' do

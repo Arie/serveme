@@ -11,6 +11,20 @@ describe PaypalOrder do
       order.handle_successful_payment!
       order.status.should == 'Completed'
     end
+
+    it 'grants perks only once when called repeatedly' do
+      grant_perks = double(perform: true)
+      expect(GrantPerks).to receive(:new).once.and_return(grant_perks)
+      expect(AnnounceDonatorWorker).to receive(:perform_async).once
+
+      3.times { order.handle_successful_payment! }
+    end
+
+    it 'generates only one voucher for a gift when called repeatedly' do
+      order.update!(gift: true)
+
+      expect { 3.times { order.handle_successful_payment! } }.to change(Voucher, :count).by(1)
+    end
   end
 
   context 'paypal' do

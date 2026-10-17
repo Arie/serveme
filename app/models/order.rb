@@ -17,7 +17,16 @@ class Order < ActiveRecord::Base
 
   sig { returns(T.nilable(String)) }
   def handle_successful_payment!
-    update(status: "Completed")
+    # Stripe return, client confirm and the webhook can all report the same
+    # payment; only the first one may grant perks or generate a voucher
+    newly_completed = with_lock do
+      next false if status == "Completed"
+
+      update(status: "Completed")
+      true
+    end
+    return unless newly_completed
+
     if gift?
       GenerateOrderVoucher.new(self).perform
     else

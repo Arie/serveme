@@ -26,6 +26,14 @@ describe Api::LeagueRequestsController do
     end
   end
 
+  describe 'missing parameters' do
+    it 'responds with a 422 instead of crashing' do
+      get :index, format: :json
+
+      expect(response.status).to eq(422)
+    end
+  end
+
   describe 'shared IPs' do
     it 'exposes the shared_ip flag per result' do
       IpLookup.create!(ip: @suspect_ip, shared_ip: true)

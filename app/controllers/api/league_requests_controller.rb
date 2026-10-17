@@ -20,7 +20,7 @@ module Api
     private
 
     def request_params
-      params[:league_request].permit(%i[ip steam_uid reservation_ids cross_reference])
+      params.require(:league_request).permit(%i[ip steam_uid reservation_ids cross_reference])
     end
   end
 end

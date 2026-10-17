@@ -160,6 +160,17 @@ describe MapUploadsController do
       expect(response).to render_template(:new)
       expect(assigns(:map_upload).errors.full_messages).to include('File not a map (bsp) file')
     end
+
+    it 'rejects map names with characters that are unsafe on the servers' do
+      allow(ActiveStorage::Blob.service).to receive(:exist?).and_return(false)
+      upload = Rack::Test::UploadedFile.new(file_fixture('cp_granlands123.bsp'), 'application/octet-stream', original_filename: "cp_x'$(id).bsp")
+
+      expect do
+        post :create, params: { map_upload: { file: upload } }
+      end.not_to change(MapUpload, :count)
+
+      expect(assigns(:map_upload).errors.full_messages.join).to include('name may only contain')
+    end
   end
 
   describe '#presigned_url' do
@@ -218,37 +229,25 @@ describe MapUploadsController do
         allow(service).to receive(:client).and_return(s3_resource)
       end
 
-      it 'returns a presigned PUT url for the map key' do
-        allow(s3_object).to receive(:presigned_url).and_return('https://r2.example/maps/cp_new.bsp?sig=abc')
+      it 'returns a presigned PUT url for a quarantine key, not for maps/' do
+        allow(s3_object).to receive(:presigned_url).and_return('https://r2.example/pending?sig=abc')
 
         freeze_time do
-          post :presigned_url, params: { filename: 'cp_new.bsp', content_type: 'application/x-bsp' }
+          post :presigned_url, params: { filename: 'cp_new.bsp', content_type: 'text/html' }
 
           expect(response).to be_successful
-          expect(json).to eq(
-            'url' => 'https://r2.example/maps/cp_new.bsp?sig=abc',
-            'method' => 'PUT',
-            'key' => 'maps/cp_new.bsp',
-            'generated_at' => Time.current.iso8601,
-            'expires_at' => 1.hour.from_now.iso8601
-          )
+          expect(json['url']).to eq('https://r2.example/pending?sig=abc')
+          expect(json['method']).to eq('PUT')
+          expect(json['expires_at']).to eq(15.minutes.from_now.iso8601)
         end
-        expect(bucket).to have_received(:object).with('maps/cp_new.bsp')
+        expect(MapUpload.pending_key_for?(json['key'], 'cp_new.bsp')).to be true
+        expect(bucket).to have_received(:object).with(json['key'])
         expect(s3_object).to have_received(:presigned_url).with(
           :put,
-          expires_in: 3600,
-          content_type: 'application/x-bsp',
+          expires_in: 900,
+          content_type: 'application/octet-stream',
           whitelist_headers: [ 'content-type', 'x-amz-content-sha256' ]
         )
-      end
-
-      it 'defaults the content type to application/octet-stream' do
-        allow(s3_object).to receive(:presigned_url).and_return('https://r2.example/x')
-
-        post :presigned_url, params: { filename: 'cp_new.bsp' }
-
-        expect(response).to be_successful
-        expect(s3_object).to have_received(:presigned_url).with(:put, hash_including(content_type: 'application/octet-stream'))
       end
 
       it 'returns a 500 and logs when presigning fails' do
@@ -266,36 +265,55 @@ describe MapUploadsController do
 
   describe '#complete' do
     let(:json) { JSON.parse(response.body) }
+    let(:pending_key) { MapUpload.pending_key_for('cp_new.bsp') }
 
-    before { sign_in donator }
+    before do
+      sign_in donator
+      Rails.cache.write("pending_map_upload:#{pending_key}", donator.id)
+    end
 
     it 'rejects missing parameters' do
-      post :complete, params: { key: 'maps/cp_new.bsp' }
+      post :complete, params: { key: pending_key }
       expect(response).to have_http_status(:bad_request)
       expect(json).to eq('error' => 'Missing parameters')
     end
 
     it 'rejects a key that does not match the filename' do
       expect(MapUpload).not_to receive(:create_from_direct_upload)
-      post :complete, params: { key: 'maps/other.bsp', filename: 'cp_new.bsp' }
+      post :complete, params: { key: pending_key, filename: 'cp_other.bsp' }
       expect(response).to have_http_status(:bad_request)
       expect(json).to eq('error' => 'Key does not match filename')
+    end
+
+    it 'rejects keys directly in maps/' do
+      expect(MapUpload).not_to receive(:create_from_direct_upload)
+      post :complete, params: { key: 'maps/cp_new.bsp', filename: 'cp_new.bsp' }
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "rejects another user's pending upload" do
+      Rails.cache.write("pending_map_upload:#{pending_key}", donator.id + 1)
+      expect(MapUpload).not_to receive(:create_from_direct_upload)
+      post :complete, params: { key: pending_key, filename: 'cp_new.bsp' }
+      expect(response).to have_http_status(:bad_request)
+      expect(json).to eq('error' => 'Unknown upload')
     end
 
     it 'creates the map upload for the current user' do
       allow(MapUpload).to receive(:create_from_direct_upload).and_return(success: true)
 
-      post :complete, params: { key: 'maps/cp_new.bsp', filename: 'cp_new.bsp' }
+      post :complete, params: { key: pending_key, filename: 'cp_new.bsp' }
 
       expect(response).to be_successful
       expect(json).to eq('message' => 'Upload completed successfully')
-      expect(MapUpload).to have_received(:create_from_direct_upload).with(user: donator, key: 'maps/cp_new.bsp', filename: 'cp_new.bsp')
+      expect(MapUpload).to have_received(:create_from_direct_upload).with(user: donator, pending_key: pending_key, filename: 'cp_new.bsp')
+      expect(Rails.cache.read("pending_map_upload:#{pending_key}")).to be_nil
     end
 
     it 'returns the error when the direct upload fails' do
       allow(MapUpload).to receive(:create_from_direct_upload).and_return(success: false, error: 'File not a map')
 
-      post :complete, params: { key: 'maps/cp_new.bsp', filename: 'cp_new.bsp' }
+      post :complete, params: { key: pending_key, filename: 'cp_new.bsp' }
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(json).to eq('error' => 'File not a map')

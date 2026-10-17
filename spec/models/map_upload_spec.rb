@@ -103,17 +103,34 @@ describe MapUpload do
     end
   end
 
-  describe '.validate_s3_key' do
-    it 'accepts a valid key matching maps/filename' do
-      expect { MapUpload.validate_s3_key('maps/cp_badlands.bsp', 'cp_badlands.bsp') }.not_to raise_error
+  describe '.remove_abandoned_pending_uploads' do
+    it 'deletes pending uploads older than a day' do
+      old_upload = double('old', last_modified: 2.days.ago, delete: true)
+      new_upload = double('new', last_modified: 1.hour.ago, delete: true)
+      bucket = double('bucket')
+      allow(bucket).to receive(:objects).with(prefix: 'map_uploads_pending/').and_return([ old_upload, new_upload ])
+      allow(ActiveStorage::Blob).to receive(:service).and_return(double('service', bucket: bucket))
+
+      described_class.remove_abandoned_pending_uploads
+
+      expect(old_upload).to have_received(:delete)
+      expect(new_upload).not_to have_received(:delete)
+    end
+  end
+
+  describe '.pending_key_for?' do
+    let(:pending_key) { MapUpload.pending_key_for('cp_badlands.bsp') }
+
+    it 'accepts a generated pending key for the filename' do
+      expect(MapUpload.pending_key_for?(pending_key, 'cp_badlands.bsp')).to be true
     end
 
-    it 'rejects a key that does not start with maps/' do
-      expect { MapUpload.validate_s3_key('other/cp_badlands.bsp', 'cp_badlands.bsp') }.to raise_error(ArgumentError)
+    it 'rejects keys directly in maps/' do
+      expect(MapUpload.pending_key_for?('maps/cp_badlands.bsp', 'cp_badlands.bsp')).to be false
     end
 
-    it 'rejects a key that does not match the filename' do
-      expect { MapUpload.validate_s3_key('maps/cp_other.bsp', 'cp_badlands.bsp') }.to raise_error(ArgumentError)
+    it 'rejects a pending key for another filename' do
+      expect(MapUpload.pending_key_for?(pending_key, 'cp_other.bsp')).to be false
     end
   end
 
@@ -259,51 +276,68 @@ describe MapUpload do
     let(:user) { create :user }
     let(:key) { 'maps/cp_granlands123.bsp' }
     let(:filename) { 'cp_granlands123.bsp' }
+    let(:pending_key) { described_class.pending_key_for(filename) }
 
-    it 'rejects invalid keys without touching storage' do
+    it 'rejects invalid filenames without touching storage' do
       expect(described_class).not_to receive(:validate_direct_upload_file)
-      result = described_class.create_from_direct_upload(user: user, key: 'maps/../evil.bsp', filename: '../evil.bsp')
+      result = described_class.create_from_direct_upload(user: user, pending_key: 'maps/../evil.bsp', filename: '../evil.bsp')
       expect(result[:success]).to be false
       expect(result[:error]).to match(/Invalid map name/)
     end
 
-    it 'rejects keys that already have a blob' do
+    it 'rejects keys that are not a pending upload for the filename' do
+      expect(described_class).not_to receive(:validate_direct_upload_file)
+      result = described_class.create_from_direct_upload(user: user, pending_key: key, filename: filename)
+      expect(result).to eq(success: false, error: 'Invalid upload key')
+    end
+
+    it 'rejects maps that already have a blob' do
       ActiveStorage::Blob.create!(key: key, filename: filename, byte_size: 1, checksum: 'abc', content_type: 'application/octet-stream')
       expect(described_class).not_to receive(:validate_direct_upload_file)
-      result = described_class.create_from_direct_upload(user: user, key: key, filename: filename)
+      result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
       expect(result).to eq(success: false, error: 'File already exists in database')
     end
 
-    it 'deletes the uploaded object when validation fails' do
-      allow(described_class).to receive(:validate_direct_upload_file).with(key).and_return(valid: false, error: 'Not a valid BSP file')
-      expect(ActiveStorage::Blob.service).to receive(:delete).with(key)
-      result = described_class.create_from_direct_upload(user: user, key: key, filename: filename)
+    it 'deletes the pending object when validation fails' do
+      allow(described_class).to receive(:validate_direct_upload_file).with(pending_key).and_return(valid: false, error: 'Not a valid BSP file')
+      expect(ActiveStorage::Blob.service).to receive(:delete).with(pending_key)
+      result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
       expect(result).to eq(success: false, error: 'Not a valid BSP file')
     end
 
-    it 'still returns the validation error when deleting the invalid object fails' do
-      allow(described_class).to receive(:validate_direct_upload_file).with(key).and_return(valid: false, error: 'File not found')
-      allow(ActiveStorage::Blob.service).to receive(:delete).with(key).and_raise(StandardError, 'boom')
-      expect(Rails.logger).to receive(:error).with("Failed to delete invalid file #{key}: boom")
-      result = described_class.create_from_direct_upload(user: user, key: key, filename: filename)
+    it 'still returns the validation error when deleting the pending object fails' do
+      allow(described_class).to receive(:validate_direct_upload_file).with(pending_key).and_return(valid: false, error: 'File not found')
+      allow(ActiveStorage::Blob.service).to receive(:delete).with(pending_key).and_raise(StandardError, 'boom')
+      expect(Rails.logger).to receive(:error).with("Failed to delete pending upload #{pending_key}: boom")
+      result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
       expect(result).to eq(success: false, error: 'File not found')
     end
 
     context 'when the file is valid' do
       before do
-        allow(described_class).to receive(:validate_direct_upload_file).with(key).and_return(valid: true, size: 1234, checksum: 'Q2hlY2tzdW0=')
+        allow(described_class).to receive(:validate_direct_upload_file).with(pending_key).and_return(valid: true, size: 1234, checksum: 'Q2hlY2tzdW0=')
         # The cloudflare (S3) service would reach for AWS credentials; use the local disk service instead
         allow(ActiveStorage::Blob.services).to receive(:fetch).and_call_original
         allow(ActiveStorage::Blob.services).to receive(:fetch).with('cloudflare').and_return(ActiveStorage::Blob.service)
         # Simulate the browser's direct upload having put the file in the bucket
-        ActiveStorage::Blob.service.upload(key, file_fixture('cp_granlands123.bsp').open)
+        ActiveStorage::Blob.service.upload(pending_key, file_fixture('cp_granlands123.bsp').open)
       end
 
-      after { ActiveStorage::Blob.service.delete(key) }
+      after do
+        ActiveStorage::Blob.service.delete(key)
+        ActiveStorage::Blob.service.delete(pending_key)
+      end
+
+      it 'moves the validated upload into maps/ and removes the pending copy' do
+        described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
+
+        expect(ActiveStorage::Blob.service.exist?(key)).to be true
+        expect(ActiveStorage::Blob.service.exist?(pending_key)).to be false
+      end
 
       it 'creates a blob with the uploaded key and attaches it to a new map upload' do
         result = nil
-        expect { result = described_class.create_from_direct_upload(user: user, key: key, filename: filename) }.to change(described_class, :count).by(1)
+        expect { result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename) }.to change(described_class, :count).by(1)
 
         expect(result[:success]).to be true
         map_upload = result[:map_upload]
@@ -318,11 +352,12 @@ describe MapUpload do
 
       it 'returns validation errors when the map upload cannot be saved' do
         blacklisted_key = 'maps/mvm_decoy.bsp'
-        allow(described_class).to receive(:validate_direct_upload_file).with(blacklisted_key).and_return(valid: true, size: 1, checksum: 'Q2hlY2tzdW0=')
-        ActiveStorage::Blob.service.upload(blacklisted_key, file_fixture('cp_granlands123.bsp').open)
+        blacklisted_pending_key = described_class.pending_key_for('mvm_decoy.bsp')
+        allow(described_class).to receive(:validate_direct_upload_file).with(blacklisted_pending_key).and_return(valid: true, size: 1, checksum: 'Q2hlY2tzdW0=')
+        ActiveStorage::Blob.service.upload(blacklisted_pending_key, file_fixture('cp_granlands123.bsp').open)
 
         expect do
-          result = described_class.create_from_direct_upload(user: user, key: blacklisted_key, filename: 'mvm_decoy.bsp')
+          result = described_class.create_from_direct_upload(user: user, pending_key: blacklisted_pending_key, filename: 'mvm_decoy.bsp')
           expect(result).to eq(success: false, error: 'File game type not allowed')
         end.not_to change(described_class, :count)
 
@@ -335,7 +370,7 @@ describe MapUpload do
       it 'removes the blob when attaching raises, so the upload can be retried' do
         allow_any_instance_of(ActiveStorage::Attached::One).to receive(:attach).and_raise(ActiveRecord::RecordInvalid)
 
-        result = described_class.create_from_direct_upload(user: user, key: key, filename: filename)
+        result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
 
         expect(result).to eq(success: false, error: 'Failed to complete upload')
         expect(ActiveStorage::Blob.find_by(key: key)).to be_nil
@@ -344,7 +379,7 @@ describe MapUpload do
       it 'returns a generic error when blob creation raises' do
         allow(ActiveStorage::Blob).to receive(:create_before_direct_upload!).and_raise(ActiveRecord::RecordInvalid)
         expect(Rails.logger).to receive(:error).with(/Error completing upload/)
-        result = described_class.create_from_direct_upload(user: user, key: key, filename: filename)
+        result = described_class.create_from_direct_upload(user: user, pending_key: pending_key, filename: filename)
         expect(result).to eq(success: false, error: 'Failed to complete upload')
       end
     end

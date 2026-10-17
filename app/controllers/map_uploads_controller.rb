@@ -50,7 +50,6 @@ class MapUploadsController < ApplicationController
     return render json: { error: "Missing filename" }, status: :bad_request unless params[:filename].present?
 
     filename = params[:filename]
-    content_type = params[:content_type] || "application/octet-stream"
 
     unless filename.end_with?(".bsp")
       return render json: { error: "Only .bsp files are allowed" }, status: :unprocessable_entity
@@ -62,8 +61,7 @@ class MapUploadsController < ApplicationController
       return render json: { error: "Invalid filename" }, status: :bad_request
     end
 
-    key = "maps/#{filename}"
-    if ActiveStorage::Blob.service.exist?(key)
+    if ActiveStorage::Blob.service.exist?("maps/#{filename}")
       return render json: { error: "Map already exists" }, status: :unprocessable_entity
     end
 
@@ -71,14 +69,18 @@ class MapUploadsController < ApplicationController
       return render json: { error: "Game type not allowed" }, status: :unprocessable_entity
     end
 
+    # The browser uploads to a quarantine key that isn't served or listed;
+    # #complete validates it and only then copies it into maps/.
+    key = MapUpload.pending_key_for(filename)
     begin
-      presigned_data = generate_presigned_url(key, content_type)
+      presigned_data = generate_presigned_url(key)
+      Rails.cache.write(pending_upload_cache_key(key), current_user.id, expires_in: PRESIGNED_URL_EXPIRY + 1.hour)
       render json: {
         url: presigned_data[:url],
         method: presigned_data[:method],
         key: key,
         generated_at: Time.current.iso8601,
-        expires_at: 1.hour.from_now.iso8601
+        expires_at: PRESIGNED_URL_EXPIRY.from_now.iso8601
       }
     rescue => e
       Rails.logger.error "Error generating presigned URL: #{e.message}"
@@ -92,11 +94,16 @@ class MapUploadsController < ApplicationController
 
     return render json: { error: "Missing parameters" }, status: :bad_request unless key.present? && filename.present?
 
-    unless key == "maps/#{filename}"
+    unless MapUpload.pending_key_for?(key, filename)
       return render json: { error: "Key does not match filename" }, status: :bad_request
     end
 
-    result = MapUpload.create_from_direct_upload(user: current_user, key: key, filename: filename)
+    unless Rails.cache.read(pending_upload_cache_key(key)) == current_user.id
+      return render json: { error: "Unknown upload" }, status: :bad_request
+    end
+
+    result = MapUpload.create_from_direct_upload(user: current_user, pending_key: key, filename: filename)
+    Rails.cache.delete(pending_upload_cache_key(key)) if result[:success]
 
     if result[:success]
       render json: { message: "Upload completed successfully" }
@@ -124,6 +131,12 @@ class MapUploadsController < ApplicationController
   end
 
   private
+
+  PRESIGNED_URL_EXPIRY = 15.minutes
+
+  def pending_upload_cache_key(key)
+    "pending_map_upload:#{key}"
+  end
 
   def sort_bucket_objects(objects, statistics, sort_by)
     sort_by_attribute = friendly_sort_name_to_attribute(sort_by)
@@ -187,7 +200,7 @@ class MapUploadsController < ApplicationController
     %i[times_played last_played size].include?(attribute)
   end
 
-  def generate_presigned_url(key, content_type)
+  def generate_presigned_url(key)
     s3_resource = ActiveStorage::Blob.service.client
     s3_client = s3_resource.client
 
@@ -198,8 +211,8 @@ class MapUploadsController < ApplicationController
 
     presigned_url = object.presigned_url(
       :put,
-      expires_in: 3600,
-      content_type: content_type,
+      expires_in: PRESIGNED_URL_EXPIRY.to_i,
+      content_type: "application/octet-stream",
       whitelist_headers: [ "content-type", "x-amz-content-sha256" ]
     )
 

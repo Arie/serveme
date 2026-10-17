@@ -14,6 +14,7 @@ class MapUpload < ActiveRecord::Base
   validate :validate_not_already_present
   validate :validate_file_is_a_bsp
   validate :validate_not_blacklisted_type
+  validate :validate_safe_map_name
 
   before_validation :set_s3_prefix
   after_save :refresh_available_maps
@@ -149,11 +150,18 @@ class MapUpload < ActiveRecord::Base
     name
   end
 
-  sig { params(key: String, filename: String).void }
-  def self.validate_s3_key(key, filename)
-    sanitize_map_name(filename.delete_suffix(".bsp"))
-    expected_key = "maps/#{filename}"
-    raise ArgumentError, "Invalid S3 key: expected #{expected_key}, got #{key}" unless key == expected_key
+  PENDING_PREFIX = "map_uploads_pending"
+  MAX_DIRECT_UPLOAD_SIZE = 500 * 1024 * 1024
+
+  # Direct uploads land outside maps/ (not served, not listed) until validated
+  sig { params(filename: String).returns(String) }
+  def self.pending_key_for(filename)
+    "#{PENDING_PREFIX}/#{SecureRandom.uuid}/#{filename}"
+  end
+
+  sig { params(key: String, filename: String).returns(T::Boolean) }
+  def self.pending_key_for?(key, filename)
+    key.match?(%r{\A#{PENDING_PREFIX}/\h{8}-\h{4}-\h{4}-\h{4}-\h{12}/#{Regexp.escape(filename)}\z})
   end
 
   sig { params(map_name: String).void }
@@ -188,6 +196,15 @@ class MapUpload < ActiveRecord::Base
     errors.add(:file, "not a map (bsp) file")
   end
 
+  # The name becomes the maps/ key and the map name on every server
+  sig { void }
+  def validate_safe_map_name
+    return unless attachment_changes["file"] && file.attached?
+
+    name = T.unsafe(file).blob&.filename.to_s
+    errors.add(:file, "name may only contain letters, numbers, - _ and .") unless name.end_with?(".bsp") && name.delete_suffix(".bsp").match?(SAFE_MAP_NAME_REGEX)
+  end
+
   sig { void }
   def validate_not_blacklisted_type
     return unless file.attached? && T.unsafe(file).blob&.filename && self.class.blacklisted_type?(T.unsafe(file).blob.filename.to_s)
@@ -216,25 +233,33 @@ class MapUpload < ActiveRecord::Base
     target_filename&.starts_with?(invalid_types_regex)
   end
 
-  sig { params(user: User, key: String, filename: String).returns(T::Hash[Symbol, T.untyped]) }
-  def self.create_from_direct_upload(user:, key:, filename:)
+  sig { params(user: User, pending_key: String, filename: String).returns(T::Hash[Symbol, T.untyped]) }
+  def self.create_from_direct_upload(user:, pending_key:, filename:)
     begin
-      validate_s3_key(key, filename)
+      sanitize_map_name(filename.delete_suffix(".bsp"))
+      raise ArgumentError, "Invalid upload key" unless pending_key_for?(pending_key, filename)
     rescue ArgumentError => e
       return { success: false, error: e.message }
     end
 
+    key = "maps/#{filename}"
     existing_blob = ActiveStorage::Blob.find_by(key: key)
     return { success: false, error: "File already exists in database" } if existing_blob
+    return { success: false, error: "Map already exists" } if ActiveStorage::Blob.service.exist?(key)
 
-    validation_result = validate_direct_upload_file(key)
+    validation_result = validate_direct_upload_file(pending_key)
     unless validation_result[:valid]
-      begin
-        ActiveStorage::Blob.service.delete(key)
-      rescue => e
-        Rails.logger.error "Failed to delete invalid file #{key}: #{e.message}"
-      end
+      delete_pending_upload(pending_key)
       return { success: false, error: validation_result[:error] }
+    end
+
+    begin
+      copy_object(pending_key, key)
+    rescue => e
+      Rails.logger.error "Failed to move upload #{pending_key} to #{key}: #{e.message}"
+      return { success: false, error: "Failed to complete upload" }
+    ensure
+      delete_pending_upload(pending_key)
     end
 
     blob = T.let(nil, T.nilable(ActiveStorage::Blob))
@@ -266,6 +291,39 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  # Direct uploads that were never completed
+  sig { void }
+  def self.remove_abandoned_pending_uploads
+    service = ActiveStorage::Blob.service
+    return unless service.respond_to?(:bucket)
+
+    T.unsafe(service).bucket.objects(prefix: "#{PENDING_PREFIX}/").each do |object|
+      object.delete if object.last_modified < 1.day.ago
+    end
+  rescue => e
+    Rails.logger.error "Failed to remove abandoned map uploads: #{e.message}"
+  end
+
+  sig { params(pending_key: String).void }
+  def self.delete_pending_upload(pending_key)
+    ActiveStorage::Blob.service.delete(pending_key)
+  rescue => e
+    Rails.logger.error "Failed to delete pending upload #{pending_key}: #{e.message}"
+  end
+
+  # Server-side copy, so nothing that was uploaded after validation can
+  # reach maps/: the presigned URL only ever points at the pending key.
+  sig { params(from: String, to: String).void }
+  def self.copy_object(from, to)
+    service = ActiveStorage::Blob.service
+    if service.respond_to?(:bucket)
+      bucket = T.unsafe(service).bucket
+      bucket.object(to).copy_from("#{bucket.name}/#{from}", content_type: "application/octet-stream", metadata_directive: "REPLACE")
+    else
+      T.unsafe(service).compose([ from ], to)
+    end
+  end
+
   sig { params(key: String).returns(T::Hash[Symbol, T.untyped]) }
   def self.validate_direct_upload_file(key)
     begin
@@ -275,6 +333,7 @@ class MapUpload < ActiveRecord::Base
 
       head_response = s3_client.head_object(bucket: bucket_name, key: key)
       file_size = head_response.content_length
+      return { valid: false, error: "File too large" } if file_size > MAX_DIRECT_UPLOAD_SIZE
 
       range_response = s3_client.get_object(bucket: bucket_name, key: key, range: "bytes=0-3")
       header = range_response.body.read

@@ -13,6 +13,7 @@ class CleanupWorker
     remove_orphaned_temp_directories
     PopulateResolvedIpsService.call
     prune_cloud_image_builds
+    MapUpload.remove_abandoned_pending_uploads
   end
 
   def prune_cloud_image_builds

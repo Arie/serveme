@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include BetaUi
 
-  protect_from_forgery
+  protect_from_forgery with: :exception
   layout :resolve_layout
   before_action :authenticate_user!
   before_action :authorize_mini_profiler

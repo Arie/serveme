@@ -89,6 +89,33 @@ describe CloudReservationsController do
           expect(response).to redirect_to(new_cloud_reservation_path)
           expect(flash[:alert]).to eq("Invalid cloud location.")
         end
+
+        it "refuses the dev-only local docker provider outside development" do
+          expect {
+            post :create, params: valid_params.merge(cloud_location: "docker:local")
+          }.not_to change(CloudServer, :count)
+
+          expect(flash[:alert]).to eq("Invalid cloud location.")
+        end
+
+        it "refuses an inactive docker host" do
+          host = create(:docker_host, active: false)
+
+          expect {
+            post :create, params: valid_params.merge(cloud_location: "remote_docker:#{host.id}")
+          }.not_to change(CloudServer, :count)
+
+          expect(flash[:alert]).to eq("Invalid cloud location.")
+        end
+
+        it "refuses a location outside the site's region" do
+          other_region = CloudProvider::Hetzner.locations.find { |_code, info| info[:region] != CloudProvider::SITE_REGION }&.first
+          skip "no other-region Hetzner location" unless other_region
+
+          post :create, params: valid_params.merge(cloud_location: "hetzner:#{other_region}")
+
+          expect(flash[:alert]).to eq("Invalid cloud location.")
+        end
       end
 
       context "with a future starts_at" do

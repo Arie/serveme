@@ -35,6 +35,12 @@ class CloudReservationsController < ApplicationController
   def create
     provider_name, location_code = params[:cloud_location].to_s.split(":", 2)
 
+    unless offered_location?(params[:cloud_location].to_s)
+      flash[:alert] = "Invalid cloud location."
+      redirect_to new_cloud_reservation_path
+      return
+    end
+
     begin
       server = CloudServer.build_for_location(provider_name, location_code, rcon: params[:reservation][:rcon])
     rescue ArgumentError
@@ -92,6 +98,17 @@ class CloudReservationsController < ApplicationController
   end
 
   private
+
+  # Only accept what the form offers: the site's region, active docker hosts
+  # with room, and the dev-only local docker provider never in production.
+  def offered_location?(cloud_location)
+    starts_at = params.dig(:reservation, :starts_at).presence&.then { |t| Time.zone.parse(t.to_s) } || Time.current
+    ends_at = params.dig(:reservation, :ends_at).presence&.then { |t| Time.zone.parse(t.to_s) } || 2.hours.from_now
+    CloudProvider.grouped_locations(starts_at: starts_at, ends_at: ends_at, user: current_user)
+                 .values.flatten(1).any? { |_label, value| value == cloud_location }
+  rescue ArgumentError
+    false
+  end
 
   def require_cloud_access
     return if current_user&.can_use_cloud_servers?

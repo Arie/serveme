@@ -9,6 +9,18 @@ describe UsersController do
     sign_in @user
   end
 
+  describe '#steam_avatar' do
+    it 'only accepts known sizes, so params do not create symbols or cache keys' do
+      allow_any_instance_of(User).to receive(:steam_avatar_url) { |_user, size| "https://avatar/#{size}" }
+
+      get :steam_avatar, params: { id: @user.id, size: 'anything-else' }, format: :json
+      expect(JSON.parse(response.body)).to eq('avatar_url' => 'https://avatar/medium')
+
+      get :steam_avatar, params: { id: @user.id, size: 'full' }, format: :json
+      expect(JSON.parse(response.body)).to eq('avatar_url' => 'https://avatar/full')
+    end
+  end
+
   describe '#edit' do
     it 'should assign the user variable' do
       get :edit

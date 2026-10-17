@@ -25,7 +25,8 @@ class UsersController < ApplicationController
 
   def steam_avatar
     user = User.find(params[:id])
-    size = params[:size]&.to_sym || :medium
+    # Allowlisted: the size ends up in a symbol and the cache key
+    size = params[:size] == "full" ? :full : :medium
 
     cache_key = "steam_avatar_#{user.id}_#{size}"
 

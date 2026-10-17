@@ -268,12 +268,6 @@ module GeneratedPathHelpersModule
   def leaderboard_donators_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def league_request_ai_chat_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def league_request_ai_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def league_request_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

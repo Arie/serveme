@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 class LeagueRequestsController < ApplicationController
-  include ActionController::Live # Required for ai_chat SSE streaming
-
   before_action :require_site_or_league_admin
 
   SEARCH_KEYS = %i[ip steam_uid reservation_ids].freeze
@@ -106,38 +104,6 @@ class LeagueRequestsController < ApplicationController
       cross_reference: params[:search_cross_reference],
       include_vpn_results: params[:search_include_vpn_results]
     )
-  end
-
-  def ai
-  end
-
-  def ai_chat
-    response.headers["Content-Type"] = "text/event-stream"
-    response.headers["Cache-Control"] = "no-cache"
-    response.headers["X-Accel-Buffering"] = "no"
-
-    messages = params[:messages].filter_map do |m|
-      next unless m[:role].to_s.in?(%w[user assistant])
-
-      { role: m[:role].to_s, content: m[:content].to_s }
-    end
-
-    service = LeagueAdminAiService.new(user: current_user)
-    service.stream_response(messages: messages) do |type, data|
-      if type == :keepalive
-        response.stream.write(": keepalive\n\n")
-      else
-        response.stream.write("data: #{({ type: type, data: data }.to_json)}\n\n")
-      end
-    end
-
-    response.stream.write("data: #{({ type: :done, data: nil }.to_json)}\n\n")
-  rescue => e
-    Rails.logger.error("[LeagueAdminAI] Error: #{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
-    Sentry.capture_exception(e)
-    response.stream.write("data: #{({ type: :error, data: e.message }.to_json)}\n\n")
-  ensure
-    response.stream.close
   end
 
   def create

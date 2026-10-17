@@ -142,5 +142,3 @@ group :discord do
 end
 
 gem "brakeman", groups: %i[development test]
-
-gem "anthropic"

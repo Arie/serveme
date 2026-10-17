@@ -88,8 +88,6 @@ Serveme::Application.routes.draw do
   patch "league-request/dismiss-proxy", to: "league_requests#dismiss_proxy", as: :dismiss_proxy_league_request
   patch "league-request/ban-ip", to: "league_requests#ban_ip", as: :ban_ip_league_request
   patch "league-request/toggle-shared-ip", to: "league_requests#toggle_shared_ip", as: :toggle_shared_ip_league_request
-  get  "league-request/ai", to: "league_requests#ai", as: :league_request_ai
-  post "league-request/ai", to: "league_requests#ai_chat", as: :league_request_ai_chat
 
   resources :pages do
     collection do

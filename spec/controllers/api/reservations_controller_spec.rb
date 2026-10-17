@@ -96,6 +96,17 @@ describe Api::ReservationsController do
   end
 
   describe '#create' do
+    it "refuses banned users, like the website does" do
+      server = create :server
+      allow(@user).to receive(:banned?).and_return(true)
+
+      expect {
+        post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 1.hour.from_now, server_id: server.id, password: 'foo', rcon: 'barbarbar' } }
+      }.not_to change(Reservation, :count)
+
+      expect(response.status).to eq(403)
+    end
+
     it 'saves a valid reservation and shows the results' do
       server = create :server, location: create(:location)
       json = {

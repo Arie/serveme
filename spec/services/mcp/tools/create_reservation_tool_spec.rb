@@ -14,6 +14,13 @@ RSpec.describe Mcp::Tools::CreateReservationTool do
   end
 
   describe "#execute" do
+    it "refuses banned users" do
+      create(:server)
+      allow(user).to receive(:banned?).and_return(true)
+
+      expect(tool.execute(password: "secret")).to eq(error: "User is banned")
+    end
+
     context "auto-selecting a server" do
       it "picks an available regular server" do
         server = create(:server)

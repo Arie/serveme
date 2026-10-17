@@ -9,6 +9,7 @@ module Api
 
     before_action :map_legacy_democheck_param, only: [ :create, :update ]
     before_action :validate_steam_uids
+    before_action :reject_banned_user, only: [ :create, :update ]
 
     def index
       limit = params[:limit] || 10

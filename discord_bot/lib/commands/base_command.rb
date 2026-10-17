@@ -29,17 +29,21 @@ module ServemeBot
       end
 
       def require_linked_account!
-        return true if current_user
-
         # AU region: try ozfortress auto-link before showing error
-        if Config.region_key == "au" && try_ozfortress_auto_link
-          return true
-        end
+        return require_not_banned! if current_user || (Config.region_key == "au" && try_ozfortress_auto_link)
 
         respond_with_error(
           "Your Discord account is not linked to #{SITE_HOST}.\n\n" \
           "Use `/#{ServemeBot::Config.command_name} link` to connect your accounts."
         )
+        false
+      end
+
+      # Same rule as the website, which logs banned users out
+      def require_not_banned!
+        return true unless current_user.banned?
+
+        respond_with_error("You have been banned: #{current_user.ban_reason}")
         false
       end
 

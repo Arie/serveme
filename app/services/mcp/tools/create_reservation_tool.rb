@@ -85,6 +85,7 @@ module Mcp
         return user_result if user_result[:error]
 
         target_user = T.cast(user_result[:user], User)
+        return { error: "User is banned" } if target_user.banned?
 
         # Validate password
         password = params[:password]&.to_s&.strip

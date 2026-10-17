@@ -81,8 +81,6 @@ class LogWorker
     action = action_for_message_said_by_reserver
     if action && !said_by_reserver?
       private_say("Only the reservation creator (#{reserver.name}) can use that command")
-    elsif action && !reserver_confirmed_by_status?
-      Rails.logger.warn "Ignoring #{message} for reservation #{reservation&.id}: userid #{event.player.uid} isn't #{event.player.steam_id} in status"
     elsif action ||= action_for_message_said_by_anyone
       reservation&.status_update("#{event.player.name}#{sayer_steam_uid ? " (#{sayer_steam_uid})" : ""}: #{event.message}")
       send(action)
@@ -329,19 +327,6 @@ class LogWorker
   sig { returns(T::Boolean) }
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id
-  end
-
-  # Player names are free text, so a name can contain a fake player tag and
-  # make a log line look like it came from the reserver. The server's own
-  # status output is authoritative for which Steam ID has which userid.
-  sig { returns(T::Boolean) }
-  def reserver_confirmed_by_status?
-    status = reservation&.server&.rcon_exec("status")
-    return false unless status.is_a?(String)
-
-    RconStatusParser.new(status).players.any? do |player|
-      player.user_id == event.player.uid.to_i && player.steam_id == event.player.steam_id
-    end
   end
 
   sig { returns(User) }

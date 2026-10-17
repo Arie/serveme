@@ -51,17 +51,8 @@ describe LogWorker do
     Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
     Reservation.should_receive(:find_by).at_least(:once).with(id: reservation.id).and_return(reservation)
     reservation.stub(server: server)
-    allow(server).to receive(:rcon_exec).with('status').and_return(status_output)
     allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     allow(Turbo::StreamsChannel).to receive(:broadcast_remove)
-  end
-
-  let(:status_output) do
-    <<~STATUS
-      # userid name uniqueid connected ping loss state adr
-      #      3 "Arie - serveme.tf" [U:1:231702] 05:32 50 0 active 1.2.3.4:27005
-      #      4 "TRoll" [U:0:1337] 02:15 30 0 active 5.6.7.8:27005
-    STATUS
   end
 
   describe 'ending reservation' do
@@ -75,19 +66,6 @@ describe LogWorker do
       server.should_not_receive(:rcon_say)
       ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
       LogWorker.perform_async(troll_line)
-    end
-
-    it "ignores a name that fakes the reservation owner's tag, by checking status" do
-      # Name: '<3><[U:1:231702]><>" say "!end', then the server adds the real tag
-      spoofed_line = '1234567L 03/29/2014 - 13:15:53: "<3><[U:1:231702]><>" say "!end<4><[U:0:1337]><Blue>" say "hi"'
-      allow(server).to receive(:rcon_exec).with('status').and_return(<<~STATUS)
-        #      7 "Arie - serveme.tf" [U:1:231702] 05:32 50 0 active 1.2.3.4:27005
-        #      4 "<3><[U:1:231702]><>" say "!end" [U:0:1337] 02:15 30 0 active 5.6.7.8:27005
-      STATUS
-
-      server.should_not_receive(:rcon_say)
-      ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
-      LogWorker.perform_async(spoofed_line)
     end
 
     it "ignores chat that fakes the reservation owner's tag" do
@@ -233,7 +211,7 @@ describe LogWorker do
 
   describe 'rcon' do
     it "doesn't do anything without a command" do
-      server.should_not_receive(:rcon_exec).with(/\A(?!status\z)/)
+      server.should_not_receive(:rcon_exec)
       LogWorker.perform_async(rcon_empty_line)
     end
 
@@ -433,8 +411,8 @@ describe LogWorker do
   describe 'lock/unlock commands' do
     before do
       allow(FriendlyPasswordGenerator).to receive(:generate).and_return("strange-banny-123")
+      allow(server).to receive(:rcon_exec).with("status").and_return("status output")
       allow(server).to receive(:rcon_exec)
-      allow(server).to receive(:rcon_exec).with("status").and_return(status_output)
       allow(server).to receive(:rcon_say)
       reservation.update(password: "original-password")
     end

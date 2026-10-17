@@ -311,6 +311,22 @@ describe LogWorker do
       LogWorker.perform_async(connect_league_banned_uid)
     end
 
+    it 'kicks league banned players with mirrored cheating bans' do
+      profile = instance_double(Etf2lProfile, banned?: true, league_name: 'RGL', ban_reason: 'ETF2L Mirror Cheating Ban - First Offense')
+      LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
+      server.should_receive(:rcon_exec).with('kickid 3 Cheating (league ban); banid 0 [U:1:1127291858]; addip 0 1.128.0.1')
+      server.should_receive(:rcon_say).with('RGL banned player Troll connected: ETF2L Mirror Cheating Ban - First Offense')
+      LogWorker.perform_async(connect_league_banned_uid)
+    end
+
+    it 'does not kick league banned players for assisting cheating' do
+      profile = instance_double(Etf2lProfile, banned?: true, league_name: 'RGL', ban_reason: 'Assisting Cheating - First Offense')
+      LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
+      server.should_not_receive(:rcon_exec)
+      server.should_receive(:rcon_say).with('RGL banned player Troll connected: Assisting Cheating - First Offense')
+      LogWorker.perform_async(connect_league_banned_uid)
+    end
+
     it 'kicks VPN players with clean message format' do
       ReservationPlayer.should_receive(:banned_asn_ip?).with('109.81.174.1').and_return(true)
       ReservationPlayer.should_receive(:whitelisted_uid?).with(76561197960278073).and_return(false)

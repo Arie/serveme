@@ -170,7 +170,7 @@ class LogWorker
 
     Rails.logger.info "League banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name} connected to reservation #{reservation_id}: #{banned_league_profile.ban_reason}"
 
-    if banned_league_profile.ban_reason.to_s.match?(/^(cheat|vac)/i)
+    if banned_league_profile.ban_reason.to_s.match?(/^(cheat|vac)|mirror cheating/i)
       reservation&.server&.rcon_exec "kickid #{event.player.uid} Cheating (league ban); banid 0 #{event.player.steam_id}#{ReservationPlayer.permanent_ip_ban_clause(ip)}"
     end
 

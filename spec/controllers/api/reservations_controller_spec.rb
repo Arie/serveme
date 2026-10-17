@@ -305,6 +305,20 @@ describe Api::ReservationsController do
       expect(response.body).to match_json_expression(json)
       response.status.should == 200
     end
+
+    it "doesn't move a running reservation to another server or change its rcon" do
+      reservation = create(:reservation, user: @user, provisioned: true)
+      other_server = create(:server)
+      original_rcon = reservation.rcon
+      allow(ReservationChangesWorker).to receive(:perform_async)
+
+      patch :update, format: :json, params: { id: reservation.id, reservation: { server_id: other_server.id, rcon: 'changed', starts_at: 10.minutes.ago, password: 'bar' } }
+
+      reservation.reload
+      expect(reservation.server_id).not_to eq(other_server.id)
+      expect(reservation.rcon).to eq(original_rcon)
+      expect(reservation.password).to eq('bar')
+    end
   end
 
   describe '#destroy' do

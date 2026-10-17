@@ -50,7 +50,7 @@ module Api
     end
 
     def update
-      writable_reservation.update(reservation_params)
+      writable_reservation.update(update_params)
       if writable_reservation.errors.any?
         Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{writable_reservation.errors.full_messages.join(', ')}"
         @reservation = writable_reservation
@@ -191,6 +191,21 @@ module Api
 
     def reservation_params
       params.require(:reservation).permit(:starts_at, :ends_at, :server_id, :rcon, :password, :first_map, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :auto_end, :enable_plugins, :enable_demos_tf, :democheck_mode)
+    end
+
+    # Server, start time and rcon can only change before the reservation
+    # starts: the running game server isn't moved along. Extending by moving
+    # ends_at stays allowed, model validations cover that.
+    def update_params
+      return reservation_params if writable_reservation.schedulable?
+
+      reservation_params.except(:starts_at, :server_id, :rcon)
+    end
+
+    # The website logs banned users out; booking through an API key, or a
+    # partner acting for them, shouldn't get around that
+    def reject_banned_user
+      render json: { error: "User is banned" }, status: :forbidden if current_user.banned?
     end
 
     def map_legacy_democheck_param

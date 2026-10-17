@@ -29,21 +29,28 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
   end
 
   describe "#execute" do
-    context "when API user links their own account" do
+    context "when a regular API user tries to link their own account" do
       let(:user) { create(:user, nickname: "TestPlayer", uid: "76561198012345678") }
       let(:tool) { described_class.new(user) }
 
-      it "links discord account successfully" do
+      it "refuses, since anyone could claim someone else's public Discord ID" do
         result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)
 
-        expect(result[:success]).to be true
-        expect(result[:user][:nickname]).to eq("TestPlayer")
-        expect(user.reload.discord_uid).to eq("123456789012345678")
+        expect(result[:success]).to be false
+        expect(result[:error]).to include("Not authorized")
+        expect(user.reload.discord_uid).to be_nil
       end
+    end
+
+    context "when a trusted API user links an account" do
+      let(:bot) { create(:user).tap { |u| u.groups << Group.trusted_api_group } }
+      let(:target_user) { create(:user, nickname: "TestPlayer", uid: "76561198012345678") }
+      let(:tool) { described_class.new(bot) }
 
       it "returns linked user info" do
-        result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)
+        result = tool.execute(discord_uid: "123456789012345678", steam_uid: target_user.uid)
 
+        expect(result[:success]).to be true
         expect(result[:user]).to include(:nickname, :steam_uid, :discord_uid)
         expect(result[:user][:discord_uid]).to eq("123456789012345678")
       end
@@ -103,7 +110,7 @@ RSpec.describe Mcp::Tools::LinkDiscordTool do
 
     context "when user already has a different discord linked" do
       let(:user) { create(:user, uid: "76561198012345678", discord_uid: "999999999999999999") }
-      let(:tool) { described_class.new(user) }
+      let(:tool) { described_class.new(create(:user, :admin)) }
 
       it "updates the link" do
         result = tool.execute(discord_uid: "123456789012345678", steam_uid: user.uid)

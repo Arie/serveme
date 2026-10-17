@@ -58,13 +58,20 @@ module Mcp
         target_user = User.find_by(uid: steam_uid)
         return { success: false, error: "User not found for Steam ID: #{steam_uid}" } unless target_user
 
-        # Non-privileged callers can only link/unlink their own account
+        # Non-privileged callers can only unlink their own account
         unless privileged? || target_user.id == user.id
           return { success: false, error: "Not authorized to link Discord for another user" }
         end
 
         if unlink
           return unlink_discord(target_user, discord_uid)
+        end
+
+        # Discord IDs are public, so linking needs a caller that verified the
+        # Discord account (the bot); otherwise anyone could claim someone
+        # else's Discord ID and receive their bot bookings.
+        unless privileged?
+          return { success: false, error: "Not authorized to link Discord accounts, use the Discord bot or serveme.tf settings" }
         end
 
         link_discord(target_user, discord_uid)

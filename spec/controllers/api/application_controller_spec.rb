@@ -52,4 +52,34 @@ describe TestApiController do
     get :index, params: { api_key: 'foobar', steam_uid: '1337' }
     controller.current_user.should == steam_user
   end
+
+  it 'lets an admin act as another admin' do
+    api_user = create :user, api_key: 'foobar'
+    api_user.groups << Group.admin_group
+    other_admin = create :user, uid: '1337'
+    other_admin.groups << Group.admin_group
+    get :index, params: { api_key: 'foobar', steam_uid: '1337' }
+    controller.current_user.should == other_admin
+  end
+
+  context 'with a trusted api user' do
+    let!(:api_user) do
+      create(:user, api_key: 'foobar').tap { |u| u.groups << Group.trusted_api_group }
+    end
+
+    it 'acts as a regular user' do
+      steam_user = create :user, uid: '1337'
+      get :index, params: { api_key: 'foobar', steam_uid: '1337' }
+      controller.current_user.should == steam_user
+    end
+
+    [ :admin_group, :league_admin_group, :config_admin_group, :streamer_group, :trusted_api_group ].each do |group|
+      it "can't act as a member of #{group}" do
+        privileged = create :user, uid: '1337'
+        privileged.groups << Group.public_send(group)
+        get :index, params: { api_key: 'foobar', steam_uid: '1337' }
+        controller.current_user.should == api_user
+      end
+    end
+  end
 end

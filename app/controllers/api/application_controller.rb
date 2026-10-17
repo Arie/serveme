@@ -24,7 +24,20 @@ module Api
     end
 
     def current_user
-      @current_user ||= ((api_user&.admin? || api_user&.trusted_api?) && uid_user) || api_user
+      @current_user ||= impersonated_user || api_user
+    end
+
+    # Admins may act as anyone; trusted API partners only as regular users, so
+    # a partner key can't borrow an admin's roles (e.g. admin-only MCP tools)
+    def impersonated_user
+      return unless uid_user
+      return uid_user if api_user&.admin?
+
+      uid_user if api_user&.trusted_api? && !privileged_user?(uid_user)
+    end
+
+    def privileged_user?(user)
+      user.admin? || user.config_admin? || user.streamer? || user.trusted_api?
     end
 
     def handle_not_found

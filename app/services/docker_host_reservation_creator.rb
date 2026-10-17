@@ -23,7 +23,7 @@ class DockerHostReservationCreator
   sig { returns(Reservation) }
   def create!
     $lock.synchronize("cloud-reservation-docker-host-#{docker_host_id}", retries: 5, initial_wait: 0.1, expiry: 30) do
-      docker_host = DockerHost.find(docker_host_id)
+      docker_host = DockerHost.active.find(docker_host_id)
       starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
       ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
 

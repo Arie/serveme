@@ -28,6 +28,13 @@ describe DockerHostReservationCreator do
     )
   end
 
+  it "refuses inactive docker hosts" do
+    docker_host.update!(active: false)
+
+    expect { subject.create! }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(CloudServer.count).to eq(0)
+  end
+
   describe "#create!" do
     it "creates a CloudServer and Reservation" do
       expect(CloudServerProvisionWorker).to receive(:perform_async)

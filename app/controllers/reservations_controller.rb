@@ -399,6 +399,9 @@ class ReservationsController < ApplicationController
     @reservation = creator.create!
     flash[:notice] = "Server is being provisioned. This usually takes about 1 minute."
     redirect_to reservation_path(@reservation)
+  rescue ActiveRecord::RecordNotFound
+    flash[:alert] = "This location is not available."
+    redirect_to new_reservation_path
   rescue DockerHostReservationCreator::CapacityError => e
     flash[:alert] = e.message
     redirect_to new_reservation_path

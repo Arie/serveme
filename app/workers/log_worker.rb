@@ -444,7 +444,7 @@ class LogWorker
       player_uniqueid = event.player.uid
       player_name = event.player.name
       current_password = reservation&.password
-      reservation&.server&.rcon_exec "sm_psay ##{player_uniqueid} Server password: #{current_password}"
+      reservation&.server&.rcon_exec "sm_psay ##{player_uniqueid} Server password: #{ServerRconGateway.chat_safe(current_password.to_s)}"
       Rails.logger.info "Sent password to #{player_name} (#{sayer_steam_uid}) for reservation #{reservation&.id}"
     else
       reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
@@ -482,7 +482,7 @@ class LogWorker
   def private_say(text)
     return unless reservation&.enable_plugins?
 
-    reservation&.server&.rcon_exec "sm_psay ##{event.player.uid} #{text.delete(';"')}"
+    reservation&.server&.rcon_exec "sm_psay ##{event.player.uid} #{ServerRconGateway.chat_safe(text)}"
   end
 
   sig { void }

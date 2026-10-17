@@ -27,10 +27,18 @@ class ServerRconGateway
     nil
   end
 
+  # Chat text often contains player names or player-typed input. The console
+  # splits commands on ";" and newlines, and a quote ends the argument, so
+  # strip those before the text becomes part of a say/psay command.
+  sig { params(text: String).returns(String) }
+  def self.chat_safe(text)
+    text.gsub(/[\r\n]+/, " ").delete(';"')
+  end
+
   sig { params(message: String).returns(T::Array[T.untyped]) }
   def say(message)
     message.split("\n").flat_map do |line|
-      T.cast(line.scan(/.{1,200}(?:\s|$)/), T::Array[String]).map(&:strip).map { |chunk| exec("say #{chunk}") }
+      T.cast(self.class.chat_safe(line).scan(/.{1,200}(?:\s|$)/), T::Array[String]).map(&:strip).map { |chunk| exec("say #{chunk}") }
     end
   end
 

@@ -104,6 +104,11 @@ RSpec.describe ServerRconGateway do
       gateway.say(long_message)
     end
 
+    it "strips command separators and quotes so player names can't inject commands" do
+      expect(condenser).to receive(:rcon_exec).with("say evil kickall")
+      gateway.say('"evil; kickall;"')
+    end
+
     it "logs an error when a chunk fails to send" do
       allow(condenser).to receive(:rcon_exec).and_raise(SteamCondenser::Error::Timeout)
       expect(Rails.logger).to receive(:error)

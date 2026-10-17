@@ -55,7 +55,7 @@ class WhoisPlayerWorker
   sig { params(server: T.untyped, message: String, requester_uid: String).void }
   def send_message(server, message, requester_uid)
     message.split("\n").each do |line|
-      T.unsafe(line).scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
+      T.unsafe(ServerRconGateway.chat_safe(line)).scan(/.{1,200}(?:\s|$)/).map(&:strip).each do |chunk|
         server.rcon_exec("sm_psay ##{requester_uid} #{chunk}")
       end
     end

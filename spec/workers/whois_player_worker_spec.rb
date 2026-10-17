@@ -68,6 +68,12 @@ describe WhoisPlayerWorker do
       subject.perform(reservation.id, "nobody", "7", true)
     end
 
+    it "doesn't let the query inject extra rcon commands" do
+      expect_any_instance_of(Server).to receive(:rcon_exec).with("sm_psay #7 No players matching 'x kickall '")
+
+      subject.perform(reservation.id, "x; kickall; \"", "7", false)
+    end
+
     it "always sends private messages" do
       expect_any_instance_of(Server).to receive(:rcon_exec).with(/sm_psay #5 PlayerOne:/)
       expect_any_instance_of(Server).not_to receive(:rcon_say).with(/PlayerOne:/)

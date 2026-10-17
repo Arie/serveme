@@ -4,20 +4,29 @@
 require 'spec_helper'
 
 describe LocalZipFileCreator do
-  let(:zipper_class)  { LocalZipFileCreator }
-  let(:reservation)   { double(server: server, status_update: nil) }
-  let(:server)        { double(zip_file_creator_class: zipper_class) }
+  let(:reservation) { double(status_update: nil, zipfile_name: 'local-test.zip') }
+  let(:source_dir) { Dir.mktmpdir }
+  let(:zip_path) { Rails.root.join('tmp', 'local-test.zip') }
 
-  describe '#zip' do
-    it 'it adds the files to zip to a zipfile' do
-      zip_creator = LocalZipFileCreator.new(reservation, [ "foo'bar" ])
-      zip_creator.stub(server: server)
-      zip_creator.stub(files_to_zip: [ 'foo/qux.dem' ])
-      zip_creator.stub(zipfile_name_and_path: 'bar.zip')
+  after do
+    FileUtils.remove_entry(source_dir)
+    FileUtils.rm_f(zip_path)
+  end
 
-      expect(Open3).to receive(:capture3).with('zip', '-j', 'bar.zip', 'foo/qux.dem').and_return([ "", "", double(success?: true) ])
+  it 'zips copies with IPs and API keys stripped, leaving the originals alone' do
+    log = File.join(source_dir, 'l1.log')
+    File.write(log, %(L 10/17/2026 - 12:00:00: "p<2><[U:1:1]><>" connected, address "1.2.3.4:27005"\nrcon: logstf_apikey "secretkey"\n))
+    demo = File.join(source_dir, 'match.dem')
+    File.write(demo, 'demo')
 
-      zip_creator.zip
-    end
+    creator = described_class.new(reservation, [ log, demo ])
+    allow(creator).to receive(:zipfile_name_and_path).and_return(zip_path)
+    creator.create_zip
+
+    zipped_log = Zip::File.open(zip_path) { |zip| zip.read('l1.log') }
+    expect(zipped_log).not_to include('1.2.3.4')
+    expect(zipped_log).not_to include('secretkey')
+    expect(Zip::File.open(zip_path) { |zip| zip.read('match.dem') }).to eq('demo')
+    expect(File.read(log)).to include('secretkey')
   end
 end

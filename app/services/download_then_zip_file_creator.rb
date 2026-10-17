@@ -1,8 +1,6 @@
 # typed: true
 # frozen_string_literal: true
 
-require "open3"
-
 class DownloadThenZipFileCreator < ZipFileCreator
   extend T::Sig
 
@@ -10,9 +8,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
   def create_zip
     tmp_dir = Dir.mktmpdir
     begin
-      reservation.status_update("Downloading logs and demos from server")
-      server.copy_from_server(files_to_zip, tmp_dir)
-      reservation.status_update("Finished downloading logs and demos from server")
+      fetch_files(tmp_dir)
       strip_ips_and_api_keys_from_log_files(tmp_dir)
       zip(tmp_dir)
       chmod
@@ -22,13 +18,28 @@ class DownloadThenZipFileCreator < ZipFileCreator
   end
 
   sig { params(tmp_dir: String).void }
-  def strip_ips_and_api_keys_from_log_files(tmp_dir)
-    log_files = Dir.glob("#{tmp_dir}/*.log")
-    return if log_files.empty?
+  def fetch_files(tmp_dir)
+    reservation.status_update("Downloading logs and demos from server")
+    server.copy_from_server(files_to_zip, tmp_dir)
+    reservation.status_update("Finished downloading logs and demos from server")
+  end
 
-    sed_expression = 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g;s/logstf_apikey \"\S+\"/logstf_apikey \"apikey\"/g;s/tftrue_logs_apikey \"\S+\"/tftrue_logs_apikey \"apikey\"/g;s/sm_demostf_apikey \"\S+\"/sm_demostf_apikey \"apikey\"/g'
-    _, stderr, status = T.unsafe(Open3).capture3({ "LANG" => "ALL", "LC_ALL" => "C" }, "sed", "-i", "-r", sed_expression, *log_files)
-    Rails.logger.error("Failed to strip IPs/API keys from logs: #{stderr}") unless status.success?
+  IP_REGEX = /\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/n
+  API_KEY_REGEX = /(logstf_apikey|tftrue_logs_apikey|sm_demostf_apikey) "[^"]*"/n
+  LOGSECRET_REGEX = /sv_logsecret \d+/n
+
+  # Logs aren't guaranteed to be valid UTF-8, so work on the raw bytes
+  sig { params(tmp_dir: String).void }
+  def strip_ips_and_api_keys_from_log_files(tmp_dir)
+    Dir.glob("#{tmp_dir}/*.log").each do |log_file|
+      content = File.binread(log_file)
+      stripped = content.gsub(IP_REGEX, "0.0.0.0")
+                        .gsub(API_KEY_REGEX, '\1 "apikey"')
+                        .gsub(LOGSECRET_REGEX, "sv_logsecret 0")
+      File.binwrite(log_file, stripped) if stripped != content
+    end
+  rescue SystemCallError => e
+    Rails.logger.error("Failed to strip IPs/API keys from logs: #{e.message}")
   end
 
   sig { params(tmp_dir: String).void }

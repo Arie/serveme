@@ -1,21 +1,14 @@
 # typed: true
 # frozen_string_literal: true
 
-require "open3"
-
-class LocalZipFileCreator < ZipFileCreator
+# Copies the files instead of downloading them, then strips IPs and API keys
+# and zips like any other server: the zip ends up in public/uploads.
+class LocalZipFileCreator < DownloadThenZipFileCreator
   extend T::Sig
 
-  sig { void }
-  def create_zip
-    zip
-    chmod
-  end
-
-  sig { void }
-  def zip
+  sig { params(tmp_dir: String).void }
+  def fetch_files(tmp_dir)
     reservation.status_update("Zipping logs and demos of locally running server")
-    _, stderr, status = T.unsafe(Open3).capture3("zip", "-j", zipfile_name_and_path.to_s, *files_to_zip)
-    Rails.logger.error("Failed to create zipfile: #{stderr}") unless status.success?
+    FileUtils.cp(files_to_zip, tmp_dir)
   end
 end

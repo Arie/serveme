@@ -32,19 +32,23 @@ describe DownloadThenZipFileCreator do
   end
 
   describe '#strip_ips_and_api_keys_from_log_files' do
-    it 'uses array form system call to avoid shell injection' do
-      zip_file = described_class.new(reservation, [])
-      allow(zip_file).to receive(:strip_ips_and_api_keys_from_log_files).and_call_original
-      allow(Dir).to receive(:glob).with("/tmp/some_dir/*.log").and_return([ "/tmp/some_dir/a.log", "/tmp/some_dir/b.log" ])
+    it 'removes IPs, API keys and the logsecret from log files' do
+      Dir.mktmpdir do |dir|
+        log = File.join(dir, 'a.log')
+        File.binwrite(log, %(L 10/17/2026 - 12:00:00: "p\xff<2><[U:1:1]><>" connected, address "1.2.3.4:27005"\n) +
+                           %(rcon from "5.6.7.8:1": command "sv_logsecret 123456; logstf_apikey "abc def"; sm_demostf_apikey "x+y/z=""\n))
+        demo = File.join(dir, 'a.dem')
+        File.write(demo, '1.2.3.4')
 
-      expect(Open3).to receive(:capture3).with(
-        { "LANG" => "ALL", "LC_ALL" => "C" },
-        "sed", "-i", "-r",
-        's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g;s/logstf_apikey \"\S+\"/logstf_apikey \"apikey\"/g;s/tftrue_logs_apikey \"\S+\"/tftrue_logs_apikey \"apikey\"/g;s/sm_demostf_apikey \"\S+\"/sm_demostf_apikey \"apikey\"/g',
-        "/tmp/some_dir/a.log", "/tmp/some_dir/b.log"
-      ).and_return([ "", "", double(success?: true) ])
+        zip_file = described_class.new(reservation, [])
+        allow(zip_file).to receive(:strip_ips_and_api_keys_from_log_files).and_call_original
+        zip_file.strip_ips_and_api_keys_from_log_files(dir)
 
-      zip_file.strip_ips_and_api_keys_from_log_files("/tmp/some_dir")
+        stripped = File.binread(log)
+        expect(stripped).not_to include('1.2.3.4', '5.6.7.8', '123456', 'abc def', 'x+y/z=')
+        expect(stripped).to include('logstf_apikey "apikey"', 'sm_demostf_apikey "apikey"', "p\xff".b)
+        expect(File.read(demo)).to eq('1.2.3.4')
+      end
     end
   end
 

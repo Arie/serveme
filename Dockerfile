@@ -68,12 +68,7 @@ COPY . .
 RUN --mount=type=cache,target=/rails/tmp/cache,sharing=locked \
     --mount=type=cache,target=/var/cache/bootsnap,sharing=locked \
     SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile && \
-    sed -i 's/"mtime":"[^"]*"/"mtime":"1970-01-01T00:00:00+00:00"/g' public/assets/.sprockets-manifest-*.json && \
-    cd public/assets && \
-    OLD=$(ls .sprockets-manifest-*.json) && \
-    NEW=".sprockets-manifest-$(sha256sum "$OLD" | cut -c1-32).json" && \
-    [ "$OLD" = "$NEW" ] || mv "$OLD" "$NEW" && \
-    cd /rails && \
+    sed -i 's/"mtime":"[^"]*"/"mtime":"1970-01-01T00:00:00+00:00"/g' public/assets/.sprockets-manifest.json && \
     find public/assets -name '*.gz' | while read gz; do src="${gz%.gz}"; [ -f "$src" ] && gzip -9 -n < "$src" > "$gz"; done && \
     find public/assets -exec touch -d '@0' {} +
 

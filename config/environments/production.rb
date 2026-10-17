@@ -27,8 +27,9 @@ Serveme::Application.configure do
 
   config.assets.js_compressor = :terser
 
-  # Defaults to nil and saved in location specified by config.assets.prefix
-  # config.assets.manifest = YOUR_PATH
+  # Fixed name: Kamal's asset bridging copies the previous release's manifest
+  # alongside ours, and Sprockets would otherwise pick one alphabetically.
+  config.assets.manifest = Rails.root.join("public/assets/.sprockets-manifest.json").to_s
 
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache

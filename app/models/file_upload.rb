@@ -57,6 +57,8 @@ class FileUpload < ActiveRecord::Base
 
       relative_path = path.gsub("#{tmp_dir}/", "")
       target_dir = File.dirname(relative_path)
+      next unless safe_target_dir?(target_dir)
+
       files_with_path[target_dir] ||= []
       files_with_path[target_dir] << path
     end
@@ -79,6 +81,7 @@ class FileUpload < ActiveRecord::Base
 
       target_dir = zipped_file.name.split("/")[0..-2].join("/")
       next if target_dir.include?("..")
+      next unless safe_target_dir?(target_dir)
 
       files_with_path[target_dir] ||= []
 
@@ -104,6 +107,14 @@ class FileUpload < ActiveRecord::Base
   end
 
   private
+
+  # Target directories end up in copy commands on the game servers
+  SAFE_TARGET_DIR = %r{\A[A-Za-z0-9_.\-/]*\z}
+
+  sig { params(target_dir: String).returns(T::Boolean) }
+  def safe_target_dir?(target_dir)
+    SAFE_TARGET_DIR.match?(target_dir)
+  end
 
   DISALLOWED_CFG_COMMANDS = %w[sm_updater hostname].freeze
 

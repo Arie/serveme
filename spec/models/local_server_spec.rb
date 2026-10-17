@@ -336,7 +336,7 @@ describe LocalServer do
     it 'uses a simple local copy' do
       files = %w[foo bar]
       destination = 'destination'
-      subject.should_receive('system').with('cp foo bar destination')
+      Kernel.should_receive(:system).with('cp', 'foo', 'bar', 'destination')
       subject.copy_to_server(files, destination)
     end
   end

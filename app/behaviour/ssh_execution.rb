@@ -149,20 +149,18 @@ module SshExecution
     execute("mkdir -p #{paths.map(&:shellescape).join(' ')}")
   end
 
+  # scp runs without a local shell (argv). With -O (legacy protocol) the remote
+  # side does pass the remote paths through its shell, so those are escaped once.
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(files, destination)
-    # brakeman: ignore:Command Injection
-    # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
-    system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{scp_target}:#{destination}")
+    T.unsafe(Kernel).system(*Shellwords.split(scp_command), *files, "#{scp_target}:#{destination.shellescape}")
   end
 
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_from_server(files, destination)
-    # brakeman: ignore:Command Injection
-    # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
-    system("#{scp_command} #{scp_target}:\"#{files.map(&:shellescape).join(' ')}\" #{destination.shellescape}")
+    T.unsafe(Kernel).system(*Shellwords.split(scp_command), "#{scp_target}:#{files.map(&:shellescape).join(' ')}", destination)
   end
 
   sig { returns(T.class_of(DownloadThenZipFileCreator)) }

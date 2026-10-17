@@ -69,9 +69,7 @@ class LocalServer < Server
 
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(files, destination)
-    # brakeman: ignore:Command Injection
-    # files are escaped with shellescape and destination is controlled by the application
-    system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
+    T.unsafe(Kernel).system("cp", *files, destination)
   end
 
   sig { returns(T.nilable(T.any(String, T::Boolean))) }

@@ -213,6 +213,28 @@ describe FileUpload do
     ensure
       malicious_zip&.unlink
     end
+
+    it 'skips entries whose directory contains shell metacharacters' do
+      malicious_zip = Tempfile.new([ 'malicious', '.zip' ])
+      Zip::OutputStream.open(malicious_zip.path) do |zos|
+        zos.put_next_entry('cfg/$(touch pwned)/evil.cfg')
+        zos.write('echo hi')
+
+        zos.put_next_entry('cfg/a;b/evil.cfg')
+        zos.write('echo hi')
+
+        zos.put_next_entry('cfg/sub_dir-1.0/ok.cfg')
+        zos.write('echo ok')
+      end
+
+      file_upload = build(:file_upload, user: user)
+      allow(file_upload).to receive(:file_path_for_zip).and_return(malicious_zip.path)
+
+      expect(file_upload.extract_zip_to_tmp_dir.keys).to eq([ 'cfg/sub_dir-1.0' ])
+      expect(file_upload.extract_zip_to_tmp_dir.keys).to eq([ 'cfg/sub_dir-1.0' ])
+    ensure
+      malicious_zip&.unlink
+    end
   end
 
   describe 'cfg sanitization' do

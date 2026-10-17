@@ -150,9 +150,15 @@ describe SshServer do
       files = [ File.join('foo') ]
       destination = 'bar'
 
-      subject.should_receive('system').with("#{scp_command} foo #{subject.ip}:bar")
+      Kernel.should_receive(:system).with(*scp_command.split, 'foo', "#{subject.ip}:bar")
 
       subject.copy_to_server(files, destination)
+    end
+
+    it 'escapes the destination for the remote shell and never uses a local shell' do
+      Kernel.should_receive(:system).with(*scp_command.split, 'foo', "#{subject.ip}:/tf/cfg/\\$\\(id\\)")
+
+      subject.copy_to_server([ 'foo' ], '/tf/cfg/$(id)')
     end
   end
 
@@ -174,10 +180,15 @@ describe SshServer do
       files = [ File.join('foo') ]
       destination = 'bar'
 
-      subject.should_receive(:system).with("#{scp_command} #{subject.ip}:\"foo\" bar")
-
+      Kernel.should_receive(:system).with(*scp_command.split, "#{subject.ip}:foo", 'bar')
 
       subject.copy_from_server(files, destination)
+    end
+
+    it 'escapes remote file names once, for the remote shell' do
+      Kernel.should_receive(:system).with(*scp_command.split, "#{subject.ip}:/tf/a\\`id\\`.dem /tf/b.dem", 'bar')
+
+      subject.copy_from_server([ '/tf/a`id`.dem', '/tf/b.dem' ], 'bar')
     end
   end
 

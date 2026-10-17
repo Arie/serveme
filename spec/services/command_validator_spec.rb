@@ -22,6 +22,17 @@ describe CommandValidator do
         expect(described_class.validate('_restart')).to be true
       end
 
+      it 'returns false for commands that would get around the check or take over the server' do
+        expect(described_class.validate('alias x "kickall"; x')).to be false
+        expect(described_class.validate('sm_rcon kickall')).to be false
+        expect(described_class.validate('rcon_password hijacked')).to be false
+        expect(described_class.validate('logaddress_delall')).to be false
+      end
+
+      it 'treats newlines as command separators' do
+        expect(described_class.validate("changelevel cp_process_f12\nrcon_password hijacked")).to be false
+      end
+
       it 'returns true for likely valid command exec' do
         expect(described_class.validate('exec myconfig')).to be true
       end

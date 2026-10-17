@@ -100,17 +100,21 @@ class StacLogProcessor
 
   sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }
   def parse_aim_detections(content, detections)
-    content.scan(AIM_DETECTION_PATTERN).each do |match|
-      detection_type_raw = T.must(match[0])
-      name_raw = match[1]
+    content.to_enum(:scan, AIM_DETECTION_PATTERN).each do
+      match = T.must(::Regexp.last_match)
+      detection_type_raw = T.must(match[1])
+      name_raw = match[2]
 
       name = parse_player_name(name_raw)
       next if name.nil?
 
-      log_segment_after_detection = content[content.index(T.must(match[0]))..-1]
-      next unless log_segment_after_detection =~ /Player: #{Regexp.escape(name)}.*?#{STEAM_ID_PATTERN}/m
+      # The player block right after this detection, not the first block with
+      # a similar name: "Bob" must not pick up "Bobby"'s SteamID
+      log_segment_after_detection = T.must(content[match.end(0)..])
+      player_block = log_segment_after_detection.match(/^\s*Player: (.*?)<.*?#{STEAM_ID_PATTERN}/m)
+      next unless player_block && player_block[1] == name
 
-      steam_id = ::Regexp.last_match(1)
+      steam_id = player_block[2]
       steam_id64 = convert_steam_id(steam_id)
 
       detection_type = normalize_detection_type(detection_type_raw)

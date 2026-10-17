@@ -458,6 +458,34 @@ describe StacLogProcessor do
       end
     end
 
+    context "with similar player names" do
+      let(:reservation) { build_stubbed(:reservation) }
+      let(:processor) { described_class.new(reservation) }
+
+      it "attributes each detection to the player block that follows it" do
+        log_content = <<~LOG
+          [StAC] SilentAim detection of 3.10° on Bobby.
+          Detections so far: 1 norecoil = no
+          <22:08:23>
+           Player: Bobby<3><[U:1:111]><>
+           StAC cached SteamID: STEAM_0:1:55
+          [StAC] SilentAim detection of 2.00° on Bob.
+          Detections so far: 1 norecoil = no
+          <22:09:23>
+           Player: Bob<4><[U:1:222]><>
+           StAC cached SteamID: STEAM_0:0:111
+        LOG
+
+        result = processor.extract_detections(log_content)
+        names_by_steam_id = result.values.to_h { |player| [ player[:steam_id], [ player[:name], player[:detections] ] ] }
+
+        expect(names_by_steam_id).to eq(
+          "STEAM_0:1:55" => [ "Bobby", [ "SilentAim" ] ],
+          "STEAM_0:0:111" => [ "Bob", [ "SilentAim" ] ]
+        )
+      end
+    end
+
     context "with edge case player names" do
       let(:reservation) { build_stubbed(:reservation) }
       let(:processor) { described_class.new(reservation) }

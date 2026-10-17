@@ -216,5 +216,18 @@ describe LogLineFormatter do
       expect(result[:raw]).to include('sv_logsecret "*****"')
       expect(result[:raw]).not_to include("secretvalue123")
     end
+
+    it "sanitizes quoted passwords containing spaces" do
+      line = 'L 01/01/2026 - 12:00:00: rcon from "1.2.3.4:5": command "sv_password "my secret"; tv_password "tv pass""'
+      result = described_class.new(line).format
+      expect(result[:raw]).not_to include("my secret", "secret", "tv pass")
+      expect(result[:raw]).to include('sv_password "*****"', 'tv_password "*****"')
+    end
+
+    it "sanitizes unquoted passwords" do
+      line = 'L 01/01/2026 - 12:00:00: rcon from "1.2.3.4:5": command "sv_password hunter2; rcon_password letmein; tv_relaypassword relay1"'
+      result = described_class.new(line).format
+      expect(result[:raw]).not_to include("hunter2", "letmein", "relay1")
+    end
   end
 end

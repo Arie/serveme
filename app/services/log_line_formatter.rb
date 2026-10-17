@@ -8,15 +8,18 @@ class LogLineFormatter
 
   # Patterns for sanitizing sensitive data
   IP_REGEX = /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
-  RCON_PASSWORD_REGEX = /rcon_password "\S+"/
-  SV_PASSWORD_REGEX = /sv_password "\S+"/
-  TV_PASSWORD_REGEX = /tv_password "\S+"/
-  TFTRUE_LOGS_API_KEY_REGEX = /tftrue_logs_apikey "\S+"/
-  LOGS_TF_API_KEY_REGEX = /logstf_apikey "\S+"/
-  SM_DEMOSTF_APIKEY_REGEX = /sm_demostf_apikey "\S+"/
-  LOGADDRESS_ADD_REGEX = /logaddress_add \S+"/
-  LOGADDRESS_DEL_REGEX = /logaddress_del \S+"/
-  LOGSECRET_REGEX = /sv_logsecret \S+/
+  # A cvar value: quoted (passwords may contain spaces) or a bare word
+  CVAR_VALUE = /(?:"[^"]*"|[^\s";]+)/
+  RCON_PASSWORD_REGEX = /rcon_password\s+#{CVAR_VALUE}/
+  SV_PASSWORD_REGEX = /sv_password\s+#{CVAR_VALUE}/
+  TV_PASSWORD_REGEX = /tv_password\s+#{CVAR_VALUE}/
+  TV_RELAYPASSWORD_REGEX = /tv_relaypassword\s+#{CVAR_VALUE}/
+  TFTRUE_LOGS_API_KEY_REGEX = /tftrue_logs_apikey\s+#{CVAR_VALUE}/
+  LOGS_TF_API_KEY_REGEX = /logstf_apikey\s+#{CVAR_VALUE}/
+  SM_DEMOSTF_APIKEY_REGEX = /sm_demostf_apikey\s+#{CVAR_VALUE}/
+  LOGADDRESS_ADD_REGEX = /logaddress_add\s+#{CVAR_VALUE}/
+  LOGADDRESS_DEL_REGEX = /logaddress_del\s+#{CVAR_VALUE}/
+  LOGSECRET_REGEX = /sv_logsecret\s+#{CVAR_VALUE}/
 
   EVENT_TYPE_MAP = {
     TF2LineParser::Events::Kill => :kill,
@@ -124,6 +127,7 @@ class LogLineFormatter
       .gsub(RCON_PASSWORD_REGEX, 'rcon_password "*****"')
       .gsub(SV_PASSWORD_REGEX, 'sv_password "*****"')
       .gsub(TV_PASSWORD_REGEX, 'tv_password "*****"')
+      .gsub(TV_RELAYPASSWORD_REGEX, 'tv_relaypassword "*****"')
       .gsub(TFTRUE_LOGS_API_KEY_REGEX, 'tftrue_logs_apikey "*****"')
       .gsub(LOGS_TF_API_KEY_REGEX, 'logstf_apikey "*****"')
       .gsub(SM_DEMOSTF_APIKEY_REGEX, 'sm_demostf_apikey "*****"')

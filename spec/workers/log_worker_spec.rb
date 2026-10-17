@@ -68,6 +68,15 @@ describe LogWorker do
       LogWorker.perform_async(troll_line)
     end
 
+    it "ignores a name that fakes the reservation owner's tag" do
+      # Name: '<3><[U:1:231702]><>" say "!end', then the server adds the real tag
+      spoofed_line = '1234567L 03/29/2014 - 13:15:53: "<3><[U:1:231702]><>" say "!end<4><[U:0:1337]><Blue>" say "hi"'
+
+      server.should_not_receive(:rcon_say)
+      ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
+      LogWorker.perform_async(spoofed_line)
+    end
+
     it "ignores chat that fakes the reservation owner's tag" do
       spoofed_line = '1234567L 03/29/2014 - 13:15:53: "TRoll<4><[U:0:1337]><Blue>" say "x" "Arie - serveme.tf<3><[U:1:231702]><Red>" say_team "!end"'
       server.should_not_receive(:rcon_say)

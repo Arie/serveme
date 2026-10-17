@@ -32,6 +32,8 @@ class LogWorker
   UNPREFIXED_RCON   = /^rcon\s+(.+)/i
   EXTEND_DEBOUNCE   = 60.seconds
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
+  # A player tag followed by chat, e.g. <3><[U:1:231702]><Red>" say "
+  CHAT_PLAYER_TAG   = /<\d+><(?:\[U:\d:\d+\]|STEAM_[\d:]+|BOT)><[^<>"]*>" say(?:_team)? "/
 
 
   sig { params(raw_line: String).void }
@@ -81,6 +83,8 @@ class LogWorker
     action = action_for_message_said_by_reserver
     if action && !said_by_reserver?
       private_say("Only the reservation creator (#{reserver.name}) can use that command")
+    elsif action && spoofed_by_name?
+      Rails.logger.warn "Ignoring #{message} for reservation #{reservation&.id}: player tag in the message"
     elsif action ||= action_for_message_said_by_anyone
       reservation&.status_update("#{event.player.name}#{sayer_steam_uid ? " (#{sayer_steam_uid})" : ""}: #{event.message}")
       send(action)
@@ -327,6 +331,14 @@ class LogWorker
   sig { returns(T::Boolean) }
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id
+  end
+
+  # A name can end in a fake tag plus " say "..., e.g. '<3><[U:1:231702]><>" say "!end',
+  # so the line parses as the reserver saying "!end". The server then appends
+  # the real tag, which ends up in the message; real chat never contains one.
+  sig { returns(T::Boolean) }
+  def spoofed_by_name?
+    message.to_s.match?(CHAT_PLAYER_TAG)
   end
 
   sig { returns(User) }

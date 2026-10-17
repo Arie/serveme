@@ -28,6 +28,7 @@ class Reservation < ActiveRecord::Base
   before_create :generate_logsecret
   after_create :generate_initial_status
   after_create :update_user_total_seconds_counter
+  after_create :publish_logsecret
   after_update :update_user_total_seconds_counter, if: :saved_change_to_duration?
   after_destroy :update_user_total_seconds_counter
   after_update :cleanup_previous_cloud_server, if: :saved_change_to_server_id?
@@ -265,6 +266,12 @@ class Reservation < ActiveRecord::Base
   sig { returns(String) }
   def generate_logsecret
     self.logsecret ||= rand(2**128).to_s
+  end
+
+  sig { void }
+  def publish_logsecret
+    secret = logsecret
+    ActiveLogsecrets.add(secret) if secret
   end
 
   sig { params(steam_uid: T.any(String, Integer)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }

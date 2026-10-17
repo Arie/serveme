@@ -6,6 +6,7 @@ class CronWorker
   sidekiq_options retry: false, queue: "priority"
 
   def perform
+    ActiveLogsecrets.publish
     end_past_reservations
     provision_cloud_servers
     start_active_reservations

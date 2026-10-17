@@ -10,6 +10,7 @@ require 'tf2_line_parser'
 require File.expand_path('../app/helpers/log_line_helper', __dir__)
 require File.expand_path('../app/workers/log_worker', __dir__)
 require File.expand_path('../app/workers/log_batch_worker', __dir__)
+require File.expand_path('../app/services/active_logsecrets', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 
@@ -23,13 +24,21 @@ class LogHandler
     @last_flush = Time.now
     @listener_cache = {}
     @listener_cache_mutex = Mutex.new
+    @allowed_secrets = nil
+    @allowed_secrets_refreshed_at = Time.at(0)
     start_batch_flusher
   end
+
+  ALLOWED_SECRETS_REFRESH_INTERVAL = 5
 
   def process_data(data)
     log_line = data.force_encoding('UTF-8').scrub[5..]
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
     secret = matches[:secret] if matches
+
+    # UDP is spoofable and open to the internet: ignore anything that isn't
+    # for a current reservation before doing any work or touching the disk
+    return unless secret.present? && allowed_secret?(secret)
 
     if interesting_line?(log_line)
       if actionable_line?(log_line) || has_listeners?(secret)
@@ -42,6 +51,23 @@ class LogHandler
 
     # Write to log files immediately (unbatched)
     write_log(secret, matches[:line]) if matches && matches[:line] && secret.present?
+  end
+
+  def allowed_secret?(secret)
+    refresh_allowed_secrets if Time.now - @allowed_secrets_refreshed_at >= ALLOWED_SECRETS_REFRESH_INTERVAL
+    # Fail open when Rails hasn't published the list (fresh Redis, dev), so we
+    # never drop real logs just because the list is missing
+    @allowed_secrets.nil? || @allowed_secrets.include?(secret)
+  end
+
+  def refresh_allowed_secrets
+    members = Sidekiq.redis { |r| r.call('SMEMBERS', ActiveLogsecrets::KEY) }
+    @allowed_secrets = members.empty? ? nil : members.to_set
+  rescue => e
+    # Keep the previous list rather than dropping or accepting everything
+    warn "Couldn't refresh allowed logsecrets: #{e.message}"
+  ensure
+    @allowed_secrets_refreshed_at = Time.now
   end
 
   def has_listeners?(secret)

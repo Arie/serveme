@@ -392,7 +392,7 @@ class TF2LineParser::Events::Event
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:6
   def method=(_arg0); end
 
-  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:68
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:77
   def parse_time(time_string); end
 
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:6
@@ -462,28 +462,37 @@ class TF2LineParser::Events::Event
   def weapon=(_arg0); end
 
   class << self
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:72
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:81
     def parse_player_section(section); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:133
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:142
     def parse_target_section(section); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:25
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:34
     def regex_cap; end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:29
+    # A chat line's player section ends at the first unescaped " say " or
+    # " say_team " that follows a <uid><steamid><team> tag, so tags or events
+    # typed into the message can't make the line look like it came from
+    # someone else, or like another event. Requiring the tag keeps names
+    # like 'x" say "' from turning that player's other lines into chat.
+    #
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:26
+    def regex_chat_player; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:38
     def regex_console; end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:33
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:42
     def regex_message; end
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:17
     def regex_player; end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:45
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:54
     def regex_results(matched_line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:21
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:30
     def regex_target; end
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:13
@@ -492,7 +501,7 @@ class TF2LineParser::Events::Event
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:9
     def time_format; end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:37
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:46
     def types; end
   end
 end
@@ -1205,7 +1214,7 @@ end
 
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:6
 class TF2LineParser::Line
-  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:68
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:72
   def initialize(line); end
 
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:7
@@ -1214,30 +1223,39 @@ class TF2LineParser::Line
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:7
   def line=(_arg0); end
 
-  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:72
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:76
   def parse; end
 
   class << self
     # Class method to parse without object allocation
     #
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:77
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:81
     def parse(line); end
 
     private
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:131
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:142
     def check_damage_subtypes(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:145
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:156
     def check_heal_subtypes(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:91
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:95
     def find_candidate_types(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:117
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:135
+    def match_tidied(line, regex); end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:127
     def try_parse_types(line, types); end
   end
 end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:68
+TF2LineParser::Line::CHAT_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:69
+TF2LineParser::Line::CHAT_TYPES = T.let(T.unsafe(nil), Array)
 
 # Fallback types when no keyword matches - ordered by specificity
 #
@@ -1248,6 +1266,9 @@ TF2LineParser::Line::FALLBACK_TYPES = T.let(T.unsafe(nil), Array)
 #
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:10
 TF2LineParser::Line::KEYWORD_DISPATCH = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:70
+TF2LineParser::Line::TEAM_CHAT_TYPES = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/parser.rb:4
 class TF2LineParser::Parser

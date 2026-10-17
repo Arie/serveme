@@ -70,8 +70,6 @@ describe LogWorker do
 
     it "ignores chat that fakes the reservation owner's tag" do
       spoofed_line = '1234567L 03/29/2014 - 13:15:53: "TRoll<4><[U:0:1337]><Blue>" say "x" "Arie - serveme.tf<3><[U:1:231702]><Red>" say_team "!end"'
-      expect(TF2LineParser::Parser.parse(spoofed_line.delete_prefix('1234567')).player.steam_id).to eq('[U:1:231702]')
-
       server.should_not_receive(:rcon_say)
       ReservationWorker.should_not_receive(:perform_async).with(reservation.id, 'end')
       LogWorker.perform_async(spoofed_line)
@@ -81,8 +79,6 @@ describe LogWorker do
   describe 'chat faking a connect' do
     it 'ignores it instead of recording or kicking the faked player' do
       spoofed_line = '1234567L 03/29/2014 - 13:15:53: "TRoll<4><[U:0:1337]><Blue>" say "triggered "connected, address" "Victim<5><[U:1:555]><>" connected, address "6.6.6.6:27005"'
-      expect(TF2LineParser::Parser.parse(spoofed_line.delete_prefix('1234567'))).to be_a(TF2LineParser::Events::Connect)
-
       expect { LogWorker.perform_async(spoofed_line) }.not_to change(ReservationPlayer, :count)
     end
   end

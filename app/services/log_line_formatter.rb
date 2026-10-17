@@ -151,12 +151,12 @@ class LogLineFormatter
   sig { returns(T.nilable(TF2LineParser::Events::Event)) }
   def parsed_event
     @parsed_event ||= begin
-      result = LogLineParser.parse(@line)
+      result = TF2LineParser::Parser.parse(@line)
       result.is_a?(TF2LineParser::Events::Event) ? result : nil
     rescue StandardError
       # Try to parse with a timestamp prefix for edge cases
       begin
-        LogLineParser.parse("L 01/01/2000 - 00:00:00: #{@line}")
+        TF2LineParser::Parser.parse("L 01/01/2000 - 00:00:00: #{@line}")
       rescue StandardError
         nil
       end

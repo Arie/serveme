@@ -130,7 +130,7 @@ class LogParser
 
   sig { params(line: String).returns(T.nilable(TF2LineParser::Events::Event)) }
   def parse_event(line)
-    LogLineParser.parse(line)
+    TF2LineParser::Parser.parse(line)
   rescue StandardError
     nil
   end

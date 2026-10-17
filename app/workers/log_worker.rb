@@ -350,7 +350,7 @@ class LogWorker
 
   sig { returns(TF2LineParser::Events::Event) }
   def event
-    @parsed_event ||= LogLineParser.parse(line)
+    @parsed_event ||= TF2LineParser::Parser.parse(line)
   end
 
   sig { returns(T.nilable(Reservation)) }

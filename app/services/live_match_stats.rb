@@ -6,23 +6,29 @@ class LiveMatchStats
   EXPIRY = 12.hours.to_i
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
-  MAP_START_REGEX = /Started map "/
+  MAP_START_REGEX = /\AStarted map "/
 
   class << self
     extend T::Sig
+
+    # Only the server's own line, not chat that mentions it
+    sig { params(event: T.untyped).returns(T::Boolean) }
+    def map_start?(event)
+      event.is_a?(TF2LineParser::Events::Unknown) && event.unknown.to_s.match?(MAP_START_REGEX)
+    end
 
     # Process a single raw log line (used by rebuild and standalone callers)
     sig { params(reservation_id: Integer, raw_line: String).void }
     def process_line(reservation_id, raw_line)
       line = sanitize_line(raw_line)
 
-      if line.match?(MAP_START_REGEX)
+      event = parse_event(line)
+      return unless event
+
+      if map_start?(event)
         reset_current_match(reservation_id)
         return
       end
-
-      event = parse_event(line)
-      return unless event
 
       process_events(reservation_id, [ event ])
     end
@@ -39,7 +45,7 @@ class LiveMatchStats
       events.each do |event|
         next unless event
 
-        if event.is_a?(TF2LineParser::Events::Unknown) && event.unknown&.match?(MAP_START_REGEX)
+        if map_start?(event)
           reset_current_match(reservation_id)
           between_matches = false
           between_rounds = false
@@ -510,7 +516,7 @@ class LiveMatchStats
 
     sig { params(line: String).returns(T.nilable(TF2LineParser::Events::Event)) }
     def parse_event(line)
-      TF2LineParser::Parser.parse(line)
+      LogLineParser.parse(line)
     rescue StandardError
       nil
     end

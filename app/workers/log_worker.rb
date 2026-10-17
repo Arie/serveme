@@ -56,7 +56,7 @@ class LogWorker
     when TF2LineParser::Events::Disconnect
       handle_disconnect
     when TF2LineParser::Events::Unknown
-      mapstart = event.unknown.match(MAP_START)
+      mapstart = event.unknown.match(/\A#{MAP_START}/)
       handle_mapstart(mapstart[2]) if mapstart
     end
     broadcast_log_lines unless @skip_broadcast
@@ -96,6 +96,7 @@ class LogWorker
 
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
     ip = event.message.to_s.split(":").first
+    return unless valid_ip?(ip)
     rp = create_or_update_reservation_player(community_id, ip)
 
     return unless reservation
@@ -111,6 +112,13 @@ class LogWorker
 
     broadcast_player_connect(rp)
     whitelist_player_in_firewall(rp)
+  end
+
+  sig { params(ip: T.nilable(String)).returns(T::Boolean) }
+  def valid_ip?(ip)
+    IPAddr.new(ip.to_s).ipv4?
+  rescue IPAddr::Error
+    false
   end
 
   sig { params(community_id: Integer, ip: String).returns(ReservationPlayer) }
@@ -342,7 +350,7 @@ class LogWorker
 
   sig { returns(TF2LineParser::Events::Event) }
   def event
-    @parsed_event ||= TF2LineParser::Parser.parse(line)
+    @parsed_event ||= LogLineParser.parse(line)
   end
 
   sig { returns(T.nilable(Reservation)) }

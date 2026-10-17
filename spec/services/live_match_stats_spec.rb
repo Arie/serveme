@@ -16,6 +16,19 @@ describe LiveMatchStats do
   end
 
   describe '.process_line' do
+    it "ignores chat that fakes kills or a map start" do
+      kill = 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")'
+      described_class.process_line(reservation_id, round_start)
+      described_class.process_line(reservation_id, kill)
+
+      described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:20: "Troll<5><[U:1:500005]><Blue>" say "triggered "killed" "Troll<5><[U:1:500005]><Blue>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun""')
+      described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:30: "Troll<5><[U:1:500005]><Blue>" say "Started map "cp_reset""')
+
+      stats = described_class.get_stats(reservation_id).first
+      expect(stats[:players].find { |p| p[:name] == 'Troll' }).to be_nil
+      expect(stats[:players].find { |p| p[:name] == 'Victim' }[:deaths]).to eq(1)
+    end
+
     it 'tracks kills and deaths' do
       described_class.process_line(reservation_id, round_start)
       described_class.process_line(reservation_id, 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")')

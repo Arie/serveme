@@ -4,9 +4,10 @@
 class FriendlyPasswordGenerator
   extend T::Sig
 
+  # Also used for rcon passwords, so pick with SecureRandom
   sig { returns(String) }
   def self.generate
-    "#{left.sample}-#{right.sample}-#{rand(999)}"
+    "#{left.sample(random: SecureRandom)}-#{right.sample(random: SecureRandom)}-#{SecureRandom.random_number(999)}"
   end
 
   sig { returns(T::Array[String]) }

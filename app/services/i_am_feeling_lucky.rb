@@ -24,17 +24,20 @@ class IAmFeelingLucky
   sig { returns(T::Hash[String, T.untyped]) }
   def base_attributes
     prev = previous_reservation
-    if prev
+    attributes = if prev
       prev.reusable_attributes.merge("server" => best_matching_server, "enable_plugins" => prev.enable_plugins?)
     else
       new_reservation_attributes
     end
+    # Don't keep carrying over a weak rcon from an older reservation
+    attributes["rcon"] = FriendlyPasswordGenerator.generate if Reservation.poor_rcon_password?(attributes["rcon"])
+    attributes
   end
 
   sig { returns(T::Hash[String, T.untyped]) }
   def new_reservation_attributes
     {
-      "rcon" => rand(10**5).to_s,
+      "rcon" => FriendlyPasswordGenerator.generate,
       "password" => rand(10**5).to_s,
       "tv_password" => rand(10**5).to_s,
       "auto_end" => true,

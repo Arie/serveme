@@ -15,6 +15,7 @@ describe IAmFeelingLucky do
 
       reservation.server.should
       reservation.rcon.should be_present
+      expect(Reservation.poor_rcon_password?(reservation.rcon)).to be false
       reservation.password.should be_present
       reservation.tv_password.should be_present
       reservation.auto_end.should be true
@@ -41,6 +42,16 @@ describe IAmFeelingLucky do
       reservation.server.should
       previous_reservation.server
       reservation.rcon.should == previous_reservation.rcon
+    end
+
+    it "replaces a weak rcon from the previous reservation" do
+      previous_reservation = create :reservation, user: user, rcon: '12345'
+      previous_reservation.update_column(:ends_at, 1.hour.ago)
+
+      reservation = subject.build_reservation
+
+      expect(reservation.rcon).not_to eq('12345')
+      expect(Reservation.poor_rcon_password?(reservation.rcon)).to be false
     end
 
     it 'falls back to a server on the same host' do

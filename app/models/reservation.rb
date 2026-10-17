@@ -387,6 +387,11 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T::Boolean) }
   def poor_rcon_password?
+    self.class.poor_rcon_password?(rcon)
+  end
+
+  sig { params(rcon: T.nilable(String)).returns(T::Boolean) }
+  def self.poor_rcon_password?(rcon)
     rcon.nil? || rcon.to_s.size < 8
   end
 

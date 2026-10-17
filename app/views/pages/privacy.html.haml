@@ -5,10 +5,10 @@
     %h2 Privacy Policy
 
     %p.text-muted
-      Last updated: 24 June 2026
+      Last updated: 17 October 2026
 
     %p.lead.text-white
-      serveme.tf lets you reserve Team Fortress 2 servers. This page explains what personal data we collect, why, what we do with it, and the rights you have under the EU General Data Protection Regulation (GDPR).
+      serveme.tf lets you reserve Team Fortress 2 servers. This page explains what personal data we collect, why, what we do with it, and the rights you have under the EU General Data Protection Regulation (GDPR). It also covers players who join a reserved server without ever logging in to serveme.tf.
 
     %h4.mt-4.mb-3 Who we are
     %p
@@ -38,6 +38,16 @@
             %td Running and securing the service, and as an anti-cheat and league ban-enforcement tool (see below). Connecting to a website or game server always reveals your IP to it, so we can't provide the service without it.
           %tr
             %td
+              %strong Approximate location and network
+              (country/city, ISP, ASN)
+            %td Estimated from your IP address using a GeoIP database. Used to suggest nearby servers and as part of the anti-cheat checks below.
+          %tr
+            %td
+              %strong Anti-cheat detections
+              (StAC)
+            %td Our servers run the StAC anti-cheat plugin. Its detections are stored with your Steam ID and posted to a private admin Discord channel so suspected cheaters can be investigated.
+          %tr
+            %td
               %strong Reservations
               (servers booked, times, settings, players who joined)
             %td To provide and manage your bookings.
@@ -64,6 +74,7 @@
       Cheating and ban evasion are a real problem in competitive TF2. To help fight it:
     %ul
       %li We use IP addresses to detect alternate accounts and players evading bans (for example, someone banned for cheating returning on a new Steam account).
+      %li We check IP addresses against IPQualityScore, a third-party IP reputation service, to spot proxies and VPNs used for ban evasion.
       %li
         We give trusted representatives of the leagues we work with,
         %strong ETF2L, ozfortress, and RGL
@@ -111,11 +122,23 @@
         %strong Account, reservation, and IP data
         is kept as long as your account exists or as long as it remains useful for anti-cheat and ban enforcement.
 
+    %h4.mt-4.mb-3 Error reporting
+    %p
+      When something breaks, an error report is sent to
+      %strong Sentry
+      so we can fix it. These reports can include your IP address, Steam ID, the page you were on, and your browser details.
+
+    %h4.mt-4.mb-3 In-game AI commands
+    %p
+      If someone in a reservation uses the in-game AI assistant, their request and the server's current player list (names and Steam IDs, with IP addresses removed) are sent to
+      %strong OpenAI
+      to work out which server commands to run.
+
     %h4.mt-4.mb-3 Where your data is processed
     %p
       Each region (EU, NA, AU, SEA) runs its own local servers and storage. Long-term storage of demos and logs is in the EU. We use
       %strong Cloudflare
-      in front of the website to protect against DDoS attacks and abuse; it processes your IP address and connection details to do this. Some sub-processors (e.g. Steam, PayPal, Stripe, Discord, Cloudflare, logs.tf) may process data outside the EU under their own safeguards.
+      in front of the website to protect against DDoS attacks and abuse; it processes your IP address and connection details to do this. Some sub-processors (e.g. Steam, PayPal, Stripe, Discord, Cloudflare, Sentry, IPQualityScore, OpenAI, logs.tf) may process data outside the EU under their own safeguards.
 
     %h4.mt-4.mb-3 Your rights
     %p

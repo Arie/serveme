@@ -2,20 +2,6 @@
 # frozen_string_literal: true
 
 module LogLineHelper
-  def clean_log_line(line)
-    line
-      .gsub(ip_regex, "0.0.0.0")
-      .gsub(rcon_password_regex, 'rcon_password "*****"')
-      .gsub(sv_password_regex, 'sv_password "*****"')
-      .gsub(tv_password_regex, 'tv_password "*****"')
-      .gsub(tftrue_logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
-      .gsub(logs_tf_api_key_regex, 'logstf_apikey "*****"')
-      .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "*****"')
-      .gsub(logaddress_add_regex, 'logaddress_add "*****"')
-      .gsub(logaddress_del_regex, 'logaddress_del "*****"')
-      .gsub(logsecret_regex, 'sv_logsecret *****"')
-  end
-
   INTERESTING_KEYWORDS = %w[killed triggered say connected disconnected suicide rcon score spawned].freeze
   INTERESTING_KEYWORDS_MULTI_WORD = [ "changed role", "Started map", "picked up item" ].freeze
 
@@ -117,45 +103,5 @@ module LogLineHelper
 
   def scoreboard_only_event?(log_line)
     scoreboard_only_events.any? { |event_type| log_line.match?(event_type.regex) }
-  end
-
-  def ip_regex
-    @ip_regex ||= /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
-  end
-
-  def rcon_password_regex
-    @rcon_password_regex ||= /rcon_password "\S+"/
-  end
-
-  def sv_password_regex
-    @sv_password_regex ||= /sv_password "\S+"/
-  end
-
-  def tv_password_regex
-    @tv_password_regex ||= /tv_password "\S+"/
-  end
-
-  def tftrue_logs_tf_api_key_regex
-    @tftrue_logs_tf_api_key_regex ||= /tftrue_logs_apikey "\S+"/
-  end
-
-  def logs_tf_api_key_regex
-    @logs_tf_api_key_regex ||= /logstf_apikey "\S+"/
-  end
-
-  def sm_demostf_apikey_regex
-    @sm_demostf_apikey_regex ||= /sm_demostf_apikey "\S+"/
-  end
-
-  def logaddress_add_regex
-    @logaddress_add_regex ||= /logaddress_add \S+"/
-  end
-
-  def logaddress_del_regex
-    @logaddress_del_regex ||= /logaddress_del \S+"/
-  end
-
-  def logsecret_regex
-    @logsecret_regex ||= /sv_logsecret \S+/
   end
 end

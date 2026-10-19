@@ -5,9 +5,9 @@
       %i.fa.fa-film
       Join STV
     - if StvtfToken.enabled?
-      = link_to watch_reservation_path(reservation), title: "live STV map", class: "v2-btn v2-btn-outline v2-btn-sm", target: "_blank", rel: "noopener" do
+      = link_to watch_reservation_path(reservation), title: "stv.tf", class: "v2-btn v2-btn-outline v2-btn-sm", target: "_blank", rel: "noopener" do
         %i.fa.fa-map
-        Live map
+        stv.tf
 
   - if stv_connect.present?
     %span{class: "v2-connect"}= stv_connect

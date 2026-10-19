@@ -4,8 +4,8 @@
       Join STV
       %i.fa.fa-film
     - if StvtfToken.enabled?
-      = link_to watch_reservation_path(reservation), :title => "live STV map", :class => 'btn btn-sm btn-primary', :target => "_blank", :rel => "noopener" do
-        Live map
+      = link_to watch_reservation_path(reservation), :title => "stv.tf", :class => 'btn btn-sm btn-primary', :target => "_blank", :rel => "noopener" do
+        stv.tf
         %i.fa.fa-map
 
   = reservation.stv_connect_string

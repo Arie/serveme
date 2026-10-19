@@ -6,6 +6,7 @@ class ReservationsController < ApplicationController
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
+  before_action :require_admin, only: :watch
   helper LogLineHelper
   include RconHelper
   include LogLineHelper
@@ -153,6 +154,17 @@ class ReservationsController < ApplicationController
   def status
     viewable_reservation
     respond_to(&:json)
+  end
+
+  # The live STV map (stv.tf) of a running reservation. Admins only for now.
+  def watch
+    watched = viewable_reservation
+    unless StvmapToken.enabled? && watched&.now? && watched.server && !watched.server&.sdr? && watched.stv_connect_string
+      flash[:alert] = "The live map is only available while the reservation is running, and not on SDR servers"
+      return redirect_to(watched ? reservation_path(watched) : root_path)
+    end
+
+    redirect_to StvmapToken.start_url(connect: T.must(watched.stv_connect_string), owner: live_map_owner), allow_other_host: true
   end
 
   def streaming
@@ -341,6 +353,10 @@ class ReservationsController < ApplicationController
 
   def viewable_reservation
     @reservation ||= find_reservation_for_viewing
+  end
+
+  def live_map_owner
+    current_admin || current_league_admin || current_streamer ? nil : current_user.uid
   end
 
   def find_reservation_for_download

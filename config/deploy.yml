@@ -43,6 +43,7 @@ env:
     - RAILS_MASTER_KEY
     - DATABASE_URL
     - REDIS_URL
+    - STVMAP_TOKEN_KEY
 
 ssh:
   user: kamal

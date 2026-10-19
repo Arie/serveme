@@ -274,6 +274,9 @@ module GeneratedUrlHelpersModule
   def league_request_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def live_map_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def log_lines_api_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -695,6 +698,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def vouchers_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def watch_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def watch_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def whitelist_url(*args); end

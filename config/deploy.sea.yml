@@ -15,3 +15,4 @@ env:
   clear:
     SITE_HOST: sea.serveme.tf
     SITE_URL:  https://sea.serveme.tf
+    STVMAP_URL: https://sea.stv.tf

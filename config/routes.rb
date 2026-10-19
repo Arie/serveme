@@ -45,6 +45,9 @@ Serveme::Application.routes.draw do
     end
   end
 
+  get "/watch", to: "live_maps#new", as: :live_map
+  post "/watch", to: "live_maps#create"
+
   resources :reservations do
     member do
       post :extend_reservation, as: :extend
@@ -54,6 +57,7 @@ Serveme::Application.routes.draw do
       get :rcon,                as: :rcon
       get :rcon_view,           as: :rcon_view
       get :motd,                as: :motd
+      get :watch,               as: :watch
       patch :rcon_command, as: :rcon_command
       patch :motd_rcon_command, as: :motd_rcon_command
       get :stac_log, as: :stac_log

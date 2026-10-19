@@ -24,6 +24,39 @@ describe ReservationsController do
     end
   end
 
+  describe '#watch' do
+    around do |example|
+      old = ENV.to_h.slice('STVMAP_URL', 'STVMAP_TOKEN_KEY')
+      ENV['STVMAP_URL'] = 'https://stv.tf'
+      ENV['STVMAP_TOKEN_KEY'] = '22' * 32
+      example.run
+    ensure
+      %w[STVMAP_URL STVMAP_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
+    end
+
+    it 'sends a running reservation to the map server with an unlimited token for an admin' do
+      reservation = create :reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
+      expect(StvmapToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: nil).and_call_original
+      get :watch, params: { id: reservation.id }
+      expect(response.location).to start_with('https://stv.tf/start?t=')
+    end
+
+    it 'is for admins only, even on your own reservation' do
+      user = create :user
+      sign_in user
+      reservation = create :reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
+      expect(StvmapToken).not_to receive(:start_url)
+      get :watch, params: { id: reservation.id }
+      expect(response).to redirect_to(root_path)
+    end
+
+    it 'sends a reservation that is not running back to its page' do
+      reservation = create :reservation, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now
+      get :watch, params: { id: reservation.id }
+      expect(response).to redirect_to(reservation_path(reservation))
+    end
+  end
+
   describe '#new' do
     context 'when an IP is provided' do
       let(:available_server1) { create :server, ip: '1.2.3.4' }

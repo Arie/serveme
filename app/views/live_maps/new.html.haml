@@ -1,0 +1,16 @@
+- content_for(:title) { "Live STV map" }
+
+.row
+  .col-md-8
+    .bg-dark.mt-4.p-3
+      %h5.text-warning
+        %i.fa.fa-map
+        Live STV map
+      %p.text-light
+        Watch any match from above: paste the server's SourceTV connect string, like
+        %code connect 1.2.3.4:27020; password "tv"
+      = form_tag(live_map_path, method: :post) do
+        .input-group
+          = text_field_tag :connect, nil, class: "form-control", placeholder: 'connect host:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
+          .input-group-append
+            = submit_tag "Watch", class: "btn btn-primary"

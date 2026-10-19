@@ -1,0 +1,12 @@
+- content_for(:title) { "Live STV map" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %h1{class: "v2-page-title"} Live STV map
+
+%p{class: "text-muted mb-4"}
+  Watch any match from above: paste the server's SourceTV connect string, like
+  %code connect 1.2.3.4:27020; password "tv"
+
+= form_tag(live_map_path, method: :post, class: "flex flex-wrap items-center gap-2") do
+  = text_field_tag :connect, nil, class: "v2-input flex-1", placeholder: 'connect host:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
+  = submit_tag "Watch", class: "v2-btn v2-btn-primary"

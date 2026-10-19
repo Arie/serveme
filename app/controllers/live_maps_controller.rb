@@ -10,7 +10,7 @@ class LiveMapsController < ApplicationController
   def create
     return redirect_to(live_map_path, alert: "The live map is not available here") unless StvmapToken.enabled?
 
-    target = StvConnect.parse(params[:connect].to_s.first(300), params[:password].to_s.first(100)).check!
+    target = StvConnect.parse(params[:connect].to_s.first(300)).check!
     owner = current_admin || current_league_admin || current_streamer ? nil : current_user.uid
     redirect_to StvmapToken.start_url(connect: target.connect_string, owner: owner), allow_other_host: true
   rescue StvConnect::Error => e

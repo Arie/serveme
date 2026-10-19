@@ -22,7 +22,7 @@ describe LiveMapsController do
 
   it 'sends a checked address to the map server, one match at a time for a user' do
     expect(StvmapToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: user.uid).and_call_original
-    post :create, params: { connect: ' 1.2.3.4:27020 ', password: 'tv' }
+    post :create, params: { connect: ' 1.2.3.4:27020 tv ' }
     expect(response.location).to start_with('https://stv.tf/start?t=')
   end
 

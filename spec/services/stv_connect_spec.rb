@@ -4,8 +4,8 @@
 require 'spec_helper'
 
 describe StvConnect do
-  define_method(:parsed) do |input, password = nil|
-    c = described_class.parse(input, password)
+  define_method(:parsed) do |input|
+    c = described_class.parse(input)
     [ c.host, c.port, c.password ]
   end
 
@@ -15,7 +15,7 @@ describe StvConnect do
     expect(parsed('1.2.3.4:27015 tv')).to eq([ '1.2.3.4', 27015, 'tv' ])
     expect(parsed('bolus.fakkelbrigade.eu; password tv')).to eq([ 'bolus.fakkelbrigade.eu', 27020, 'tv' ])
     expect(parsed('bolus.fakkelbrigade.eu')).to eq([ 'bolus.fakkelbrigade.eu', 27020, nil ])
-    expect(parsed('1.2.3.4:27020', 'pw')).to eq([ '1.2.3.4', 27020, 'pw' ])
+    expect(parsed('1.2.3.4:27020 password pw')).to eq([ '1.2.3.4', 27020, 'pw' ])
   end
 
   it 'refuses what is not an address' do

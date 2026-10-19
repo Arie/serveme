@@ -30,14 +30,13 @@ class StvConnect
     @password = password
   end
 
-  sig { params(input: String, password: T.nilable(String)).returns(StvConnect) }
-  def self.parse(input, password = nil)
+  sig { params(input: String).returns(StvConnect) }
+  def self.parse(input)
     line = input.strip.sub(/\Aconnect\s+/i, "")
     first, *rest = line.split(";")
     address, inline = first.to_s.strip.split(/\s+/, 2)
     pass = inline&.sub(/\Apassword\s*/, "")
     rest.each { |part| pass = part.strip.delete_prefix("password") if part.strip.start_with?("password") }
-    pass = password if password.present?
     host, port = address.to_s.delete('"').split(":", 2)
     raise Error, "Paste a connect string or an address like 1.2.3.4:27020" if host.blank? || host !~ /\A[A-Za-z0-9.-]+\z/
     raise Error, "#{port} is not a port" if port && port !~ /\A\d{1,5}\z/

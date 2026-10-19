@@ -13,25 +13,37 @@ describe LiveMapsController do
     %w[STVMAP_URL STVMAP_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
   end
 
-  let(:user) { create(:user).tap { |u| u.groups << Group.admin_group } }
+  let(:user) { create(:user) }
 
-  before { sign_in user }
+  before do
+    sign_in user
+    allow_any_instance_of(StvConnect).to receive(:check!) { |c| c }
+  end
 
-  it 'sends a pasted connect string to the map server with an unlimited token for an admin' do
-    expect(StvmapToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: nil).and_call_original
-    post :create, params: { connect: ' connect 1.2.3.4:27020; password "tv" ' }
+  it 'sends a checked address to the map server, one match at a time for a user' do
+    expect(StvmapToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: user.uid).and_call_original
+    post :create, params: { connect: ' 1.2.3.4:27020 ', password: 'tv' }
     expect(response.location).to start_with('https://stv.tf/start?t=')
   end
 
-  it 'is for admins only' do
-    sign_in create(:user)
-    expect(StvmapToken).not_to receive(:start_url)
+  it 'gives admins unlimited matches' do
+    user.groups << Group.admin_group
+    expect(StvmapToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: nil).and_call_original
     post :create, params: { connect: 'connect 1.2.3.4:27020; password "tv"' }
-    expect(response).to redirect_to(root_path)
   end
 
-  it 'asks again for an empty connect string' do
-    post :create, params: { connect: '' }
-    expect(response).to redirect_to(live_map_path)
+  it 'shows what is wrong with the address' do
+    allow_any_instance_of(StvConnect).to receive(:check!).and_raise(StvConnect::Error, 'No SourceTV answers at 1.2.3.4:27020')
+    expect(StvmapToken).not_to receive(:start_url)
+    post :create, params: { connect: '1.2.3.4:27020' }
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(flash.now[:alert]).to include('No SourceTV answers')
+  end
+
+  it 'needs a signed-in user' do
+    sign_out user
+    expect(StvmapToken).not_to receive(:start_url)
+    post :create, params: { connect: '1.2.3.4:27020' }
+    expect(response.location.to_s).not_to start_with('https://stv.tf')
   end
 end

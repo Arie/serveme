@@ -45,8 +45,8 @@ Serveme::Application.routes.draw do
     end
   end
 
-  get "/watch", to: "live_maps#new", as: :live_map
-  post "/watch", to: "live_maps#create"
+  get "/stv", to: "live_maps#new", as: :live_map
+  post "/stv", to: "live_maps#create"
 
   resources :reservations do
     member do

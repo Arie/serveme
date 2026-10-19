@@ -640,6 +640,9 @@ module GeneratedUrlHelpersModule
   def stripe_webhook_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def stv_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def tc2_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -701,9 +704,6 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def watch_reservation_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def watch_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def whitelist_url(*args); end

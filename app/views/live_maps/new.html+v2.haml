@@ -6,7 +6,9 @@
 %p{class: "text-muted mb-4"}
   Watch any match from above: paste the server's SourceTV connect string, like
   %code connect 1.2.3.4:27020; password "tv"
+  or its address and password.
 
 = form_tag(live_map_path, method: :post, class: "flex flex-wrap items-center gap-2") do
-  = text_field_tag :connect, nil, class: "v2-input flex-1", placeholder: 'connect host:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
+  = text_field_tag :connect, params[:connect], class: "v2-input flex-1", placeholder: 'connect 1.2.3.4:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
+  = text_field_tag :password, params[:password], class: "v2-input", placeholder: "password (if not pasted)", autocomplete: "off"
   = submit_tag "Watch", class: "v2-btn v2-btn-primary"

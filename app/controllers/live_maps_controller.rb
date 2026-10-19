@@ -1,22 +1,20 @@
 # typed: true
 # frozen_string_literal: true
 
-# The live STV map of any server: signed-in users paste a SourceTV connect string and get sent
-# to the map server with a start token (see StvmapToken).
+# The live STV map of any server: signed-in users paste a SourceTV connect string (or an address
+# and password), it is checked for an answering SourceTV, and they get sent to the map server
+# with a start token (see StvmapToken).
 class LiveMapsController < ApplicationController
-  # Admins only for now.
-  before_action :require_admin
-
   def new; end
 
   def create
-    connect = params[:connect].to_s.strip
-    if !StvmapToken.enabled? || connect.blank?
-      flash[:alert] = StvmapToken.enabled? ? "Paste a SourceTV connect string" : "The live map is not available here"
-      return redirect_to(live_map_path)
-    end
+    return redirect_to(live_map_path, alert: "The live map is not available here") unless StvmapToken.enabled?
 
+    target = StvConnect.parse(params[:connect].to_s.first(300), params[:password].to_s.first(100)).check!
     owner = current_admin || current_league_admin || current_streamer ? nil : current_user.uid
-    redirect_to StvmapToken.start_url(connect: connect.first(300), owner: owner), allow_other_host: true
+    redirect_to StvmapToken.start_url(connect: target.connect_string, owner: owner), allow_other_host: true
+  rescue StvConnect::Error => e
+    flash.now[:alert] = e.message
+    render :new, status: :unprocessable_entity
   end
 end

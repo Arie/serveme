@@ -26,17 +26,17 @@ describe ReservationsController do
 
   describe '#watch' do
     around do |example|
-      old = ENV.to_h.slice('STVMAP_URL', 'STVMAP_TOKEN_KEY')
-      ENV['STVMAP_URL'] = 'https://stv.tf'
-      ENV['STVMAP_TOKEN_KEY'] = '22' * 32
+      old = ENV.to_h.slice('STVTF_URL', 'STVTF_TOKEN_KEY')
+      ENV['STVTF_URL'] = 'https://stv.tf'
+      ENV['STVTF_TOKEN_KEY'] = '22' * 32
       example.run
     ensure
-      %w[STVMAP_URL STVMAP_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
+      %w[STVTF_URL STVTF_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
     end
 
     it 'sends a running reservation to the map server with an unlimited token for an admin' do
       reservation = create :reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvmapToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: nil).and_call_original
+      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: nil).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end
@@ -45,7 +45,7 @@ describe ReservationsController do
       user = create :user
       sign_in user
       reservation = create :reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvmapToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid).and_call_original
+      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end

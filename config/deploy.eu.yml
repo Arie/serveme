@@ -32,7 +32,7 @@ env:
   clear:
     SITE_HOST: serveme.tf
     SITE_URL:  https://serveme.tf
-    STVMAP_URL: https://stv.tf
+    STVTF_URL: https://stv.tf
     WEB_CONCURRENCY: "4"
     RAILS_MAX_THREADS: "8"
 

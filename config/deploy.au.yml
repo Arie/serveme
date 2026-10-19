@@ -14,4 +14,4 @@ env:
   clear:
     SITE_HOST: au.serveme.tf
     SITE_URL:  https://au.serveme.tf
-    STVMAP_URL: https://au.stv.tf
+    STVTF_URL: https://au.stv.tf

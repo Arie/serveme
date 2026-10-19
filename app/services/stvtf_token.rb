@@ -1,23 +1,23 @@
 # typed: true
 # frozen_string_literal: true
 
-# Start links for the live STV map (stvmap-web). The token is AES-256-GCM encrypted with a key the
+# Start links for the live STV map (stvtf-web). The token is AES-256-GCM encrypted with a key the
 # map server shares, so the SourceTV password inside it is never readable in a URL:
 # base64url(12-byte nonce | ciphertext | 16-byte tag) of {connect, owner, exp}. A user (`owner`)
 # watches one match at a time; admins, league admins and streamers pass none and are unlimited.
-class StvmapToken
+class StvtfToken
   extend T::Sig
 
   TTL = 60
 
   sig { returns(T::Boolean) }
   def self.enabled?
-    ENV["STVMAP_URL"].present? && ENV["STVMAP_TOKEN_KEY"].present?
+    ENV["STVTF_URL"].present? && ENV["STVTF_TOKEN_KEY"].present?
   end
 
   sig { params(connect: String, owner: T.nilable(String)).returns(String) }
   def self.start_url(connect:, owner:)
-    "#{ENV.fetch('STVMAP_URL').chomp('/')}/start?t=#{generate(connect: connect, owner: owner)}"
+    "#{ENV.fetch('STVTF_URL').chomp('/')}/start?t=#{generate(connect: connect, owner: owner)}"
   end
 
   sig { params(connect: String, owner: T.nilable(String), now: T.any(Time, ActiveSupport::TimeWithZone)).returns(String) }
@@ -33,7 +33,7 @@ class StvmapToken
 
   sig { returns(String) }
   def self.key
-    [ ENV.fetch("STVMAP_TOKEN_KEY") ].pack("H*")
+    [ ENV.fetch("STVTF_TOKEN_KEY") ].pack("H*")
   end
   private_class_method :key
 end

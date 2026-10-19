@@ -3,16 +3,16 @@
 
 require 'spec_helper'
 
-describe StvmapToken do
+describe StvtfToken do
   let(:key) { '11' * 32 }
 
   around do |example|
-    old = ENV.to_h.slice('STVMAP_URL', 'STVMAP_TOKEN_KEY')
-    ENV['STVMAP_URL'] = 'https://stv.tf/'
-    ENV['STVMAP_TOKEN_KEY'] = key
+    old = ENV.to_h.slice('STVTF_URL', 'STVTF_TOKEN_KEY')
+    ENV['STVTF_URL'] = 'https://stv.tf/'
+    ENV['STVTF_TOKEN_KEY'] = key
     example.run
   ensure
-    %w[STVMAP_URL STVMAP_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
+    %w[STVTF_URL STVTF_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
   end
 
   # The map server's side: decrypt and check the tag.
@@ -49,7 +49,7 @@ describe StvmapToken do
 
   it 'is disabled without a URL or key' do
     expect(described_class).to be_enabled
-    ENV.delete('STVMAP_TOKEN_KEY')
+    ENV.delete('STVTF_TOKEN_KEY')
     expect(described_class).not_to be_enabled
   end
 end

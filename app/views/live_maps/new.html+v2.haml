@@ -9,6 +9,6 @@
   or its address and password, like
   %code 1.2.3.4:27020 tv
 
-= form_tag(live_map_path, method: :post, class: "flex flex-wrap items-center gap-2") do
+= form_tag(live_map_path, method: :post, class: "flex flex-wrap items-center gap-2", data: { turbo: false }) do
   = text_field_tag :connect, params[:connect], class: "v2-input flex-1", placeholder: 'connect 1.2.3.4:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
   = submit_tag "Watch", class: "v2-btn v2-btn-primary"

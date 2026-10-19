@@ -11,7 +11,7 @@
         %code connect 1.2.3.4:27020; password "tv"
         or its address and password, like
         %code 1.2.3.4:27020 tv
-      = form_tag(live_map_path, method: :post) do
+      = form_tag(live_map_path, method: :post, data: { turbo: false }) do
         .input-group
           = text_field_tag :connect, params[:connect], class: "form-control", placeholder: 'connect 1.2.3.4:27020; password "tv"', autocomplete: "off", required: true, autofocus: true
           .input-group-append

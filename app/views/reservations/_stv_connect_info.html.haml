@@ -3,6 +3,10 @@
     = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
       Join STV
       %i.fa.fa-film
+    - if StvmapToken.enabled?
+      = link_to watch_reservation_path(reservation), :title => "live STV map", :class => 'btn btn-sm btn-primary', :target => "_blank", :rel => "noopener" do
+        Live map
+        %i.fa.fa-map
 
   = reservation.stv_connect_string
   = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string

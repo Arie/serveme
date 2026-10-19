@@ -41,13 +41,13 @@ describe ReservationsController do
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end
 
-    it 'is for admins only, even on your own reservation' do
+    it 'sends a user their own running reservation, one match at a time' do
       user = create :user
       sign_in user
       reservation = create :reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvmapToken).not_to receive(:start_url)
+      expect(StvmapToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid).and_call_original
       get :watch, params: { id: reservation.id }
-      expect(response).to redirect_to(root_path)
+      expect(response.location).to start_with('https://stv.tf/start?t=')
     end
 
     it 'sends a reservation that is not running back to its page' do

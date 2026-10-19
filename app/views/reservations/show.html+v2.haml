@@ -97,10 +97,6 @@
                   = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "v2-btn v2-btn-outline v2-btn-sm", :target => "_blank" do
                     Create relay
                     %i.fa.fa-share-alt
-                - if current_admin && reservation.now? && !reservation.server&.sdr? && StvmapToken.enabled?
-                  = link_to watch_reservation_path(reservation), :title => "live STV map", :class => "v2-btn v2-btn-outline v2-btn-sm", :target => "_blank", :rel => "noopener" do
-                    Live map
-                    %i.fa.fa-map
 
           - if reservation.server_config
             %tr

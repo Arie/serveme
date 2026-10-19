@@ -4,6 +4,10 @@
     = link_to reservation.stv_connect_url, class: "v2-btn v2-btn-outline v2-btn-sm" do
       %i.fa.fa-film
       Join STV
+    - if StvmapToken.enabled?
+      = link_to watch_reservation_path(reservation), title: "live STV map", class: "v2-btn v2-btn-outline v2-btn-sm", target: "_blank", rel: "noopener" do
+        %i.fa.fa-map
+        Live map
 
   - if stv_connect.present?
     %span{class: "v2-connect"}= stv_connect

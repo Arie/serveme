@@ -6,7 +6,6 @@ class ReservationsController < ApplicationController
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
-  before_action :require_admin, only: :watch
   helper LogLineHelper
   include RconHelper
   include LogLineHelper

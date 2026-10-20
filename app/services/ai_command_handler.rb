@@ -7,6 +7,14 @@ class AiCommandHandler
 
   attr_reader :reservation
 
+  REGION_LEAGUES = {
+    "serveme.tf" => { name: "etf2l", prefixes: %w[etf2l] },
+    "na.serveme.tf" => { name: "rgl", prefixes: %w[rgl] },
+    "sea.serveme.tf" => { name: "afc", prefixes: %w[afc af_] },
+    "au.serveme.tf" => { name: "ozfortress/ozf", prefixes: %w[ozfortress ozf] }
+  }.freeze
+  DEFAULT_REGION_LEAGUE = T.let(REGION_LEAGUES.fetch("serveme.tf"), T::Hash[Symbol, T.untyped])
+
   REDIS_CONTEXT_TTL = 1.hour
   MAX_CONTEXT_HISTORY = 10
 
@@ -224,12 +232,12 @@ class AiCommandHandler
       arena_ (arena mode. There is no cvar that switches gamemode: tf_gamemode_arena does not exist on these servers. Change to a specific arena_ map such as arena_badlands or arena_lumberyard. There is also a map called just "arena", which is not what people mean)
 
     Regions and biggest league in each region, current region #{SITE_HOST}. Include the region's league to select the best matching maps and configs:
-    - serveme.tf: etf2l
-    - na.serveme.tf: rgl
-    - sea.serveme.tf: afc
-    - au.serveme.tf: ozfortress/ozf
+    #{REGION_LEAGUES.map { |host, league| "- #{host}: #{league[:name]}" }.join("\n    ")}
 
-    Available configs: #{ServerConfig.active.ordered.map(&:file).join(" ")}
+    Configs of this region's league (#{region_league[:name]}), pick from these unless the request names another league: #{league_configs.join(" ")}
+    Every available config: #{ServerConfig.active.ordered.map(&:file).join(" ")}
+
+    CONFIG NAMES: a config is one file name copied exactly from the lists above. The words "cfg" and "config" in a request are not part of the name, so "exec koth cfg" asks for this region's koth config, not for a file called "koth cfg". Never invent a name and never pass the words of the request through as one. Take the gamemode from the map prefix table above. Take the format from the request: "hl", "highlander" or "9v9" means the 9v9 config, "4s" the 4v4 one, "ultiduo" the ultiduo one, and anything else, including a request that says nothing about format, means 6v6, which some leagues spell 6s in their file names. If no config in the lists fits, say so instead of guessing.
     Available item/weapon whitelists: #{Whitelist.active.ordered.map(&:file).join(" ")}
     Special item/weapon whitelists using tftrue_whitelist_id: allow_everything, block_everything
 
@@ -633,6 +641,19 @@ class AiCommandHandler
      { "success" => false, "response" => "AI returned an empty or invalid response.", "command" => nil }
   end
 
+  sig { returns(T::Hash[Symbol, T.untyped]) }
+  def region_league
+    REGION_LEAGUES.fetch(SITE_HOST, DEFAULT_REGION_LEAGUE)
+  end
+
+  sig { returns(T::Array[String]) }
+  def league_configs
+    prefixes = region_league[:prefixes]
+    ServerConfig.active.ordered.map(&:file).compact.select do |file|
+      prefixes.any? { |prefix| file.downcase.start_with?(prefix) }
+    end
+  end
+
   # Both of these need a plugin that is not on every server, and the model ignores the
   # plugin list in the status when told to check it, so gate them here instead.
   sig { params(command: String).returns(T.nilable(String)) }
@@ -645,6 +666,27 @@ class AiCommandHandler
     elsif command.match?(/\bsm_(setclass|sc)\b/) && !status.include?("TF2 Set Class")
       "Sorry, setting someone's class needs the setclass plugin, which this server does not have."
     end
+  end
+
+  # Models invent plausible config names like rgl_6v6_koth; exec of a missing file is a
+  # silent no-op on the server, so check the names and fix their casing before running.
+  sig { params(command: String).returns([ String, T.nilable(String) ]) }
+  def resolve_config_names(command)
+    known = ServerConfig.active.pluck(:file).compact.index_by(&:downcase)
+    unknown = T.let([], T::Array[String])
+
+    resolved = command.gsub(/(\A|;)(\s*exec\s+)("[^"]+"|[^\s;]+)/i) do
+      prefix = "#{Regexp.last_match(1)}#{Regexp.last_match(2)}"
+      quoted = T.must(Regexp.last_match(3))
+      name = quoted.delete('"')
+      canonical = known[name.downcase]
+      unknown << name unless canonical
+      "#{prefix}#{canonical || quoted}"
+    end
+
+    return [ command, "Sorry, I don't have a config called #{unknown.uniq.join(' or ')}." ] if unknown.any?
+
+    [ resolved, nil ]
   end
 
   sig { params(result: T::Hash[String, T.untyped], request: String).void }
@@ -660,7 +702,15 @@ class AiCommandHandler
       result["success"] = false
       result["command"] = nil
     elsif result["success"] && result["command"].present?
-      if CommandValidator.validate(result["command"])
+      resolved, unknown_config = resolve_config_names(result["command"])
+
+      if unknown_config
+        Rails.logger.error("[AI ##{reservation.id}] Proposed unknown config: #{result['command']}")
+        final_response_to_send = unknown_config
+        result["success"] = false
+        result["command"] = nil
+      elsif CommandValidator.validate(resolved)
+        result["command"] = resolved
         is_valid_command = true
       else
         Rails.logger.error("[AI ##{reservation.id}] Proposed disallowed command: #{result['command']}")

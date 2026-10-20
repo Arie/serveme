@@ -135,6 +135,7 @@ RSpec.describe AiCommandHandler do
       end
 
       it 'executes the config and sends response' do
+        create(:server_config, file: 'etf2l_6v6')
         expect(server).to receive(:rcon_exec).with("exec etf2l_6v6")
         expect(server).to receive(:rcon_say).with("Loading ETF2L 6v6 config")
 
@@ -799,6 +800,50 @@ RSpec.describe AiCommandHandler do
     it 'documents the whitelist-id and per-player rename rules' do
       expect(prompt).to include("tftrue_whitelist_id 18740")
       expect(prompt).to include("one sm_rename per userid")
+    end
+
+    it "lists this region's league configs separately and explains how to name a config" do
+      create(:server_config, file: 'etf2l_6v6_koth')
+      create(:server_config, file: 'rgl_6s_koth')
+
+      expect(prompt).to include("CONFIG NAMES")
+      expect(prompt).to match(/Configs of this region's league \(etf2l\)[^\n]*etf2l_6v6_koth/)
+      expect(prompt).not_to match(/Configs of this region's league \(etf2l\)[^\n]*rgl_6s_koth/)
+      expect(prompt).to match(/Every available config:[^\n]*rgl_6s_koth/)
+    end
+
+    it 'refuses a config name that does not exist instead of execing a no-op' do
+      allow(reservation.server).to receive(:rcon_say)
+      expect(reservation.server).not_to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "exec rgl_6v6_koth", "response" => "Loading it.", "success" => true },
+                   "exec rgl koth")
+
+      expect(reservation.server).to have_received(:rcon_say).with(/don't have a config called rgl_6v6_koth/)
+    end
+
+    it 'leaves the word exec alone inside a chat message' do
+      allow(reservation.server).to receive(:rcon_say)
+      allow(reservation.server).to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => 'sm_say "someone exec rgl koth please"', "response" => "Said it.", "success" => true },
+                   "say someone exec rgl koth please")
+
+      expect(reservation.server).to have_received(:rcon_exec).with('sm_say "someone exec rgl koth please"')
+    end
+
+    it 'corrects the casing of a known config rather than refusing it' do
+      create(:server_config, file: 'KnightComp_KOTH')
+      allow(reservation.server).to receive(:rcon_say)
+      allow(reservation.server).to receive(:rcon_exec)
+
+      handler.send(:process_ai_result,
+                   { "command" => "exec knightcomp_koth; changelevel koth_product_final", "response" => "Done.", "success" => true },
+                   "exec knightcomp koth")
+
+      expect(reservation.server).to have_received(:rcon_exec).with("exec KnightComp_KOTH; changelevel koth_product_final")
     end
 
     it 'blocks sm_setteam when the setteam plugin is not loaded on this server' do

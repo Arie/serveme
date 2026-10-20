@@ -16,6 +16,7 @@ RSpec.describe SdrController, type: :controller do
       let(:reservation) { create(:reservation, server: server, sdr_ip: "5.6.7.8", sdr_port: 27015) }
 
       before do
+        allow(Addrinfo).to receive(:getaddrinfo).and_call_original
         allow(Addrinfo).to receive(:getaddrinfo).with("bolus.fakkelbrigade.eu", nil, Socket::AF_INET)
           .and_return([ double(ip_address: "1.2.3.4") ])
         reservation
@@ -36,6 +37,7 @@ RSpec.describe SdrController, type: :controller do
       let(:reservation) { create(:reservation, server: server, sdr_ip: "5.6.7.8", sdr_port: 27015) }
 
       before do
+        allow(Addrinfo).to receive(:getaddrinfo).and_call_original
         allow(Addrinfo).to receive(:getaddrinfo).with("bolus.fakkelbrigade.eu", nil, Socket::AF_INET)
           .and_return([ double(ip_address: "1.2.3.4") ])
         reservation

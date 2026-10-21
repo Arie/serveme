@@ -122,7 +122,7 @@ group :test do
   gem "mock_redis"
   gem "rails-controller-testing"
   gem "shoulda-matchers"
-  gem "simplecov", "~> 0.22", require: false
+  gem "simplecov", "~> 1.0", require: false
   gem "vcr"
   gem "webmock"
 end

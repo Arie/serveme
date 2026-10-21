@@ -208,6 +208,25 @@ describe LiveMatchStats do
     end
   end
 
+  describe '.get_or_rebuild_stats' do
+    let(:fixture_path) { Rails.root.join('spec', 'fixtures', 'logs', 'match.log').to_s }
+
+    before { allow(StreamingLog).to receive(:readable_path).and_return(fixture_path) }
+
+    it 'rebuilds from the log for a running reservation' do
+      reservation = instance_double(Reservation, id: reservation_id, ended: false, logsecret: 'secret')
+
+      expect(described_class.get_or_rebuild_stats(reservation)).not_to be_empty
+    end
+
+    it 'does not rebuild for an ended reservation' do
+      reservation = instance_double(Reservation, id: reservation_id, ended: true, logsecret: 'secret')
+
+      expect(described_class.get_or_rebuild_stats(reservation)).to be_nil
+      expect(described_class.rebuilt?(reservation_id)).to be(false)
+    end
+  end
+
   describe '.rebuild' do
     let(:fixture_path) { Rails.root.join('spec', 'fixtures', 'logs', 'match.log').to_s }
 

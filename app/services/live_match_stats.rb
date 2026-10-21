@@ -84,7 +84,7 @@ class LiveMatchStats
 
     sig { params(reservation: Reservation).returns(T.nilable(T::Array[T::Hash[Symbol, T.untyped]])) }
     def get_or_rebuild_stats(reservation)
-      unless rebuilt?(reservation.id)
+      unless reservation.ended || rebuilt?(reservation.id)
         filepath = StreamingLog.readable_path(reservation.logsecret)
         rebuild(reservation.id, filepath) if File.exist?(filepath)
       end

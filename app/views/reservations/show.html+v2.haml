@@ -153,7 +153,7 @@
         - all_match_stats.each do |match_stats|
           = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info, show_isp: show_isp
       - else
-        - reservation.reservation_matches.includes(:match_players).order(:match_number).each do |match|
+        - reservation.reservation_matches.includes(match_players: :user).order(:match_number).each do |match|
           - match_stats = ScoreboardStats.from_match(match)
           = render "reservations/match_scoreboard", live_stats: match_stats, reservation_players_by_uid: reservation_players_by_uid, connection_info: connection_info, show_isp: show_isp
 

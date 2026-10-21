@@ -6,7 +6,6 @@
 
 
 # frozen-string-literal: true
-# frozen-string-literal: true
 #
 # pkg:gem/down#lib/down/version.rb:3
 module Down
@@ -18,10 +17,10 @@ module Down
   def backend(value = T.unsafe(nil)); end
 
   # pkg:gem/down#lib/down.rb:9
-  def download(*args, **options, &block); end
+  def download(*, **, &); end
 
   # pkg:gem/down#lib/down.rb:13
-  def open(*args, **options, &block); end
+  def open(*, **, &); end
 
   class << self
     # Allows setting a backend via a symbol or a downloader object.
@@ -30,10 +29,10 @@ module Down
     def backend(value = T.unsafe(nil)); end
 
     # pkg:gem/down#lib/down.rb:9
-    def download(*args, **options, &block); end
+    def download(*, **, &); end
 
     # pkg:gem/down#lib/down.rb:13
-    def open(*args, **options, &block); end
+    def open(*, **, &); end
   end
 end
 
@@ -282,82 +281,85 @@ class Down::InvalidUrl < ::Down::Error; end
 class Down::NetHttp < ::Down::Backend
   # Initializes the backend with common defaults.
   #
-  # pkg:gem/down#lib/down/net_http.rb:21
-  def initialize(*args, **options); end
+  # pkg:gem/down#lib/down/net_http.rb:29
+  def initialize(*, **, &); end
 
   # Downloads a remote file to disk using open-uri. Accepts any open-uri
   # options, and a few more.
   #
-  # pkg:gem/down#lib/down/net_http.rb:33
-  def download(url, *args, **options); end
+  # pkg:gem/down#lib/down/net_http.rb:35
+  def download(url, *, **, &); end
 
   # Starts retrieving the remote file using Net::HTTP and returns an IO-like
   # object which downloads the response body on-demand.
   #
   # pkg:gem/down#lib/down/net_http.rb:109
-  def open(url, *args, **options); end
+  def open(url, *, **, &); end
 
   private
 
   # Build a Net::HTTP object for making a request.
   #
-  # pkg:gem/down#lib/down/net_http.rb:259
-  def create_net_http(uri, options); end
+  # pkg:gem/down#lib/down/net_http.rb:257
+  def create_net_http(uri, proxy: T.unsafe(nil), ssl_verify_mode: T.unsafe(nil), ssl_ca_cert: T.unsafe(nil), read_timeout: T.unsafe(nil), open_timeout: T.unsafe(nil), headers: T.unsafe(nil), http_basic_authentication: T.unsafe(nil), **); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri
   # returns a StringIO when there is less than 10KB of content), and gives
   # it the specified file extension.
   #
-  # pkg:gem/down#lib/down/net_http.rb:192
+  # pkg:gem/down#lib/down/net_http.rb:190
   def ensure_tempfile(io, extension, tempfile_name = T.unsafe(nil)); end
 
   # Checks that the url is a valid URI and that its scheme is http or https.
   #
-  # pkg:gem/down#lib/down/net_http.rb:303
+  # pkg:gem/down#lib/down/net_http.rb:301
   def ensure_uri(url, allow_relative: T.unsafe(nil)); end
 
   # Merge default and ad-hoc options, merging nested headers.
   #
-  # pkg:gem/down#lib/down/net_http.rb:377
+  # pkg:gem/down#lib/down/net_http.rb:375
   def merge_options(options, headers = T.unsafe(nil), **new_options); end
 
   # Makes a Net::HTTP request and follows redirects.
   #
-  # pkg:gem/down#lib/down/net_http.rb:210
-  def net_http_request(uri, options, follows_remaining:, auth_on_redirect:, &block); end
+  # pkg:gem/down#lib/down/net_http.rb:208
+  def net_http_request(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options, &); end
 
   # Makes sure that the URL is properly encoded.
   #
-  # pkg:gem/down#lib/down/net_http.rb:318
+  # pkg:gem/down#lib/down/net_http.rb:316
   def normalize_uri(url, uri_normalizer:); end
 
   # Calls open-uri's URI::HTTP#open method. Additionally handles redirects.
   #
-  # pkg:gem/down#lib/down/net_http.rb:147
-  def open_uri(uri, options, follows_remaining:, auth_on_redirect:); end
+  # pkg:gem/down#lib/down/net_http.rb:145
+  def open_uri(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options); end
 
   # When open-uri raises an exception, it doesn't expose the response object.
   # Fortunately, the exception object holds response data that can be used to
   # rebuild the Net::HTTP response object.
   #
-  # pkg:gem/down#lib/down/net_http.rb:327
+  # pkg:gem/down#lib/down/net_http.rb:325
   def rebuild_response_from_open_uri_exception(exception); end
 
   # Re-raise Net::HTTP exceptions as Down::Error exceptions.
   #
-  # pkg:gem/down#lib/down/net_http.rb:361
+  # pkg:gem/down#lib/down/net_http.rb:359
   def request_error!(exception); end
 
   # Raises non-sucessful response as a Down::ResponseError.
   #
-  # pkg:gem/down#lib/down/net_http.rb:346
+  # pkg:gem/down#lib/down/net_http.rb:344
   def response_error!(response); end
 
   # Yields chunks of the response body to the block.
   #
-  # pkg:gem/down#lib/down/net_http.rb:296
-  def stream_body(response, &block); end
+  # pkg:gem/down#lib/down/net_http.rb:294
+  def stream_body(response, &); end
 end
+
+# pkg:gem/down#lib/down/net_http.rb:20
+Down::NetHttp::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Defines some additional attributes for the returned Tempfile (on top of what
 # OpenURI::Meta already defines).
@@ -420,29 +422,29 @@ class Down::TooLarge < ::Down::Error; end
 # pkg:gem/down#lib/down/errors.rb:14
 class Down::TooManyRedirects < ::Down::Error; end
 
-# pkg:gem/down#lib/down/utils.rb:4
+# pkg:gem/down#lib/down/utils.rb:8
 module Down::Utils
   private
 
   # Retrieves potential filename from the "Content-Disposition" header.
   #
-  # pkg:gem/down#lib/down/utils.rb:8
+  # pkg:gem/down#lib/down/utils.rb:12
   def filename_from_content_disposition(content_disposition); end
 
   # Retrieves potential filename from the URL path.
   #
-  # pkg:gem/down#lib/down/utils.rb:22
+  # pkg:gem/down#lib/down/utils.rb:26
   def filename_from_path(path); end
 
   class << self
     # Retrieves potential filename from the "Content-Disposition" header.
     #
-    # pkg:gem/down#lib/down/utils.rb:8
+    # pkg:gem/down#lib/down/utils.rb:12
     def filename_from_content_disposition(content_disposition); end
 
     # Retrieves potential filename from the URL path.
     #
-    # pkg:gem/down#lib/down/utils.rb:22
+    # pkg:gem/down#lib/down/utils.rb:26
     def filename_from_path(path); end
   end
 end

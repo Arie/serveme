@@ -5,7 +5,7 @@
 #
 # Used by config/deploy.ws-echo.yml (regional /ping) and pushed
 # separately to Docker Hub for DockerHostSetupService cloud hosts.
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /opt/websocket-echo
 

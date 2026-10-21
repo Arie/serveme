@@ -67,8 +67,9 @@ jobs:
           configurationFile: .github/renovate-global.json5
           token: ${{ steps.app-token.outputs.token }}
 
+      # Runs from an issues event get a read-only cache token.
       - name: Save repository cache
-        if: always()
+        if: always() && github.event_name != 'issues'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: /tmp/renovate/cache/renovate/repository

@@ -1,0 +1,98 @@
+name: Renovate RBIs
+
+# A gem update fails `tapioca gem --verify` and `tapioca dsl --verify` in CI
+# until its RBIs are regenerated. The Renovate container can't do that: the gems
+# need libmaxminddb and libvips, and the DSL RBIs a database. This regenerates
+# both on the Renovate branch and commits them as the Renovate App.
+on:
+  push:
+    branches: ["renovate/**"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect a gem change
+    if: github.event.head_commit.message != 'Regenerate the RBIs'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.diff.outputs.run }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - id: diff
+        run: |
+          if git diff --quiet origin/master...HEAD -- Gemfile.lock; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  rbi:
+    name: Regenerate RBIs
+    needs: changes
+    if: needs.changes.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: serveme
+          POSTGRES_DB: serveme_development
+          POSTGRES_PASSWORD: secret
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      PGHOST: localhost
+      PGUSER: serveme
+      PGPASSWORD: secret
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev libvips42t64 redis-server memcached
+
+      - uses: ./.github/actions/ruby
+
+      - name: Write development credentials key
+        env:
+          RAILS_DEVELOPMENT_KEY: ${{ secrets.RAILS_DEVELOPMENT_KEY }}
+        run: printf '%s' "$RAILS_DEVELOPMENT_KEY" > config/credentials/development.key
+
+      - name: Setup database
+        run: RAILS_ENV=development bin/rails db:create db:migrate
+
+      - name: Regenerate gem RBIs
+        run: bin/tapioca gem
+
+      - name: Regenerate DSL RBIs
+        run: bin/tapioca dsl
+
+      - name: Mint app token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RENOVATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Commit
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          BRANCH: ${{ github.ref_name }}
+          EXPECTED_HEAD_OID: ${{ github.sha }}
+        run: node .github/scripts/commit-changes.mjs 'Regenerate the RBIs' sorbet/rbi

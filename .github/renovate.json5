@@ -1,0 +1,84 @@
+// Repository config for the self-hosted Renovate in .github/workflows/renovate.yml.
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended", "helpers:pinGitHubActionDigestsToSemver"],
+  timezone: "Europe/Amsterdam",
+  schedule: ["* 0-6 * * 1"],
+  prHourlyLimit: 0,
+  labels: ["dependencies"],
+  dependencyDashboardLabels: ["dependencies"],
+  minimumReleaseAge: "3 days",
+  // Renovate merges on a later run, after renovate/stability-days passes,
+  // inside hours when someone is around if it breaks.
+  platformAutomerge: false,
+  automergeStrategy: "squash",
+  automergeSchedule: ["* 9-16 * * 1-5"],
+  // Rebasing whenever master moves would restart CI and the RBI workflow on
+  // every run.
+  rebaseWhen: "conflicted",
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ["* 0-6 * * 1"],
+  },
+  vulnerabilityAlerts: {
+    labels: ["dependencies", "security"],
+    minimumReleaseAge: "1 day",
+    internalChecksFilter: "none",
+    automerge: true,
+    automergeSchedule: ["at any time"],
+    dependencyDashboardApproval: false,
+  },
+  major: {
+    dependencyDashboardApproval: true,
+  },
+  osvVulnerabilityAlerts: true,
+  // renovate-rbi.yml commits the regenerated RBIs on top of Renovate's branch
+  // as the same App.
+  gitIgnoredAuthors: ["*+serveme-renovate[bot]@users.noreply.github.com"],
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["/^config/importmap\\.rb$/"],
+      matchStrings: ["https://ga\\.jspm\\.io/npm:(?<depName>@?[^@\"]+)@(?<currentValue>[^/\"]+)/"],
+      datasourceTemplate: "npm",
+    },
+  ],
+  packageRules: [
+    {
+      matchUpdateTypes: ["pinDigest"],
+      minimumReleaseAge: null,
+    },
+    {
+      matchManagers: ["bundler"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "gems",
+      automerge: true,
+    },
+    {
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch", "digest", "pinDigest"],
+      groupName: "GitHub Actions",
+      automerge: true,
+    },
+    {
+      matchDepNames: ["chart.js", "@kurkle/color"],
+      groupName: "chart.js",
+    },
+    {
+      // The range chart.js depends on.
+      matchDepNames: ["@kurkle/color"],
+      allowedVersions: "< 0.4",
+    },
+    {
+      // Otherwise 24.04 is offered the codename tag of the next release.
+      matchDepNames: ["ubuntu"],
+      allowedVersions: "/^\\d+\\.\\d+$/",
+    },
+    {
+      // .tool-versions and the Dockerfile move together, and a person merges it.
+      matchDepNames: ["ruby", "docker.io/library/ruby"],
+      groupName: "Ruby",
+      automerge: false,
+    },
+  ],
+}

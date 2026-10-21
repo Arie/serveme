@@ -1,0 +1,11 @@
+// Administrator config for the self-hosted Renovate in .github/workflows/renovate.yml.
+{
+  $schema: "https://docs.renovatebot.com/renovate-global-schema.json",
+  platform: "github",
+  repositories: ["Arie/serveme"],
+  onboarding: false,
+  requireConfig: "required",
+  platformCommit: "enabled",
+  exitCodeForErrors: true,
+  repositoryCache: "enabled",
+}

@@ -19,11 +19,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:15
+# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:37
 module Google; end
 
-# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:16
+# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:38
 module Google::Rpc; end
 
-# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:17
+# pkg:gem/googleapis-common-protos-types#lib/google/rpc/status_pb.rb:39
 class Google::Rpc::Status < ::Google::Protobuf::AbstractMessage; end

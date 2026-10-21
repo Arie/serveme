@@ -172,12 +172,19 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #     the required types.
   #
   #   @option options [Boolean] :correct_clock_skew (true)
-  #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
-  #     a clock skew correction and retry requests with skewed client clocks.
+  #     Used only in `standard` and `adaptive` retry modes. Specifies whether
+  #     to apply a clock skew correction and retry requests with skewed client
+  #     clocks. Takes effect only when `disable_clock_skew_correction` is not set.
   #
   #   @option options [String] :defaults_mode ("legacy")
   #     See {Aws::DefaultsModeConfiguration} for a list of the
   #     accepted modes and the configuration defaults that are included.
+  #
+  #   @option options [Boolean] :disable_clock_skew_correction
+  #     Used only in `standard` and `adaptive` retry modes. When `true`, the
+  #     SDK does not apply a clock skew correction, does not update its stored
+  #     skew from responses, and does not retry clock skew errors. Clock skew
+  #     correction is enabled by default.
   #
   #   @option options [Boolean] :disable_host_prefix_injection (false)
   #     When `true`, the SDK will not prepend the modeled host prefix to the endpoint.
@@ -448,13 +455,13 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:478
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:485
   def initialize(*args); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11544
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11551
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Cancels the deletion of a KMS key. When this operation succeeds, the
@@ -534,7 +541,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload cancel_key_deletion(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:560
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:567
   def cancel_key_deletion(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Connects or reconnects a [custom key store][1] to its backing key
@@ -674,7 +681,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload connect_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:701
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:708
   def connect_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a friendly name for a KMS key.
@@ -811,7 +818,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload create_alias(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:839
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:846
   def create_alias(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a [custom key store][1] backed by a key store that you own and
@@ -1204,7 +1211,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload create_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:1233
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:1240
   def create_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Adds a grant to a KMS key.
@@ -1562,7 +1569,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload create_grant(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:1592
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:1599
   def create_grant(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a unique customer managed [KMS key][1] in your Amazon Web
@@ -2535,7 +2542,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload create_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2572
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2579
   def create_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Decrypts ciphertext that was encrypted by a KMS key using any of the
@@ -2881,7 +2888,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload decrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2919
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2926
   def decrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the specified alias.
@@ -2958,7 +2965,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_alias(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:2997
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3004
   def delete_alias(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a [custom key store][1]. This operation does not affect any
@@ -3060,7 +3067,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3100
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3107
   def delete_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes key material that was previously imported. This operation
@@ -3168,7 +3175,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload delete_imported_key_material(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3209
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3216
   def delete_imported_key_material(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Derives a shared secret using a key agreement algorithm.
@@ -3461,7 +3468,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload derive_shared_secret(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3503
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3510
   def derive_shared_secret(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets information about [custom key stores][1] in the account and
@@ -3696,7 +3703,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload describe_custom_key_stores(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3739
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:3746
   def describe_custom_key_stores(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Provides detailed information about a KMS key. You can run
@@ -4085,7 +4092,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload describe_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4129
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4136
   def describe_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets the state of a KMS key to disabled. This change temporarily
@@ -4150,7 +4157,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disable_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4195
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4202
   def disable_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Disables [automatic rotation of the key material][1] of the specified
@@ -4259,7 +4266,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disable_key_rotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4305
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4312
   def disable_key_rotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Disconnects the [custom key store][1] from its backing key store. This
@@ -4353,7 +4360,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload disconnect_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4400
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4407
   def disconnect_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets the key state of a KMS key to enabled. This allows you to use the
@@ -4417,7 +4424,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload enable_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4465
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4472
   def enable_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Enables [automatic rotation of the key material][1] of the specified
@@ -4576,7 +4583,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload enable_key_rotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4625
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4632
   def enable_key_rotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a
@@ -4822,7 +4829,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload encrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4872
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:4879
   def encrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique symmetric data key for use outside of KMS. This
@@ -5143,7 +5150,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5194
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5201
   def generate_data_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique asymmetric data key pair for use outside of KMS. This
@@ -5459,7 +5466,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_pair(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5511
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5518
   def generate_data_key_pair(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique asymmetric data key pair for use outside of KMS. This
@@ -5670,7 +5677,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_pair_without_plaintext(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5723
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5730
   def generate_data_key_pair_without_plaintext(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a unique symmetric data key for use outside of KMS. This
@@ -5887,7 +5894,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_data_key_without_plaintext(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5941
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:5948
   def generate_data_key_without_plaintext(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Generates a hash-based message authentication code (HMAC) for a
@@ -6032,7 +6039,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_mac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6087
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6094
   def generate_mac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a random byte string that is cryptographically secure.
@@ -6178,7 +6185,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload generate_random(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6234
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6241
   def generate_random(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns usage information about the last successful cryptographic
@@ -6314,7 +6321,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_key_last_usage(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6371
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6378
   def get_key_last_usage(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a key policy attached to the specified KMS key.
@@ -6392,7 +6399,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_key_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6450
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6457
   def get_key_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Provides detailed information about the rotation status for a KMS key,
@@ -6540,7 +6547,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_key_rotation_status(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6599
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6606
   def get_key_rotation_status(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the public key and an import token you need to import or
@@ -6800,7 +6807,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_parameters_for_import(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6860
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:6867
   def get_parameters_for_import(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the public key of an asymmetric KMS key. Unlike the private
@@ -6969,7 +6976,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload get_public_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7030
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7037
   def get_public_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Imports or reimports key material into an existing KMS key that was
@@ -7299,7 +7306,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload import_key_material(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7361
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7368
   def import_key_material(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of aliases in the caller's Amazon Web Services account
@@ -7467,7 +7474,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_aliases(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7530
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7537
   def list_aliases(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of all grants for the specified KMS key.
@@ -7719,7 +7726,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_grants(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7783
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7790
   def list_grants(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets the names of the key policies that are attached to a KMS key.
@@ -7823,7 +7830,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_key_policies(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7888
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:7895
   def list_key_policies(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns information about the key materials associated with the
@@ -7967,7 +7974,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_key_rotations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8033
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8040
   def list_key_rotations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a list of all KMS keys in the caller's Amazon Web Services
@@ -8081,7 +8088,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_keys(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8148
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8155
   def list_keys(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns all tags on the specified KMS key.
@@ -8204,7 +8211,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_resource_tags(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8272
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8279
   def list_resource_tags(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns information about all grants in the Amazon Web Services
@@ -8410,7 +8417,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload list_retirable_grants(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8479
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8486
   def list_retirable_grants(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Attaches a key policy to the specified KMS key.
@@ -8568,7 +8575,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload put_key_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8638
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:8645
   def put_key_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Decrypts ciphertext and then reencrypts it entirely within KMS. You
@@ -8931,7 +8938,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload re_encrypt(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9002
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9009
   def re_encrypt(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Replicates a multi-Region key into the specified Region. This
@@ -9315,7 +9322,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload replicate_key(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9387
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9394
   def replicate_key(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a grant. Typically, you retire a grant when you no longer need
@@ -9429,7 +9436,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload retire_grant(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9502
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9509
   def retire_grant(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the specified grant. You revoke a grant to terminate the
@@ -9534,7 +9541,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload revoke_grant(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9608
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9615
   def revoke_grant(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Immediately initiates rotation of the key material of the specified
@@ -9681,7 +9688,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload rotate_key_on_demand(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9756
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9763
   def rotate_key_on_demand(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Schedules the deletion of a KMS key. By default, KMS applies a waiting
@@ -9834,7 +9841,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload schedule_key_deletion(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9910
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:9917
   def schedule_key_deletion(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a [digital signature][1] for a message or message digest by
@@ -10105,7 +10112,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload sign(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10182
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10189
   def sign(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Adds or edits tags on a [customer managed key][1].
@@ -10230,7 +10237,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload tag_resource(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10308
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10315
   def tag_resource(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes tags from a [customer managed key][1]. To delete a tag,
@@ -10329,7 +10336,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload untag_resource(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10408
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10415
   def untag_resource(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Associates an existing KMS alias with a different KMS key. Each alias
@@ -10460,7 +10467,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_alias(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10540
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10547
   def update_alias(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Changes the properties of a custom key store. You can use this
@@ -10826,7 +10833,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_custom_key_store(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10907
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10914
   def update_custom_key_store(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Updates the description of a KMS key. To see the description of a KMS
@@ -10902,7 +10909,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_key_description(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10984
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:10991
   def update_key_description(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Changes the primary key of a multi-Region key.
@@ -11045,7 +11052,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload update_primary_region(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11128
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11135
   def update_primary_region(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Verifies a digital signature that was generated by the Sign operation.
@@ -11311,7 +11318,7 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload verify(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11395
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11402
   def verify(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Verifies the hash-based message authentication code (HMAC) for a
@@ -11450,24 +11457,24 @@ class Aws::KMS::Client < ::Seahorse::Client::Base
   # @overload verify_mac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11535
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11542
   def verify_mac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11564
+  # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11571
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11574
+    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11581
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11571
+    # pkg:gem/aws-sdk-kms#lib/aws-sdk-kms/client.rb:11578
     def identifier; end
   end
 end

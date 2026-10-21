@@ -5008,12 +5008,19 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     the required types.
   #
   #   @option options [Boolean] :correct_clock_skew (true)
-  #     Used only in `standard` and `adaptive` retry modes. Specifies whether to apply
-  #     a clock skew correction and retry requests with skewed client clocks.
+  #     Used only in `standard` and `adaptive` retry modes. Specifies whether
+  #     to apply a clock skew correction and retry requests with skewed client
+  #     clocks. Takes effect only when `disable_clock_skew_correction` is not set.
   #
   #   @option options [String] :defaults_mode ("legacy")
   #     See {Aws::DefaultsModeConfiguration} for a list of the
   #     accepted modes and the configuration defaults that are included.
+  #
+  #   @option options [Boolean] :disable_clock_skew_correction
+  #     Used only in `standard` and `adaptive` retry modes. When `true`, the
+  #     SDK does not apply a clock skew correction, does not update its stored
+  #     skew from responses, and does not retry clock skew errors. Clock skew
+  #     correction is enabled by default.
   #
   #   @option options [Boolean] :disable_host_prefix_injection (false)
   #     When `true`, the SDK will not prepend the modeled host prefix to the endpoint.
@@ -5325,7 +5332,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:575
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:582
   def initialize(*args); end
 
   # This operation aborts a multipart upload. After a multipart upload is
@@ -5536,13 +5543,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload abort_multipart_upload(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:790
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:797
   def abort_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24198
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24205
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Completes a multipart upload by assembling previously uploaded parts.
@@ -6113,7 +6120,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload complete_multipart_upload(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:1365
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:1372
   def complete_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a copy of an object that is already stored in Amazon S3.
@@ -7305,7 +7312,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload copy_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:2564
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:2571
   def copy_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This action creates an Amazon S3 bucket. To create an Amazon S3 on
@@ -7682,7 +7689,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload create_bucket(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:2944
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:2951
   def create_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates an S3 Metadata V2 metadata configuration for a general purpose
@@ -7832,7 +7839,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload create_bucket_metadata_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:3096
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:3103
   def create_bucket_metadata_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # We recommend that you create your S3 Metadata configurations by using
@@ -7936,7 +7943,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload create_bucket_metadata_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:3202
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:3209
   def create_bucket_metadata_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # End of support notice: As of October 1, 2025, Amazon S3 has
@@ -8941,7 +8948,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload create_multipart_upload(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4213
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4220
   def create_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a session that establishes temporary security credentials to
@@ -9248,7 +9255,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload create_session(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4524
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4531
   def create_session(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the S3 bucket. All objects (including all object versions and
@@ -9359,7 +9366,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4638
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4645
   def delete_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9428,7 +9435,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_analytics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4708
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4715
   def delete_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9491,7 +9498,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_cors(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4772
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4779
   def delete_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This implementation of the DELETE action resets the default encryption
@@ -9597,7 +9604,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_encryption(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4881
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4888
   def delete_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9673,7 +9680,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_intelligent_tiering_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4958
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:4965
   def delete_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes an S3 Inventory configuration (identified by the inventory ID)
@@ -9800,7 +9807,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_inventory_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5088
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5095
   def delete_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the lifecycle configuration from the specified bucket. Amazon
@@ -9911,7 +9918,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_lifecycle(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5202
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5209
   def delete_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes an S3 Metadata configuration from a general purpose bucket.
@@ -9983,7 +9990,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_metadata_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5276
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5283
   def delete_bucket_metadata_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # We recommend that you delete your S3 Metadata configurations by using
@@ -10062,7 +10069,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_metadata_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5357
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5364
   def delete_bucket_metadata_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a metrics configuration for the Amazon CloudWatch request
@@ -10190,7 +10197,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_metrics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5488
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5495
   def delete_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10243,7 +10250,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_ownership_controls(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5542
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5549
   def delete_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the policy of a specified bucket.
@@ -10374,7 +10381,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5676
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5683
   def delete_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10447,7 +10454,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_replication(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5750
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5757
   def delete_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10511,7 +10518,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5815
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5822
   def delete_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10582,7 +10589,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_bucket_website(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5887
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:5894
   def delete_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes an object from a bucket. The behavior depends on the bucket's
@@ -10910,7 +10917,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6218
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6225
   def delete_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes a specific annotation from an Amazon S3 object. Use the
@@ -11013,7 +11020,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_object_annotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6322
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6329
   def delete_object_annotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11142,7 +11149,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_object_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6452
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6459
   def delete_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation enables you to delete multiple objects from a bucket
@@ -11541,7 +11548,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_objects(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6855
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6862
   def delete_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11604,7 +11611,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload delete_public_access_block(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6919
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6926
   def delete_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the attribute-based access control (ABAC) property of the
@@ -11643,7 +11650,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_abac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6959
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:6966
   def get_bucket_abac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11742,7 +11749,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_accelerate_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7059
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7066
   def get_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11841,7 +11848,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_acl(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7159
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7166
   def get_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11930,7 +11937,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_analytics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7249
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7256
   def get_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12053,7 +12060,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_cors(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7373
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7380
   def get_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the default encryption configuration for an Amazon S3 bucket.
@@ -12174,7 +12181,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_encryption(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7497
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7504
   def get_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12267,7 +12274,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_intelligent_tiering_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7591
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7598
   def get_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns an S3 Inventory configuration (identified by the inventory
@@ -12406,7 +12413,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_inventory_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7733
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7740
   def get_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # For an updated version of this API, see
@@ -12527,7 +12534,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_lifecycle(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7855
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:7862
   def get_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the lifecycle configuration information set on the bucket. For
@@ -12714,7 +12721,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_lifecycle_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8045
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8052
   def get_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Using the `GetBucketLocation` operation is no longer a best practice.
@@ -12824,7 +12831,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_location(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8156
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8163
   def get_bucket_location(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12886,7 +12893,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_logging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8219
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8226
   def get_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves the S3 Metadata configuration for a general purpose bucket.
@@ -12986,7 +12993,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_metadata_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8321
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8328
   def get_bucket_metadata_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # We recommend that you retrieve your S3 Metadata configurations by
@@ -13077,7 +13084,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_metadata_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8414
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8421
   def get_bucket_metadata_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Gets a metrics configuration (specified by the metrics configuration
@@ -13221,7 +13228,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_metrics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8561
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8568
   def get_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13351,7 +13358,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_notification(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8692
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8699
   def get_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13469,7 +13476,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_notification_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8811
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8818
   def get_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13544,7 +13551,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_ownership_controls(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8887
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:8894
   def get_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the policy of a specified bucket.
@@ -13709,7 +13716,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9056
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9063
   def get_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13777,7 +13784,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_policy_status(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9125
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9132
   def get_bucket_policy_status(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13903,7 +13910,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_replication(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9252
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9259
   def get_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13972,7 +13979,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_request_payment(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9322
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9329
   def get_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14061,7 +14068,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9412
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9419
   def get_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14141,7 +14148,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_versioning(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9493
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9500
   def get_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14236,7 +14243,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_bucket_website(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9589
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:9596
   def get_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves an object from Amazon S3.
@@ -14917,7 +14924,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10277
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10284
   def get_object(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15106,7 +15113,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_acl(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10467
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10474
   def get_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves an annotation from an Amazon S3 object. To use this
@@ -15240,7 +15247,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_annotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10602
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:10609
   def get_object_annotation(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Retrieves all of the metadata from an object without returning the
@@ -15635,7 +15642,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_attributes(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11003
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11010
   def get_object_attributes(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15736,7 +15743,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_legal_hold(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11105
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11112
   def get_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15813,7 +15820,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_lock_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11183
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11190
   def get_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15918,7 +15925,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_retention(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11289
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11296
   def get_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -16092,7 +16099,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11464
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11471
   def get_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -16196,7 +16203,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_object_torrent(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11569
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11576
   def get_object_torrent(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -16278,7 +16285,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload get_public_access_block(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11652
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11659
   def get_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # You can use this operation to determine if a bucket exists and if you
@@ -16471,7 +16478,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload head_bucket(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11848
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:11855
   def head_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # The `HEAD` operation retrieves metadata from an object without
@@ -17022,7 +17029,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload head_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12404
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12411
   def head_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -17126,7 +17133,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_bucket_analytics_configurations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12509
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12516
   def list_bucket_analytics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -17227,7 +17234,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_bucket_intelligent_tiering_configurations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12611
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12618
   def list_bucket_intelligent_tiering_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a list of S3 Inventory configurations for the bucket. You can
@@ -17385,7 +17392,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_bucket_inventory_configurations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12772
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12779
   def list_bucket_inventory_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists the metrics configurations for the bucket. The metrics
@@ -17545,7 +17552,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_bucket_metrics_configurations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12935
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:12942
   def list_bucket_metrics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -17687,7 +17694,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_buckets(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13078
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13085
   def list_buckets(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a list of all Amazon S3 directory buckets owned by the
@@ -17777,7 +17784,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_directory_buckets(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13171
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13178
   def list_directory_buckets(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation lists in-progress multipart uploads in a bucket. An
@@ -18226,7 +18233,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_multipart_uploads(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13624
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13631
   def list_multipart_uploads(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists the annotations attached to an Amazon S3 object. Results are
@@ -18350,7 +18357,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_object_annotations(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13749
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13756
   def list_object_annotations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -18596,7 +18603,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_object_versions(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:13996
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14003
   def list_object_versions(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -18838,7 +18845,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_objects(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14239
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14246
   def list_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns some or all (up to 1,000) of the objects in a bucket with each
@@ -19188,7 +19195,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_objects_v2(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14593
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14600
   def list_objects_v2(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists the parts that have been uploaded for a specific multipart
@@ -19523,7 +19530,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload list_parts(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14931
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:14938
   def list_parts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets the attribute-based access control (ABAC) property of the general
@@ -19597,7 +19604,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_abac(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15006
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15013
   def put_bucket_abac(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -19699,7 +19706,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_accelerate_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15109
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15116
   def put_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # End of support notice: As of October 1, 2025, Amazon S3 has
@@ -20010,7 +20017,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_acl(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15423
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15430
   def put_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -20149,7 +20156,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_analytics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15563
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15570
   def put_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -20332,7 +20339,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_cors(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15747
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15754
   def put_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation configures default encryption and Amazon S3 Bucket Keys
@@ -20572,7 +20579,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_encryption(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15990
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:15997
   def put_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -20703,7 +20710,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_intelligent_tiering_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16125
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16132
   def put_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This implementation of the `PUT` action adds an S3 Inventory
@@ -20906,7 +20913,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_inventory_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16334
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16341
   def put_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -21064,7 +21071,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_lifecycle(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16493
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16500
   def put_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a new lifecycle configuration for the bucket or replaces an
@@ -21360,7 +21367,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_lifecycle_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16793
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16800
   def put_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # End of support notice: As of October 1, 2025, Amazon S3 has
@@ -21561,7 +21568,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_logging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:16996
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17003
   def put_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Sets a metrics configuration (specified by the metrics configuration
@@ -21723,7 +21730,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_metrics_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17161
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17168
   def put_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -21808,7 +21815,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_notification(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17247
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17254
   def put_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -21995,7 +22002,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_notification_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17435
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17442
   def put_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -22084,7 +22091,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_ownership_controls(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17525
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17532
   def put_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
@@ -22301,7 +22308,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17746
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17753
   def put_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -22540,7 +22547,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_replication(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17988
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:17995
   def put_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -22640,7 +22647,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_request_payment(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18089
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18096
   def put_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -22801,7 +22808,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18251
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18258
   def put_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -22956,7 +22963,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_versioning(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18407
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18414
   def put_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -23143,7 +23150,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_bucket_website(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18595
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:18602
   def put_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # End of support notice: As of October 1, 2025, Amazon S3 has
@@ -24303,7 +24310,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:19761
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:19768
   def put_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # End of support notice: As of October 1, 2025, Amazon S3 has
@@ -24690,7 +24697,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_acl(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20152
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20159
   def put_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Attaches an annotation to an Amazon S3 object. An annotation is a
@@ -24886,7 +24893,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_annotation(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20349
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20356
   def put_object_annotation(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -25010,7 +25017,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_legal_hold(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20474
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20481
   def put_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -25136,7 +25143,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_lock_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20601
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20608
   def put_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -25275,7 +25282,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_retention(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20741
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20748
   def put_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -25467,7 +25474,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_object_tagging(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20934
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:20941
   def put_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -25579,7 +25586,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload put_public_access_block(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21047
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21054
   def put_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Renames an existing object in a directory bucket that uses the S3
@@ -25753,7 +25760,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload rename_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21224
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21231
   def rename_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -26137,7 +26144,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload restore_object(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21612
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:21619
   def restore_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -26538,7 +26545,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload select_object_content(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22019
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22026
   def select_object_content(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Updates the annotation table configuration for an Amazon S3 bucket's
@@ -26612,7 +26619,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload update_bucket_metadata_annotation_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22112
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22119
   def update_bucket_metadata_annotation_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Enables or disables a live inventory table for an S3 Metadata
@@ -26713,7 +26720,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload update_bucket_metadata_inventory_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22215
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22222
   def update_bucket_metadata_inventory_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Enables or disables journal table record expiration for an S3 Metadata
@@ -26792,7 +26799,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload update_bucket_metadata_journal_table_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22296
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22303
   def update_bucket_metadata_journal_table_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets or Amazon S3 on
@@ -27041,7 +27048,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload update_object_encryption(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22548
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:22555
   def update_object_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Uploads a part in a multipart upload.
@@ -27590,7 +27597,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload upload_part(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:23103
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:23110
   def upload_part(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Uploads a part by copying data from an existing object as data source.
@@ -28187,7 +28194,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload upload_part_copy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:23706
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:23713
   def upload_part_copy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Polls an API operation until a resource enters a desired state.
@@ -28276,13 +28283,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @option options [Proc] :before_attempt
   # @option options [Proc] :before_wait
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24307
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24314
   def wait_until(waiter_name, params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24315
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24322
   def waiter_names; end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -28763,7 +28770,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @overload write_get_object_response(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24189
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24196
   def write_get_object_response(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   private
@@ -28771,21 +28778,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @param [Symbol] waiter_name
   # @param [Hash] options ({})
   #
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24323
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24330
   def waiter(waiter_name, options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24332
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24339
   def waiters; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24347
+    # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24354
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24344
+    # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/client.rb:24351
     def identifier; end
   end
 end
@@ -31160,18 +31167,18 @@ Aws::S3::DirectoryDownloader::ObjectProducer::DONE_MARKER = T.let(T.unsafe(nil),
 
 # @api private
 #
-# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:219
+# pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:224
 class Aws::S3::DirectoryDownloader::ObjectProducer::DownloadEntry
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:220
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:225
   def initialize(opts = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:231
   def error; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:231
   def params; end
 
-  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:226
+  # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/directory_downloader.rb:231
   def path; end
 end
 
@@ -36273,6 +36280,24 @@ class Aws::S3::MultipartUpload
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:123
   def client; end
 
+  # Completes the upload, requires a list of completed parts. You can
+  # provide the list of parts with `:part_number` and `:etag` values.
+  #
+  #     upload.complete(multipart_upload: { parts: [
+  #       { part_number: 1, etag:'etag1' },
+  #       { part_number: 2, etag:'etag2' },
+  #       ...
+  #     ]})
+  #
+  # Alternatively, you can pass **`compute_parts: true`** and the part
+  # list will be computed by calling {Client#list_parts}.
+  #
+  #     upload.complete(compute_parts: true)
+  #
+  # @option options [Boolean] :compute_parts (false) When `true`,
+  #   the {Client#list_parts} method will be called to determine
+  #   the list of required part numbers and their ETags.
+  #
   # @example Request syntax with placeholder values
   #
   #   object = multipart_upload.complete({
@@ -36533,23 +36558,6 @@ class Aws::S3::MultipartUpload
   #
   #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # @return [Object]
-  # Completes the upload, requires a list of completed parts. You can
-  # provide the list of parts with `:part_number` and `:etag` values.
-  #
-  #     upload.complete(multipart_upload: { parts: [
-  #       { part_number: 1, etag:'etag1' },
-  #       { part_number: 2, etag:'etag2' },
-  #       ...
-  #     ]})
-  #
-  # Alternatively, you can pass **`compute_parts: true`** and the part
-  # list will be computed by calling {Client#list_parts}.
-  #
-  #     upload.complete(compute_parts: true)
-  #
-  # @option options [Boolean] :compute_parts (false) When `true`,
-  #   the {Client#list_parts} method will be called to determine
-  #   the list of required part numbers and their ETags.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload.rb:563
   def complete(options = T.unsafe(nil)); end
@@ -36839,7 +36847,7 @@ class Aws::S3::MultipartUploadError < ::StandardError
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload_error.rb:8
   def initialize(message, errors = T.unsafe(nil)); end
 
-  # @return [Array<StandardError>] The list of errors encountered when uploading or aborting the upload.
+  # @return [Array<Exception>] The list of errors encountered when uploading or aborting the upload.
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/multipart_upload_error.rb:14
   def errors; end
@@ -37873,95 +37881,6 @@ class Aws::S3::Object
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:352
   def content_type; end
 
-  # Make the method redefinable
-  # Copies another object to this object. Use `multipart_copy: true`
-  # for large objects. This is required for objects that exceed 5GB.
-  #
-  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
-  #   source Where to copy object data from. `source` must be one of the
-  #   following:
-  #
-  #   * {Aws::S3::Object}
-  #   * {Aws::S3::ObjectSummary}
-  #   * {Aws::S3::ObjectVersion}
-  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
-  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
-  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
-  #
-  # @option options [Boolean] :multipart_copy (false) When `true`,
-  #   the object will be copied using the multipart APIs. This is
-  #   necessary for objects larger than 5GB and can provide
-  #   performance improvements on large objects. Amazon S3 does
-  #   not accept multipart copies for objects smaller than 5MB.
-  #   Object metadata such as Content-Type will be copied, however,
-  #   Checksums are not copied.
-  #
-  # @option options [Integer] :content_length Only used when
-  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
-  #   request to query the source object size but prevents object metadata
-  #   from being copied. Raises an `ArgumentError` if
-  #   this option is provided when `:multipart_copy` is `false` or not set.
-  #
-  # @option options [S3::Client] :copy_source_client Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided `:content_length`.
-  #
-  # @option options [String] :copy_source_region Only used when
-  #   `:multipart_copy` is `true` and the source object is in a
-  #   different region. You do not need to specify this option
-  #   if you have provided a `:source_client` or a `:content_length`.
-  #
-  # @option options [Boolean] :use_source_parts (false) Only used when
-  #   `:multipart_copy` is `true`. Use part sizes defined on the source
-  #   object if any exist. If copying or moving an object that
-  #   is already multipart, this does not re-part the object, instead
-  #   re-using the part definitions on the original. That means the etag
-  #   and any checksums will not change. This is especially useful if the
-  #   source object has parts with varied sizes.
-  #
-  # @option options [String] :tags_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   tags are fetched and applied to the destination via PutObjectTagging.
-  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
-  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
-  #   is passed to CreateMultipartUpload directly. Works with or without
-  #   `:content_length` — tags are fetched from source regardless of
-  #   whether HeadObject is skipped.
-  #
-  # @option options [String] :annotations_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
-  #   annotations are fetched and applied to the destination after the
-  #   multipart upload completes. Works with or without `:content_length`.
-  #
-  # @option options [String] :metadata_directive Only used when
-  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
-  #   from HeadObject is not merged into CreateMultipartUpload — only
-  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
-  #   Has no effect when `:content_length` is provided since HeadObject
-  #   is already skipped.
-  #
-  # @example Basic object copy
-  #
-  #   bucket = Aws::S3::Bucket.new('target-bucket')
-  #   object = bucket.object('target-key')
-  #
-  #   # source as String
-  #   object.copy_from('source-bucket/source-key')
-  #
-  #   # source as Hash
-  #   object.copy_from(bucket:'source-bucket', key:'source-key')
-  #
-  #   # source as Aws::S3::Object
-  #   object.copy_from(bucket.object('source-key'))
-  #
-  # @example Managed copy of large objects
-  #
-  #   # uses multipart upload APIs to copy object
-  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
-  #
-  # @see #copy_to
-  #
   # @example Request syntax with placeholder values
   #
   #   object.copy_from({
@@ -38782,6 +38701,94 @@ class Aws::S3::Object
   #   the request fails with the HTTP status code `403 Forbidden` (access
   #   denied).
   # @return [Types::CopyObjectOutput]
+  # Make the method redefinable
+  # Copies another object to this object. Use `multipart_copy: true`
+  # for large objects. This is required for objects that exceed 5GB.
+  #
+  # @param [S3::Object, S3::ObjectVersion, S3::ObjectSummary, String, Hash]
+  #   source Where to copy object data from. `source` must be one of the
+  #   following:
+  #
+  #   * {Aws::S3::Object}
+  #   * {Aws::S3::ObjectSummary}
+  #   * {Aws::S3::ObjectVersion}
+  #   * Hash - with `:bucket` and `:key` and optional `:version_id`
+  #   * String - formatted like `"source-bucket-name/uri-escaped-key"`
+  #     or `"source-bucket-name/uri-escaped-key?versionId=version-id"`
+  #
+  # @option options [Boolean] :multipart_copy (false) When `true`,
+  #   the object will be copied using the multipart APIs. This is
+  #   necessary for objects larger than 5GB and can provide
+  #   performance improvements on large objects. Amazon S3 does
+  #   not accept multipart copies for objects smaller than 5MB.
+  #   Object metadata such as Content-Type will be copied, however,
+  #   Checksums are not copied.
+  #
+  # @option options [Integer] :content_length Only used when
+  #   `:multipart_copy` is `true`. Passing this options avoids a HEAD
+  #   request to query the source object size but prevents object metadata
+  #   from being copied. Raises an `ArgumentError` if
+  #   this option is provided when `:multipart_copy` is `false` or not set.
+  #
+  # @option options [S3::Client] :copy_source_client Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided `:content_length`.
+  #
+  # @option options [String] :copy_source_region Only used when
+  #   `:multipart_copy` is `true` and the source object is in a
+  #   different region. You do not need to specify this option
+  #   if you have provided a `:source_client` or a `:content_length`.
+  #
+  # @option options [Boolean] :use_source_parts (false) Only used when
+  #   `:multipart_copy` is `true`. Use part sizes defined on the source
+  #   object if any exist. If copying or moving an object that
+  #   is already multipart, this does not re-part the object, instead
+  #   re-using the part definitions on the original. That means the etag
+  #   and any checksums will not change. This is especially useful if the
+  #   source object has parts with varied sizes.
+  #
+  # @option options [String] :tags_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   tags are fetched and applied to the destination via PutObjectTagging.
+  #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
+  #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
+  #   is passed to CreateMultipartUpload directly. Works with or without
+  #   `:content_length` — tags are fetched from source regardless of
+  #   whether HeadObject is skipped.
+  #
+  # @option options [String] :annotations_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+  #   annotations are fetched and applied to the destination after the
+  #   multipart upload completes. Works with or without `:content_length`.
+  #
+  # @option options [String] :metadata_directive Only used when
+  #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
+  #   from HeadObject is not merged into CreateMultipartUpload — only
+  #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
+  #   Has no effect when `:content_length` is provided since HeadObject
+  #   is already skipped.
+  #
+  # @example Basic object copy
+  #
+  #   bucket = Aws::S3::Bucket.new('target-bucket')
+  #   object = bucket.object('target-key')
+  #
+  #   # source as String
+  #   object.copy_from('source-bucket/source-key')
+  #
+  #   # source as Hash
+  #   object.copy_from(bucket:'source-bucket', key:'source-key')
+  #
+  #   # source as Aws::S3::Object
+  #   object.copy_from(bucket.object('source-key'))
+  #
+  # @example Managed copy of large objects
+  #
+  #   # uses multipart upload APIs to copy object
+  #   object.copy_from('src-bucket/src-key', multipart_copy: true)
+  #
+  # @see #copy_to
   #
   # pkg:gem/aws-sdk-s3#lib/aws-sdk-s3/object.rb:1654
   def copy_from(source, options = T.unsafe(nil)); end

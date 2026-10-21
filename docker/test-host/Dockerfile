@@ -1,6 +1,6 @@
 # Fake host for script/test_docker_host_provisioning. Ubuntu 24.04 + systemd
 # + sshd so DockerHostSetupService can SSH in and run its scripts.
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV container=docker

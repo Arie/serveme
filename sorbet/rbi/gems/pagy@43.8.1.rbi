@@ -746,6 +746,19 @@ module Pagy::I18n::P11n::Polish
   end
 end
 
+# pkg:gem/pagy#lib/pagy/modules/i18n/p11n/romanian.rb:6
+module Pagy::I18n::P11n::Romanian
+  private
+
+  # pkg:gem/pagy#lib/pagy/modules/i18n/p11n/romanian.rb:9
+  def plural_for(n = T.unsafe(nil)); end
+
+  class << self
+    # pkg:gem/pagy#lib/pagy/modules/i18n/p11n/romanian.rb:9
+    def plural_for(n = T.unsafe(nil)); end
+  end
+end
+
 # pkg:gem/pagy#lib/pagy/modules/i18n/p11n/west_slavic.rb:6
 module Pagy::I18n::P11n::WestSlavic
   private
@@ -862,10 +875,10 @@ module Pagy::Keyset::Adapters; end
 #
 # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:7
 module Pagy::Keyset::Adapters::ActiveRecord
-  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:38
+  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:39
   def apply_where(predicate, arguments); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:32
+  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:33
   def ensure_select; end
 
   # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:8
@@ -877,11 +890,11 @@ module Pagy::Keyset::Adapters::ActiveRecord
   # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:18
   def quoted_identifiers(table); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:23
+  # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:24
   def typecast(attributes); end
 
   class << self
-    # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:42
+    # pkg:gem/pagy#lib/pagy/classes/keyset/adapters/active_record.rb:43
     def included(including); end
   end
 end

@@ -12,7 +12,7 @@
 # ============================================================
 # Stage: rcon-build (compile rcon CLI tool)
 # ============================================================
-FROM ubuntu:24.04 AS rcon-build
+FROM ubuntu:26.04 AS rcon-build
 RUN apt-get update && apt-get install -y build-essential git cmake libglib2.0-dev \
     && git clone https://github.com/n0la/rcon.git /tmp/rcon \
     && cd /tmp/rcon && sed -i '/ADD_SUBDIRECTORY(tests)/d' CMakeLists.txt && cmake . && make \
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y build-essential git cmake libglib2.0-de
 # ============================================================
 # Stage: tf2-base (Ubuntu + SteamCMD + TF2 dedicated server)
 # ============================================================
-FROM ubuntu:24.04 AS tf2-base
+FROM ubuntu:26.04 AS tf2-base
 
 RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
     && echo steam steam/license note '' | debconf-set-selections \

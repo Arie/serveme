@@ -193,7 +193,7 @@ class Aws::EventStream::Encoder
   #   will be returned. Else, encoded binary string is
   #   returned.
   #
-  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:63
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:71
   def encode(message, io = T.unsafe(nil)); end
 
   # Encodes headers part of an Aws::EventStream::Message
@@ -203,7 +203,7 @@ class Aws::EventStream::Encoder
   #
   # @return [String]
   #
-  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:110
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:118
   def encode_headers(message); end
 
   # Encodes an Aws::EventStream::Message
@@ -213,23 +213,42 @@ class Aws::EventStream::Encoder
   #
   # @return [String]
   #
-  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:79
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:87
   def encode_message(message); end
 
   private
 
-  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:135
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:173
   def encode_prelude(total_length, headers_length); end
+
+  # Fixed-width values carry no length prefix, so a value that does not fit its
+  # protocol width would either be silently truncated by #pack (integers) or
+  # misalign the header block (uuid). Reject both before anything is written.
+  #
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:157
+  def validate_fixed_width_value!(value, width); end
 end
 
 # Maximum header length allowed (after encode) 128kb
 #
-# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:45
+# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:53
 Aws::EventStream::Encoder::MAX_HEADERS_LENGTH = T.let(T.unsafe(nil), Integer)
+
+# Maximum encoded length of a single header name (1-byte unsigned length field)
+#
+# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:45
+Aws::EventStream::Encoder::MAX_HEADER_NAME_LENGTH = T.let(T.unsafe(nil), Integer)
+
+# Maximum encoded length of a string/bytes header value. The length field is two bytes
+# (and could hold 65,535), but the protocol caps the value at the signed 16-bit maximum
+# (INT16_MAX, 2**15 - 1), so the encoder must enforce the lower limit.
+#
+# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:50
+Aws::EventStream::Encoder::MAX_HEADER_VALUE_LENGTH = T.let(T.unsafe(nil), Integer)
 
 # Maximum payload length allowed (after encode) 24mb
 #
-# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:48
+# pkg:gem/aws-eventstream#lib/aws-eventstream/encoder.rb:56
 Aws::EventStream::Encoder::MAX_PAYLOAD_LENGTH = T.let(T.unsafe(nil), Integer)
 
 # bytes of total overhead in a message, including prelude
@@ -240,6 +259,30 @@ Aws::EventStream::Encoder::OVERHEAD_LENGTH = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:5
 module Aws::EventStream::Errors; end
+
+# Raised when an encoded header name exceeds the 255-byte protocol limit
+#
+# pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:48
+class Aws::EventStream::Errors::EventHeaderNameLengthExceedError < ::RuntimeError
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:49
+  def initialize(*args); end
+end
+
+# Raised when an encoded header value exceeds the 32767-byte (INT16_MAX) protocol limit
+#
+# pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:55
+class Aws::EventStream::Errors::EventHeaderValueLengthExceedError < ::RuntimeError
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:56
+  def initialize(*args); end
+end
+
+# Raised when a fixed-width header value does not fit its protocol width
+#
+# pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:62
+class Aws::EventStream::Errors::EventHeaderValueWidthError < ::RuntimeError
+  # pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:63
+  def initialize(type = T.unsafe(nil), *args); end
+end
 
 # pkg:gem/aws-eventstream#lib/aws-eventstream/errors.rb:41
 class Aws::EventStream::Errors::EventHeadersLengthExceedError < ::RuntimeError

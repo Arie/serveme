@@ -53,7 +53,7 @@
 # pkg:gem/net-ssh#lib/net/ssh/config.rb:2
 module Net::SSH
   class << self
-    # pkg:gem/net-ssh#lib/net/ssh.rb:372
+    # pkg:gem/net-ssh#lib/net/ssh.rb:373
     def assign_defaults(options); end
 
     # Returns a hash of the configuration options for the given host, as read
@@ -66,7 +66,7 @@ module Net::SSH
     #
     # See Net::SSH::Config for the full description of all supported options.
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:362
+    # pkg:gem/net-ssh#lib/net/ssh.rb:363
     def configuration_for(host, use_ssh_config); end
 
     # The standard means of starting a new SSH connection. When used with a
@@ -120,21 +120,21 @@ module Net::SSH
     #   for setting up a connection (:keys, :key_data, :password, :passphrase,
     #   :auth_methods, :verify_host_key, :known_hosts, :host_key, :kex,
     #   :encryption, :hmac, :compression, :rekey_*, :proxy, :keepalive and the
-    #   like); explicitly passed ones are named in a logger warning. Over the
+    #   like); explicitly passed ones are named at info level. Over the
     #   master, remote port forwarding (Service::Forward#remote and
     #   #cancel_remote) raises Net::SSH::NotSupportedOverControlMaster, as the
     #   master consumes the global request reply, so success, failure and the
     #   port allocated for port 0 can't be observed; other global requests
     #   raise it too. Agent and X11 forwarding requests raise it
-    #   too, and :forward_agent can't be combined with it, because the master
-    #   serves them from its own agent or display only if it has ForwardAgent
-    #   or ForwardX11 enabled itself, and rejects them otherwise. Keepalive and
-    #   rekeying are left to the master. ssh_config's ControlMaster is
-    #   ignored, only this option enables it. An invalid ControlPath raises
-    #   ArgumentError. A missing or stale socket is logged at info level, a
-    #   socket that can't be used (another owner, refused, wrong protocol,
-    #   timed out) at warn level. Has no effect on Windows. Defaults to
-    #   +false+.
+    #   too, and :forward_agent is ignored (logged at info level), because the
+    #   master serves them from its own agent or display only if it has
+    #   ForwardAgent or ForwardX11 enabled itself, and rejects them otherwise.
+    #   Keepalive and rekeying are left to the master. ssh_config's
+    #   ControlMaster is ignored, only this option enables it. An invalid
+    #   ControlPath raises ArgumentError. A missing or stale socket is logged
+    #   at info level, a socket that can't be used (another owner, refused,
+    #   wrong protocol, timed out) at warn level. Has no effect on Windows.
+    #   Defaults to +false+.
     # * :control_path => the ControlMaster socket to use with
     #   :control_master, with the same ~, ${ENV} and % tokens as ssh_config's
     #   ControlPath (%C, %d, %h, %i, %j, %k, %L, %l, %n, %p, %r, %u, %%).
@@ -149,7 +149,8 @@ module Net::SSH
     #   files. Defaults to +true+.
     # * :encryption => the encryption cipher (or ciphers) to use
     # * :forward_agent => set to true if you want the SSH agent connection to
-    #   be forwarded
+    #   be forwarded. Ignored for a session through a ControlMaster (see
+    #   :control_master).
     # * :known_hosts => a custom object holding known hosts records.
     #   It must implement #search_for and `add` in a similiar manner as KnownHosts.
     # * :global_known_hosts_file => the location of the global known hosts
@@ -276,15 +277,15 @@ module Net::SSH
     # If +user+ parameter is nil it defaults to USER from ssh_config, or
     # local username
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:283
+    # pkg:gem/net-ssh#lib/net/ssh.rb:284
     def start(host, user = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
     private
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:340
+    # pkg:gem/net-ssh#lib/net/ssh.rb:341
     def connect_directly(host, user, options); end
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:402
+    # pkg:gem/net-ssh#lib/net/ssh.rb:403
     def reject_nil_options(options); end
   end
 end
@@ -4077,7 +4078,7 @@ module Net::SSH::Multiplex
     # the option names the caller passed to Net::SSH.start. Raises
     # ArgumentError for an invalid ControlPath, as ssh does.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:49
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:45
     def connect(host_arg, host, user, options, explicit: T.unsafe(nil)); end
 
     # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:34
@@ -4085,27 +4086,27 @@ module Net::SSH::Multiplex
 
     private
 
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:105
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:101
     def jump_host(proxy); end
+
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:107
+    def log_master_owned(logger, explicit); end
 
     # ENOENT and ECONNREFUSED just mean no master is running, while the
     # other errors mean a socket is there but can't be used.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:70
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:66
     def open_proxy(path, options); end
 
     # Keepalive is a global request, which the master doesn't allow; it
-    # watches its own connection anyway. ForwardAgent from ssh_config is
-    # dropped for the reason given in validate_options!.
+    # watches its own connection anyway. The master serves agent requests
+    # from its own agent only if it has ForwardAgent enabled itself.
     #
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:121
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:117
     def session_options(logger, options); end
 
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:80
+    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:76
     def socket_path(host_arg, host, user, options); end
-
-    # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:111
-    def warn_master_owned(logger, explicit); end
   end
 end
 
@@ -4419,10 +4420,10 @@ Net::SSH::Multiplex::ProxyTransport::UNSUPPORTED_CHANNEL_REQUESTS = T.let(T.unsa
 # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:32
 Net::SSH::Multiplex::VALUES = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/net-ssh#lib/net/ssh.rb:385
+# pkg:gem/net-ssh#lib/net/ssh.rb:386
 Net::SSH::NIL_ALLOWED_OPTIONS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/net-ssh#lib/net/ssh.rb:387
+# pkg:gem/net-ssh#lib/net/ssh.rb:388
 Net::SSH::NIL_OPTION_HINTS = T.let(T.unsafe(nil), Hash)
 
 # Raised when a session connected through an OpenSSH ControlMaster (see the
@@ -6371,26 +6372,26 @@ class Net::SSH::Transport::Session
   # options. This is typically used to define the cipher, compression, and
   # hmac algorithms to use when sending packets to the server.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:278
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:279
   def configure_client(options = T.unsafe(nil)); end
 
   # Configure's the packet stream's server state with the given set of
   # options. This is typically used to define the cipher, compression, and
   # hmac algorithms to use when reading packets from the server.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:285
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:286
   def configure_server(options = T.unsafe(nil)); end
 
   # Enqueues the given message, such that it will be sent at the earliest
   # opportunity. This does not block, but returns immediately.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:271
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:272
   def enqueue_message(message); end
 
   # Sets a new hint for the packet stream, which the packet stream may use
   # to change its behavior. (See PacketStream#hints).
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:291
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:292
   def hint(which, value = T.unsafe(nil)); end
 
   # The host to connect to, as given to the constructor.
@@ -6458,12 +6459,12 @@ class Net::SSH::Transport::Session
   # #poll_message will return packets from the queue in the order they
   # were received.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:254
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:255
   def push(packet); end
 
   # this method is primarily for use in tests
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:298
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:299
   def queue; end
 
   # Requests a rekey operation, and blocks until the operation completes.
@@ -6483,7 +6484,7 @@ class Net::SSH::Transport::Session
   # Sends the given message via the packet stream, blocking until the
   # entire message has been sent.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:265
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:266
   def send_message(message); end
 
   # The ServerVersion instance that encapsulates the negotiated protocol
@@ -6516,7 +6517,7 @@ class Net::SSH::Transport::Session
   # this just waits long enough to see if there are any pending packets. Any
   # packets read are enqueued (see #push).
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:241
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:242
   def wait; end
 
   private
@@ -6535,7 +6536,7 @@ class Net::SSH::Transport::Session
   # If the argument happens to respond to :verify and :verify_signature,
   # it is returned directly. Otherwise, an exception is raised.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:340
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:341
   def select_host_key_verifier(verifier); end
 
   # Turns Nagle's algorithm off on the socket, so that a packet written
@@ -6544,10 +6545,10 @@ class Net::SSH::Transport::Session
   # transport a pipe rather than a socket, and the command on its other
   # end owns the TCP connection, so there is nothing to set in that case.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:313
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:314
   def set_no_delay; end
 
-  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:302
+  # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:303
   def shift_queue; end
 end
 
@@ -6564,7 +6565,7 @@ Net::SSH::Transport::Session::MAX_QUEUED_BYTES = T.let(T.unsafe(nil), Integer)
 # pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:31
 Net::SSH::Transport::Session::MAX_QUEUED_PACKETS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:320
+# pkg:gem/net-ssh#lib/net/ssh/transport/session.rb:321
 Net::SSH::Transport::Session::REMOVED_VERIFY_HOST_KEY_VALUES = T.let(T.unsafe(nil), Hash)
 
 # Encapsulates state information about one end of an SSH connection. Such

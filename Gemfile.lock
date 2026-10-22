@@ -432,7 +432,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-smtp (0.5.2)
       net-protocol
-    net-ssh (8.0.1)
+    net-ssh (8.0.2)
       logger
       openssl (>= 3.2.0)
     netrc (0.11.0)

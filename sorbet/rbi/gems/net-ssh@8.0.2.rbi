@@ -4746,14 +4746,14 @@ class Net::SSH::Service::Forward
 
   # The callback used when an auth-agent channel is requested by the server.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:412
+  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:418
   def auth_agent_channel(session, channel, packet); end
 
   # The callback used when a new "forwarded-tcpip" channel is requested
   # by the server.  This will open a new socket to the host/port specified
   # when the forwarded connection was first requested.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:390
+  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:396
   def forwarded_tcpip(session, channel, packet); end
 
   # Perform setup operations that are common to all forwarded channels.
@@ -4765,7 +4765,7 @@ class Net::SSH::Service::Forward
 
   # not a real socket, so use a simpler behaviour
   #
-  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:370
+  # pkg:gem/net-ssh#lib/net/ssh/service/forward.rb:374
   def prepare_simple_client(client, channel, type); end
 end
 

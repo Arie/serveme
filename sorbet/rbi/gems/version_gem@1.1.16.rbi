@@ -7,7 +7,7 @@
 
 # Namespace of this library
 #
-# pkg:gem/version_gem#lib/version_gem/version.rb:3
+# pkg:gem/version_gem#lib/version_gem/error.rb:3
 module VersionGem; end
 
 # Public API of this library

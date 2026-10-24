@@ -378,7 +378,7 @@ class Rack::Protection::EscapedParams < ::Rack::Protection::Base
   extend ::Rack::Utils
 
   # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:36
-  def initialize(*_arg0); end
+  def initialize(*); end
 
   # pkg:gem/rack-protection#lib/rack/protection/escaped_params.rb:50
   def call(env); end
@@ -470,7 +470,7 @@ end
 # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:22
 class Rack::Protection::HostAuthorization < ::Rack::Protection::Base
   # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:33
-  def initialize(*_arg0); end
+  def initialize(*); end
 
   # pkg:gem/rack-protection#lib/rack/protection/host_authorization.rb:55
   def accepts?(env); end

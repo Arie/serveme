@@ -10,6 +10,7 @@
 #
 # Loaded automatically by bin/kamal via RUBYOPT.
 
+require "bundler/setup"
 require "kamal"
 
 module Kamal::Commands::AppLogdaemonNetworkOverride

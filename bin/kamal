@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Wraps the real kamal CLI with our project-local Ruby patch
 # (.kamal/patches.rb) so the logdaemon role can use --network host.
-# Use this script anywhere you'd otherwise type `mise x -- kamal …`.
+# Kamal has its own bundle (.kamal/Gemfile): it needs net-ssh 7, the app 8.
+# Use this script anywhere you'd otherwise type `kamal …`.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export RUBYOPT="${RUBYOPT:-} -r$(pwd)/.kamal/patches.rb"
+export BUNDLE_GEMFILE="$(pwd)/.kamal/Gemfile"
 exec mise x -- kamal "$@"

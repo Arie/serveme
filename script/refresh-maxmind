@@ -10,7 +10,7 @@ mise x -- bundle exec rake maxmind:fetch
 roll_region() {
   local region=$1 deploy_user=$2 roles=$3
   DEPLOY_SSH_USER="$deploy_user" bin/kamal-bootstrap "$region"
-  mise x -- kamal app boot -d "$region" -r "$roles"
+  bin/kamal app boot -d "$region" -r "$roles"
 }
 
 roll_region eu  tf2  web,sidekiq,sidekiq2,discord_bot &

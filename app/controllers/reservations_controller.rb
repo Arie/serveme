@@ -158,7 +158,7 @@ class ReservationsController < ApplicationController
   # The live STV map (stv.tf) of a running reservation. Admins only for now.
   def watch
     watched = viewable_reservation
-    unless StvtfToken.enabled? && watched&.now? && watched.server && !watched.server&.sdr? && watched.stv_connect_string
+    unless StvtfToken.enabled? && watched&.stv_watchable?
       flash[:alert] = "The live map is only available while the reservation is running, and not on SDR servers"
       return redirect_to(watched ? reservation_path(watched) : root_path)
     end

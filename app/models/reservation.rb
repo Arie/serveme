@@ -80,6 +80,12 @@ class Reservation < ActiveRecord::Base
     times_entered? && T.must(starts_at) < Time.current && T.must(ends_at) > Time.current
   end
 
+  # stv.tf can watch it: running, and not behind SDR.
+  sig { returns(T::Boolean) }
+  def stv_watchable?
+    now? && !!server && !server&.sdr? && stv_connect_string.present?
+  end
+
   sig { returns(T::Boolean) }
   def active?
     now? && provisioned?

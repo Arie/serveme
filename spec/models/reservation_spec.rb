@@ -140,6 +140,19 @@ describe Reservation do
     end
   end
 
+  describe '#stv_watchable?' do
+    it 'is watchable while running on a server without SDR' do
+      reservation = create(:reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now)
+      expect(reservation).to be_stv_watchable
+      reservation.server.update!(sdr: true)
+      expect(reservation).not_to be_stv_watchable
+    end
+
+    it 'is not watchable before it starts' do
+      expect(create(:reservation, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now)).not_to be_stv_watchable
+    end
+  end
+
   describe '#past?' do
     it 'is in the past when the end time is in the past' do
       subject.stub(ends_at: 1.second.ago)

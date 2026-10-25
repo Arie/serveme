@@ -106,6 +106,9 @@ module GeneratedPathHelpersModule
   def api_servers_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_stv_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -638,6 +641,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def stripe_webhook_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stv_api_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def stv_path(*args); end

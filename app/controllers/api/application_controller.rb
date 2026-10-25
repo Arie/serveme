@@ -52,6 +52,14 @@ module Api
 
     private
 
+    def render_stv_link(connect)
+      render json: { url: StvtfToken.start_url(connect: connect, owner: nil), expires_at: StvtfToken::TTL.seconds.from_now }
+    end
+
+    def render_stv_unavailable
+      render json: { error: "stv.tf is not available in this region" }, status: :service_unavailable
+    end
+
     def authenticate_params
       User.find_by(api_key: params[:api_key]) if params[:api_key]
     end

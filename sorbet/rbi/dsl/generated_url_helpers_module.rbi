@@ -106,6 +106,9 @@ module GeneratedUrlHelpersModule
   def api_servers_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_stv_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_user_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -638,6 +641,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def stripe_webhook_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stv_api_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def stv_url(*args); end

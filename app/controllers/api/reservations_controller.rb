@@ -96,6 +96,13 @@ module Api
       }
     end
 
+    def stv
+      return render_stv_unavailable unless StvtfToken.enabled?
+      return render(json: { error: "stv.tf can only watch a running reservation, and not on SDR servers" }, status: :unprocessable_entity) unless reservation.stv_watchable?
+
+      render_stv_link(T.must(reservation.stv_connect_string))
+    end
+
     def extend
       if writable_reservation.extend!
         @reservation = writable_reservation

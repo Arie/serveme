@@ -1323,6 +1323,123 @@ paths:
           description: Unauthorized
         '404':
           description: Reservation or logfile not found
+  "/api/reservations/{id}/stv":
+    get:
+      summary: Get an stv.tf live map link for a reservation
+      tags:
+      - stv.tf
+      description: Returns a short-lived stv.tf link that opens the live top-down
+        map of a running reservation, for any reservation this API key can read. Everyone
+        opening a link for the same reservation watches the same match. In an iframe,
+        the map sends what happens to the parent page with postMessage, see https://github.com/Arie/stvtf-web#embedding
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Live map link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: stv.tf start link, for a browser or an iframe src.
+                      Append view=overlay, delay=<seconds> or overlay options (names=1,
+                      score=1, panel=0.6, ...) to choose where it lands.
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: The link must be opened before this, so fetch one
+                      each time a page is shown
+                required:
+                - url
+                - expires_at
+        '422':
+          description: The reservation is not running, or is on an SDR server
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+  "/api/stv":
+    post:
+      summary: Get an stv.tf live map link for any SourceTV
+      tags:
+      - stv.tf
+      description: Checks that a SourceTV answers at a public address and returns
+        a short-lived stv.tf link to its live top-down map, like the form at /stv.
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Live map link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: stv.tf start link, for a browser or an iframe src.
+                      Append view=overlay, delay=<seconds> or overlay options (names=1,
+                      score=1, panel=0.6, ...) to choose where it lands.
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: The link must be opened before this, so fetch one
+                      each time a page is shown
+                required:
+                - url
+                - expires_at
+        '422':
+          description: No SourceTV answers there, or the address is not public
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                connect:
+                  type: string
+                  description: A SourceTV connect string (connect 1.2.3.4:27020; password
+                    "tv"), or an address and password (1.2.3.4:27020 tv)
+              required:
+              - connect
   "/api/donators/new":
     get:
       summary: Get new donator form template

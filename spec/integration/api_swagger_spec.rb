@@ -1183,6 +1183,117 @@ RSpec.describe 'serveme.tf API', type: :request do
     end
   end
 
+  stv_link_schema = {
+    type: :object,
+    properties: {
+      url: { type: :string, description: 'stv.tf start link, for a browser or an iframe src. Append view=overlay, delay=<seconds> or overlay options (names=1, score=1, panel=0.6, ...) to choose where it lands.' },
+      expires_at: { type: :string, format: 'date-time', description: 'The link must be opened before this, so fetch one each time a page is shown' }
+    },
+    required: %w[url expires_at]
+  }
+
+  stv_env = lambda do |example|
+    old = ENV.to_h.slice('STVTF_URL', 'STVTF_TOKEN_KEY')
+    ENV['STVTF_URL'] = 'https://stv.tf'
+    ENV['STVTF_TOKEN_KEY'] = '44' * 32
+    example.run
+  ensure
+    %w[STVTF_URL STVTF_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
+  end
+
+  path '/api/reservations/{id}/stv' do
+    get 'Get an stv.tf live map link for a reservation' do
+      tags 'stv.tf'
+      produces 'application/json'
+      description 'Returns a short-lived stv.tf link that opens the live top-down map of a running reservation, for any reservation this API key can read. ' \
+                  'Everyone opening a link for the same reservation watches the same match. In an iframe, the map sends what happens to the parent page with postMessage, ' \
+                  'see https://github.com/Arie/stvtf-web#embedding'
+      parameter name: :id, in: :path, type: :integer, description: 'Reservation ID'
+      parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
+      security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
+
+      around(&stv_env)
+
+      response '200', 'Live map link' do
+        schema stv_link_schema
+        let(:api_key) { user.api_key }
+        let(:id) { create(:reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now).id }
+
+        run_test! do |response|
+          expect(JSON.parse(response.body)['url']).to start_with('https://stv.tf/start?t=')
+        end
+      end
+
+      response '422', 'The reservation is not running, or is on an SDR server' do
+        let(:api_key) { user.api_key }
+        let(:id) { create(:reservation, user: user, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now).id }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        let(:api_key) { 'invalid' }
+        let(:id) { 1 }
+
+        run_test!
+      end
+
+      response '404', 'Reservation not found' do
+        let(:api_key) { user.api_key }
+        let(:id) { create(:reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now).id }
+
+        run_test!
+      end
+    end
+  end
+
+  path '/api/stv' do
+    post 'Get an stv.tf live map link for any SourceTV' do
+      tags 'stv.tf'
+      consumes 'application/json'
+      produces 'application/json'
+      description 'Checks that a SourceTV answers at a public address and returns a short-lived stv.tf link to its live top-down map, like the form at /stv.'
+      parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: { connect: { type: :string, description: 'A SourceTV connect string (connect 1.2.3.4:27020; password "tv"), or an address and password (1.2.3.4:27020 tv)' } },
+        required: %w[connect]
+      }
+      security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
+
+      around(&stv_env)
+
+      response '200', 'Live map link' do
+        schema stv_link_schema
+        let(:api_key) { user.api_key }
+        let(:body) { { connect: 'connect 1.2.3.4:27020; password "tv"' } }
+
+        before { allow_any_instance_of(StvConnect).to receive(:check!) { |c| c } }
+
+        run_test! do |response|
+          expect(JSON.parse(response.body)['url']).to start_with('https://stv.tf/start?t=')
+        end
+      end
+
+      response '422', 'No SourceTV answers there, or the address is not public' do
+        schema type: :object, properties: { error: { type: :string } }, required: %w[error]
+        let(:api_key) { user.api_key }
+        let(:body) { { connect: '192.168.1.2:27020' } }
+
+        run_test! do |response|
+          expect(JSON.parse(response.body)['error']).to include('not a public address')
+        end
+      end
+
+      response '401', 'Unauthorized' do
+        let(:api_key) { 'invalid' }
+        let(:body) { { connect: '1.2.3.4:27020' } }
+
+        run_test!
+      end
+    end
+  end
+
   # Donators API (Admin only)
   path '/api/donators/new' do
     get 'Get new donator form template' do

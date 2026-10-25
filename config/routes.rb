@@ -201,11 +201,14 @@ Serveme::Application.routes.draw do
       member do
         post :extend
         get :log_lines
+        get :stv
       end
       collection do
         post :find_servers
       end
     end
+
+    post "stv", to: "live_maps#create"
 
     resources :cloud_servers, only: [] do
       member do

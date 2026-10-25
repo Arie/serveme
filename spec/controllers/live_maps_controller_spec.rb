@@ -20,16 +20,10 @@ describe LiveMapsController do
     allow_any_instance_of(StvConnect).to receive(:check!) { |c| c }
   end
 
-  it 'sends a checked address to the map server, one match at a time for a user' do
-    expect(StvtfToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: user.uid).and_call_original
+  it 'sends a checked address to the map server with an unlimited token' do
+    expect(StvtfToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: nil).and_call_original
     post :create, params: { connect: ' 1.2.3.4:27020 tv ' }
     expect(response.location).to start_with('https://stv.tf/start?t=')
-  end
-
-  it 'gives admins unlimited matches' do
-    user.groups << Group.admin_group
-    expect(StvtfToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: nil).and_call_original
-    post :create, params: { connect: 'connect 1.2.3.4:27020; password "tv"' }
   end
 
   it 'shows what is wrong with the address' do

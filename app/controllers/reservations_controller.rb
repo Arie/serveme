@@ -163,7 +163,7 @@ class ReservationsController < ApplicationController
       return redirect_to(watched ? reservation_path(watched) : root_path)
     end
 
-    redirect_to StvtfToken.start_url(connect: T.must(watched.stv_connect_string), owner: live_map_owner), allow_other_host: true
+    redirect_to StvtfToken.start_url(connect: T.must(watched.stv_connect_string), owner: nil), allow_other_host: true
   end
 
   def streaming
@@ -352,10 +352,6 @@ class ReservationsController < ApplicationController
 
   def viewable_reservation
     @reservation ||= find_reservation_for_viewing
-  end
-
-  def live_map_owner
-    current_admin || current_league_admin || current_streamer ? nil : current_user.uid
   end
 
   def find_reservation_for_download

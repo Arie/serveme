@@ -34,18 +34,18 @@ describe ReservationsController do
       %w[STVTF_URL STVTF_TOKEN_KEY].each { |k| old.key?(k) ? ENV[k] = old[k] : ENV.delete(k) }
     end
 
-    it 'sends a running reservation to the map server with an unlimited token for an admin' do
+    it 'sends a running reservation to the map server with an unlimited token' do
       reservation = create :reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
       expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: nil).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end
 
-    it 'sends a user their own running reservation, one match at a time' do
+    it 'sends a user their own running reservation' do
       user = create :user
       sign_in user
       reservation = create :reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid).and_call_original
+      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: nil).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end

@@ -3,8 +3,8 @@
 
 # Start links for the live STV map (stvtf-web). The token is AES-256-GCM encrypted with a key the
 # map server shares, so the SourceTV password inside it is never readable in a URL:
-# base64url(12-byte nonce | ciphertext | 16-byte tag) of {connect, owner, exp}. A user (`owner`)
-# watches one match at a time; admins, league admins and streamers pass none and are unlimited.
+# base64url(12-byte nonce | ciphertext | 16-byte tag) of {connect, owner, exp}. An `owner` may
+# watch one match at a time; nil is unlimited.
 class StvtfToken
   extend T::Sig
 

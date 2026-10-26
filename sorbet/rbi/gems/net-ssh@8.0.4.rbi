@@ -53,7 +53,7 @@
 # pkg:gem/net-ssh#lib/net/ssh/config.rb:2
 module Net::SSH
   class << self
-    # pkg:gem/net-ssh#lib/net/ssh.rb:373
+    # pkg:gem/net-ssh#lib/net/ssh.rb:379
     def assign_defaults(options); end
 
     # Returns a hash of the configuration options for the given host, as read
@@ -66,7 +66,7 @@ module Net::SSH
     #
     # See Net::SSH::Config for the full description of all supported options.
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:363
+    # pkg:gem/net-ssh#lib/net/ssh.rb:369
     def configuration_for(host, use_ssh_config); end
 
     # The standard means of starting a new SSH connection. When used with a
@@ -216,6 +216,12 @@ module Net::SSH
     #   is +nil+, for no passphrase)
     # * :password => the password to use to login
     # * :port => the port to use when connecting to the remote host
+    # * :preopen_channels => set to +true+ to keep one spare "session" channel
+    #   open, so that Net::SSH::Connection::Session#open_channel can hand it
+    #   out at once and a command that waits for the previous one to finish
+    #   costs one round trip instead of two. The spare counts against the
+    #   server's MaxSessions; if the server refuses it, pre-opening stops for
+    #   the session. Defaults to +false+.
     # * :properties => a hash of key/value pairs to add to the new connection's
     #   properties (see Net::SSH::Connection::Session#properties)
     # * :proxy => a proxy instance (see Proxy) to use when connecting
@@ -277,15 +283,15 @@ module Net::SSH
     # If +user+ parameter is nil it defaults to USER from ssh_config, or
     # local username
     #
-    # pkg:gem/net-ssh#lib/net/ssh.rb:284
+    # pkg:gem/net-ssh#lib/net/ssh.rb:290
     def start(host, user = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
     private
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:341
+    # pkg:gem/net-ssh#lib/net/ssh.rb:347
     def connect_directly(host, user, options); end
 
-    # pkg:gem/net-ssh#lib/net/ssh.rb:403
+    # pkg:gem/net-ssh#lib/net/ssh.rb:409
     def reject_nil_options(options); end
   end
 end
@@ -2776,19 +2782,19 @@ class Net::SSH::Connection::Session
   # Create a new connection service instance atop the given transport
   # layer. Initializes the listeners to be only the underlying socket object.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:68
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:72
   def initialize(transport, options = T.unsafe(nil)); end
 
   # Retrieves a custom property from this instance. This can be used to
   # store additional state in applications that must manage multiple
   # SSH connections.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:96
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:105
   def [](key); end
 
   # Sets a custom property for this instance.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:101
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:110
   def []=(key, value); end
 
   # Returns +true+ if there are any channels currently active on this
@@ -2802,7 +2808,7 @@ class Net::SSH::Connection::Session
   #
   #   ssh.loop { ssh.busy? }
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:162
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:173
   def busy?(include_invisible = T.unsafe(nil)); end
 
   # The map of specialized handlers for opening specific channel types. See
@@ -2816,21 +2822,21 @@ class Net::SSH::Connection::Session
   # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:44
   def channels; end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:565
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:584
   def cleanup_channel(channel); end
 
   # Closes the session gracefully, blocking until all channels have
   # successfully closed, and then closes the underlying transport layer
   # connection.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:123
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:132
   def close; end
 
   # Internal and experimental, used by port forwarding: stops reading +io+
   # but keeps flushing its pending output, then closes it and stops
   # listening, as OpenSSH's chan_rcvd_oclose does.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:528
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:547
   def close_when_drained(io); end
 
   # Returns true if the underlying transport has been closed. Note that
@@ -2839,13 +2845,13 @@ class Net::SSH::Connection::Session
   # until the next operation on the socket. Nevertheless, this method can
   # be useful if you just want to know if _you_ have closed the connection.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:116
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:125
   def closed?; end
 
   # Returns the file descriptors the event loop should wait for read/write events,
   # we also return the max wait
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:267
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:280
   def ev_do_calculate_rw_wait(wait); end
 
   # It loops over the given arrays of reader IO's and writer IO's,
@@ -2853,19 +2859,19 @@ class Net::SSH::Connection::Session
   # then calls Net::SSH::Transport::Session#rekey_as_needed to allow the
   # transport layer to rekey. Then returns true.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:282
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:295
   def ev_do_handle_events(readers, writers); end
 
   # calls Net::SSH::Transport::Session#rekey_as_needed to allow the
   # transport layer to rekey
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:302
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:315
   def ev_do_postprocess(was_events); end
 
   # Called by event loop to process available data before going to
   # event multiplexing
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:260
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:271
   def ev_preprocess(&block); end
 
   # A convenience method for executing a command and interacting with it. If
@@ -2889,7 +2895,7 @@ class Net::SSH::Connection::Session
   #     end
   #   end
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:392
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:411
   def exec(command, status: T.unsafe(nil), &block); end
 
   # Same as #exec, except this will block until the command finishes. Also,
@@ -2903,19 +2909,19 @@ class Net::SSH::Connection::Session
   # Either way the returned string has an exitstatus method to query the
   # command's exit status.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:436
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:455
   def exec!(command, status: T.unsafe(nil), &block); end
 
   # Returns a reference to the Net::SSH::Service::Forward service, which can
   # be used for forwarding ports over SSH.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:536
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:555
   def forward; end
 
   # Returns the name of the host that was given to the transport layer to
   # connect to.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:107
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:116
   def host; end
 
   # Adds an IO object for the event loop to listen to. If a callback
@@ -2953,7 +2959,7 @@ class Net::SSH::Connection::Session
   #
   #   channel.wait
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:497
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:516
   def listen_to(io, &callback); end
 
   # The map of listeners that the event loop knows about. See #listen_to.
@@ -2979,14 +2985,14 @@ class Net::SSH::Connection::Session
   #   trap("INT") { int_pressed = true }
   #   ssh.loop(0.1) { not int_pressed }
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:189
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:200
   def loop(wait = T.unsafe(nil), &block); end
 
   # If the #preprocess and #postprocess callbacks for this session need to run
   # periodically, this method returns the maximum number of seconds which may
   # pass between callbacks.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:575
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:594
   def max_select_wait_time; end
 
   # Registers a handler to be invoked when the server sends a global request
@@ -2996,7 +3002,7 @@ class Net::SSH::Connection::Session
   # :sent. Otherwise, if it returns true, REQUEST_SUCCESS will be sent, and
   # if it returns false, REQUEST_FAILURE will be sent.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:560
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:579
   def on_global_request(type, &block); end
 
   # Registers a handler to be invoked when the server wants to open a
@@ -3010,7 +3016,7 @@ class Net::SSH::Connection::Session
   # when a remote forwarded port receives a connection. However, you are
   # welcome to register handlers for other channel types, as needed.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:550
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:569
   def on_open_channel(type, &block); end
 
   # Requests that a new channel be opened. By default, the channel will be
@@ -3033,7 +3039,11 @@ class Net::SSH::Connection::Session
   #
   #   channel.wait
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:351
+  # With the :preopen_channels option a plain "session" channel reuses
+  # the spare opened ahead of time, if there is one. Its callback still
+  # runs from the event loop, as if the server had just confirmed it.
+  #
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:368
   def open_channel(type = T.unsafe(nil), *extra, &on_confirm); end
 
   # The map of options that were used to initialize this instance.
@@ -3044,7 +3054,7 @@ class Net::SSH::Connection::Session
   # Internal and experimental, used by port forwarding: stops the event
   # loop from reading +io+ while it keeps flushing its pending output.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:511
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:530
   def pause_reading(io); end
 
   # The list of callbacks for pending requests. See #send_global_request.
@@ -3054,7 +3064,7 @@ class Net::SSH::Connection::Session
 
   # This is called internally as part of #process.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:274
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:287
   def postprocess(readers, writers); end
 
   # This is called internally as part of #process. It dispatches any
@@ -3063,7 +3073,7 @@ class Net::SSH::Connection::Session
   # start of the method and again at the end, and if the block ever returns
   # false, this method returns false. Otherwise, it returns true.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:249
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:260
   def preprocess(&block); end
 
   # The core of the event loop. It processes a single iteration of the event
@@ -3101,7 +3111,7 @@ class Net::SSH::Connection::Session
   #     break if connections.empty?
   #   end
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:237
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:248
   def process(wait = T.unsafe(nil), &block); end
 
   # The collection of custom properties for this instance. (See #[] and #[]=).
@@ -3109,10 +3119,10 @@ class Net::SSH::Connection::Session
   # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:41
   def properties; end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:521
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:540
   def reading_paused?(io); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:517
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:536
   def resume_reading(io); end
 
   # Send a global request of the given type. The +extra+ parameters must
@@ -3132,7 +3142,7 @@ class Net::SSH::Connection::Session
   #
   #   ssh.send_global_request("keep-alive@openssh.com")
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:324
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:337
   def send_global_request(type, *extra, &callback); end
 
   # Enqueues a message to be sent to the server as soon as the socket is
@@ -3143,7 +3153,7 @@ class Net::SSH::Connection::Session
   #
   #  ssh.send_message(Buffer.from(:byte, REQUEST_SUCCESS).to_s)
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:459
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:478
   def send_message(message); end
 
   # Performs a "hard" shutdown of the connection. In general, this should
@@ -3151,13 +3161,13 @@ class Net::SSH::Connection::Session
   # when the connection needs to close but you don't know the status of the
   # underlying protocol's state).
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:145
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:155
   def shutdown!; end
 
   # Removes the given io object from the listeners collection, so that the
   # event loop will no longer monitor it.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:503
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:522
   def stop_listening_to(io); end
 
   # The underlying transport layer abstraction (see Net::SSH::Transport::Session).
@@ -3167,22 +3177,22 @@ class Net::SSH::Connection::Session
 
   private
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:732
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:774
   def channel_close(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:618
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:639
   def channel_closed(channel); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:717
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:757
   def channel_data(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:727
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:767
   def channel_eof(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:722
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:762
   def channel_extended_data(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:744
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:793
   def channel_failure(packet); end
 
   # Called when the server wants to open a channel. If no registered
@@ -3190,71 +3200,92 @@ class Net::SSH::Connection::Session
   # is returned, otherwise the callback is invoked and everything proceeds
   # accordingly.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:662
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:683
   def channel_open(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:695
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:716
   def channel_open_confirmation(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:701
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:729
   def channel_open_failure(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:712
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:752
   def channel_request(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:739
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:788
   def channel_success(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:707
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:742
   def channel_window_adjust(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:611
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:632
   def close_if_drained(io); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:826
+  def confirm_preopened_channels; end
 
   # Read all pending packets from the connection and dispatch them as
   # appropriate. Returns as soon as there are no more pending packets.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:588
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:607
   def dispatch_incoming_packets(raise_disconnect_errors: T.unsafe(nil)); end
 
   # iterate channels with the posibility of callbacks opening new channels during the iteration
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:582
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:601
   def each_channel(&block); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:605
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:624
   def force_channel_cleanup_on_close; end
 
   # Returns the next available channel id to be assigned, and increments
   # the counter.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:601
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:620
   def get_next_channel_id; end
 
   # Invoked when a global request is received. The registered global
   # request callback will be invoked, if one exists, and the necessary
   # reply returned.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:629
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:650
   def global_request(packet); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:749
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:837
   def io_select_wait(wait); end
 
   # preserve a reference to Kernel#loop
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:150
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:161
   def loop_forever; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:812
+  def open_spare_channel; end
 
   # Invokes the next pending request callback with +false+.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:652
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:673
   def request_failure(packet); end
 
   # Invokes the next pending request callback with +true+.
   #
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:645
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:666
   def request_success(packet); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:798
+  def send_channel_open(type, local_id, window_size, packet_size, *extra); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:833
+  def spare_channel(packet); end
+
+  # An unused spare is never closed, as that would cost round trips just before the transport goes away;
+  # it stays in @spare_channel to absorb the server's late replies for it.
+  #
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:822
+  def stop_preopening; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:803
+  def take_spare_channel; end
 end
 
 # Default IO.select timeout threshold
@@ -3262,24 +3293,71 @@ end
 # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:32
 Net::SSH::Connection::Session::DEFAULT_IO_SELECT_TIMEOUT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:753
+# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:841
 Net::SSH::Connection::Session::MAP = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:56
+# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:60
 class Net::SSH::Connection::Session::NilChannel
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:57
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:61
   def initialize(session); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:61
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:65
   def method_missing(sym, *args); end
 end
 
-# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:363
+# A "session" channel opened ahead of time by :preopen_channels, and
+# the server's confirmation for it once that has arrived.
+#
+# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+class Net::SSH::Connection::Session::SpareChannel < ::Struct
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def local_id; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def local_id=(_); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def packet_size; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def packet_size=(_); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def remote_id; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def remote_id=(_); end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def window_size; end
+
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+  def window_size=(_); end
+
+  class << self
+    # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+    def [](*_arg0); end
+
+    # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+    def inspect; end
+
+    # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+    def keyword_init?; end
+
+    # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+    def members; end
+
+    # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:58
+    def new(*_arg0); end
+  end
+end
+
+# pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:382
 class Net::SSH::Connection::Session::StringWithExitstatus < ::String
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:364
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:383
   def initialize(str, exitstatus); end
 
-  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:369
+  # pkg:gem/net-ssh#lib/net/ssh/connection/session.rb:388
   def exitstatus; end
 end
 
@@ -4420,10 +4498,10 @@ Net::SSH::Multiplex::ProxyTransport::UNSUPPORTED_CHANNEL_REQUESTS = T.let(T.unsa
 # pkg:gem/net-ssh#lib/net/ssh/multiplex.rb:32
 Net::SSH::Multiplex::VALUES = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/net-ssh#lib/net/ssh.rb:386
+# pkg:gem/net-ssh#lib/net/ssh.rb:392
 Net::SSH::NIL_ALLOWED_OPTIONS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/net-ssh#lib/net/ssh.rb:388
+# pkg:gem/net-ssh#lib/net/ssh.rb:394
 Net::SSH::NIL_OPTION_HINTS = T.let(T.unsafe(nil), Hash)
 
 # Raised when a session connected through an OpenSSH ControlMaster (see the

@@ -490,7 +490,7 @@ class Net::SFTP::Operations::Dir
   # Identical to calling #glob with a +flags+ parameter of 0 and no block.
   # Simply returns the matched entries as an array.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/dir.rb:88
+  # pkg:gem/net-sftp#lib/net/sftp/operations/dir.rb:89
   def [](path, pattern); end
 
   # Returns an array of Name objects representing the items in the given
@@ -641,7 +641,7 @@ end
 # events will be ignored. You can create a catchall method named "call" for
 # those, instead.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:119
+# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:120
 class Net::SFTP::Operations::Download
   include ::Net::SSH::Loggable
 
@@ -654,221 +654,242 @@ class Net::SFTP::Operations::Download
   # This will return immediately, and requires that the SSH event loop be
   # run in order to effect the download. (See #wait.)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:147
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:148
   def initialize(sftp, local, remote, options = T.unsafe(nil), &progress); end
 
   # Returns the property with the given name. This allows Download instances
   # to store their own state when used as part of a state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:193
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:199
   def [](name); end
 
   # Sets the given property to the given name. This allows Download instances
   # to store their own state when used as part of a state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:199
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:205
   def []=(name, value); end
 
   # Forces the transfer to stop.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:179
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:185
   def abort!; end
 
   # Returns true if there are any active requests or pending files or
   # directories.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:174
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:180
   def active?; end
 
   # The destination of the download (the name of a file or directory on
   # the local server, or an IO object)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:124
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:125
   def local; end
 
   # The hash of options that was given to this Download instance.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:131
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:132
   def options; end
 
   # The properties hash for this object
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:137
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:138
   def properties; end
 
   # Returns the value of the :recursive key in the options hash that was
   # given when the object was instantiated.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:168
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:174
   def recursive?; end
 
   # The source of the download (the name of a file or directory on the
   # remote server)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:128
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:129
   def remote; end
 
   # The SFTP session instance that drives this download.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:134
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:135
   def sftp; end
 
   # Runs the SSH event loop for as long as the downloader is active (see
   # #active?). This can be used to block until the download completes.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:186
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:192
   def wait; end
 
   private
 
   # Initiates a read of the next #read_size bytes from the file.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:318
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:363
   def download_next_chunk(entry); end
 
   # Called when a file handle is closed.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:346
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:391
   def on_close(response); end
 
   # Called when a directory handle is closed.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:297
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:342
   def on_closedir(response); end
 
   # Called when a file has been opened. This will call #download_next_chunk
   # to initiate the data transfer.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:306
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:351
   def on_open(response); end
 
   # Called when a remote directory is "opened" for reading, e.g. to
   # enumerate its contents. Starts an readdir operation if the opendir
   # operation was successful.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:257
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:271
   def on_opendir(response); end
 
   # Called when a read from a file finishes. If the read was successful
   # and returned data, this will call #download_next_chunk to read the
   # next bit from the file. Otherwise the file will be closed.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:327
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:372
   def on_read(response); end
 
   # Called when the next batch of items is read from a directory on the
   # remote server. If any items were read, they are added to the queue
   # and #process_next_entry is called.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:268
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:282
   def on_readdir(response); end
 
   # Called when a file is to be opened for reading from the remote server.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:290
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:335
   def open_file(entry); end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:319
+  def open_local_file(entry); end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:240
+  def positive_option(name, default); end
 
   # Enqueues as many files and directories from the stack as possible
   # (see #requests).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:236
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:249
   def process_next_entry; end
 
   # The progress handler for this instance. Possibly nil.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:218
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:224
   def progress; end
 
   # The number of bytes to read at a time from remote files.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:224
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:230
   def read_size; end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:330
+  def refuse_symlink!(path); end
 
   # The number of simultaneou SFTP requests to use to effect the download.
   # Defaults to 16 for recursive downloads.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:236
   def requests; end
+
+  # The caller's own +local+ may be a symlink on purpose; anything below it
+  # was named by the server (net-sftp#162).
+  #
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:315
+  def server_named?(entry); end
 
   # The stack of Entry instances, indicating which files and directories
   # on the remote host remain to be downloaded.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:215
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:221
   def stack; end
 
   # If a progress callback or object has been set, this will report
   # the progress to that callback or object.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:355
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:400
   def update_progress(hook, *args); end
+
+  # The name comes from the server, so anything but a single path component
+  # would let a malicious server write outside the target directory.
+  #
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:306
+  def validate_entry_name!(entry, name); end
 end
 
 # The default read size.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:221
+# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:227
 Net::SFTP::Operations::Download::DEFAULT_READ_SIZE = T.let(T.unsafe(nil), Integer)
 
 # A simple struct for encapsulating information about a single remote
 # file or directory that needs to be downloaded.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+# pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
 class Net::SFTP::Operations::Download::Entry < ::Struct
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def directory; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def directory=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def handle; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def handle=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def local; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def local=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def offset; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def offset=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def remote; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def remote=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def sink; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def sink=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def size; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+  # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
   def size=(_); end
 
   class << self
-    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
     def [](*_arg0); end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
     def inspect; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
     def keyword_init?; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
     def members; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:207
+    # pkg:gem/net-sftp#lib/net/sftp/operations/download.rb:213
     def new(*_arg0); end
   end
 end
@@ -889,13 +910,13 @@ class Net::SFTP::Operations::File
   # would be returned by Net::SFTP::Session#open!). The +sftp+ parameter
   # must be the same Net::SFTP::Session instance that opened the file.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:27
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:32
   def initialize(sftp, handle); end
 
   # Closes the underlying file and sets the handle to +nil+. Subsequent
   # operations on this object will fail.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:46
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:51
   def close; end
 
   # Returns true if the end of the file has been encountered by a previous
@@ -903,7 +924,7 @@ class Net::SFTP::Operations::File
   # flag (useful if the file's contents have changed since the EOF was
   # encountered).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:55
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:60
   def eof?; end
 
   # Reads up to the next instance of +sep_string+ in the stream, and
@@ -913,35 +934,36 @@ class Net::SFTP::Operations::File
   # integer, or optional second argument is given, the returning string
   # would not be longer than the given value in bytes.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:87
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:94
   def gets(sep_or_limit = T.unsafe(nil), limit = T.unsafe(nil)); end
 
   # The SFTP file handle object that this object wraps
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:19
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:24
   def handle; end
 
   # The current position within the remote file
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:22
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:27
   def pos; end
 
   # Repositions the file pointer to the given offset (relative to the
   # start of the file). This will also reset the EOF flag.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:38
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:43
   def pos=(offset); end
 
   # Writes each argument to the stream. If +$\+ is set, it will be written
   # after all arguments have been written.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:142
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:162
   def print(*items); end
 
   # Writes each argument to the stream, appending a newline to any item
-  # that does not already end in a newline. Array arguments are flattened.
+  # that does not already end in a newline, like IO#puts. Array arguments
+  # are flattened, and with no arguments a single newline is written.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:159
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:180
   def puts(*items); end
 
   # Reads up to +n+ bytes of data from the stream. Fewer bytes will be
@@ -951,26 +973,26 @@ class Net::SFTP::Operations::File
   #
   # This will advance the file pointer (#pos).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:65
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:70
   def read(n = T.unsafe(nil)); end
 
   # Same as #gets, but raises EOFError if EOF is encountered before any
   # data could be read.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:124
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:136
   def readline(sep_or_limit = T.unsafe(nil), limit = T.unsafe(nil)); end
 
   # Resets position to beginning of file
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:153
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:173
   def rewind; end
 
   # A reference to the Net::SFTP::Session instance that drives this wrapper
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:16
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:21
   def sftp; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:148
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:168
   def size; end
 
   # Performs an fstat operation on the handle and returns the attribute
@@ -978,13 +1000,15 @@ class Net::SFTP::Operations::File
   # or Net::SFTP::Protocol::V06::Attributes, depending on the SFTP protocol
   # version in use).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:175
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:191
   def stat; end
 
   # Writes the given data to the stream, incrementing the file position and
-  # returning the number of bytes written.
+  # returning the number of bytes written. Data larger than MAX_WRITE_SIZE
+  # is sent as several sequential write requests; if one fails, the
+  # position reflects the bytes written before it.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:132
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:146
   def write(data); end
 
   private
@@ -992,9 +1016,19 @@ class Net::SFTP::Operations::File
   # Fills the buffer. Returns +true+ if it succeeded, and +false+ if
   # EOF was encountered before any data was read.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:183
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:217
   def fill; end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:197
+  def write_puts_item(item, recursion); end
 end
+
+# The largest amount of data sent in a single write request. Servers drop
+# the connection on oversized packets (OpenSSH's limit is 256 KiB including
+# headers), and the SFTP drafts only guarantee packets of about 34000 bytes.
+#
+# pkg:gem/net-sftp#lib/net/sftp/operations/file.rb:18
+Net::SFTP::Operations::File::MAX_WRITE_SIZE = T.let(T.unsafe(nil), Integer)
 
 # A factory class for opening files and returning Operations::File instances
 # that wrap the SFTP handles that represent them. This is a convenience
@@ -1091,7 +1125,9 @@ end
 #   higher might improve throughput. Reducing it will reduce throughput.
 # * <tt>:read_size</tt> - the maximum number of bytes to read at a time
 #   from the source. Increasing this value might improve throughput. It
-#   defaults to 32,000 bytes.
+#   defaults to 32,000 bytes. Each chunk is sent as one write request, so
+#   it must stay within the server's packet limit (OpenSSH drops the
+#   connection on packets over 256 KiB).
 # * <tt>:name</tt> - the filename to report to the progress monitor when
 #   an IO object is given as +local+. This defaults to "<memory>".
 #
@@ -1156,7 +1192,7 @@ end
 # events will be ignored. You can create a catchall method named "call" for
 # those, instead.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:117
+# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:120
 class Net::SFTP::Operations::Upload
   include ::Net::SSH::Loggable
 
@@ -1169,66 +1205,66 @@ class Net::SFTP::Operations::Upload
   # This will return immediately, and requires that the SSH event loop be
   # run in order to effect the upload. (See #wait.)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:143
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:146
   def initialize(sftp, local, remote, options = T.unsafe(nil), &progress); end
 
   # Returns the property with the given name. This allows Upload instances
   # to store their own state when used as part of a state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:209
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:217
   def [](name); end
 
   # Sets the given property to the given name. This allows Upload instances
   # to store their own state when used as part of a state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:215
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:223
   def []=(name, value); end
 
   # Forces the transfer to stop.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:195
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:203
   def abort!; end
 
   # Returns true if the uploader is currently running. When this is false,
   # the uploader has finished processing.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:190
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:198
   def active?; end
 
   # The source of the upload (on the local server)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:121
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:124
   def local; end
 
   # The hash of options that were given when the object was instantiated
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:127
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:130
   def options; end
 
   # The properties hash for this object
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:133
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:136
   def properties; end
 
   # Returns true if a directory tree is being uploaded, and false if only a
   # single file is being uploaded.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:184
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:192
   def recursive?; end
 
   # The destination of the upload (on the remote server)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:124
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:127
   def remote; end
 
   # The SFTP session object used by this upload instance
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:130
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:133
   def sftp; end
 
   # Blocks until the upload has completed.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:202
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:210
   def wait; end
 
   private
@@ -1236,132 +1272,141 @@ class Net::SFTP::Operations::Upload
   # Returns all directory entries for the given path, removing the '.'
   # and '..' relative paths.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:379
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:402
   def entries_for(local); end
 
   # Called when a +close+ request finishes. Raises a StatusException if the
   # close failed, otherwise it calls #process_next_entry to continue the
   # state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:346
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:369
   def on_close(response); end
 
   # Called when a +mkdir+ request finishes, successfully or otherwise.
   # If the request failed, this will raise a StatusException, otherwise
   # it will call #process_next_entry to continue the state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:307
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:330
   def on_mkdir(response); end
 
   # Called when an +open+ request finishes. Raises StatusException if the
   # open failed, otherwise it calls #write_next_chunk to begin sending
   # data to the remote server.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:318
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:341
   def on_open(response); end
 
   # Called when a +write+ request finishes. Raises StatusException if the
   # write failed, otherwise it calls #write_next_chunk to continue the
   # write.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:336
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:359
   def on_write(response); end
 
   # Prepares to send +local+ to +remote+.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:280
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:303
   def open_file(local, remote); end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:244
+  def positive_option(name, default); end
 
   # Examines the stack and determines what action to take. This is the
   # starting point of the state machine.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:243
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:266
   def process_next_entry; end
 
   # The progress handler for this instance. Possibly nil.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:226
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:234
   def progress; end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:240
+  def read_size; end
+
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:236
+  def requests; end
 
   # Attempts to notify the progress monitor (if one was given) about
   # progress made for the given event.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:385
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:408
   def update_progress(event, *args); end
 
   # Attempts to send the next chunk from the given file (where +file+ is
   # a LiveFile instance).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:355
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:378
   def write_next_chunk(file); end
 end
 
 # The default # of bytes to read from disk at a time.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:233
+# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:256
 Net::SFTP::Operations::Upload::DEFAULT_READ_SIZE = T.let(T.unsafe(nil), Integer)
 
 # A simple struct for recording metadata about the file currently being
 # uploaded.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
 class Net::SFTP::Operations::Upload::LiveFile < ::Struct
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def handle; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def handle=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def io; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def io=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def local; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def local=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def remote; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def remote=(_); end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def size; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+  # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
   def size=(_); end
 
   class << self
-    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
     def [](*_arg0); end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
     def inspect; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
     def keyword_init?; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
     def members; end
 
-    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:230
+    # pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:253
     def new(*_arg0); end
   end
 end
 
 # The number of readers to use when uploading a directory.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:239
+# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:262
 Net::SFTP::Operations::Upload::RECURSIVE_READERS = T.let(T.unsafe(nil), Integer)
 
 # The number of readers to use when uploading a single file.
 #
-# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:236
+# pkg:gem/net-sftp#lib/net/sftp/operations/upload.rb:259
 Net::SFTP::Operations::Upload::SINGLE_FILE_READERS = T.let(T.unsafe(nil), Integer)
 
 # A specialization of the Net::SSH::Buffer class, which simply auto-reads
@@ -1418,7 +1463,7 @@ class Net::SFTP::Protocol::Base
   # type, an exception will be raised. Returns the parsed data as a hash
   # (the keys in the hash are packet-type specific).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/protocol/base.rb:27
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/base.rb:28
   def parse(packet); end
 
   # The SFTP session object that acts as client to this protocol instance
@@ -1432,7 +1477,7 @@ class Net::SFTP::Protocol::Base
   # A new request identifier will be allocated to this request, and will
   # be returned.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/protocol/base.rb:43
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/base.rb:44
   def send_request(type, *args); end
 end
 
@@ -1976,6 +2021,11 @@ class Net::SFTP::Protocol::V01::Name
   # pkg:gem/net-sftp#lib/net/sftp/protocol/01/name.rb:8
   def name; end
 
+  # The name of the item on the remote server.
+  #
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/01/name.rb:8
+  def name=(_arg0); end
+
   # Returns +true+ if the item appears to be a symlink. It does this by
   # examining the attributes. If there is insufficient information in the
   # attributes, this will return nil, rather than a boolean.
@@ -2027,16 +2077,21 @@ module Net::SFTP::Protocol::V03; end
 #
 # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:13
 class Net::SFTP::Protocol::V03::Base < ::Net::SFTP::Protocol::V02::Base
+  # Version 3 adds a message and language tag to status responses.
+  #
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:22
+  def parse_status_packet(packet); end
+
   # Sends a FXP_READLINK packet to the server to request that the target of
   # the given symlink on the remote host (+path+) be returned.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:23
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:33
   def readlink(path); end
 
   # Sends a FXP_SYMLINK packet to the server to request that a symlink at the
   # given +path+ be created, pointing at +target+..
   #
-  # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:29
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/03/base.rb:39
   def symlink(path, target); end
 
   # Returns the protocol version implemented by this driver. (3, in this
@@ -2179,7 +2234,7 @@ class Net::SFTP::Protocol::V04::Attributes < ::Net::SFTP::Protocol::V01::Attribu
   # Performs protocol-version-specific encoding of the access control
   # list, if one exists.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/protocol/04/attributes.rb:141
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/04/attributes.rb:150
   def encode_acl(buffer); end
 
   # Perform protocol-version-specific preparations for serialization.
@@ -2382,6 +2437,11 @@ class Net::SFTP::Protocol::V04::Name
   #
   # pkg:gem/net-sftp#lib/net/sftp/protocol/04/name.rb:12
   def name; end
+
+  # The name of the item on the remote server.
+  #
+  # pkg:gem/net-sftp#lib/net/sftp/protocol/04/name.rb:12
+  def name=(_arg0); end
 
   # Returns +true+ if the item is a symlink.
   #
@@ -2887,14 +2947,14 @@ class Net::SFTP::Session
   #
   # Once created, the lock may be removed via the #unblock method.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:693
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:697
   def block(handle, offset, length, mask, &callback); end
 
   # Identical to #block, but blocks until the server responds. It will raise
   # a StatusException if the request was unsuccessful. Otherwise, it will
   # return the Response object for the request.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:700
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:704
   def block!(handle, offset, length, mask, &callback); end
 
   # The Net::SSH::Connection::Channel object that the SFTP session is being
@@ -2934,12 +2994,12 @@ class Net::SFTP::Session
   # on this object will result in errors. You can reopen the SFTP session
   # via the #connect method.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:729
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:733
   def close_channel; end
 
   # Returns true if the connection has been closed.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:741
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:745
   def closed?; end
 
   # Attempts to establish an SFTP connection over the SSH session given when
@@ -2960,13 +3020,13 @@ class Net::SFTP::Session
   # If you just want to block until the connection is ready, see the #connect!
   # method.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:768
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:772
   def connect(&block); end
 
   # Same as the #connect method, but blocks until the SFTP connection has
   # been fully initialized.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:787
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:792
   def connect!(&block); end
 
   # Returns a Net::SFTP::Operations::Dir instance, which can be used to
@@ -3022,7 +3082,7 @@ class Net::SFTP::Session
   # would be obtained via the #open or #opendir methods. (See the
   # #setstat method for full documentation.)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:380
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:384
   def fsetstat(handle, attrs, &callback); end
 
   # Identical to the #fsetstat method, but blocks until the server responds.
@@ -3031,7 +3091,7 @@ class Net::SFTP::Session
   #
   #   sftp.fsetstat!(handle, :permissions => 0644)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:389
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:393
   def fsetstat!(handle, attrs, &callback); end
 
   # The fstat method is identical to the #stat and #lstat methods, with
@@ -3039,7 +3099,7 @@ class Net::SFTP::Session
   # as would be obtained via the #open or #opendir methods. (See the #lstat
   # method for full documentation).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:329
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:333
   def fstat(handle, flags = T.unsafe(nil), &callback); end
 
   # Identical to the #fstat method, but blocks until the server responds.
@@ -3048,7 +3108,7 @@ class Net::SFTP::Session
   #
   #   puts sftp.fstat!(handle).permissions
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:338
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:342
   def fstat!(handle, flags = T.unsafe(nil), &callback); end
 
   # :call-seq:
@@ -3066,7 +3126,7 @@ class Net::SFTP::Session
   # Note that #link is only available for SFTP protocol 6 and higher. You
   # can use #symlink for protocols 3 and higher.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:656
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:660
   def link(new_link_path, existing_path, symlink = T.unsafe(nil), &callback); end
 
   # Identical to #link, but blocks until the server responds. It will raise
@@ -3075,7 +3135,7 @@ class Net::SFTP::Session
   #
   #   sftp.link!("/path/to/symlink", "/path/to/file", true)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:665
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:669
   def link!(new_link_path, existing_path, symlink = T.unsafe(nil), &callback); end
 
   # Runs the SSH event loop while the given block returns true. This lets
@@ -3086,7 +3146,7 @@ class Net::SFTP::Session
   #   sftp.remove("/path/to/file")
   #   sftp.loop
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:802
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:807
   def loop(&block); end
 
   # :call-seq:
@@ -3115,7 +3175,7 @@ class Net::SFTP::Session
   #   end
   #   request.wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:312
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:316
   def lstat(path, flags = T.unsafe(nil), &callback); end
 
   # Identical to the #lstat method, but blocks until the server responds.
@@ -3124,7 +3184,7 @@ class Net::SFTP::Session
   #
   #   puts sftp.lstat!("/path/to/file").permissions
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:321
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:325
   def lstat!(path, flags = T.unsafe(nil), &callback); end
 
   # :call-seq:
@@ -3138,7 +3198,7 @@ class Net::SFTP::Session
   #
   #   sftp.mkdir("/path/to/directory", :permissions => 0550).wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:490
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:494
   def mkdir(path, attrs = T.unsafe(nil), &callback); end
 
   # Identical to #mkdir, but blocks until the server responds. It will raise
@@ -3147,7 +3207,7 @@ class Net::SFTP::Session
   #
   #   sftp.mkdir!("/path/to/directory", :permissions => 0550)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:499
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:503
   def mkdir!(path, attrs = T.unsafe(nil), &callback); end
 
   # :call-seq:
@@ -3187,7 +3247,7 @@ class Net::SFTP::Session
 
   # Returns true if the connection has been initialized.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:736
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:740
   def open?; end
 
   # :call-seq:
@@ -3205,7 +3265,7 @@ class Net::SFTP::Session
   #   end
   #   sftp.loop
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:407
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:411
   def opendir(path, &callback); end
 
   # Identical to #opendir, but blocks until the server responds. It will raise
@@ -3214,13 +3274,13 @@ class Net::SFTP::Session
   #
   #   handle = sftp.opendir!("/path/to/directory")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:416
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:420
   def opendir!(path, &callback); end
 
   # Returns true if the connection is in the process of being initialized
   # (e.g., it is not closed, but is not yet fully open).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:747
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:751
   def opening?; end
 
   # The hash of pending requests. Any requests that have been sent and which
@@ -3297,7 +3357,7 @@ class Net::SFTP::Session
   # properties of each individual entry (which vary based on the SFTP
   # protocol version in use).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:441
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:445
   def readdir(handle, &callback); end
 
   # Identical to #readdir, but blocks until the server responds. It will raise
@@ -3309,7 +3369,7 @@ class Net::SFTP::Session
   #     entries.each { |entry| puts(entry.name) }
   #   end
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:453
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:457
   def readdir!(handle, &callback); end
 
   # :call-seq:
@@ -3324,7 +3384,7 @@ class Net::SFTP::Session
   #   request = sftp.readlink("/path/to/symlink").wait
   #   puts request.response[:names].first.name
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:606
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:610
   def readlink(path, &callback); end
 
   # Identical to #readlink, but blocks until the server responds. It will raise
@@ -3333,7 +3393,7 @@ class Net::SFTP::Session
   #
   #   item = sftp.readlink!("/path/to/symlink")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:615
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:619
   def readlink!(path, &callback); end
 
   # :call-seq:
@@ -3349,7 +3409,7 @@ class Net::SFTP::Session
   #   request = sftp.realpath("/path/../to/../directory").wait
   #   puts request[:names].first.name
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:536
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:540
   def realpath(path, &callback); end
 
   # Identical to #realpath, but blocks until the server responds. It will raise
@@ -3358,7 +3418,7 @@ class Net::SFTP::Session
   #
   #   puts(sftp.realpath!("/path/../to/../directory"))
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:545
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:549
   def realpath!(path, &callback); end
 
   # :call-seq:
@@ -3372,7 +3432,7 @@ class Net::SFTP::Session
   #
   #   sftp.remove("/path/to/file").wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:467
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:471
   def remove(filename, &callback); end
 
   # Identical to #remove, but blocks until the server responds. It will raise
@@ -3381,7 +3441,7 @@ class Net::SFTP::Session
   #
   #   sftp.remove!("/path/to/file")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:476
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:480
   def remove!(filename, &callback); end
 
   # :call-seq:
@@ -3401,7 +3461,7 @@ class Net::SFTP::Session
   # * 0x0002 - perform the rewrite atomically.
   # * 0x0004 - allow the server to perform the rename as it prefers.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:582
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:586
   def rename(name, new_name, flags = T.unsafe(nil), &callback); end
 
   # Identical to #rename, but blocks until the server responds. It will raise
@@ -3410,7 +3470,7 @@ class Net::SFTP::Session
   #
   #   sftp.rename!("/path/to/old", "/path/to/new")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:591
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:595
   def rename!(name, new_name, flags = T.unsafe(nil), &callback); end
 
   # :call-seq:
@@ -3422,7 +3482,7 @@ class Net::SFTP::Session
   #
   #   sftp.rmdir("/path/to/directory").wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:511
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:515
   def rmdir(path, &callback); end
 
   # Identical to #rmdir, but blocks until the server responds. It will raise
@@ -3431,7 +3491,7 @@ class Net::SFTP::Session
   #
   #   sftp.rmdir!("/path/to/directory")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:520
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:524
   def rmdir!(path, &callback); end
 
   # Formats, constructs, and sends an SFTP packet of the given type and with
@@ -3441,7 +3501,7 @@ class Net::SFTP::Session
   # You should probably use the operation methods, rather than building and
   # sending the packet directly. (See #open, #close, etc.)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:813
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:818
   def send_packet(type, *args); end
 
   # A reference to the Net::SSH session object that powers this SFTP session.
@@ -3471,7 +3531,7 @@ class Net::SFTP::Session
   #   request.wait
   #   puts "success: #{request.response.ok?}"
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:363
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:367
   def setstat(path, attrs, &callback); end
 
   # Identical to the #setstat method, but blocks until the server responds.
@@ -3480,7 +3540,7 @@ class Net::SFTP::Session
   #
   #   sftp.setstat!("/path/to/file", :permissions => 0644)
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:372
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:376
   def setstat!(path, attrs, &callback); end
 
   # Identical to the #lstat method, except that it follows symlinks
@@ -3488,7 +3548,7 @@ class Net::SFTP::Session
   # of the symlink rather than the symlink itself). See the #lstat method
   # for full documentation.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:553
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:557
   def stat(path, flags = T.unsafe(nil), &callback); end
 
   # Identical to #stat, but blocks until the server responds. It will raise
@@ -3497,7 +3557,7 @@ class Net::SFTP::Session
   #
   #   attrs = sftp.stat!("/path/to/file")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:562
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:566
   def stat!(path, flags = T.unsafe(nil), &callback); end
 
   # The state of the SFTP connection. It will be :opening, :subsystem, :init,
@@ -3517,7 +3577,7 @@ class Net::SFTP::Session
   #
   #   sftp.symlink("/path/to/file", "/path/to/symlink").wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:629
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:633
   def symlink(path, target, &callback); end
 
   # Identical to #symlink, but blocks until the server responds. It will raise
@@ -3526,7 +3586,7 @@ class Net::SFTP::Session
   #
   #   sftp.symlink!("/path/to/file", "/path/to/symlink")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:638
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:642
   def symlink!(path, target, &callback); end
 
   # :call-seq:
@@ -3538,14 +3598,14 @@ class Net::SFTP::Session
   # parameters must exactly match those that were given to #block when the
   # lock was acquired.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:712
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:716
   def unblock(handle, offset, length, &callback); end
 
   # Identical to #unblock, but blocks until the server responds. It will raise
   # a StatusException if the request was unsuccessful. Otherwise, it will
   # return the Response object for the request.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:719
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:723
   def unblock!(handle, offset, length, &callback); end
 
   # Initiates an upload from +local+ to +remote+, asynchronously. This
@@ -3575,10 +3635,14 @@ class Net::SFTP::Session
   # Request object. If a block is given, it will be invoked when the
   # server responds.
   #
+  # +data+ is sent as a single request, so it must stay within the
+  # server's packet limit (OpenSSH drops the connection on packets over
+  # 256 KiB). Net::SFTP::Operations::File#write splits large data for you.
+  #
   #   request = sftp.write(handle, 0, "hello, world!\n")
   #   request.wait
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:274
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:278
   def write(handle, offset, data, &callback); end
 
   # Identical to #write, but blocks until the server responds. It will raise
@@ -3587,7 +3651,7 @@ class Net::SFTP::Session
   #
   #   sftp.write!(handle, 0, "hello, world!\n")
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:283
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:287
   def write!(handle, offset, data, &callback); end
 
   private
@@ -3595,29 +3659,29 @@ class Net::SFTP::Session
   # Parses the packet, finds the associated Request instance, and tells
   # the Request instance to respond to the packet (see Request#respond_to).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:947
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:952
   def dispatch_request(packet); end
 
   # Called to handle FXP_VERSION packets. This performs the SFTP protocol
   # version negotiation, instantiating the appropriate Protocol instance
   # and invoking the callback given to #connect, if any.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:921
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:926
   def do_version(packet); end
 
   # The input buffer used to accumulate packet data
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:826
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:831
   def input; end
 
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:793
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:798
   def loop_forever; end
 
   # Create and enqueue a new SFTP request of the given type, with the
   # given arguments. Returns a new Request instance that encapsulates the
   # request.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:831
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:836
   def request(type, *args, &callback); end
 
   # Waits for the given request to complete. If the response is
@@ -3627,19 +3691,19 @@ class Net::SFTP::Session
   # will be returned; otherwise, the response object itself will be
   # returned.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:843
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:848
   def wait_for(request, property = T.unsafe(nil)); end
 
   # Called when the SSH server closes the underlying channel.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:885
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:890
   def when_channel_closed(channel); end
 
   # Called when the SSH channel is confirmed as "open" by the server.
   # This is one of the states of the SFTP state machine, and is followed
   # by the #when_subsystem_started state.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:859
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:864
   def when_channel_confirmed(channel); end
 
   # Called whenever Net::SSH polls the SFTP channel for pending activity.
@@ -3647,7 +3711,7 @@ class Net::SFTP::Session
   # accumulated to handle. If there has, the packet is parsed and
   # dispatched, according to its type (see #do_version and #dispatch_request).
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:895
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:900
   def when_channel_polled(channel); end
 
   # Called when the SSH server confirms that the SFTP subsystem was
@@ -3655,7 +3719,7 @@ class Net::SFTP::Session
   # SSH channel and then starts the SFTP protocol version negotiation
   # process.
   #
-  # pkg:gem/net-sftp#lib/net/sftp/session.rb:869
+  # pkg:gem/net-sftp#lib/net/sftp/session.rb:874
   def when_subsystem_started(channel, success); end
 end
 
@@ -3703,7 +3767,7 @@ end
 
 module Net::SSH::Connection; end
 
-# pkg:gem/net-sftp#lib/net/sftp.rb:62
+# pkg:gem/net-sftp#lib/net/sftp.rb:68
 class Net::SSH::Connection::Session
   # A convenience method for starting up a new SFTP connection on the current
   # SSH session. Blocks until the SFTP session is fully open, and then
@@ -3714,6 +3778,6 @@ class Net::SSH::Connection::Session
   #     ssh.exec! "cd /some/path && tar xf /remote/file.tgz && rm /remote/file.tgz"
   #   end
   #
-  # pkg:gem/net-sftp#lib/net/sftp.rb:71
+  # pkg:gem/net-sftp#lib/net/sftp.rb:77
   def sftp(wait = T.unsafe(nil)); end
 end

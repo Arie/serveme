@@ -40,11 +40,12 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    net-scp (4.1.1)
+    net-scp (4.1.2)
       net-ssh (>= 2.6.5, < 9.0.0)
-    net-sftp (4.0.1)
+    net-sftp (4.0.2)
       net-ssh (>= 5.0.0, < 9.0.0)
-    net-ssh (7.3.6)
+    net-ssh (7.3.8)
+      logger
     ostruct (0.6.3)
     prism (1.9.0)
     securerandom (0.4.1)
@@ -73,6 +74,7 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt_pbkdf (1.1.2) sha256=c2414c23ce66869b3eb9f643d6a3374d8322dfb5078125c82792304c10b94cf6
   bigdecimal (4.1.3) sha256=61ebe1e5e559bdc3cc6f2c0ee7f427321fc838f59611c294356eb04d6e21cf66
+  bundler (4.0.20) sha256=7978a8ac648767f5e635bc522445b79e80a52b907a39a36c2d8085ed6bc762ae
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
@@ -83,9 +85,9 @@ CHECKSUMS
   kamal (2.12.0) sha256=c51d1ab085e515470f98d0c0f043637122b5ebf76e8b610cb1fbbed0b7f9b8fa
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
-  net-scp (4.1.1) sha256=6017d1af1ca175cb193e8a33ca4bb7c53ddd40de7a050643b3b15ec386b2d392
-  net-sftp (4.0.1) sha256=e58cb0ebcaf0161f4a9ddc7fc54e160d97bc50bc774547817287728245d022d0
-  net-ssh (7.3.6) sha256=3364dedce752b9f5221e12ae970880d871a8e733e4730e4b9bd89e0b6808ce4b
+  net-scp (4.1.2) sha256=bc550fdc22b4a8f25b8bbf3fc6b41d0ee00692e4f78d2cb7726c35ebfa664aa0
+  net-sftp (4.0.2) sha256=83cc067fb2875e593f956af0c2a819e565f4fdd503cc2387104f920d3833f85b
+  net-ssh (7.3.8) sha256=16bb1fccc4d9a580decdeea8ddb98e8544df29b7e6ac8cb94d4b379cfe4bee9f
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1

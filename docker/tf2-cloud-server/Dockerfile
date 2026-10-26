@@ -15,7 +15,7 @@
 FROM ubuntu:26.04 AS rcon-build
 RUN apt-get update && apt-get install -y build-essential git cmake libglib2.0-dev \
     && git clone https://github.com/n0la/rcon.git /tmp/rcon \
-    && cd /tmp/rcon && sed -i '/ADD_SUBDIRECTORY(tests)/d' CMakeLists.txt && cmake . && make \
+    && cd /tmp/rcon && sed -i '/ADD_SUBDIRECTORY(tests)/d' CMakeLists.txt && cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 . && make \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ============================================================

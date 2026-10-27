@@ -11,6 +11,22 @@ RSpec.describe SdrController, type: :controller do
       expect(response).to be_successful
     end
 
+    context "when on a VPN" do
+      before { allow(ReservationPlayer).to receive(:banned_asn_ip?).and_return(true) }
+
+      it "marks new users as not sdr eligible" do
+        get :index
+        expect(assigns(:sdr_eligible)).to be_falsey
+      end
+
+      it "marks whitelisted users as sdr eligible" do
+        allow(ReservationPlayer).to receive(:whitelisted_uid?).and_call_original
+        allow(ReservationPlayer).to receive(:whitelisted_uid?).with(user.uid.to_i).and_return("reason")
+        get :index
+        expect(assigns(:sdr_eligible)).to be_truthy
+      end
+    end
+
     context "with full connect string" do
       let(:server) { create(:server, ip: "1.2.3.4", port: 27015) }
       let(:reservation) { create(:reservation, server: server, sdr_ip: "5.6.7.8", sdr_port: 27015) }

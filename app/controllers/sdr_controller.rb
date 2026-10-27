@@ -43,6 +43,6 @@ class SdrController < ApplicationController
     @connected_with_real_ip_recently = ReservationPlayer.has_connected_with_normal_ip_recently?(steam_uid)
     @logged_in_with_real_ip_recently = ReservationPlayer.has_logged_in_with_normal_ip_recently?(steam_uid)
 
-    @sdr_eligible = @longtime_player || @connected_with_real_ip_recently || @logged_in_with_real_ip_recently
+    @sdr_eligible = ReservationPlayer.whitelisted_uid?(steam_uid) || @longtime_player || @connected_with_real_ip_recently || @logged_in_with_real_ip_recently
   end
 end

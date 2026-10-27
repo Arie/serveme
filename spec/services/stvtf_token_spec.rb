@@ -34,6 +34,14 @@ describe StvtfToken do
     expect(payload).to eq('connect' => 'connect 1.2.3.4:27020; password "tv"', 'owner' => '765', 'exp' => 1_000_060)
   end
 
+  it 'can carry a demos.tf demo instead of a connect string' do
+    now = Time.zone.at(1_000_000)
+    payload = open.call(described_class.generate(demo: 1_527_264, owner: nil, now: now))
+    expect(payload).to eq('demo' => 1_527_264, 'owner' => nil, 'exp' => 1_000_060)
+    expect { described_class.generate(connect: 'x', demo: 1, owner: nil) }.to raise_error(ArgumentError)
+    expect { described_class.generate(owner: nil) }.to raise_error(ArgumentError)
+  end
+
   it 'keeps the password out of the readable URL' do
     url = described_class.start_url(connect: 'connect 1.2.3.4:27020; password "hunter2"', owner: nil)
     expect(url).to start_with('https://stv.tf/start?t=')

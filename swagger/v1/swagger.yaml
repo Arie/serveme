@@ -1383,6 +1383,8 @@ paths:
       - stv.tf
       description: Checks that a SourceTV answers at a public address and returns
         a short-lived stv.tf link to its live top-down map, like the form at /stv.
+        Given a demos.tf link instead, checks that demos.tf has the demo and returns
+        a link that plays it on the map.
       parameters:
       - name: api_key
         in: query
@@ -1416,7 +1418,8 @@ paths:
                 - url
                 - expires_at
         '422':
-          description: No SourceTV answers there, or the address is not public
+          description: No SourceTV answers there, the address is not public, or demos.tf
+            has no such demo
           content:
             application/json:
               schema:
@@ -1437,7 +1440,8 @@ paths:
                 connect:
                   type: string
                   description: A SourceTV connect string (connect 1.2.3.4:27020; password
-                    "tv"), or an address and password (1.2.3.4:27020 tv)
+                    "tv"), an address and password (1.2.3.4:27020 tv), or a demos.tf
+                    link (https://demos.tf/1527264)
               required:
               - connect
   "/api/donators/new":

@@ -1252,11 +1252,11 @@ RSpec.describe 'serveme.tf API', type: :request do
       tags 'stv.tf'
       consumes 'application/json'
       produces 'application/json'
-      description 'Checks that a SourceTV answers at a public address and returns a short-lived stv.tf link to its live top-down map, like the form at /stv.'
+      description 'Checks that a SourceTV answers at a public address and returns a short-lived stv.tf link to its live top-down map, like the form at /stv. Given a demos.tf link instead, checks that demos.tf has the demo and returns a link that plays it on the map.'
       parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
       parameter name: :body, in: :body, schema: {
         type: :object,
-        properties: { connect: { type: :string, description: 'A SourceTV connect string (connect 1.2.3.4:27020; password "tv"), or an address and password (1.2.3.4:27020 tv)' } },
+        properties: { connect: { type: :string, description: 'A SourceTV connect string (connect 1.2.3.4:27020; password "tv"), an address and password (1.2.3.4:27020 tv), or a demos.tf link (https://demos.tf/1527264)' } },
         required: %w[connect]
       }
       security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
@@ -1275,7 +1275,7 @@ RSpec.describe 'serveme.tf API', type: :request do
         end
       end
 
-      response '422', 'No SourceTV answers there, or the address is not public' do
+      response '422', 'No SourceTV answers there, the address is not public, or demos.tf has no such demo' do
         schema type: :object, properties: { error: { type: :string } }, required: %w[error]
         let(:api_key) { user.api_key }
         let(:body) { { connect: '192.168.1.2:27020' } }

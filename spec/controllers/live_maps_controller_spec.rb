@@ -34,6 +34,21 @@ describe LiveMapsController do
     expect(flash.now[:alert]).to include('No SourceTV answers')
   end
 
+  it 'sends a demos.tf link to the map server to play' do
+    allow_any_instance_of(DemostfDemo).to receive(:check!) { |d| d }
+    expect(StvtfToken).to receive(:start_url).with(demo: 1_527_264, owner: nil).and_call_original
+    post :create, params: { connect: 'https://demos.tf/1527264' }
+    expect(response.location).to start_with('https://stv.tf/start?t=')
+  end
+
+  it 'says when demos.tf has no such demo' do
+    allow_any_instance_of(DemostfDemo).to receive(:check!).and_raise(DemostfDemo::Error, 'demos.tf has no demo 1')
+    expect(StvtfToken).not_to receive(:start_url)
+    post :create, params: { connect: 'https://demos.tf/1' }
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(flash.now[:alert]).to eq('demos.tf has no demo 1')
+  end
+
   it 'needs a signed-in user' do
     sign_out user
     expect(StvtfToken).not_to receive(:start_url)

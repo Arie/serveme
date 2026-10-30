@@ -6,6 +6,13 @@ league_maps:
   - plr_hightower
   - plr_hightower_event
   - koth_snowtower
+- name: ETF2L Crit of Treat! Cup
+  active: true
+  maps:
+  - koth_slasher
+  - pl_hasslecastle
+  - koth_trainsawlaser
+  - pl_bloodwater
 - name: ETF2L 6v6
   active: true
   maps:
@@ -25,13 +32,6 @@ league_maps:
   - pl_swiftwater_final1
   - pl_upward_f12
   - pl_vigil_rc10
-  - name: ETF2L Crit of Treat! Cup
-  active: true
-  maps:
-  - koth_slasher
-  - pl_hasslecastle
-  - koth_trainsawlaser
-  - pl_bloodwater
 - name: ETF2L Ultiduo
   active: true
   maps:

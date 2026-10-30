@@ -6,6 +6,13 @@ league_maps:
   - plr_hightower
   - plr_hightower_event
   - koth_snowtower
+- name: ETF2L Crit of Treat! Cup
+  active: true
+  maps:
+  - koth_slasher
+  - pl_hasslecastle
+  - koth_trainsawlaser
+  - pl_bloodwater
 - name: ETF2L 6v6
   active: true
   maps:
@@ -13,10 +20,8 @@ league_maps:
   - cp_gullywash_f9
   - cp_metalworks_f7
   - cp_process_f12
-  - cp_subbase_b3a
   - cp_sunshine
   - koth_bagel_rc13
-  - koth_govan_rc2
   - koth_product_final
 - name: ETF2L HL
   active: true

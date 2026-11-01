@@ -667,6 +667,13 @@ describe LogLineViewHelper do
       expect(killicon_classes(html)).to eq([ "killicon killicon-tf_projectile_rocket" ])
     end
 
+    it "renders assisted building kills as an assist" do
+      line = %(#{ts} #{red} triggered "killedobject" (object "OBJ_SENTRYGUN") (objectowner #{blue}) (assist "1") (assister_position "1 2 3") (attacker_position "4 5 6"))
+      doc = fragment(render(line))
+
+      expect(doc.at_css(".destroy-action").text).to eq(" helped destroy ")
+    end
+
     it "renders destroyed buildings without a weapon" do
       event = TF2LineParser::Events::KilledObject.allocate
       event.instance_variable_set(:@player, TF2LineParser::Player.new("Spy", "1", "[U:1:231702]", "Red"))

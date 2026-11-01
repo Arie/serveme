@@ -711,10 +711,11 @@ module LogLineViewHelper
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
     object_name = format_building_name(event.object) if event.respond_to?(:object)
     owner = event.objectowner
+    destroy_action = event.respond_to?(:assist) && event.assist ? " helped destroy " : " destroyed "
 
     content = safe_join([
       log_player_name(event.player),
-      weapon ? safe_join([ " ", weapon_icon(weapon), " " ]) : content_tag(:span, " destroyed ", class: "destroy-action"),
+      weapon ? safe_join([ " ", weapon_icon(weapon), " " ]) : content_tag(:span, destroy_action, class: "destroy-action"),
       content_tag(:span, object_name, class: "building-name"),
       " (",
       log_player_name(owner),

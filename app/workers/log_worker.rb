@@ -57,9 +57,8 @@ class LogWorker
       handle_connect
     when TF2LineParser::Events::Disconnect
       handle_disconnect
-    when TF2LineParser::Events::Unknown
-      mapstart = event.unknown.match(/\A#{MAP_START}/)
-      handle_mapstart(mapstart[2]) if mapstart
+    when TF2LineParser::Events::MapStarted
+      handle_mapstart(T.cast(event, TF2LineParser::Events::MapStarted).map)
     end
     broadcast_log_lines unless @skip_broadcast
   end

@@ -16,6 +16,17 @@ describe LiveMatchStats do
   end
 
   describe '.process_line' do
+    it "resets the current match when a new map starts" do
+      kill = 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "1 1 1")'
+      described_class.process_line(reservation_id, round_start)
+      described_class.process_line(reservation_id, kill)
+
+      described_class.process_line(reservation_id, 'L 03/22/2026 - 20:02:00: Started map "cp_process_f12" (CRC "df0d50ef")')
+
+      players = described_class.get_stats(reservation_id).to_a.flat_map { |stats| stats[:players] }
+      expect(players).to be_empty
+    end
+
     it "ignores chat that fakes kills or a map start" do
       kill = 'L 03/22/2026 - 20:01:10: "Attacker<3><[U:1:200002]><Red>" killed "Victim<4><[U:1:400002]><Blue>" with "scattergun" (attacker_position "0 0 0") (victim_position "0 0 0")'
       described_class.process_line(reservation_id, round_start)

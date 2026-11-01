@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem tf2_line_parser`.
 
 
-# pkg:gem/tf2_line_parser#lib/tf2_line_parser/version.rb:3
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/parser.rb:3
 module TF2LineParser; end
 
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/event.rb:4
@@ -108,6 +108,14 @@ class TF2LineParser::Events::CaptureBlock < ::TF2LineParser::Events::Event
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/capture_block.rb:6
     def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/carry_object.rb:5
+class TF2LineParser::Events::CarryObject < ::TF2LineParser::Events::ObjectEvent
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/carry_object.rb:6
+    def keyword; end
   end
 end
 
@@ -293,6 +301,14 @@ class TF2LineParser::Events::Domination < ::TF2LineParser::Events::PVPEvent
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/domination.rb:6
     def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/drop_object.rb:5
+class TF2LineParser::Events::DropObject < ::TF2LineParser::Events::ObjectEvent
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/drop_object.rb:6
+    def keyword; end
   end
 end
 
@@ -560,6 +576,22 @@ class TF2LineParser::Events::FirstHealAfterSpawn < ::TF2LineParser::Events::Even
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/game_paused.rb:5
+class TF2LineParser::Events::GamePaused < ::TF2LineParser::Events::RoundEventWithoutVariables
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/game_paused.rb:6
+    def round_type; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/game_unpaused.rb:5
+class TF2LineParser::Events::GameUnpaused < ::TF2LineParser::Events::RoundEventWithoutVariables
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/game_unpaused.rb:6
+    def round_type; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/headshot_damage.rb:5
 class TF2LineParser::Events::HeadshotDamage < ::TF2LineParser::Events::Damage
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/headshot_damage.rb:41
@@ -660,7 +692,10 @@ end
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/killed_object.rb:3
 class TF2LineParser::Events::KilledObject < ::TF2LineParser::Events::Event
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/killed_object.rb:45
-  def initialize(time, player_name, player_uid, player_steam_id, player_team, object, weapon, objectowner_name, objectowner_uid, objectowner_steam_id, objectowner_team); end
+  def initialize(time, player_name, player_uid, player_steam_id, player_team, object, weapon, objectowner_name, objectowner_uid, objectowner_steam_id, objectowner_team, assist = T.unsafe(nil)); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/killed_object.rb:4
+  def assist; end
 
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/killed_object.rb:4
   def object; end
@@ -695,6 +730,66 @@ class TF2LineParser::Events::KilledObject < ::TF2LineParser::Events::Event
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:5
+class TF2LineParser::Events::LoadingMap < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:16
+  def initialize(time, map); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:6
+  def map; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/loading_map.rb:8
+    def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_closed.rb:5
+class TF2LineParser::Events::LogFileClosed < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_closed.rb:14
+  def initialize(time); end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_closed.rb:10
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_closed.rb:6
+    def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:5
+class TF2LineParser::Events::LogFileStarted < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:16
+  def initialize(time, file, game, version); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:6
+  def file; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:6
+  def game; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:6
+  def time; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:6
+  def version; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/log_file_started.rb:8
+    def regex; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/lost_uber_advantage.rb:3
 class TF2LineParser::Events::LostUberAdvantage < ::TF2LineParser::Events::Event
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/lost_uber_advantage.rb:18
@@ -721,6 +816,29 @@ class TF2LineParser::Events::LostUberAdvantage < ::TF2LineParser::Events::Event
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:5
+class TF2LineParser::Events::MapStarted < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:16
+  def initialize(time, map, crc); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:6
+  def crc; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:6
+  def map; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/map_started.rb:8
+    def regex; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_end.rb:5
 class TF2LineParser::Events::MatchEnd < ::TF2LineParser::Events::RoundEventWithVariables
   class << self
@@ -732,6 +850,46 @@ class TF2LineParser::Events::MatchEnd < ::TF2LineParser::Events::RoundEventWithV
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_end.rb:6
     def round_variable_regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:5
+class TF2LineParser::Events::MatchPause < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:16
+  def initialize(time, player_name, player_uid, player_steam_id, player_team); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:6
+  def player; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_pause.rb:8
+    def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:5
+class TF2LineParser::Events::MatchUnpause < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:16
+  def initialize(time, player_name, player_uid, player_steam_id, player_team); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:6
+  def player; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/match_unpause.rb:8
+    def regex; end
   end
 end
 
@@ -775,6 +933,29 @@ class TF2LineParser::Events::MedicDeathEx < ::TF2LineParser::Events::Event
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/medic_death_ex.rb:10
     def regex_uberpct; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:5
+class TF2LineParser::Events::MetaData < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:16
+  def initialize(time, key, value); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:6
+  def key; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:6
+  def time; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:6
+  def value; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/meta_data.rb:8
+    def regex; end
   end
 end
 
@@ -828,6 +1009,66 @@ class TF2LineParser::Events::MiniRoundWin < ::TF2LineParser::Events::RoundEventW
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:5
+class TF2LineParser::Events::NameChange < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:18
+  def initialize(time, player_name, player_uid, player_steam_id, player_team, new_name); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:6
+  def new_name; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:6
+  def player; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:14
+    def attributes; end
+
+    # The old name must end in a <uid><steamid><team> tag, so a name that merely
+    # contains ' changed name to ' can't make another line look like a name change.
+    #
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/name_change.rb:10
+    def regex; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_detonated.rb:5
+class TF2LineParser::Events::ObjectDetonated < ::TF2LineParser::Events::ObjectEvent
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_detonated.rb:6
+    def keyword; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:5
+class TF2LineParser::Events::ObjectEvent < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:16
+  def initialize(time, player_name, player_uid, player_steam_id, player_team, object, position); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:6
+  def object; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:6
+  def player; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:6
+  def position; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/object_event.rb:8
+    def regex; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pvp_event.rb:5
 class TF2LineParser::Events::PVPEvent < ::TF2LineParser::Events::Event
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pvp_event.rb:10
@@ -836,6 +1077,20 @@ class TF2LineParser::Events::PVPEvent < ::TF2LineParser::Events::Event
   class << self
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pvp_event.rb:6
     def attributes; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pause_length.rb:5
+class TF2LineParser::Events::PauseLength < ::TF2LineParser::Events::RoundEventWithVariables
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pause_length.rb:6
+    def round_type; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pause_length.rb:14
+    def round_variable; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/pause_length.rb:10
+    def round_variable_regex; end
   end
 end
 
@@ -1040,6 +1295,14 @@ class TF2LineParser::Events::RoundLength < ::TF2LineParser::Events::RoundEventWi
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/round_overtime.rb:5
+class TF2LineParser::Events::RoundOvertime < ::TF2LineParser::Events::RoundEventWithoutVariables
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/round_overtime.rb:6
+    def round_type; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/round_setup_begin.rb:3
 class TF2LineParser::Events::RoundSetupBegin < ::TF2LineParser::Events::RoundEventWithoutVariables
   class << self
@@ -1111,6 +1374,29 @@ class TF2LineParser::Events::Score < ::TF2LineParser::Events::Event
   end
 end
 
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:5
+class TF2LineParser::Events::ServerCvar < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:16
+  def initialize(time, name, value); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:6
+  def name; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:6
+  def time; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:6
+  def value; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/server_cvar.rb:8
+    def regex; end
+  end
+end
+
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/shot_fired.rb:5
 class TF2LineParser::Events::ShotFired < ::TF2LineParser::Events::PlayerActionEvent
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/shot_fired.rb:22
@@ -1159,6 +1445,26 @@ class TF2LineParser::Events::Spawn < ::TF2LineParser::Events::RoleChange
 
     # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/spawn.rb:10
     def attributes; end
+  end
+end
+
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:5
+class TF2LineParser::Events::SteamUseridValidated < ::TF2LineParser::Events::Event
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:16
+  def initialize(time, player_name, player_uid, player_steam_id, player_team); end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:6
+  def player; end
+
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:6
+  def time; end
+
+  class << self
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:12
+    def attributes; end
+
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/events/steam_userid_validated.rb:8
+    def regex; end
   end
 end
 
@@ -1214,7 +1520,7 @@ end
 
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:6
 class TF2LineParser::Line
-  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:72
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:89
   def initialize(line); end
 
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:7
@@ -1223,43 +1529,43 @@ class TF2LineParser::Line
   # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:7
   def line=(_arg0); end
 
-  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:76
+  # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:93
   def parse; end
 
   class << self
     # Class method to parse without object allocation
     #
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:81
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:98
     def parse(line); end
 
     private
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:142
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:159
     def check_damage_subtypes(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:156
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:173
     def check_heal_subtypes(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:95
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:112
     def find_candidate_types(line); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:135
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:152
     def match_tidied(line, regex); end
 
-    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:127
+    # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:144
     def try_parse_types(line, types); end
   end
 end
 
-# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:68
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:85
 TF2LineParser::Line::CHAT_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:69
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:86
 TF2LineParser::Line::CHAT_TYPES = T.let(T.unsafe(nil), Array)
 
 # Fallback types when no keyword matches - ordered by specificity
 #
-# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:59
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:69
 TF2LineParser::Line::FALLBACK_TYPES = T.let(T.unsafe(nil), Array)
 
 # Keyword to event types mapping (order matters for subtypes!)
@@ -1267,7 +1573,7 @@ TF2LineParser::Line::FALLBACK_TYPES = T.let(T.unsafe(nil), Array)
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:10
 TF2LineParser::Line::KEYWORD_DISPATCH = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:70
+# pkg:gem/tf2_line_parser#lib/tf2_line_parser/line.rb:87
 TF2LineParser::Line::TEAM_CHAT_TYPES = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/tf2_line_parser#lib/tf2_line_parser/parser.rb:4

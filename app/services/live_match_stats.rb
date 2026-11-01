@@ -6,15 +6,13 @@ class LiveMatchStats
   EXPIRY = 12.hours.to_i
 
   ANSI_REGEX = /\e\[\d*;?\d*m\[?K?/
-  MAP_START_REGEX = /\AStarted map "/
 
   class << self
     extend T::Sig
 
-    # Only the server's own line, not chat that mentions it
     sig { params(event: T.untyped).returns(T::Boolean) }
     def map_start?(event)
-      event.is_a?(TF2LineParser::Events::Unknown) && event.unknown.to_s.match?(MAP_START_REGEX)
+      event.is_a?(TF2LineParser::Events::MapStarted)
     end
 
     # Process a single raw log line (used by rebuild and standalone callers)

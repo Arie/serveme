@@ -124,6 +124,12 @@ module Aws; end
 # {Service} names are those used by the the AWS SDK for Ruby. They
 # correspond to the service's module.
 #
+# ## Custom Partitions
+#
+# Custom partition `regionRegex` values are interpreted as regex patterns.
+# Use only trusted, reviewed patterns, as malformed or inefficient patterns
+# can cause errors or slow endpoint resolution.
+#
 # pkg:gem/aws-partitions#lib/aws-partitions/endpoint_provider.rb:4
 module Aws::Partitions
   extend ::Enumerable
@@ -132,41 +138,41 @@ module Aws::Partitions
     # @param [Hash] new_partitions
     # @api private For internal use only.
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:192
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:198
     def add(new_partitions); end
 
     # @api private For internal use only.
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:206
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:212
     def clear; end
 
     # @return [Hash]
     # @api private
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:233
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:239
     def default_metadata; end
 
     # @return [PartitionList]
     # @api private
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:213
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:219
     def default_partition_list; end
 
     # @return [Hash]
     # @api private
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:223
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:229
     def defaults; end
 
     # @return [Enumerable<Partition>]
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:137
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:143
     def each(&block); end
 
     # @param [Hash] partition_metadata
     # @api private For Internal use only
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:201
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:207
     def merge_metadata(partition_metadata); end
 
     # Return the partition with the given name. A partition describes
@@ -193,7 +199,7 @@ module Aws::Partitions
     #   not found with the given name. The error message contains a list
     #   of valid partition names.
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:164
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:170
     def partition(name); end
 
     # Returns an array with every partitions. A partition describes
@@ -215,14 +221,14 @@ module Aws::Partitions
     # @return [Enumerable<Partition>] Returns an enumerable of all
     #   known partitions.
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:186
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:192
     def partitions; end
 
     # @return [Hash<String,String>] Returns a map of service module names
     #   to their id as used in the endpoints.json document.
     # @api private For internal use only.
     #
-    # pkg:gem/aws-partitions#lib/aws-partitions.rb:244
+    # pkg:gem/aws-partitions#lib/aws-partitions.rb:250
     def service_ids; end
   end
 end

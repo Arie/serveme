@@ -78,7 +78,7 @@ module Serveme
 
     config.exceptions_app = routes
 
-    config.load_defaults 7.1
+    config.load_defaults 8.1
 
     config.middleware.insert 0, Rack::UTF8Sanitizer
   end

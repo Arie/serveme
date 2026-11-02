@@ -39,7 +39,7 @@ env:
     RAILS_LOG_TO_STDOUT: "1"
     MAPS_DIR: /rails/tmp/maps
     OTEL_EXPORTER_OTLP_ENDPOINT: http://host.docker.internal:4318
-    RUBY_YJIT_ENABLE: "1"
+    RUBY_ZJIT_ENABLE: "1"
   secret:
     - RAILS_MASTER_KEY
     - DATABASE_URL

@@ -25,7 +25,7 @@ GIT
 
 GIT
   remote: https://github.com/Shopify/tapioca.git
-  revision: b47be8cf3a75d591b90a62c5b1af5ecff1b44b13
+  revision: 070a69bef2f5f68aff369f99e189d10d95663e08
   specs:
     tapioca (0.20.0)
       bundler (>= 2.2.25)
@@ -192,7 +192,7 @@ GEM
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
-    csv (3.3.6)
+    csv (3.3.7)
     cucumber (11.1.1)
       base64 (~> 0.2)
       builder (~> 3.2)
@@ -245,8 +245,8 @@ GEM
       websocket-client-simple (>= 0.9.0)
     discordrb-webhooks (3.8.0)
       rest-client (>= 2.0.0)
-    domain_name (0.7.20261007)
-    down (5.6.1)
+    domain_name (0.7.20261031)
+    down (5.6.2)
       addressable (~> 2.8)
       base64 (~> 0.3)
     draper (4.0.6)
@@ -310,7 +310,7 @@ GEM
     google-protobuf (4.36.2-x86_64-linux-musl)
       bigdecimal
       rake (~> 13.3)
-    googleapis-common-protos-types (1.24.0)
+    googleapis-common-protos-types (1.25.0)
       google-protobuf (~> 4.26)
     haml (7.5.1)
       prism (>= 1.1.0)
@@ -376,9 +376,9 @@ GEM
       faraday (>= 1.0)
       faraday-multipart (>= 1.0)
       multipart-post (>= 1.2.0)
-    loofah (2.25.2)
+    loofah (2.25.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.12.0)
+      nokogiri (>= 1.19.5)
     mail (2.9.1)
       logger
       mini_mime (>= 0.1.1)
@@ -399,7 +399,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.1020)
+    mime-types-data (3.2026.1027)
     mini_mime (1.1.5)
     mini_racer (0.22.2)
       libv8-node (~> 24.12.0.1)
@@ -437,15 +437,15 @@ GEM
       openssl (>= 3.2.0)
     netrc (0.11.0)
     nio4r (2.7.5)
-    nokogiri (1.19.4-aarch64-linux-gnu)
+    nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.19.4-aarch64-linux-musl)
+    nokogiri (1.19.7-aarch64-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.19.4-arm64-darwin)
+    nokogiri (1.19.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-linux-gnu)
+    nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-linux-musl)
+    nokogiri (1.19.7-x86_64-linux-musl)
       racc (~> 1.4)
     oily_png (1.2.1)
       chunky_png (~> 1.3.7)
@@ -676,7 +676,7 @@ GEM
       uri
       yaml
     parallel (2.3.0)
-    parallel_tests (5.8.0)
+    parallel_tests (5.9.0)
       parallel
     parser (3.3.13.0)
       ast (~> 2.4.1)
@@ -747,8 +747,8 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.7.1)
-      loofah (~> 2.25, >= 2.25.2)
+    rails-html-sanitizer (1.7.2)
+      loofah (~> 2.25, >= 2.25.3)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     railties (8.1.4)
       actionpack (= 8.1.4)
@@ -883,9 +883,9 @@ GEM
     ruby_parser (3.22.0)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubydex (0.4.2-aarch64-linux)
-    rubydex (0.4.2-arm64-darwin)
-    rubydex (0.4.2-x86_64-linux)
+    rubydex (0.4.4-aarch64-linux)
+    rubydex (0.4.4-arm64-darwin)
+    rubydex (0.4.4-x86_64-linux)
     rubyzip (3.7.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -941,7 +941,7 @@ GEM
     sorbet-static-and-runtime (0.6.13612)
       sorbet (= 0.6.13612)
       sorbet-runtime (= 0.6.13612)
-    spoom (1.8.12)
+    spoom (1.8.13)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
       rbi (>= 0.4.2)
@@ -1001,7 +1001,7 @@ GEM
     unicode-types (1.12.0)
     uri (1.1.2)
     useragent (0.16.11)
-    vcr (6.4.0)
+    vcr (6.4.1)
     version_gem (1.1.17)
     warden (1.2.9)
       rack (>= 2.0.9)

@@ -281,95 +281,107 @@ class Down::InvalidUrl < ::Down::Error; end
 class Down::NetHttp < ::Down::Backend
   # Initializes the backend with common defaults.
   #
-  # pkg:gem/down#lib/down/net_http.rb:29
+  # pkg:gem/down#lib/down/net_http.rb:33
   def initialize(*, **, &); end
 
   # Downloads a remote file to disk using open-uri. Accepts any open-uri
   # options, and a few more.
   #
-  # pkg:gem/down#lib/down/net_http.rb:35
+  # pkg:gem/down#lib/down/net_http.rb:39
   def download(url, *, **, &); end
 
   # Starts retrieving the remote file using Net::HTTP and returns an IO-like
   # object which downloads the response body on-demand.
   #
-  # pkg:gem/down#lib/down/net_http.rb:109
+  # pkg:gem/down#lib/down/net_http.rb:113
   def open(url, *, **, &); end
 
   private
 
+  # Returns the Content-Length, unless a Transfer-Encoding is present or
+  # Net::HTTP will decode the body, in which case it doesn't reflect the
+  # number of bytes read. Decoding conditions mirror Net::HTTPResponse#inflater.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:307
+  def content_length(response); end
+
   # Build a Net::HTTP object for making a request.
   #
-  # pkg:gem/down#lib/down/net_http.rb:257
+  # pkg:gem/down#lib/down/net_http.rb:261
   def create_net_http(uri, proxy: T.unsafe(nil), ssl_verify_mode: T.unsafe(nil), ssl_ca_cert: T.unsafe(nil), read_timeout: T.unsafe(nil), open_timeout: T.unsafe(nil), headers: T.unsafe(nil), http_basic_authentication: T.unsafe(nil), **); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri
   # returns a StringIO when there is less than 10KB of content), and gives
   # it the specified file extension.
   #
-  # pkg:gem/down#lib/down/net_http.rb:190
+  # pkg:gem/down#lib/down/net_http.rb:194
   def ensure_tempfile(io, extension, tempfile_name = T.unsafe(nil)); end
 
   # Checks that the url is a valid URI and that its scheme is http or https.
   #
-  # pkg:gem/down#lib/down/net_http.rb:301
+  # pkg:gem/down#lib/down/net_http.rb:319
   def ensure_uri(url, allow_relative: T.unsafe(nil)); end
 
   # Merge default and ad-hoc options, merging nested headers.
   #
-  # pkg:gem/down#lib/down/net_http.rb:375
+  # pkg:gem/down#lib/down/net_http.rb:393
   def merge_options(options, headers = T.unsafe(nil), **new_options); end
 
   # Makes a Net::HTTP request and follows redirects.
   #
-  # pkg:gem/down#lib/down/net_http.rb:208
+  # pkg:gem/down#lib/down/net_http.rb:212
   def net_http_request(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options, &); end
 
   # Makes sure that the URL is properly encoded.
   #
-  # pkg:gem/down#lib/down/net_http.rb:316
+  # pkg:gem/down#lib/down/net_http.rb:334
   def normalize_uri(url, uri_normalizer:); end
 
   # Calls open-uri's URI::HTTP#open method. Additionally handles redirects.
   #
-  # pkg:gem/down#lib/down/net_http.rb:145
+  # pkg:gem/down#lib/down/net_http.rb:149
   def open_uri(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options); end
 
   # When open-uri raises an exception, it doesn't expose the response object.
   # Fortunately, the exception object holds response data that can be used to
   # rebuild the Net::HTTP response object.
   #
-  # pkg:gem/down#lib/down/net_http.rb:325
+  # pkg:gem/down#lib/down/net_http.rb:343
   def rebuild_response_from_open_uri_exception(exception); end
 
   # Re-raise Net::HTTP exceptions as Down::Error exceptions.
   #
-  # pkg:gem/down#lib/down/net_http.rb:359
+  # pkg:gem/down#lib/down/net_http.rb:377
   def request_error!(exception); end
 
   # Raises non-sucessful response as a Down::ResponseError.
   #
-  # pkg:gem/down#lib/down/net_http.rb:344
+  # pkg:gem/down#lib/down/net_http.rb:362
   def response_error!(response); end
 
   # Yields chunks of the response body to the block.
   #
-  # pkg:gem/down#lib/down/net_http.rb:294
+  # pkg:gem/down#lib/down/net_http.rb:298
   def stream_body(response, &); end
 end
 
-# pkg:gem/down#lib/down/net_http.rb:20
+# Content encodings that Net::HTTP transparently decodes.
+#
+# pkg:gem/down#lib/down/net_http.rb:21
+Down::NetHttp::DECODED_ENCODINGS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/down#lib/down/net_http.rb:24
 Down::NetHttp::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Defines some additional attributes for the returned Tempfile (on top of what
 # OpenURI::Meta already defines).
 #
-# pkg:gem/down#lib/down/net_http.rb:396
+# pkg:gem/down#lib/down/net_http.rb:414
 module Down::NetHttp::DownloadedFile
-  # pkg:gem/down#lib/down/net_http.rb:402
+  # pkg:gem/down#lib/down/net_http.rb:420
   def content_type; end
 
-  # pkg:gem/down#lib/down/net_http.rb:397
+  # pkg:gem/down#lib/down/net_http.rb:415
   def original_filename; end
 end
 

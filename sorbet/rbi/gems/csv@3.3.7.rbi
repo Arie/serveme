@@ -865,22 +865,22 @@ class CSV
   def add_row(row); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def binmode(*_arg0, **_arg1, &_arg2); end
+  def binmode(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2394
   def binmode?; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def close(*_arg0, **_arg1, &_arg2); end
+  def close(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def close_read(*_arg0, **_arg1, &_arg2); end
+  def close_read(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def close_write(*_arg0, **_arg1, &_arg2); end
+  def close_write(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def closed?(*_arg0, **_arg1, &_arg2); end
+  def closed?(*, **, &); end
 
   # :call-seq:
   #   csv.col_sep -> string
@@ -1039,10 +1039,10 @@ class CSV
   def eof?; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def external_encoding(*_arg0, **_arg1, &_arg2); end
+  def external_encoding(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def fcntl(*_arg0, **_arg1, &_arg2); end
+  def fcntl(*, **, &); end
 
   # :call-seq:
   #   csv.field_size_limit -> integer or nil
@@ -1057,13 +1057,13 @@ class CSV
   def field_size_limit; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def fileno(*_arg0, **_arg1, &_arg2); end
+  def fileno(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2402
   def flock(*args); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def flush(*_arg0, **_arg1, &_arg2); end
+  def flush(*, **, &); end
 
   # :call-seq:
   #   csv.force_quotes? -> true or false
@@ -1077,7 +1077,7 @@ class CSV
   def force_quotes?; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def fsync(*_arg0, **_arg1, &_arg2); end
+  def fsync(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2790
   def gets; end
@@ -1171,13 +1171,13 @@ class CSV
   def inspect; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def internal_encoding(*_arg0, **_arg1, &_arg2); end
+  def internal_encoding(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2407
   def ioctl(*args); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def isatty(*_arg0, **_arg1, &_arg2); end
+  def isatty(*, **, &); end
 
   # :call-seq:
   #   csv.liberal_parsing? -> true or false
@@ -1258,13 +1258,13 @@ class CSV
   def path; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def pid(*_arg0, **_arg1, &_arg2); end
+  def pid(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def pos(*_arg0, **_arg1, &_arg2); end
+  def pos(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def pos=(*_arg0, **_arg1, &_arg2); end
+  def pos=(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2499
   def puts(row); end
@@ -1321,7 +1321,7 @@ class CSV
   def readlines; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def reopen(*_arg0, **_arg1, &_arg2); end
+  def reopen(*, **, &); end
 
   # :call-seq:
   #   csv.return_headers? -> true or false
@@ -1349,7 +1349,7 @@ class CSV
   def row_sep; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def seek(*_arg0, **_arg1, &_arg2); end
+  def seek(*, **, &); end
 
   # :call-seq:
   #   csv.shift -> array, csv_row, or nil
@@ -1412,16 +1412,16 @@ class CSV
   def stat(*args); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def string(*_arg0, **_arg1, &_arg2); end
+  def string(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def sync(*_arg0, **_arg1, &_arg2); end
+  def sync(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def sync=(*_arg0, **_arg1, &_arg2); end
+  def sync=(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def tell(*_arg0, **_arg1, &_arg2); end
+  def tell(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2421
   def to_i; end
@@ -1430,10 +1430,10 @@ class CSV
   def to_io; end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def truncate(*_arg0, **_arg1, &_arg2); end
+  def truncate(*, **, &); end
 
   # pkg:gem/csv#lib/csv.rb:2387
-  def tty?(*_arg0, **_arg1, &_arg2); end
+  def tty?(*, **, &); end
 
   # :call-seq:
   #   csv.unconverted_fields? -> object
@@ -2539,7 +2539,7 @@ class CSV::Parser
   # +row+ and an accessor method for +row+ called unconverted_fields().  The
   # variable is set to the contents of +fields+.
   #
-  # pkg:gem/csv#lib/csv/parser.rb:1299
+  # pkg:gem/csv#lib/csv/parser.rb:1305
   def add_unconverted_fields(row, fields); end
 
   # pkg:gem/csv#lib/csv/parser.rb:811
@@ -2551,10 +2551,10 @@ class CSV::Parser
   # pkg:gem/csv#lib/csv/parser.rb:733
   def detect_row_separator(sample, cr, lf); end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1270
+  # pkg:gem/csv#lib/csv/parser.rb:1276
   def emit_row(row, quoted_fields = T.unsafe(nil), &block); end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1255
+  # pkg:gem/csv#lib/csv/parser.rb:1261
   def ignore_broken_line; end
 
   # pkg:gem/csv#lib/csv/parser.rb:763
@@ -2563,10 +2563,10 @@ class CSV::Parser
   # pkg:gem/csv#lib/csv/parser.rb:828
   def may_quoted?; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1210
+  # pkg:gem/csv#lib/csv/parser.rb:1216
   def parse_column_end; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1110
+  # pkg:gem/csv#lib/csv/parser.rb:1116
   def parse_column_value; end
 
   # pkg:gem/csv#lib/csv/parser.rb:797
@@ -2578,16 +2578,16 @@ class CSV::Parser
   # pkg:gem/csv#lib/csv/parser.rb:979
   def parse_quotable_loose(&block); end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1040
+  # pkg:gem/csv#lib/csv/parser.rb:1046
   def parse_quotable_robust(&block); end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1168
+  # pkg:gem/csv#lib/csv/parser.rb:1174
   def parse_quoted_column_value; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1224
+  # pkg:gem/csv#lib/csv/parser.rb:1230
   def parse_row_end; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1140
+  # pkg:gem/csv#lib/csv/parser.rb:1146
   def parse_unquoted_column_value; end
 
   # A set of tasks to prepare the file in order to parse it
@@ -2637,10 +2637,10 @@ class CSV::Parser
   # pkg:gem/csv#lib/csv/parser.rb:913
   def skip_needless_lines; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1261
+  # pkg:gem/csv#lib/csv/parser.rb:1267
   def start_row; end
 
-  # pkg:gem/csv#lib/csv/parser.rb:1237
+  # pkg:gem/csv#lib/csv/parser.rb:1243
   def strip_value(value); end
 
   # pkg:gem/csv#lib/csv/parser.rb:942
@@ -3118,7 +3118,7 @@ class CSV::Row
   def each_pair(&block); end
 
   # pkg:gem/csv#lib/csv/row.rb:124
-  def empty?(*_arg0, **_arg1, &_arg2); end
+  def empty?(*, **, &); end
 
   # :call-seq:
   #   fetch(header) -> value
@@ -3356,7 +3356,7 @@ class CSV::Row
   def key?(header); end
 
   # pkg:gem/csv#lib/csv/row.rb:124
-  def length(*_arg0, **_arg1, &_arg2); end
+  def length(*, **, &); end
 
   # pkg:gem/csv#lib/csv/row.rb:284
   def member?(header); end
@@ -3375,7 +3375,7 @@ class CSV::Row
   def push(*args); end
 
   # pkg:gem/csv#lib/csv/row.rb:124
-  def size(*_arg0, **_arg1, &_arg2); end
+  def size(*, **, &); end
 
   # pkg:gem/csv#lib/csv/row.rb:699
   def to_ary(*_arg0); end
@@ -4199,7 +4199,7 @@ class CSV::Table
   def each(&block); end
 
   # pkg:gem/csv#lib/csv/table.rb:223
-  def empty?(*_arg0, **_arg1, &_arg2); end
+  def empty?(*, **, &); end
 
   # :call-seq:
   #   table.headers -> array_of_headers
@@ -4243,7 +4243,7 @@ class CSV::Table
   def inspect; end
 
   # pkg:gem/csv#lib/csv/table.rb:223
-  def length(*_arg0, **_arg1, &_arg2); end
+  def length(*, **, &); end
 
   # The current access mode for indexing and iteration.
   #
@@ -4270,7 +4270,7 @@ class CSV::Table
   def push(*rows); end
 
   # pkg:gem/csv#lib/csv/table.rb:223
-  def size(*_arg0, **_arg1, &_arg2); end
+  def size(*, **, &); end
 
   # :call-seq:
   #   table.to_a -> array_of_arrays

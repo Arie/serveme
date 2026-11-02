@@ -90,7 +90,7 @@ Sentry::Rails::CaptureExceptions::SPAN_ORIGIN = T.let(T.unsafe(nil), String)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:132
 class Sentry::Rails::Configuration
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:190
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:195
   def initialize; end
 
   # Whether we should inject trace propagation headers into the serialized job
@@ -231,10 +231,24 @@ class Sentry::Rails::Configuration
   # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:147
   def skippable_job_adapters=(_arg0); end
 
+  # Solid Queue recurring task keys to skip when the :solid_queue_recurring patch is enabled.
+  # Strings match the key exactly; Regexps are matched against it.
+  # @return [Array<String, Regexp>]
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  def solid_queue_exclude_recurring_tasks; end
+
+  # Solid Queue recurring task keys to skip when the :solid_queue_recurring patch is enabled.
+  # Strings match the key exactly; Regexps are matched against it.
+  # @return [Array<String, Regexp>]
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  def solid_queue_exclude_recurring_tasks=(_arg0); end
+
   # Configuration for structured logging feature
   # @return [StructuredLoggingConfiguration]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:188
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:193
   def structured_logging; end
 
   # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:149
@@ -497,6 +511,56 @@ module Sentry::Rails::Serializer
   end
 end
 
+# Sends Crons check-ins for Solid Queue recurring tasks.
+# Enable with `config.enabled_patches << :solid_queue_recurring`.
+#
+# pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:7
+module Sentry::Rails::SolidQueueRecurring
+  class << self
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:35
+    def excluded?(task); end
+
+    # Runs in the scheduler, which is where Solid Queue evaluates the schedule.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:45
+    def monitor_for(task, job); end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:79
+    def patch; end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:61
+    def perform(job); end
+
+    private
+
+    # Mirrors RecurringTask, which applies SolidQueue.time_zone to zoneless schedules.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:100
+    def cron_for(task); end
+  end
+end
+
+# pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:9
+Sentry::Rails::SolidQueueRecurring::CURRENT_TASK = T.let(T.unsafe(nil), Symbol)
+
+# pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:20
+module Sentry::Rails::SolidQueueRecurring::Job
+  # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:28
+  def deserialize(job_data); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:21
+  def serialize; end
+end
+
+# pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:8
+Sentry::Rails::SolidQueueRecurring::PAYLOAD_KEY = T.let(T.unsafe(nil), String)
+
+# pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:11
+module Sentry::Rails::SolidQueueRecurring::RecurringTask
+  # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:12
+  def enqueue(at:); end
+end
+
 # pkg:gem/sentry-rails#lib/sentry/rails/structured_logging.rb:11
 module Sentry::Rails::StructuredLogging
   class << self
@@ -508,43 +572,43 @@ module Sentry::Rails::StructuredLogging
   end
 end
 
-# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:212
+# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:218
 class Sentry::Rails::StructuredLoggingConfiguration
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:226
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:232
   def initialize; end
 
   # Enable or disable structured logging
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:215
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:221
   def enabled; end
 
   # Enable or disable structured logging
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:215
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:221
   def enabled=(_arg0); end
 
   # Returns true if structured logging should be enabled.
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:233
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:239
   def enabled?; end
 
   # Hash of components to subscriber classes for structured logging
   # @return [Hash<Symbol, Class>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:219
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:225
   def subscribers; end
 
   # Hash of components to subscriber classes for structured logging
   # @return [Hash<Symbol, Class>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:219
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:225
   def subscribers=(_arg0); end
 end
 
-# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:221
+# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:227
 Sentry::Rails::StructuredLoggingConfiguration::DEFAULT_SUBSCRIBERS = T.let(T.unsafe(nil), Hash)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/tracing.rb:5
@@ -718,39 +782,46 @@ Sentry::Rails::VERSION = T.let(T.unsafe(nil), String)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:8
 class Sentry::Railtie < ::Rails::Railtie
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:144
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:158
   def activate_structured_logging; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:135
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:149
   def activate_tracing; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:89
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:94
   def configure_cron_timezone; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:81
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:86
   def configure_project_root; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:85
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:90
   def configure_trusted_proxies; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:94
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:99
   def extend_controller_methods; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:110
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:124
   def inject_breadcrumbs_logger; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:127
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:141
   def override_streaming_reporter; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:106
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:120
   def patch_background_worker; end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:150
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:164
   def register_error_subscriber(app); end
 
-  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:119
+  # pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:133
   def setup_backtrace_cleanup_callback; end
 end
+
+# Referencing ActionController::Live loads ActionDispatch::Response, and Rails
+# warns when that happens before the application has initialized. Rails 8.1.4
+# added the :action_controller_live load hook so we can wait for it instead.
+#
+# pkg:gem/sentry-rails#lib/sentry/rails/railtie.rb:12
+Sentry::Railtie::SUPPORTS_ACTION_CONTROLLER_LIVE_LOAD_HOOK = T.let(T.unsafe(nil), TrueClass)
 
 class Sentry::SendEventJob < ::ActiveJob::Base
   def perform(event, hint = T.unsafe(nil)); end

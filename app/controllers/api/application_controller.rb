@@ -53,7 +53,7 @@ module Api
     private
 
     def render_stv_link(connect: nil, demo: nil)
-      render json: { url: StvtfToken.start_url(connect: connect, demo: demo, owner: nil), expires_at: StvtfToken::TTL.seconds.from_now }
+      render json: { url: StvtfToken.start_url(connect: connect, demo: demo, owner: current_user&.uid), expires_at: StvtfToken::TTL.seconds.from_now }
     end
 
     def render_stv_unavailable

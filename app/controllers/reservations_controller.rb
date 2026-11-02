@@ -163,7 +163,7 @@ class ReservationsController < ApplicationController
       return redirect_to(watched ? reservation_path(watched) : root_path)
     end
 
-    redirect_to StvtfToken.start_url(connect: T.must(watched.stv_connect_string), owner: nil), allow_other_host: true
+    redirect_to StvtfToken.start_url(connect: T.must(watched.stv_connect_string), owner: current_user&.uid), allow_other_host: true
   end
 
   def streaming

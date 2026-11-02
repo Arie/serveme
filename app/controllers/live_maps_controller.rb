@@ -21,9 +21,9 @@ class LiveMapsController < ApplicationController
 
   def start_url(input)
     if (demo = DemostfDemo.parse(input))
-      StvtfToken.start_url(demo: demo.check!.id, owner: nil)
+      StvtfToken.start_url(demo: demo.check!.id, owner: current_user&.uid)
     else
-      StvtfToken.start_url(connect: StvConnect.parse(input).check!.connect_string, owner: nil)
+      StvtfToken.start_url(connect: StvConnect.parse(input).check!.connect_string, owner: current_user&.uid)
     end
   end
 end

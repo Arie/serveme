@@ -20,8 +20,8 @@ describe LiveMapsController do
     allow_any_instance_of(StvConnect).to receive(:check!) { |c| c }
   end
 
-  it 'sends a checked address to the map server with an unlimited token' do
-    expect(StvtfToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: nil).and_call_original
+  it 'sends a checked address to the map server with the Steam uid of the user' do
+    expect(StvtfToken).to receive(:start_url).with(connect: 'connect 1.2.3.4:27020; password "tv"', owner: user.uid).and_call_original
     post :create, params: { connect: ' 1.2.3.4:27020 tv ' }
     expect(response.location).to start_with('https://stv.tf/start?t=')
   end
@@ -36,7 +36,7 @@ describe LiveMapsController do
 
   it 'sends a demos.tf link to the map server to play' do
     allow_any_instance_of(DemostfDemo).to receive(:check!) { |d| d }
-    expect(StvtfToken).to receive(:start_url).with(demo: 1_527_264, owner: nil).and_call_original
+    expect(StvtfToken).to receive(:start_url).with(demo: 1_527_264, owner: user.uid).and_call_original
     post :create, params: { connect: 'https://demos.tf/1527264' }
     expect(response.location).to start_with('https://stv.tf/start?t=')
   end

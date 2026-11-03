@@ -18,7 +18,7 @@ module Haml; end
 # pkg:gem/haml#lib/haml/ambles.rb:3
 class Haml::Ambles < ::Temple::Filter
   # pkg:gem/haml#lib/haml/ambles.rb:6
-  def initialize(*_arg0); end
+  def initialize(*); end
 
   # pkg:gem/haml#lib/haml/ambles.rb:12
   def call(ast); end
@@ -1348,7 +1348,7 @@ module Haml::TemplateExtension
   # https://github.com/judofyr/temple/blob/v0.7.6/lib/temple/mixins/template.rb#L7-L11
   #
   # pkg:gem/haml#lib/haml/template.rb:15
-  def compile(*_arg0); end
+  def compile(*); end
 end
 
 # For backward compatibility of Tilt integration. TODO: We should deprecate this

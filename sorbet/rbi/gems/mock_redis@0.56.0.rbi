@@ -32,66 +32,72 @@
 class MockRedis
   include ::MockRedis::UndefRedisMethods
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:34
+  # pkg:gem/mock_redis#lib/mock_redis.rb:35
   def initialize(*args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:73
+  # pkg:gem/mock_redis#lib/mock_redis.rb:82
   def client; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:77
+  # pkg:gem/mock_redis#lib/mock_redis.rb:86
   def connect; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:61
+  # pkg:gem/mock_redis#lib/mock_redis.rb:62
   def db; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:53
+  # pkg:gem/mock_redis#lib/mock_redis.rb:54
   def host; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:48
+  # pkg:gem/mock_redis#lib/mock_redis.rb:49
   def id; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:51
+  # pkg:gem/mock_redis#lib/mock_redis.rb:52
   def location; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:65
+  # pkg:gem/mock_redis#lib/mock_redis.rb:74
   def logger; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:93
-  def method_missing(method, *args, **_arg2, &block); end
+  # pkg:gem/mock_redis#lib/mock_redis.rb:102
+  def method_missing(method, *args, **, &block); end
 
   # pkg:gem/mock_redis#lib/mock_redis.rb:16
   def options; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:57
+  # pkg:gem/mock_redis#lib/mock_redis.rb:70
+  def password; end
+
+  # pkg:gem/mock_redis#lib/mock_redis.rb:58
   def port; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:81
+  # pkg:gem/mock_redis#lib/mock_redis.rb:90
   def reconnect; end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:89
+  # pkg:gem/mock_redis#lib/mock_redis.rb:98
   def respond_to?(method, include_private = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:69
+  # pkg:gem/mock_redis#lib/mock_redis.rb:78
   def time_at(timestamp); end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:85
+  # pkg:gem/mock_redis#lib/mock_redis.rb:66
+  def username; end
+
+  # pkg:gem/mock_redis#lib/mock_redis.rb:94
   def with; end
 
   protected
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:106
+  # pkg:gem/mock_redis#lib/mock_redis.rb:115
   def _parse_options(options); end
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:150
+  # pkg:gem/mock_redis#lib/mock_redis.rb:160
   def logging(commands); end
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis.rb:99
+  # pkg:gem/mock_redis#lib/mock_redis.rb:108
   def initialize_copy(source); end
 
   class << self
-    # pkg:gem/mock_redis#lib/mock_redis.rb:30
+    # pkg:gem/mock_redis#lib/mock_redis.rb:31
     def connect(*args); end
   end
 end
@@ -138,13 +144,13 @@ class MockRedis::Database
   # pkg:gem/mock_redis#lib/mock_redis/database.rb:34
   def initialize(base, *_args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:67
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:69
   def auth(_); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:71
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:73
   def bgrewriteaof; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:75
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:77
   def bgsave; end
 
   # FIXME: Current implementation of `call` does not work propetly with kwarg-options.
@@ -154,171 +160,174 @@ class MockRedis::Database
   # pkg:gem/mock_redis#lib/mock_redis/database.rb:51
   def call(*command, &_block); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:82
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:84
   def close; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:85
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:87
   def connected?; end
 
   # pkg:gem/mock_redis#lib/mock_redis/database.rb:32
   def data; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:89
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:91
   def dbsize; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:93
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:95
   def del(*keys); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:79
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:81
   def disconnect; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:83
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:85
   def disconnect!; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:166
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:168
   def dump(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:105
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:107
   def echo(msg); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:313
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:315
   def eval(*args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:311
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:313
   def evalsha(*args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:152
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:154
   def exists(*keys); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:156
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:158
   def exists?(*keys); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:109
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:111
   def expire(key, seconds, nx: T.unsafe(nil), xx: T.unsafe(nil), lt: T.unsafe(nil), gt: T.unsafe(nil)); end
 
   # This method isn't private, but it also isn't a Redis command, so
   # it doesn't belong up above with all the Redis commands.
   #
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:408
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:436
   def expire_keys; end
 
   # pkg:gem/mock_redis#lib/mock_redis/database.rb:32
   def expire_times; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:123
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:125
   def expireat(key, timestamp, nx: T.unsafe(nil), xx: T.unsafe(nil), lt: T.unsafe(nil), gt: T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:161
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:163
   def flushdb; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:182
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:184
   def keys(format = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:200
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:202
   def lastsave; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:282
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:284
   def now; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:204
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:206
   def persist(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:115
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:117
   def pexpire(key, ms, nx: T.unsafe(nil), xx: T.unsafe(nil), lt: T.unsafe(nil), gt: T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:129
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:131
   def pexpireat(key, timestamp_ms, nx: T.unsafe(nil), xx: T.unsafe(nil), lt: T.unsafe(nil), gt: T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:213
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:215
   def ping(response = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:269
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:271
   def pttl(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:217
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:219
   def quit; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:221
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:223
   def randomkey; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:225
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:227
   def rename(key, newkey); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:241
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:243
   def renamenx(key, newkey); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:171
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:173
   def restore(key, ttl, value, replace: T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:254
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:256
   def save; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:186
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:188
   def scan(cursor, opts = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:190
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:192
   def scan_each(opts = T.unsafe(nil), &block); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:309
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:311
   def script(subcommand, *args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:287
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:289
   def time; end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:258
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:260
   def ttl(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:289
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:291
   def type(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:103
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:105
   def unlink(*keys); end
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:317
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:319
   def assert_valid_timeout(timeout); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:327
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:329
   def can_incr?(value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:331
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:333
   def can_incr_float?(value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:348
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:350
   def expiration(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:335
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:337
   def extract_timeout(arglist); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:352
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:354
   def has_expiration?(key); end
 
   # pkg:gem/mock_redis#lib/mock_redis/database.rb:40
   def initialize_copy(_source); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:360
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:362
   def looks_like_float?(str); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:356
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:358
   def looks_like_integer?(str); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:377
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:405
   def redis_pattern_to_ruby_regex(pattern); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:386
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:414
   def remove_expiration(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:364
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:366
   def send_expires(command); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:392
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:375
+  def send_set(command); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:420
   def set_expiration(key, time); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:369
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:397
   def should_update_expiration?(expiry, new_expiry, nx:, xx:, lt:, gt:); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/database.rb:399
+  # pkg:gem/mock_redis#lib/mock_redis/database.rb:427
   def zero_pad(string, desired_length); end
 end
 
@@ -361,7 +370,7 @@ class MockRedis::ExpireWrapper
   def initialize(db); end
 
   # pkg:gem/mock_redis#lib/mock_redis/expire_wrapper.rb:15
-  def method_missing(method, *args, **_arg2, &block); end
+  def method_missing(method, *args, **, &block); end
 
   # pkg:gem/mock_redis#lib/mock_redis/expire_wrapper.rb:7
   def respond_to?(method, include_private = T.unsafe(nil)); end
@@ -396,7 +405,7 @@ class MockRedis::FutureNotReady < ::RuntimeError; end
 # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:4
 module MockRedis::GeospatialMethods
   # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:17
-  def geoadd(key, *args, **_arg2); end
+  def geoadd(key, *args, **); end
 
   # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:28
   def geodist(key, member1, member2, unit = T.unsafe(nil)); end
@@ -409,45 +418,50 @@ module MockRedis::GeospatialMethods
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:158
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:156
   def calculate_approximate_area(hash, lng_range, lat_range); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:234
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:237
   def deg_rad(ang); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:177
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:175
   def deinterleave(bits); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:206
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:209
   def format_decoded_coord(coord); end
 
   # Decodes ZSET score to coordinates pair
   #
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:149
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:147
   def geohash_decode(hash, lng_range = T.unsafe(nil), lat_range = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:221
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:224
   def geohash_distance(lng1d, lat1d, lng2d, lat2d); end
 
   # Returns ZSET score for passed coordinates
   #
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:113
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:111
   def geohash_encode(lng, lat, lng_range = T.unsafe(nil), lat_range = T.unsafe(nil), step = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:125
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:123
   def interleave(x, y); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:94
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:92
   def parse_point(point); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:82
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:80
   def parse_points(args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:214
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:217
   def parse_unit(unit); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:238
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:241
   def rad_deg(ang); end
+
+  # redis-rb 6 defaults to RESP3, which returns GEO coordinates as Floats
+  #
+  # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:205
+  def resp3?; end
 end
 
 # pkg:gem/mock_redis#lib/mock_redis/geospatial_methods.rb:14
@@ -711,7 +725,7 @@ class MockRedis::MultiDbWrapper
   def flushall; end
 
   # pkg:gem/mock_redis#lib/mock_redis/multi_db_wrapper.rb:20
-  def method_missing(method, *args, **_arg2, &block); end
+  def method_missing(method, *args, **, &block); end
 
   # pkg:gem/mock_redis#lib/mock_redis/multi_db_wrapper.rb:38
   def move(key, db_index); end
@@ -742,7 +756,7 @@ class MockRedis::PipelinedWrapper
   def initialize(db); end
 
   # pkg:gem/mock_redis#lib/mock_redis/pipelined_wrapper.rb:21
-  def method_missing(method, *args, **_arg2, &block); end
+  def method_missing(method, *args, **, &block); end
 
   # pkg:gem/mock_redis#lib/mock_redis/pipelined_wrapper.rb:31
   def pipelined(_options = T.unsafe(nil)); end
@@ -879,7 +893,7 @@ class MockRedis::Stream
   def each(&block); end
 
   # pkg:gem/mock_redis#lib/mock_redis/stream.rb:13
-  def empty?(*_arg0, **_arg1, &_arg2); end
+  def empty?(*, **, &); end
 
   # pkg:gem/mock_redis#lib/mock_redis/stream.rb:20
   def last_id; end
@@ -980,7 +994,7 @@ module MockRedis::StringMethods
   # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:8
   def append(key, value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:318
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:309
   def bitcount(key, start = T.unsafe(nil), stop = T.unsafe(nil)); end
 
   # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:15
@@ -1034,7 +1048,7 @@ module MockRedis::StringMethods
   # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:195
   def msetnx(*kvpairs); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:355
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:346
   def psetex(key, milliseconds, value); end
 
   # Parameter list required to ensure the ArgumentError is returned correctly
@@ -1042,33 +1056,33 @@ module MockRedis::StringMethods
   # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:212
   def set(key, value, _hash = T.unsafe(nil), ex: T.unsafe(nil), px: T.unsafe(nil), exat: T.unsafe(nil), pxat: T.unsafe(nil), nx: T.unsafe(nil), xx: T.unsafe(nil), keepttl: T.unsafe(nil), get: T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:271
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:262
   def setbit(key, offset, value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:345
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:336
   def setex(key, seconds, value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:365
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:356
   def setnx(key, value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:374
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:365
   def setrange(key, offset, value); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:384
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:375
   def strlen(key); end
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:395
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:386
   def assert_stringy(key, message = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:418
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:409
   def incr_bitfield(val, incrby, is_signed, type_size, overflow_method); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:405
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:396
   def set_bitfield(key, value, is_signed, type_size, offset); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:391
+  # pkg:gem/mock_redis#lib/mock_redis/string_methods.rb:382
   def stringy?(key); end
 end
 
@@ -1089,7 +1103,7 @@ class MockRedis::TransactionWrapper
   def in_multi?; end
 
   # pkg:gem/mock_redis#lib/mock_redis/transaction_wrapper.rb:18
-  def method_missing(method, *args, **_arg2, &block); end
+  def method_missing(method, *args, **, &block); end
 
   # pkg:gem/mock_redis#lib/mock_redis/transaction_wrapper.rb:79
   def multi; end
@@ -1173,13 +1187,13 @@ class MockRedis::Zset
   def each; end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:11
-  def empty?(*_arg0, **_arg1, &_arg2); end
+  def empty?(*, **, &); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:41
   def in_range(min, max); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:11
-  def include?(*_arg0, **_arg1, &_arg2); end
+  def include?(*, **, &); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:71
   def intersection(other); end
@@ -1194,7 +1208,7 @@ class MockRedis::Zset
   def scores; end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:11
-  def size(*_arg0, **_arg1, &_arg2); end
+  def size(*, **, &); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset.rb:86
   def sorted; end
@@ -1216,128 +1230,134 @@ module MockRedis::ZsetMethods
   include ::MockRedis::Assertions
   include ::MockRedis::UtilityMethods
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:363
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:492
   def bzmpop(timeout, *keys, **options); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:323
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:452
   def bzpopmax(*args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:309
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:438
   def bzpopmin(*args); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:294
+  def in_lex_range?(member, min, max); end
+
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:301
+  def lex_compare(member, bound, direction); end
 
   # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:10
   def zadd(key, *args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:146
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:234
   def zcard(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:150
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:238
   def zcount(key, min, max); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:158
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:246
   def zincrby(key, increment, member); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:169
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:257
   def zinterstore(destination, keys, options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:337
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:466
   def zmpop(*keys, **options); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:293
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:422
   def zmscore(key, *members); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:224
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:353
   def zpopmax(key, count = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:215
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:344
   def zpopmin(key, count = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:176
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:264
   def zrange(key, start, stop, options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:184
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:313
   def zrangebyscore(key, min, max, options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:193
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:322
   def zrank(key, member); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:197
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:326
   def zrem(key, *args); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:239
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:368
   def zremrangebyrank(key, start, stop); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:245
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:374
   def zremrangebyscore(key, min, max); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:233
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:362
   def zrevrange(key, start, stop, options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:253
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:382
   def zrevrangebyscore(key, max, min, options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:267
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:396
   def zrevrank(key, member); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:271
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:400
   def zscan(key, cursor, opts = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:276
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:405
   def zscan_each(key, opts = T.unsafe(nil), &block); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:286
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:415
   def zscore(key, member); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:302
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:431
   def zunionstore(destination, keys, options = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:397
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:526
   def apply_limit(collection, limit); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:492
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:621
   def assert_coercible_zsety(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:513
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:642
   def assert_range_args(min, max); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:503
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:632
   def assert_scorey(value, message = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:486
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:615
   def assert_zsety(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:448
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:577
   def coerce_to_zset(set); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:482
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:611
   def coercible_zsety?(key); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:420
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:549
   def combine_weighted_zsets(keys, options, how); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:519
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:648
   def first_nonempty_zset(keys); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:498
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:627
   def looks_like_float?(x); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:410
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:539
   def to_response(score_member_pairs, options); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:456
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:585
   def with_zset_at(key, coercible: T.unsafe(nil), &blk); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:466
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:595
   def with_zsets_at(*keys, coercible: T.unsafe(nil), &blk); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:101
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:153
   def zadd_multiple_members(key, args, zadd_options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:38
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:52
   def zadd_one_member(key, score, member, zadd_options = T.unsafe(nil)); end
 
-  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:478
+  # pkg:gem/mock_redis#lib/mock_redis/zset_methods.rb:607
   def zsety?(key); end
 end

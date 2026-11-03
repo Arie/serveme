@@ -215,8 +215,12 @@ class ReservationsController < ApplicationController
 
   def motd
     @reservation = Reservation.find(params[:id])
+    return head(:not_found) if @reservation.past?
 
-    return head(:unauthorized) unless @reservation.password == params[:password]
+    unless @reservation.password == params[:password]
+      Rack::Attack.motd_password_failed!(request.remote_ip)
+      return head(:unauthorized)
+    end
 
     @current_players = current_players_with_location_info(@reservation)
     @distance_unit = distance_unit

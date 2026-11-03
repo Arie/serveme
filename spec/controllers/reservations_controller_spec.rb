@@ -534,6 +534,19 @@ describe ReservationsController do
   end
 
   describe '#motd' do
+    it 'returns not found for an ended reservation, even with the correct password' do
+      reservation = create :reservation, :old
+      get :motd, params: { id: reservation.id, password: reservation.password }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns unauthorized and records a failure for a wrong password' do
+      reservation = create :reservation
+      expect(Rack::Attack).to receive(:motd_password_failed!).with('0.0.0.0')
+      get :motd, params: { id: reservation.id, password: 'wrong' }
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'loads the reservation and current players with correct password' do
       reservation = create :reservation
       get :motd, params: { id: reservation.id, password: reservation.password }

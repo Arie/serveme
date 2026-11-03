@@ -42,6 +42,17 @@ describe StvtfToken do
     expect { described_class.generate(owner: nil) }.to raise_error(ArgumentError)
   end
 
+  it 'links the match to a reservation when given one' do
+    now = Time.zone.at(1_000_000)
+    payload = open.call(described_class.generate(connect: 'x', owner: nil, reservation: 1_291_843, now: now))
+    expect(payload).to include('connect' => 'x', 'reservation' => 1_291_843)
+  end
+
+  it 'makes list tokens that start nothing' do
+    payload = open.call(described_class.list_token(now: Time.zone.at(1_000_000)))
+    expect(payload).to eq('list' => true, 'exp' => 1_000_060)
+  end
+
   it 'keeps the password out of the readable URL' do
     url = described_class.start_url(connect: 'connect 1.2.3.4:27020; password "hunter2"', owner: nil)
     expect(url).to start_with('https://stv.tf/start?t=')

@@ -36,7 +36,7 @@ describe ReservationsController do
 
     it 'sends a running reservation to the map server with the Steam uid of the user' do
       reservation = create :reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: @user.uid).and_call_original
+      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: @user.uid, reservation: reservation.id).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end
@@ -45,7 +45,7 @@ describe ReservationsController do
       user = create :user
       sign_in user
       reservation = create :reservation, user: user, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now
-      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid).and_call_original
+      expect(StvtfToken).to receive(:start_url).with(connect: reservation.stv_connect_string, owner: user.uid, reservation: reservation.id).and_call_original
       get :watch, params: { id: reservation.id }
       expect(response.location).to start_with('https://stv.tf/start?t=')
     end

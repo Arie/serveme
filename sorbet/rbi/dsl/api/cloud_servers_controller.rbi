@@ -27,6 +27,7 @@ class Api::CloudServersController
     include ::ActionController::Base::HelperMethods
     include ::ApplicationHelper
     include ::DonatorsHelper
+    include ::LiveMapsHelper
     include ::LogLineHelper
     include ::ERB::Escape
     include ::ERB::Util

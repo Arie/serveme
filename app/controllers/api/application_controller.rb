@@ -84,6 +84,10 @@ module Api
       head :forbidden unless api_user&.admin? || api_user&.league_admin?
     end
 
+    def require_admin_or_streamer
+      head :forbidden unless api_user&.admin? || api_user&.league_admin? || api_user&.streamer?
+    end
+
     def require_config_admin_or_above
       head :forbidden unless api_user&.config_admin? || api_user&.admin? || api_user&.league_admin?
     end

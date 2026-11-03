@@ -106,6 +106,9 @@ module GeneratedUrlHelpersModule
   def api_servers_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_stv_live_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_stv_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -278,6 +281,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def live_map_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def live_stv_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def log_lines_api_reservation_url(*args); end

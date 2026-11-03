@@ -1,0 +1,151 @@
+- content_for(:title) { "Live STV" }
+
+%div{class: "flex items-center justify-between gap-4 my-6 flex-wrap"}
+  %div{class: "flex flex-wrap items-center gap-4"}
+    %h1{class: "v2-page-title"} Live STV
+    = form_tag(live_stv_path, method: :get, role: "search", class: "w-[32rem] max-w-full", data: { controller: "user-search", turbo_frame: "live_stv", turbo_action: "replace" }) do
+      = search_field_tag :q, params[:q], class: "v2-input", placeholder: "Name, Steam ID, [U:1:…] or SteamID64", "aria-label": "Search reservations", autocomplete: "off", data: { action: "input->user-search#debounceSearch" }
+  = link_to "Watch a connect string", live_map_path, class: "v2-btn v2-btn-outline"
+
+= turbo_frame_tag "live_stv", data: { controller: "frame-refresh" } do
+  %p{class: "text-faint text-sm mb-4"} Updated #{I18n.l(Time.current, format: "%H:%M:%S")}, refreshes every 15 s.
+
+  - if @hub_error
+    %div{class: "v2-flash v2-flash-alert mb-4"}
+      stv.tf isn't responding, so watched matches can't be shown.
+
+  - if @watched.any? || @demos.any?
+    %div{class: "flex items-baseline gap-3 flex-wrap mb-3"}
+      %h2{class: "font-display text-xl text-ink"} Watched on stv.tf
+      %span{class: "text-muted text-sm"}= "#{pluralize(@watched.size, 'match')} · #{@watched.sum { |m| m['viewers'].to_i }} watching"
+
+    %div{class: "v2-table-wrap mb-8"}
+      %table{class: "v2-table"}
+        %thead
+          %tr
+            %th Match
+            %th Map
+            %th Score
+            %th Clock
+            %th Players
+            %th Viewers
+            %th Watched
+            %th
+        %tbody
+          - if @watched.empty?
+            %tr
+              %td{colspan: 8, class: "text-muted"}= @hub_error ? "No data from stv.tf." : "No matches being watched."
+          - @watched.each do |match|
+            - reservation = @reservations_by_id[match.reservation_id]
+            %tr
+              %td
+                %div{class: "flex items-center gap-2 flex-wrap"}
+                  - if match.pasted?
+                    %span{class: "v2-badge v2-badge-gold"} Pasted
+                    %span{class: "text-ink font-semibold"}= match["hostname"].presence || "SourceTV"
+                  - elsif reservation
+                    = link_to reservation.decorate.server_name, reservation_path(reservation), class: "text-ink font-semibold"
+                  - else
+                    %span{class: "text-ink font-semibold"}= match["hostname"]
+                  - if match.stalled?
+                    %span{class: "v2-badge v2-badge-danger"}= "no data #{match['data_age'].to_i} s"
+                %div{class: "text-faint text-sm font-mono"}= match.pasted? ? match["server"] : "Reservation ##{match.reservation_id}"
+              %td{class: "font-mono"}= match["map"]
+              %td{class: "font-mono text-lg whitespace-nowrap"}
+                - if match["score"]
+                  %span{class: "text-danger font-bold"}= match["score"]["red"]
+                  %span{class: "text-faint"} –
+                  %span{class: "text-info font-bold"}= match["score"]["blue"]
+              %td
+                %div= stv_round_label(match)
+                %div{class: "text-faint text-sm"}= stv_round_detail(match)
+              %td
+                %details
+                  %summary{class: "cursor-pointer whitespace-nowrap font-mono"}
+                    %span{class: "text-danger font-bold"}= match.players("red").size
+                    %span{class: "text-faint"} v
+                    %span{class: "text-info font-bold"}= match.players("blue").size
+                    %span{class: "text-faint text-sm"}= stv_spectators(match)
+                  %div{class: "grid grid-cols-2 gap-4 mt-2"}
+                    - [ %w[red text-danger RED], %w[blue text-info BLU] ].each do |team, color, label|
+                      %div
+                        %div{class: "#{color} font-bold text-sm"}= label
+                        - match.players(team).each do |player|
+                          %div{class: "text-sm whitespace-nowrap"}
+                            %span{class: "text-faint font-mono"}= stv_class(player)
+                            = player["name"]
+              %td
+                %div{class: "font-mono"}= "#{match['viewers']} now"
+                %div{class: "text-faint text-sm"}= "peak #{match['peak']} · #{pluralize(match['views'], 'view')}"
+              %td
+                %div{class: "font-mono whitespace-nowrap"}= stv_duration(match["watching_for"])
+                - if match["owner"]
+                  %div{class: "text-faint text-sm"}= "by #{@owner_names.fetch(match['owner'], match['owner'])}"
+              %td
+                %div{class: "flex justify-end gap-2 whitespace-nowrap"}
+                  = link_to "Overlay", match.overlay_url, class: "v2-btn v2-btn-outline v2-btn-sm", target: "_blank", rel: "noopener"
+                  = link_to "Open", match.url, class: "v2-btn v2-btn-primary v2-btn-sm", target: "_blank", rel: "noopener"
+          - if @demos.any?
+            %tr
+              %td{colspan: 8, class: "text-muted text-sm"}
+                %details
+                  %summary{class: "cursor-pointer"}= "#{pluralize(@demos.size, 'demo')} playing"
+                  - @demos.each do |demo|
+                    %div{class: "mt-1"}
+                      = link_to(stv_demo_label(demo), demo.url, target: "_blank", rel: "noopener")
+                      %span{class: "text-faint"}= "· #{demo['map']} · #{demo['viewers']} watching"
+
+  %div{class: "flex items-baseline justify-between gap-3 flex-wrap mb-3"}
+    %div{class: "flex items-baseline gap-3 flex-wrap"}
+      %h2{class: "font-display text-xl text-ink"} Running reservations
+      %span{class: "text-muted text-sm"}= "#{pluralize(@reservation_count, 'reservation')} · #{pluralize(@player_count, 'player')}"
+    - if @toggle
+      = link_to(*@toggle, class: "v2-btn v2-btn-ghost v2-btn-sm", data: { turbo_frame: "_top" })
+
+  %div{class: "v2-table-wrap"}
+    %table{class: "v2-table"}
+      %thead
+        %tr
+          %th Server
+          %th Reserved by
+          %th Map
+          %th Players
+          %th Config
+          %th Ends in
+          %th
+      %tbody
+        - if @rows.empty?
+          %tr
+            %td{colspan: 7, class: "text-muted"}= @search.active? ? "No running reservation matches “#{@search.query}”." : "No running reservations with players."
+        - @rows.each do |row|
+          - reservation = row.reservation
+          - watched = @watched_reservations[reservation.id]
+          %tr
+            %td
+              = link_to reservation.decorate.server_name, reservation_path(reservation), class: "text-ink font-semibold"
+              %div{class: "text-faint text-sm font-mono whitespace-nowrap"}= "##{reservation.id} · started #{stv_duration(Time.current - reservation.starts_at)} ago"
+            %td= reservation.user&.nickname
+            %td{class: "font-mono"}= row.map
+            %td
+              - if row.players.any?
+                %details
+                  %summary{class: "cursor-pointer font-mono"}= row.players.size
+                  %div{class: "mt-2"}
+                    - row.players.each do |player|
+                      %div{class: "text-sm whitespace-nowrap"}
+                        %span{class: [ "flags", ("flags-#{player.country_code.downcase}" if player.country_code) ]}
+                        = player.name
+              - else
+                %span{class: "font-mono text-faint"} 0
+            %td
+              %div{class: "font-mono text-sm"}= reservation.server_config&.to_s
+              %div{class: "text-faint text-sm"}= reservation.whitelist&.to_s
+            %td{class: "font-mono whitespace-nowrap"}= stv_duration(reservation.time_left)
+            %td
+              %div{class: "flex justify-end items-center gap-2 whitespace-nowrap"}
+                - if watched
+                  %span{class: "inline-flex items-center gap-2 text-success-text text-sm whitespace-nowrap"}
+                    %span{class: "v2-dot bg-success"}
+                    = "#{watched['viewers']} watching"
+                = link_to(watched ? "Join on stv.tf" : "Watch on stv.tf", watch_reservation_path(reservation), class: "v2-btn v2-btn-primary v2-btn-sm", target: "_blank", rel: "noopener", data: { turbo: false })
+                = link_to "Join STV", reservation.stv_connect_url, class: "v2-btn v2-btn-outline v2-btn-sm"

@@ -106,6 +106,9 @@ module GeneratedPathHelpersModule
   def api_servers_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def api_stv_live_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_stv_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -278,6 +281,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def live_map_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def live_stv_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def log_lines_api_reservation_path(*args); end

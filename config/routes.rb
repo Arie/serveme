@@ -45,6 +45,7 @@ Serveme::Application.routes.draw do
     end
   end
 
+  get "/stv/live", to: "live_maps#index", as: :live_stv
   get "/stv", to: "live_maps#new", as: :live_map
   post "/stv", to: "live_maps#create"
 
@@ -209,6 +210,7 @@ Serveme::Application.routes.draw do
     end
 
     post "stv", to: "live_maps#create"
+    get "stv/live", to: "live_maps#index"
 
     resources :cloud_servers, only: [] do
       member do

@@ -1294,6 +1294,122 @@ RSpec.describe 'serveme.tf API', type: :request do
     end
   end
 
+  path '/api/stv/live' do
+    get 'List what stv.tf is watching and the reservations it can watch' do
+      tags 'stv.tf'
+      produces 'application/json'
+      description 'For admins, league admins and streamers. stv_tf.matches are the matches this region\'s stv.tf is watching, from reservations or pasted connect strings, ' \
+                  'with their map, score, clocks, players and viewers; url opens one without a token. reservations are the running reservations stv.tf can watch, ' \
+                  'with their map and the players of the last 90 seconds; get a link to watch one from /api/reservations/{id}/stv.'
+      parameter name: :api_key, in: :query, type: :string, required: false, description: 'API key for authentication'
+      security [ { api_key: [] }, { token_auth: [] }, { bearer_token: [] } ]
+
+      around(&stv_env)
+
+      response '200', 'Watched matches and running reservations' do
+        schema type: :object,
+               properties: {
+                 stv_tf: {
+                   type: :object,
+                   properties: {
+                     error: { type: :string, nullable: true, description: 'Set when stv.tf did not answer; matches is then empty' },
+                     matches: {
+                       type: :array,
+                       items: {
+                         type: :object,
+                         properties: {
+                           id: { type: :string },
+                           url: { type: :string },
+                           overlay_url: { type: :string },
+                           reservation: { type: :integer, nullable: true },
+                           demo: { type: :integer, nullable: true },
+                           pinned: { type: :boolean },
+                           owner: { type: :string, nullable: true, description: 'Steam ID64 of who started watching it' },
+                           server: { type: :string, nullable: true },
+                           map: { type: :string, nullable: true },
+                           hostname: { type: :string, nullable: true },
+                           round: { type: :string, nullable: true },
+                           round_time: { type: :number, nullable: true },
+                           time_left: { type: :number, nullable: true },
+                           match_time: { type: :number, nullable: true },
+                           win_limit: { type: :integer, nullable: true },
+                           score: { type: :object, nullable: true, properties: { red: { type: :integer }, blue: { type: :integer } } },
+                           viewers: { type: :integer },
+                           peak: { type: :integer },
+                           views: { type: :integer },
+                           watching_for: { type: :integer, description: 'Seconds' },
+                           data_age: { type: :number, nullable: true, description: 'Seconds since the latest snapshot' },
+                           done: { type: :boolean },
+                           players: {
+                             type: :array,
+                             items: { type: :object, properties: { name: { type: :string }, steamid: { type: :string }, team: { type: :string }, class: { type: :string } } }
+                           }
+                         }
+                       }
+                     }
+                   },
+                   required: %w[matches]
+                 },
+                 reservations: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       server: { type: :string, nullable: true },
+                       steam_uid: { type: :string, nullable: true },
+                       starts_at: { type: :string, format: 'date-time' },
+                       ends_at: { type: :string, format: 'date-time' },
+                       map: { type: :string, nullable: true },
+                       server_config: { type: :string, nullable: true },
+                       whitelist: { type: :string, nullable: true },
+                       players: {
+                         type: :array,
+                         items: { type: :object, properties: { name: { type: :string }, steam_uid: { type: :string }, country_code: { type: :string, nullable: true } } }
+                       }
+                     }
+                   }
+                 }
+               },
+               required: %w[stv_tf reservations]
+
+        let(:streamer) { create(:user).tap { |u| u.groups << Group.streamer_group }.tap(&:generate_api_key!) }
+        let(:live_match) do
+          { 'id' => 'ab' * 16, 'reservation' => nil, 'demo' => nil, 'pinned' => false, 'owner' => nil, 'server' => '203.0.113.24:27020',
+            'map' => 'cp_process_f12', 'hostname' => 'A server', 'round' => 'running', 'round_time' => 12.5, 'time_left' => 900.0,
+            'match_time' => 300.0, 'win_limit' => 5, 'score' => { 'red' => 1, 'blue' => 0 }, 'viewers' => 1, 'peak' => 1, 'views' => 1,
+            'watching_for' => 60, 'data_age' => 0.1, 'done' => false,
+            'players' => [ { 'name' => 'moss', 'steamid' => '[U:1:2]', 'team' => 'red', 'class' => 'medic' } ] }
+        end
+        let(:api_key) { streamer.api_key }
+
+        before do
+          Rails.cache.clear
+          create(:reservation, starts_at: 5.minutes.ago, ends_at: 1.hour.from_now)
+          allow(StvtfHub).to receive(:matches).and_return([ [ StvtfHub::Match.new(live_match) ], nil ])
+        end
+
+        run_test! do |response|
+          body = JSON.parse(response.body)
+          expect(body['stv_tf']['matches'].first['url']).to eq("https://stv.tf/w/#{'ab' * 16}/")
+          expect(body['reservations'].size).to eq(1)
+        end
+      end
+
+      response '403', 'Not an admin, league admin or streamer' do
+        let(:api_key) { user.api_key }
+
+        run_test!
+      end
+
+      response '401', 'Unauthorized' do
+        let(:api_key) { 'invalid' }
+
+        run_test!
+      end
+    end
+  end
+
   # Donators API (Admin only)
   path '/api/donators/new' do
     get 'Get new donator form template' do

@@ -48,6 +48,8 @@
             - if current_user
               = link_to "Players", players_path, class: "dropdown-item"
               = link_to "Servers", servers_path, class: "dropdown-item"
+              - if (current_admin || current_league_admin || current_streamer) && StvtfToken.enabled?
+                = link_to "Live STV", live_stv_path, class: "dropdown-item"
             = link_to "Player Globe", players_globe_path, class: "dropdown-item", data: { turbo: false }
             = link_to "Statistics", statistics_path, class: "dropdown-item", data: { turbo: false }
             = link_to "FAQ", faq_path, class: "dropdown-item"

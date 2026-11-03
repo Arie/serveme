@@ -1444,6 +1444,176 @@ paths:
                     link (https://demos.tf/1527264)
               required:
               - connect
+  "/api/stv/live":
+    get:
+      summary: List what stv.tf is watching and the reservations it can watch
+      tags:
+      - stv.tf
+      description: For admins, league admins and streamers. stv_tf.matches are the
+        matches this region's stv.tf is watching, from reservations or pasted connect
+        strings, with their map, score, clocks, players and viewers; url opens one
+        without a token. reservations are the running reservations stv.tf can watch,
+        with their map and the players of the last 90 seconds; get a link to watch
+        one from /api/reservations/{id}/stv.
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Watched matches and running reservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stv_tf:
+                    type: object
+                    properties:
+                      error:
+                        type: string
+                        nullable: true
+                        description: Set when stv.tf did not answer; matches is then
+                          empty
+                      matches:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            url:
+                              type: string
+                            overlay_url:
+                              type: string
+                            reservation:
+                              type: integer
+                              nullable: true
+                            demo:
+                              type: integer
+                              nullable: true
+                            pinned:
+                              type: boolean
+                            owner:
+                              type: string
+                              nullable: true
+                              description: Steam ID64 of who started watching it
+                            server:
+                              type: string
+                              nullable: true
+                            map:
+                              type: string
+                              nullable: true
+                            hostname:
+                              type: string
+                              nullable: true
+                            round:
+                              type: string
+                              nullable: true
+                            round_time:
+                              type: number
+                              nullable: true
+                            time_left:
+                              type: number
+                              nullable: true
+                            match_time:
+                              type: number
+                              nullable: true
+                            win_limit:
+                              type: integer
+                              nullable: true
+                            score:
+                              type: object
+                              nullable: true
+                              properties:
+                                red:
+                                  type: integer
+                                blue:
+                                  type: integer
+                            viewers:
+                              type: integer
+                            peak:
+                              type: integer
+                            views:
+                              type: integer
+                            watching_for:
+                              type: integer
+                              description: Seconds
+                            data_age:
+                              type: number
+                              nullable: true
+                              description: Seconds since the latest snapshot
+                            done:
+                              type: boolean
+                            players:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  steamid:
+                                    type: string
+                                  team:
+                                    type: string
+                                  class:
+                                    type: string
+                    required:
+                    - matches
+                  reservations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        server:
+                          type: string
+                          nullable: true
+                        steam_uid:
+                          type: string
+                          nullable: true
+                        starts_at:
+                          type: string
+                          format: date-time
+                        ends_at:
+                          type: string
+                          format: date-time
+                        map:
+                          type: string
+                          nullable: true
+                        server_config:
+                          type: string
+                          nullable: true
+                        whitelist:
+                          type: string
+                          nullable: true
+                        players:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              steam_uid:
+                                type: string
+                              country_code:
+                                type: string
+                                nullable: true
+                required:
+                - stv_tf
+                - reservations
+        '403':
+          description: Not an admin, league admin or streamer
+        '401':
+          description: Unauthorized
   "/api/donators/new":
     get:
       summary: Get new donator form template

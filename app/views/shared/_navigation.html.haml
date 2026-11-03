@@ -64,6 +64,10 @@
             = link_to servers_path, class: "dropdown-item" do
               %i.fa.fa-tasks
               Servers
+            - if (current_admin || current_league_admin || current_streamer) && StvtfToken.enabled?
+              = link_to live_stv_path, class: "dropdown-item" do
+                %i.fa.fa-map
+                Live STV
           = link_to players_globe_path, class: "dropdown-item", data: { turbo: false } do
             %i.fa.fa-globe
             Player Globe

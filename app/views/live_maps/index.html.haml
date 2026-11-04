@@ -77,7 +77,7 @@
                         %strong{class: color}= label
                         - match.players(team).each do |player|
                           %div.small.text-nowrap
-                            %span.text-muted= stv_class(player)
+                            = stv_class_icon(player)
                             = player["name"]
               %td
                 %strong= match["viewers"]

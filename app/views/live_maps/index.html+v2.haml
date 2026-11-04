@@ -72,7 +72,7 @@
                         %div{class: "#{color} font-bold text-sm"}= label
                         - match.players(team).each do |player|
                           %div{class: "text-sm whitespace-nowrap"}
-                            %span{class: "text-faint font-mono"}= stv_class(player)
+                            = stv_class_icon(player)
                             = player["name"]
               %td
                 %div{class: "font-mono"}= "#{match['viewers']} now"

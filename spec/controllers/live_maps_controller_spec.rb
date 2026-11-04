@@ -112,7 +112,7 @@ describe LiveMapsController do
       sign_in streamer
       get :index
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('cp_process_f12', 'Pasted server', 'Live · 3:41', "https://stv.tf/w/#{'ab' * 16}/overlay")
+      expect(response.body).to include('cp_process_f12', 'Pasted server', 'Live · 3:41', 'class-icon-medic', "https://stv.tf/w/#{'ab' * 16}/overlay")
       expect(response.body).to include(watch_reservation_path(reservation), '4 watching')
     end
 

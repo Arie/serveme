@@ -3,6 +3,9 @@
 
 module LiveMapsHelper
   extend T::Sig
+  extend T::Helpers
+
+  requires_ancestor { ActionView::Base }
 
   ROUND_STATES = {
     "init" => "Pre-match", "pregame" => "Pre-match", "start_game" => "Pre-match", "preround" => "Setup",
@@ -42,14 +45,15 @@ module LiveMapsHelper
     end
   end
 
-  CLASSES = {
-    "scout" => "SC", "soldier" => "SO", "pyro" => "PY", "demoman" => "DM", "heavy" => "HV",
-    "engineer" => "EN", "medic" => "MD", "sniper" => "SN", "spy" => "SP"
-  }.freeze
+  CLASSES = %w[scout soldier pyro demoman heavy engineer medic sniper spy].freeze
 
-  sig { params(player: T::Hash[String, T.untyped]).returns(String) }
-  def stv_class(player)
-    CLASSES.fetch(player["class"].to_s, "")
+  sig { params(player: T::Hash[String, T.untyped]).returns(ActiveSupport::SafeBuffer) }
+  def stv_class_icon(player)
+    name = player["class"].to_s
+    return tag.span(class: "class-icon", style: "background: none") unless CLASSES.include?(name)
+
+    sprite = name == "heavy" ? "heavyweapons" : name
+    tag.span(class: "class-icon class-icon-#{sprite}", title: name.capitalize)
   end
 
   sig { params(demo: StvtfHub::Match).returns(String) }

@@ -29,7 +29,7 @@
             %th Clock
             %th Players
             %th Viewers
-            %th Watched
+            %th On stv.tf
             %th
         %tbody
           - if @watched.empty?
@@ -80,7 +80,7 @@
               %td
                 %div{class: "font-mono whitespace-nowrap"}= stv_duration(match["watching_for"])
                 - if match["owner"]
-                  %div{class: "text-faint text-sm"}= "by #{@owner_names.fetch(match['owner'], match['owner'])}"
+                  %div{class: "text-faint text-sm"}= "started by #{@owner_names.fetch(match['owner'], match['owner'])}"
               %td
                 %div{class: "flex justify-end gap-2 whitespace-nowrap"}
                   = link_to "Overlay", match.overlay_url, class: "v2-btn v2-btn-outline v2-btn-sm", target: "_blank", rel: "noopener"

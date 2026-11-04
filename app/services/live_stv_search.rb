@@ -17,14 +17,26 @@ class LiveStvSearch
     @query.present?
   end
 
-  sig { params(row: LiveStvReservations::Row).returns(T::Boolean) }
-  def match?(row)
+  sig { params(rows: T::Array[LiveStvReservations::Row]).returns(T::Array[LiveStvReservations::Row]) }
+  def filter(rows)
+    joined = ReservationPlayer.where(reservation_id: rows.map { |row| row.reservation.id })
+                              .pluck(:reservation_id, :name, :steam_uid)
+                              .group_by(&:first)
+    rows.select do |row|
+      players = joined.fetch(row.reservation.id, []).map { |_, name, uid| LiveStvReservations::Player.new(name: name, steam_uid: uid) }
+      match?(row, players)
+    end
+  end
+
+  sig { params(row: LiveStvReservations::Row, joined: T::Array[LiveStvReservations::Player]).returns(T::Boolean) }
+  def match?(row, joined = [])
     owner = row.reservation.user
+    players = row.players + joined
     if (uid = steam_uid)
-      owner&.uid == uid || row.players.any? { |p| p.steam_uid == uid }
+      owner&.uid == uid || players.any? { |p| p.steam_uid == uid }
     else
       needle = @query.downcase
-      [ owner&.nickname, *row.players.map(&:name) ].compact.any? { |name| name.downcase.include?(needle) }
+      [ owner&.nickname, *players.map(&:name) ].compact.any? { |name| name.downcase.include?(needle) }
     end
   end
 

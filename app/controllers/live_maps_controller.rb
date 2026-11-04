@@ -26,7 +26,7 @@ class LiveMapsController < ApplicationController
     @search = LiveStvSearch.new(params[:q])
     show_empty = params[:empty] == "1"
     if @search.active?
-      @rows = rows.select { |row| @search.match?(row) }
+      @rows = @search.filter(rows)
       @toggle = [ "Clear search", live_stv_path ]
     else
       @rows = show_empty ? with_players + empty : with_players

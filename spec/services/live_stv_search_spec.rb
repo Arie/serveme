@@ -26,6 +26,19 @@ describe LiveStvSearch do
     expect(described_class.new('76561198000000002').match?(row)).to be(false)
   end
 
+  describe '#filter' do
+    let(:reservation) { create(:reservation, user: owner) }
+    let(:other_row) { LiveStvReservations::Row.new(reservation: create(:reservation), map: 'cp_gullywash_f9', players: []) }
+
+    before { create(:reservation_player, reservation: reservation, name: 'b4nny', steam_uid: '76561198000000003') }
+
+    it 'finds players that joined but have no player statistics yet' do
+      expect(described_class.new('b4nn').filter([ row, other_row ])).to eq([ row ])
+      expect(described_class.new('76561198000000003').filter([ row, other_row ])).to eq([ row ])
+      expect(described_class.new('nobody').filter([ row, other_row ])).to eq([])
+    end
+  end
+
   it 'is inactive when blank' do
     expect(described_class.new('  ')).not_to be_active
     expect(described_class.new(nil)).not_to be_active

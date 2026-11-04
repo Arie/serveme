@@ -1237,7 +1237,7 @@ class ActiveSupport::Cache::MemoryStore < ::ActiveSupport::Cache::Store
   def cached_size(key, payload); end
 
   # pkg:gem/activesupport#lib/active_support/cache/memory_store.rb:233
-  def delete_entry(key, **); end
+  def delete_entry(key, **options); end
 
   # Modifies the amount of an integer value that is stored in the cache.
   # If the key is not found it is created and set to +amount+.
@@ -1322,19 +1322,19 @@ class ActiveSupport::Cache::NullStore < ::ActiveSupport::Cache::Store
   private
 
   # pkg:gem/activesupport#lib/active_support/cache/null_store.rb:57
-  def delete_entry(key, **); end
+  def delete_entry(key, **options); end
 
   # pkg:gem/activesupport#lib/active_support/cache/null_store.rb:42
   def read_entry(key, **s); end
 
   # pkg:gem/activesupport#lib/active_support/cache/null_store.rb:46
-  def read_serialized_entry(key, raw: T.unsafe(nil), **options); end
+  def read_serialized_entry(_key, **); end
 
   # pkg:gem/activesupport#lib/active_support/cache/null_store.rb:49
   def write_entry(key, entry, **); end
 
   # pkg:gem/activesupport#lib/active_support/cache/null_store.rb:53
-  def write_serialized_entry(key, payload, **); end
+  def write_serialized_entry(_key, _payload, **); end
 
   class << self
     # Advertise cache versioning support.
@@ -1461,7 +1461,7 @@ class ActiveSupport::Cache::RedisCacheStore < ::ActiveSupport::Cache::Store
   # Failsafe: Raises errors.
   #
   # pkg:gem/activesupport#lib/active_support/cache/redis_cache_store.rb:286
-  def decrement(name, amount = T.unsafe(nil), **options); end
+  def decrement(name, amount = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Cache Store API implementation.
   #
@@ -1506,7 +1506,7 @@ class ActiveSupport::Cache::RedisCacheStore < ::ActiveSupport::Cache::Store
   # Failsafe: Raises errors.
   #
   # pkg:gem/activesupport#lib/active_support/cache/redis_cache_store.rb:254
-  def increment(name, amount = T.unsafe(nil), **options); end
+  def increment(name, amount = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # pkg:gem/activesupport#lib/active_support/cache/redis_cache_store.rb:173
   def inspect; end
@@ -1535,7 +1535,7 @@ class ActiveSupport::Cache::RedisCacheStore < ::ActiveSupport::Cache::Store
   # Delete an entry from the cache.
   #
   # pkg:gem/activesupport#lib/active_support/cache/redis_cache_store.rb:404
-  def delete_entry(key, **); end
+  def delete_entry(key, **options); end
 
   # Deletes multiple entries in the cache. Returns the number of entries deleted.
   #
@@ -1585,7 +1585,7 @@ class ActiveSupport::Cache::RedisCacheStore < ::ActiveSupport::Cache::Store
   def write_multi_entries(entries, **options); end
 
   # pkg:gem/activesupport#lib/active_support/cache/redis_cache_store.rb:380
-  def write_serialized_entry(key, payload, **); end
+  def write_serialized_entry(key, payload, raw: T.unsafe(nil), unless_exist: T.unsafe(nil), expires_in: T.unsafe(nil), race_condition_ttl: T.unsafe(nil), pipeline: T.unsafe(nil), **options); end
 
   class << self
     # Factory method to create a new Redis instance.
@@ -7628,7 +7628,7 @@ module ActiveSupport::Inflector
   #   ordinal(-11)   # => "th"
   #   ordinal(-1021) # => "st"
   #
-  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:334
+  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:335
   def ordinal(number); end
 
   # Turns a number into an ordinal string used to denote the position in an
@@ -7641,7 +7641,7 @@ module ActiveSupport::Inflector
   #   ordinalize(-11)   # => "-11th"
   #   ordinalize(-1021) # => "-1021st"
   #
-  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:347
+  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:348
   def ordinalize(number); end
 
   # Replaces special characters in a string so that it may be used as part of
@@ -7857,17 +7857,8 @@ module ActiveSupport::Inflector
   #   apply_inflections('post', inflections.plurals, :en)    # => "posts"
   #   apply_inflections('posts', inflections.singulars, :en) # => "post"
   #
-  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:376
+  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:360
   def apply_inflections(word, rules, locale = T.unsafe(nil)); end
-
-  # Mounts a regular expression, returned as a string to ease interpolation,
-  # that will match part by part the given constant.
-  #
-  #   const_regexp("Foo::Bar::Baz") # => "Foo(::Bar(::Baz)?)?"
-  #   const_regexp("::")            # => "::"
-  #
-  # pkg:gem/activesupport#lib/active_support/inflector/methods.rb:357
-  def const_regexp(camel_cased_word); end
 end
 
 # pkg:gem/activesupport#lib/active_support/inflector/transliterate.rb:8
@@ -8959,7 +8950,7 @@ class ActiveSupport::MessageEncryptor < ::ActiveSupport::Messages::Codec
   #   +config.active_support.use_message_serializer_for_metadata+.
   #
   # pkg:gem/activesupport#lib/active_support/message_encryptor.rb:183
-  def initialize(*args, on_rotation: T.unsafe(nil), **options); end
+  def initialize(secret, sign_secret = T.unsafe(nil), **options); end
 
   # pkg:gem/activesupport#lib/active_support/message_encryptor.rb:256
   def create_message(value, **options); end
@@ -9019,7 +9010,7 @@ class ActiveSupport::MessageEncryptor < ::ActiveSupport::Messages::Codec
   def inspect; end
 
   # pkg:gem/activesupport#lib/active_support/message_encryptor.rb:260
-  def read_message(message, on_rotation: T.unsafe(nil), **options); end
+  def read_message(message, **options); end
 
   private
 
@@ -9265,7 +9256,7 @@ class ActiveSupport::MessageVerifier < ::ActiveSupport::Messages::Codec
   #   +config.active_support.use_message_serializer_for_metadata+.
   #
   # pkg:gem/activesupport#lib/active_support/message_verifier.rb:167
-  def initialize(*args, on_rotation: T.unsafe(nil), **options); end
+  def initialize(secret, **options); end
 
   # pkg:gem/activesupport#lib/active_support/message_verifier.rb:310
   def create_message(value, **options); end
@@ -9312,7 +9303,7 @@ class ActiveSupport::MessageVerifier < ::ActiveSupport::Messages::Codec
   def inspect; end
 
   # pkg:gem/activesupport#lib/active_support/message_verifier.rb:314
-  def read_message(message, on_rotation: T.unsafe(nil), **options); end
+  def read_message(message, **options); end
 
   # Checks if a signed message could have been generated by signing an object
   # with the +MessageVerifier+'s secret.
@@ -15292,7 +15283,7 @@ ActiveSupport::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 ActiveSupport::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/activesupport#lib/active_support/gem_version.rb:13
-ActiveSupport::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
+ActiveSupport::VERSION::PRE = T.let(T.unsafe(nil), String)
 
 # pkg:gem/activesupport#lib/active_support/gem_version.rb:15
 ActiveSupport::VERSION::STRING = T.let(T.unsafe(nil), String)
@@ -17239,9 +17230,6 @@ module ERB::Util
     #
     # pkg:gem/activesupport#lib/active_support/core_ext/erb/util.rb:161
     def tokenize(source); end
-
-    # pkg:gem/activesupport#lib/active_support/core_ext/erb/util.rb:10
-    def unwrapped_html_escape(s); end
 
     # pkg:gem/activesupport#lib/active_support/core_ext/erb/util.rb:157
     def xml_name_escape(name); end
@@ -19628,13 +19616,13 @@ class Range
   include ::Enumerable
 
   # pkg:gem/activesupport#lib/active_support/core_ext/range/compare_range.rb:16
-  def ===(value); end
+  def ===(_arg0); end
 
   # pkg:gem/activesupport#lib/active_support/core_ext/object/json.rb:158
   def as_json(options = T.unsafe(nil)); end
 
   # pkg:gem/activesupport#lib/active_support/core_ext/range/compare_range.rb:35
-  def include?(value); end
+  def include?(_arg0); end
 
   # pkg:gem/activesupport#lib/active_support/core_ext/range/overlap.rb:39
   def overlaps?(_arg0); end
@@ -20749,7 +20737,7 @@ class Time
     #
     #   Time.rfc3339('1999-12-31') # => ArgumentError: invalid date
     #
-    # pkg:gem/activesupport#lib/active_support/core_ext/time/calculations.rb:72
+    # pkg:gem/activesupport#lib/active_support/core_ext/time/calculations.rb:63
     def rfc3339(str); end
 
     # Allows override of <tt>Time.zone</tt> locally inside supplied block;

@@ -43,49 +43,65 @@ module OpenTelemetry::Instrumentation::Net::HTTP; end
 # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:13
 module OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper
   class << self
+    # Prepares `http.client.request.duration` attributes using stable semantic conventions.
+    # @param method [String] The normalized HTTP method
+    # @param address [String, nil] The server address
+    # @param port [Integer, nil] The server port
+    # @param response [Net::HTTPResponse, nil] The response, if received
+    # @param error_type [String, nil] The class name of a raised error, if any
+    # @return [Hash] the metric attributes
+    #
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:134
+    def metric_attrs(method, address, port, response, error_type); end
+
     # Returns the request path for strings and URI-like objects.
     # @param path [String, #request_uri] The request path
     # @return [String, nil] The normalized request path
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:20
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:23
     def request_path(path); end
 
     # Prepares span data using both old and stable semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:127
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:151
     def span_attrs_for_dup(method); end
 
     # Prepares span data using old semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:78
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:81
     def span_attrs_for_old(method); end
 
     # Prepares span data using stable semantic conventions
     # @param method [String, Symbol] The HTTP method
     # @return [SpanCreationAttributes] struct containing span_name and attributes hash
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:100
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:103
     def span_attrs_for_stable(method); end
 
     # Splits a request path into its path and query components.
     # @param path [String, #request_uri] The request path
     # @return [Array<String, String, nil>] The path and query components
     #
-    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:27
+    # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:30
     def split_path_and_query(path); end
   end
 end
 
+# Constant for the HTTP status range
+#
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:18
+OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::HTTP_STATUS_SUCCESS_RANGE = T.let(T.unsafe(nil), Range)
+
 # Pre-computed mapping to avoid string allocations during normalization
 #
-# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:37
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:40
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::METHOD_CACHE = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:69
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/http_helper.rb:72
 OpenTelemetry::Instrumentation::Net::HTTP::HttpHelper::OLD_SPAN_NAMES_BY_METHOD = T.let(T.unsafe(nil), Hash)
 
 # Lightweight struct to hold span creation attributes
@@ -127,32 +143,44 @@ end
 #
 # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:13
 class OpenTelemetry::Instrumentation::Net::HTTP::Instrumentation < ::OpenTelemetry::Instrumentation::Base
+  # The `http.client.request.duration` histogram, only created when
+  # the stable HTTP semantic conventions are in use.
+  # @api private
+  #
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:38
+  def client_request_duration_histogram; end
+
   private
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:34
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:42
   def determine_semconv; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:49
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:57
   def emit_old_semconv_deprecation_warning(option); end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:65
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:73
   def patch_dup; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:69
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:77
   def patch_old; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:73
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:81
   def patch_stable; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:53
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:61
   def require_dependencies_dup; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:57
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:65
   def require_dependencies_old; end
 
-  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:61
+  # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:69
   def require_dependencies_stable; end
 end
+
+# Bucket boundaries recommended by the stable HTTP semantic conventions
+#
+# pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/instrumentation.rb:33
+OpenTelemetry::Instrumentation::Net::HTTP::Instrumentation::CLIENT_REQUEST_DURATION_BUCKETS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/opentelemetry-instrumentation-net_http#lib/opentelemetry/instrumentation/net/http/version.rb:11
 OpenTelemetry::Instrumentation::Net::HTTP::VERSION = T.let(T.unsafe(nil), String)

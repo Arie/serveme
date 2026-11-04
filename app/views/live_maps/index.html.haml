@@ -59,7 +59,7 @@
                 - if match["score"]
                   %strong.text-danger= match["score"]["red"]
                   –
-                  %strong.text-primary= match["score"]["blue"]
+                  %strong.text-info= match["score"]["blue"]
               %td
                 = stv_round_label(match)
                 %br
@@ -69,10 +69,10 @@
                   %summary
                     %strong.text-danger= match.players("red").size
                     v
-                    %strong.text-primary= match.players("blue").size
+                    %strong.text-info= match.players("blue").size
                     %small.text-muted= stv_spectators(match)
                   .d-flex.mt-1
-                    - [ %w[red text-danger RED], %w[blue text-primary BLU] ].each do |team, color, label|
+                    - [ %w[red text-danger RED], %w[blue text-info BLU] ].each do |team, color, label|
                       .mr-4
                         %strong{class: color}= label
                         - match.players(team).each do |player|

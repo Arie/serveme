@@ -52,7 +52,7 @@ describe ReservationPlayer do
 
   context 'whitelisted steam id' do
     it 'recognizes a whitelisted steam id' do
-      expect(described_class.whitelisted_uid?(76561198350261670)).to eql 'formerly lived in Russia'
+      expect(described_class.whitelisted_uid?(76561198144122654)).to eql 'privacy VPN'
     end
 
     it 'doesnt flag an unknown steam id as whitelisted' do

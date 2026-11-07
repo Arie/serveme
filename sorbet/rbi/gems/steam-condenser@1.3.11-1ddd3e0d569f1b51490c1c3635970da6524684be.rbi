@@ -59,7 +59,7 @@ module SteamCondenser::Community; end
 #
 # @author Sebastian Staudt
 #
-# pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:16
+# pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:15
 class SteamCondenser::Community::AppNews
   # Creates a new instance of an AppNews news item with the given data
   #
@@ -69,21 +69,21 @@ class SteamCondenser::Community::AppNews
   #        all application IDs.
   # @param [Hash<Symbol, Object>] news_data The news data extracted from JSON
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:122
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:121
   def initialize(app_id, news_data); end
 
   # Returns the Steam Application ID of the game this news belongs to
   #
   # @return [Fixnum] The application ID of the game this news belongs to
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:21
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:20
   def app_id; end
 
   # Returns the name of the author of this news
   #
   # @return [String] The author of this news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:26
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:25
   def author; end
 
   # Returns the contents of this news
@@ -94,14 +94,14 @@ class SteamCondenser::Community::AppNews
   #       {.news_for_app}), the contents might be truncated.
   # @return [String] The contents of this news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:35
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:34
   def contents; end
 
   # Returns the date this news item has been published
   #
   # @return [Time] The date this news has been published
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:40
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:39
   def date; end
 
   # Returns whether this news item originates from a source other than Steam
@@ -109,35 +109,35 @@ class SteamCondenser::Community::AppNews
   #
   # @return [Boolean] `true` if this news item is from an external source
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:99
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:98
   def external?; end
 
   # Returns the name of the feed this news item belongs to
   #
   # @return [String] The name of the feed this news belongs to
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:44
   def feed_label; end
 
   # Returns the symbolic name of the feed this news item belongs to
   #
   # @return [String] The symbolic name of the feed this news belongs to
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:50
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:49
   def feed_name; end
 
   # Returns a unique identifier for this news
   #
   # @return [Fixnum] A unique identifier for this news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:55
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:54
   def gid; end
 
   # Returns the title of this news
   #
   # @return [String] The title of this news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:60
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:59
   def title; end
 
   # Returns a simple textual representation of this news item
@@ -147,7 +147,7 @@ class SteamCondenser::Community::AppNews
   #
   # @return [String] A simple text representing this news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:109
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:108
   def to_s; end
 
   # Returns the URL of the original news
@@ -157,7 +157,7 @@ class SteamCondenser::Community::AppNews
   #
   # @return [String] The URL of the original news
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:68
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:67
   def url; end
 
   class << self
@@ -175,7 +175,7 @@ class SteamCondenser::Community::AppNews
     # @return [Array<AppNews>] An array of news items for the specified game
     #         with the given options
     #
-    # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:83
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/app_news.rb:82
     def news_for_app(app_id, count = T.unsafe(nil), max_length = T.unsafe(nil)); end
   end
 end
@@ -404,7 +404,7 @@ SteamCondenser::Community::Dota2TestInventory::APP_ID = T.let(T.unsafe(nil), Int
 #
 # @author Sebastian Staudt
 #
-# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:19
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:18
 class SteamCondenser::Community::GameAchievement
   # Creates the achievement with the given name for the given user and game
   # and achievement data
@@ -413,14 +413,14 @@ class SteamCondenser::Community::GameAchievement
   # @param [Hash<String, Object>] data The achievement data extracted from
   #        the game schema
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:74
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:73
   def initialize(schema, data); end
 
   # Returns the symbolic API name of this achievement
   #
   # @return [String] The API name of this achievement
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:24
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:23
   def api_name; end
 
   # Returns the description of this achievement
@@ -428,31 +428,31 @@ class SteamCondenser::Community::GameAchievement
   # @param [Symbol] language
   # @return [String] The description of this achievement
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:86
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:85
   def description(language = T.unsafe(nil)); end
 
   # Returns whether this achievement is hidden
   #
   # @return [Boolean] `true` if this achievement is hidden
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:29
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:28
   def hidden; end
 
   # Returns the url for the closed icon of this achievement
   #
   # @return [String] The url of the closed achievement icon
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:34
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:33
   def icon_closed_url; end
 
   # Returns the url for the open icon of this achievement
   #
   # @return [String] The url of the open achievement icon
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:39
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:38
   def icon_open_url; end
 
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:90
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:89
   def inspect; end
 
   # Returns an instance of this achievement for the given user and the given
@@ -462,7 +462,7 @@ class SteamCondenser::Community::GameAchievement
   # @param [Boolean] unlocked The state of the achievement for this user
   # @return [Instance] The achievement instance for this user
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:100
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:99
   def instance(user, unlocked); end
 
   # Returns the name of this achievement
@@ -470,7 +470,7 @@ class SteamCondenser::Community::GameAchievement
   # @param [Symbol] language
   # @return [String] The name of this achievement
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:108
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:107
   def name(language = T.unsafe(nil)); end
 
   # Return the stats schema of the game this achievement belongs to
@@ -478,7 +478,7 @@ class SteamCondenser::Community::GameAchievement
   # @return [GameStatsSchema] The stats schema of game this achievement
   #         belongs to
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:45
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:44
   def schema; end
 
   class << self
@@ -493,20 +493,20 @@ class SteamCondenser::Community::GameAchievement
     # @return [Hash<Symbol, Float>] The symbolic achievement names with their
     #         corresponding unlock percentages
     #
-    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:57
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:56
     def global_percentages(app_id); end
   end
 end
 
-# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:112
+# pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:111
 class SteamCondenser::Community::GameAchievement::Instance
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:118
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:117
   def initialize(achievement, user, unlocked); end
 
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:114
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:113
   def achievement; end
 
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:124
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:123
   def inspect; end
 
   # Returns whether this achievement has been unlocked by its owner
@@ -514,10 +514,10 @@ class SteamCondenser::Community::GameAchievement::Instance
   # @return [Boolean] `true` if the achievement has been unlocked by the
   #         user
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:132
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:131
   def unlocked?; end
 
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:116
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/game_achievement.rb:115
   def user; end
 end
 
@@ -2037,41 +2037,41 @@ SteamCondenser::Community::TF2BetaInventory::APP_ID = T.let(T.unsafe(nil), Integ
 #
 # @author Sebastian Staudt
 #
-# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:18
+# pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:17
 class SteamCondenser::Community::TF2GoldenWrench
   # Creates a new instance of a Golden Wrench with the given data
   #
   # @param [Hash<Symbol, Object>] wrench_data The JSON data for this wrench
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:65
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:64
   def initialize(wrench_data); end
 
   # Returns the date this Golden Wrench has been crafted
   #
   # @return [Time] The crafting date of this wrench
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:23
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:22
   def date; end
 
   # Returns the unique item ID of this Golden Wrench
   #
   # @return [Fixnum] The ID of this wrench
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:28
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:27
   def id; end
 
   # Returns the serial number of this Golden Wrench
   #
   # @return [Fixnum] The serial of this wrench
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:33
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:32
   def number; end
 
   # Returns the SteamID of the owner of this Golden Wrench
   #
   # @return [SteamId] The owner of this wrench
   #
-  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:38
+  # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:37
   def owner; end
 
   class << self
@@ -2081,7 +2081,7 @@ class SteamCondenser::Community::TF2GoldenWrench
     #        Community
     # @return [Array<GoldenWrench>] All Golden Wrenches
     #
-    # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:47
+    # pkg:gem/steam-condenser#lib/steam-condenser/community/tf2/tf2_golden_wrench.rb:46
     def golden_wrenches; end
   end
 end

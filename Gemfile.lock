@@ -1,9 +1,8 @@
 GIT
   remote: https://github.com/Arie/omniauth-steam.git
-  revision: ce8c7e5101fdd7f9c88d91e68d371f594a432135
+  revision: 3947a4e64be16eb1c81b8e4b239fef6e60ccd90c
   specs:
     omniauth-steam (1.0.6)
-      multi_json
       omniauth-openid
 
 GIT
@@ -14,11 +13,10 @@ GIT
 
 GIT
   remote: https://github.com/Arie/steam-condenser-ruby.git
-  revision: 1c06064381de9a0b92a7a96101724e4189c8dfc7
+  revision: 1ddd3e0d569f1b51490c1c3635970da6524684be
   specs:
     steam-condenser (1.3.11)
       logger
-      multi_json (~> 1.6)
       multi_xml (~> 0.5)
       ostruct
       rexml (~> 3.2)

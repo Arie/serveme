@@ -38,7 +38,7 @@ class LiveMapsController < ApplicationController
     return redirect_to(live_map_path, alert: "The live map is not available here") unless StvtfToken.enabled?
 
     input = params[:connect].to_s.first(300)
-    redirect_to start_url(input), allow_other_host: true
+    redirect_to start_url(input) + moment, allow_other_host: true
   rescue StvConnect::Error, DemostfDemo::Error => e
     flash.now[:alert] = e.message
     render :new, status: :unprocessable_content
@@ -48,6 +48,12 @@ class LiveMapsController < ApplicationController
 
   def live_stv_layout
     request.headers["Turbo-Frame"].present? ? "turbo_rails/frame" : resolve_layout
+  end
+
+  # A moment to watch from (`12:34`), passed along from a map server's link.
+  def moment
+    at = params[:at].to_s
+    at.match?(/\A\d{1,6}(:\d{1,6}){0,2}\z/) ? "&at=#{at}" : ""
   end
 
   def start_url(input)

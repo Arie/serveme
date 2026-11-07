@@ -41,6 +41,14 @@ describe LiveMapsController do
     expect(response.location).to start_with('https://stv.tf/start?t=')
   end
 
+  it 'passes a moment along to the map server' do
+    allow_any_instance_of(DemostfDemo).to receive(:check!) { |d| d }
+    post :create, params: { connect: 'https://demos.tf/1527264', at: '12:34' }
+    expect(response.location).to end_with('&at=12:34')
+    post :create, params: { connect: 'https://demos.tf/1527264', at: '12:34&x=y' }
+    expect(response.location).not_to include('&at=')
+  end
+
   it 'says when demos.tf has no such demo' do
     allow_any_instance_of(DemostfDemo).to receive(:check!).and_raise(DemostfDemo::Error, 'demos.tf has no demo 1')
     expect(StvtfToken).not_to receive(:start_url)
@@ -54,6 +62,15 @@ describe LiveMapsController do
     expect(StvtfToken).not_to receive(:start_url)
     post :create, params: { connect: '1.2.3.4:27020' }
     expect(response.location.to_s).not_to start_with('https://stv.tf')
+  end
+
+  describe '#new' do
+    render_views
+
+    it 'keeps a moment a map server sent along' do
+      get :new, params: { connect: 'https://demos.tf/1527264', at: '12:34' }
+      expect(response.body).to include('name="at"').and include('value="12:34"')
+    end
   end
 
   describe '#index' do

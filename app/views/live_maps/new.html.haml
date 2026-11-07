@@ -16,6 +16,7 @@
         %code https://demos.tf/1527264
       = form_tag(live_map_path, method: :post, data: { turbo: false }) do
         .input-group
+          = hidden_field_tag :at, params[:at] if params[:at].present?
           = text_field_tag :connect, params[:connect], class: "form-control", placeholder: 'connect 1.2.3.4:27020; password "tv" or a demos.tf link', autocomplete: "off", required: true, autofocus: true
           .input-group-append
             = submit_tag "Watch", class: "btn btn-primary"

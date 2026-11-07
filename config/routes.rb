@@ -46,6 +46,7 @@ Serveme::Application.routes.draw do
   end
 
   get "/stv/live", to: "live_maps#index", as: :live_stv
+  get "/stv/sign_in", to: "stvtf_sign_ins#show", as: :stv_sign_in
   get "/stv", to: "live_maps#new", as: :live_map
   post "/stv", to: "live_maps#create"
 

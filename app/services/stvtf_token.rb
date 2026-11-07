@@ -6,7 +6,7 @@
 # base64url(12-byte nonce | ciphertext | 16-byte tag) of {connect, owner, exp}, or of
 # {demo, owner, exp} to play a demos.tf demo. `owner` is the user's Steam uid, which the map server
 # only logs: it limits nothing. `reservation` links the match to a reservation; {list, exp} reads the
-# hub's list of matches.
+# hub's list of matches; {signin: {uid, name, streamer}, exp} signs a user in to its rooms.
 class StvtfToken
   extend T::Sig
 
@@ -25,6 +25,14 @@ class StvtfToken
   sig { params(owner: T.nilable(String), connect: T.nilable(String), demo: T.nilable(Integer), reservation: T.nilable(Integer)).returns(String) }
   def self.start_url(owner:, connect: nil, demo: nil, reservation: nil)
     "#{base_url}/start?t=#{generate(connect: connect, demo: demo, owner: owner, reservation: reservation)}"
+  end
+
+  # Back to the map server at `path`, signing `user` in to its rooms: their Steam uid, name, and
+  # whether they are a streamer or more here, who may make themselves admin in any room.
+  sig { params(user: User, path: String, now: T.any(Time, ActiveSupport::TimeWithZone)).returns(String) }
+  def self.sign_in_url(user:, path:, now: Time.current)
+    signin = { uid: user.uid, name: user.nickname.presence || user.name, streamer: user.streamer? || user.admin? || user.league_admin? }
+    "#{base_url}/signed_in?t=#{seal({ signin: signin, exp: now.to_i + TTL })}&return=#{CGI.escape(path)}"
   end
 
   sig { params(now: T.any(Time, ActiveSupport::TimeWithZone)).returns(String) }

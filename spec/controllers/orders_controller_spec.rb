@@ -110,6 +110,48 @@ describe OrdersController do
     end
   end
 
+  describe '#confirm_payment' do
+    let!(:order) { create(:stripe_order, user: @user, payment_id: 'pi_123') }
+
+    it 'confirms the current user\'s order' do
+      allow(Stripe::PaymentIntent).to receive(:retrieve).with('pi_123').and_return(double(status: 'succeeded'))
+
+      post :confirm_payment, params: { payment_intent_id: 'pi_123' }
+
+      expect(JSON.parse(response.body)).to include('success' => true)
+      expect(order.reload.status).to eq('Completed')
+    end
+
+    it 'does not confirm another user\'s order' do
+      create(:stripe_order, payment_id: 'pi_other')
+
+      post :confirm_payment, params: { payment_intent_id: 'pi_other' }
+
+      expect(response.status).to eq(404)
+    end
+  end
+
+  describe '#create_express_payment_intent' do
+    let(:product) { create(:product, active: true) }
+
+    it 'creates an order and returns the client secret' do
+      allow(Stripe::PaymentIntent).to receive(:create).and_return(double(id: 'pi_express', client_secret: 'secret'))
+
+      post :create_express_payment_intent, params: { product_id: product.id, gift: 'true' }
+
+      expect(JSON.parse(response.body)).to eq('client_secret' => 'secret', 'payment_intent_id' => 'pi_express')
+      order = @user.stripe_orders.last
+      expect(order.payment_id).to eq('pi_express')
+      expect(order.gift).to be true
+    end
+
+    it 'returns 422 for an unknown product' do
+      post :create_express_payment_intent, params: { product_id: 0 }
+
+      expect(response.status).to eq(422)
+    end
+  end
+
   describe '#status', :vcr do
     let!(:product) { create(:product, active: true) }
     let!(:order) { create(:stripe_order, user: @user, product: product, payment_id: 'pi_123', gift: true) }

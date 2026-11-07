@@ -310,7 +310,7 @@ describe Api::ReservationsController do
         }.ignore_extra_keys!
       }.ignore_extra_keys!
 
-      expect(ReservationChangesWorker).to receive(:perform_async)
+      expect(ReservationChangesWorker).to receive(:perform_async).with(reservation.id, array_including(%w[ends_at password]))
 
       patch :update, format: :json, params: { id: reservation.id, reservation: { ends_at: new_ends_at, password: 'bar' } }
       expect(response.body).to match_json_expression(json)

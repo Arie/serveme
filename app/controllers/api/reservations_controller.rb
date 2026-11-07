@@ -58,7 +58,7 @@ module Api
         render :show, status: :bad_request
       else
         @reservation = writable_reservation
-        ReservationChangesWorker.perform_async(writable_reservation.id, writable_reservation.previous_changes.to_json)
+        ReservationChangesWorker.perform_async(writable_reservation.id, writable_reservation.previous_changes.keys)
         render :show
       end
     rescue ActiveRecord::RecordNotUnique, ActiveRecord::ExclusionViolation

@@ -7,25 +7,25 @@
 
 class ReservationChangesWorker
   class << self
-    sig { params(reservation_id: T.untyped, changes: T.untyped).returns(String) }
-    def perform_async(reservation_id, changes); end
+    sig { params(reservation_id: T.untyped, changed_attributes: T.untyped).returns(String) }
+    def perform_async(reservation_id, changed_attributes); end
 
     sig do
       params(
         interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
         reservation_id: T.untyped,
-        changes: T.untyped
+        changed_attributes: T.untyped
       ).returns(String)
     end
-    def perform_at(interval, reservation_id, changes); end
+    def perform_at(interval, reservation_id, changed_attributes); end
 
     sig do
       params(
         interval: T.any(Numeric, ActiveSupport::Duration),
         reservation_id: T.untyped,
-        changes: T.untyped
+        changed_attributes: T.untyped
       ).returns(String)
     end
-    def perform_in(interval, reservation_id, changes); end
+    def perform_in(interval, reservation_id, changed_attributes); end
   end
 end

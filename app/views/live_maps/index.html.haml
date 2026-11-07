@@ -9,7 +9,7 @@
     %i.fa.fa-link
     Watch a connect string
 
-= turbo_frame_tag "live_stv", data: { controller: "frame-refresh" } do
+= turbo_frame_tag "live_stv", target: "_top", data: { controller: "frame-refresh" } do
   %p.text-muted.small Updated #{I18n.l(Time.current, format: "%H:%M:%S")}, refreshes every 15 s.
 
   - if @hub_error

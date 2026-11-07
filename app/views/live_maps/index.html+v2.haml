@@ -7,7 +7,7 @@
       = search_field_tag :q, params[:q], class: "v2-input", placeholder: "Name, Steam ID, [U:1:…] or SteamID64", "aria-label": "Search reservations", autocomplete: "off", data: { action: "input->user-search#debounceSearch" }
   = link_to "Watch a connect string", live_map_path, class: "v2-btn v2-btn-outline"
 
-= turbo_frame_tag "live_stv", data: { controller: "frame-refresh" } do
+= turbo_frame_tag "live_stv", target: "_top", data: { controller: "frame-refresh" } do
   %p{class: "text-faint text-sm mb-4"} Updated #{I18n.l(Time.current, format: "%H:%M:%S")}, refreshes every 15 s.
 
   - if @hub_error

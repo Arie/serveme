@@ -652,6 +652,9 @@ module GeneratedUrlHelpersModule
   def stv_api_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def stv_sign_in_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def stv_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

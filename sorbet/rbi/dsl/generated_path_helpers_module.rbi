@@ -655,6 +655,9 @@ module GeneratedPathHelpersModule
   def stv_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def stv_sign_in_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def tc2_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

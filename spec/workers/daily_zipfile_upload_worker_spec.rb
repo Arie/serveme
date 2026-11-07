@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'sidekiq/testing'
 
 RSpec.describe DailyZipfileUploadWorker, type: :worker do
   let(:worker) { described_class.new }

@@ -9,11 +9,10 @@ if ENV['COVERAGE']
 end
 
 require 'sidekiq'
-require 'sidekiq/testing'
 require 'rspec/sorbet'
 require 'vcr'
 RSpec::Sorbet.allow_doubles!
-Sidekiq::Testing.fake!
+Sidekiq.testing!(:fake)
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
@@ -45,7 +44,7 @@ RSpec.configure do |config|
   end
 
   config.around(:each, sidekiq_inline: true) do |example|
-    Sidekiq::Testing.inline! { example.run }
+    Sidekiq.testing!(:inline) { example.run }
   end
 
   config.before do

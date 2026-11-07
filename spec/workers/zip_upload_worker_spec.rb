@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'sidekiq/testing'
 require 'vcr'
 
 RSpec.describe ZipUploadWorker, type: :worker do

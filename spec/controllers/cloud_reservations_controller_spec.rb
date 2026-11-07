@@ -54,6 +54,24 @@ describe CloudReservationsController do
     end
   end
 
+  describe "GET #available_locations" do
+    before do
+      user.groups << Group.admin_group
+      sign_in user
+    end
+
+    it "returns locations for the requested window" do
+      starts_at = 1.day.from_now.change(usec: 0)
+      ends_at = starts_at + 2.hours
+      expect(CloudProvider).to receive(:grouped_locations)
+        .with(starts_at: starts_at, ends_at: ends_at, user: user).and_return("Germany" => [ [ "Falkenstein (Hetzner)", "hetzner:fsn1" ] ])
+
+      get :available_locations, params: { starts_at: starts_at.iso8601, ends_at: ends_at.iso8601 }
+
+      expect(JSON.parse(response.body)).to eq("Germany" => [ [ "Falkenstein (Hetzner)", "hetzner:fsn1" ] ])
+    end
+  end
+
   describe "POST #create" do
     let(:valid_params) do
       {
@@ -115,6 +133,63 @@ describe CloudReservationsController do
           post :create, params: valid_params.merge(cloud_location: "hetzner:#{other_region}")
 
           expect(flash[:alert]).to eq("Invalid cloud location.")
+        end
+      end
+
+      it "destroys the cloud server when the reservation is invalid" do
+        expect(CloudServerProvisionWorker).not_to receive(:perform_async)
+
+        expect {
+          post :create, params: valid_params.deep_merge(reservation: { ends_at: 1.hour.ago })
+        }.not_to change(CloudServer, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response).to render_template(:new)
+      end
+
+      it "asks to retry when the lock is busy" do
+        allow($lock).to receive(:synchronize).and_raise(RemoteLock::Error)
+
+        expect {
+          post :create, params: valid_params
+        }.not_to change(CloudServer, :count)
+
+        expect(response).to redirect_to(new_cloud_reservation_path)
+        expect(flash[:alert]).to eq("Server is busy, please try again.")
+      end
+
+      it "refuses a docker host that filled up after the form was offered" do
+        host = create(:docker_host)
+        allow(controller).to receive(:offered_location?).and_return(true)
+        allow_any_instance_of(DockerHost).to receive(:full_during?).and_return(true)
+
+        expect {
+          post :create, params: valid_params.merge(cloud_location: "remote_docker:#{host.id}")
+        }.not_to change(CloudServer, :count)
+
+        expect(response).to redirect_to(new_cloud_reservation_path)
+        expect(flash[:alert]).to include("full capacity")
+      end
+
+      context "with an active cloud server" do
+        let!(:active) { create(:reservation, user: user, server: create(:cloud_server)) }
+
+        it "redirects to the active reservation" do
+          expect {
+            post :create, params: valid_params
+          }.not_to change(CloudServer, :count)
+
+          expect(response).to redirect_to(reservation_path(active))
+          expect(flash[:alert]).to include("already have an active cloud server")
+        end
+
+        it "still allows a docker host" do
+          host = create(:docker_host)
+
+          expect {
+            post :create, params: valid_params.merge(cloud_location: "remote_docker:#{host.id}")
+                                              .deep_merge(reservation: { starts_at: 3.hours.from_now, ends_at: 5.hours.from_now })
+          }.to change(CloudServer, :count).by(1)
         end
       end
 

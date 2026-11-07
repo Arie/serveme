@@ -135,6 +135,89 @@ describe LeagueRequestsController do
     end
   end
 
+  describe '#dismiss_proxy' do
+    before { @user.groups << Group.league_admin_group }
+
+    it 'marks a banned proxy as false positive and unbans it' do
+      IpLookup.create!(ip: '8.8.8.8', is_proxy: true, is_banned: true, ban_reason: 'residential proxy')
+
+      patch :dismiss_proxy, params: { ip: '8.8.8.8', search_steam_uid: '76561198123456789' }
+
+      lookup = IpLookup.find_by(ip: '8.8.8.8')
+      expect(lookup.false_positive).to be true
+      expect(lookup.is_banned).to be false
+      expect(response).to redirect_to(league_request_path(steam_uid: '76561198123456789'))
+    end
+
+    it 'undoes a false positive without rebanning' do
+      IpLookup.create!(ip: '8.8.8.8', is_proxy: true, false_positive: true)
+
+      patch :dismiss_proxy, params: { ip: '8.8.8.8' }
+
+      lookup = IpLookup.find_by(ip: '8.8.8.8')
+      expect(lookup.false_positive).to be false
+      expect(lookup.is_banned).to be false
+    end
+
+    it 'is not available to regular users' do
+      @user.groups.delete(Group.league_admin_group)
+      IpLookup.create!(ip: '8.8.8.8', is_proxy: true)
+
+      patch :dismiss_proxy, params: { ip: '8.8.8.8' }
+
+      expect(IpLookup.find_by(ip: '8.8.8.8').false_positive).to be false
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
+  describe '#ban_ip' do
+    before { @user.groups << Group.league_admin_group }
+
+    it 'bans an IP that has no lookup row yet' do
+      patch :ban_ip, params: { ip: '8.8.8.8', search_ip: '8.8.8.8' }
+
+      lookup = IpLookup.find_by(ip: '8.8.8.8')
+      expect(lookup).to have_attributes(is_banned: true, ban_reason: 'residential proxy', is_proxy: true)
+      expect(response).to redirect_to(league_request_path(ip: '8.8.8.8'))
+    end
+
+    it 'clears a false positive when banning' do
+      IpLookup.create!(ip: '8.8.8.8', is_proxy: false, false_positive: true)
+
+      patch :ban_ip, params: { ip: '8.8.8.8' }
+
+      lookup = IpLookup.find_by(ip: '8.8.8.8')
+      expect(lookup).to have_attributes(is_banned: true, false_positive: false, is_proxy: false)
+    end
+
+    it 'unbans on a second toggle' do
+      IpLookup.create!(ip: '8.8.8.8', is_proxy: true, is_banned: true, ban_reason: 'residential proxy')
+
+      patch :ban_ip, params: { ip: '8.8.8.8' }
+
+      expect(IpLookup.find_by(ip: '8.8.8.8')).to have_attributes(is_banned: false, ban_reason: nil)
+    end
+
+    it 'is not available to regular users' do
+      @user.groups.delete(Group.league_admin_group)
+
+      patch :ban_ip, params: { ip: '8.8.8.8' }
+
+      expect(IpLookup.find_by(ip: '8.8.8.8')).to be_nil
+    end
+  end
+
+  describe '#stac_detections' do
+    before { @user.groups << Group.league_admin_group }
+
+    it 'renders nothing found without steam uids' do
+      get :stac_detections
+
+      expect(assigns(:stac_detections)).to eq([])
+      expect(response).to render_template(partial: '_stac_detections')
+    end
+  end
+
   describe '#create' do
     before { @user.groups << Group.admin_group }
 

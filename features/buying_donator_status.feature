@@ -26,6 +26,8 @@ Feature: Buying donator status
     And my PayPal payment was successful
     Then my donator status lasts for a month
     And I get to choose a private server in my settings
+    And I can reserve my private server
+    And other users cannot reserve my private server
 
     @vcr
   Scenario: Buying for someone else

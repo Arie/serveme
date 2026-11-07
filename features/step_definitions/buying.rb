@@ -42,12 +42,32 @@ Then 'I see a premium code on my settings page' do
 end
 
 Then 'I get to choose a private server in my settings' do
-  server = create(:server)
+  @private_server = create(:server, name: 'My Private Server')
   visit settings_path
   page.should have_content 'Private server'
 
-  fill_in 'Private server', with: server.id
+  fill_in 'Private server', with: @private_server.id
   click_button 'Save private server'
+  page.should have_content 'Private server saved'
+end
+
+Then 'I can reserve my private server' do
+  visit new_reservation_path
+  fill_in 'Server', with: @private_server.id
+  fill_in 'Password', with: 'secret'
+  fill_in 'Rcon', with: 'even more secret'
+  step 'I save the reservation'
+  expect(@current_user.reservations.reload.last.server).to eq(@private_server)
+end
+
+Then 'other users cannot reserve my private server' do
+  login_as(create(:user), scope: :user)
+  visit new_reservation_path
+  fill_in 'Server', with: @private_server.id
+  fill_in 'Password', with: 'secret'
+  fill_in 'Rcon', with: 'even more secret'
+  click_button 'Save'
+  page.should have_content 'is not available for you'
 end
 
 When 'I click the buy button' do

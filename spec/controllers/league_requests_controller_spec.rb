@@ -32,7 +32,7 @@ describe LeagueRequestsController do
         assigns(:results).should be_nil
         expect(assigns(:league_request)).to be_a(LeagueRequest)
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'searches by reservation ids only' do

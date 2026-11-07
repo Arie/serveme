@@ -26,7 +26,7 @@ module Admin
     else
       @server_notifications = ServerNotification.order(id: :desc)
       flash.now[:alert] = "Failed to create server notification."
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 
@@ -36,7 +36,7 @@ module Admin
     else
       @server_notifications = ServerNotification.order(id: :desc)
       flash.now[:alert] = "Failed to update server notification."
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 

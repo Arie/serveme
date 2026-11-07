@@ -42,7 +42,7 @@ class LeagueRequestsController < ApplicationController
         format.html do
           # A submitted-but-empty search comes back with the params present but blank
           if SEARCH_KEYS.any? { |key| params.key?(key) }
-            render :new, status: :unprocessable_entity
+            render :new, status: :unprocessable_content
           else
             render :new
           end

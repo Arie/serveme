@@ -89,7 +89,7 @@ class CloudReservationsController < ApplicationController
         server.destroy
         @cloud_locations = CloudProvider.grouped_locations(user: current_user)
         @server_configs = ServerConfig.active.ordered
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
   rescue RemoteLock::Error

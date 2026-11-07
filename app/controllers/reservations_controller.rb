@@ -38,7 +38,7 @@ class ReservationsController < ApplicationController
       @servers = Server.active.not_cloud.ordered.includes(:location)
       @docker_hosts = DockerHost.active.ordered
       flash.now[:alert] = "Invalid date or time entered, please try again."
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
       return
     end
     if SiteSetting.free_server_limit_reached?(current_user, starts_at, ends_at)
@@ -400,7 +400,7 @@ class ReservationsController < ApplicationController
       @servers = Server.active.not_cloud.ordered.includes(:location)
       @docker_hosts = DockerHost.active.ordered
       respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
       end
     end
   end
@@ -426,7 +426,7 @@ class ReservationsController < ApplicationController
     @servers = Server.active.not_cloud.ordered.includes(:location)
     @docker_hosts = DockerHost.active.ordered
     respond_to do |format|
-      format.html { render :new, status: :unprocessable_entity }
+      format.html { render :new, status: :unprocessable_content }
     end
   end
 
@@ -494,7 +494,7 @@ class ReservationsController < ApplicationController
   def render_zip_unavailable_error
     Rails.logger.warn("Prepare zip for Reservation #{@reservation.id}: File not local and no zip attached.")
     # Consider a Turbo Stream update here too, to inform the user
-    head :unprocessable_entity
+    head :unprocessable_content
   end
 
   def reservation_params

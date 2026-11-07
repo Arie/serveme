@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
           redirect_to paypal_order.checkout_url, allow_other_host: true
         else
           flash[:alert] = "Something went wrong creating your order, please try again"
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end
@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
       result[:payment_intent_id] = order.payment_id
       render json: result
     else
-      render json: { error: "Could not create order" }, status: :unprocessable_entity
+      render json: { error: "Could not create order" }, status: :unprocessable_content
     end
   end
 
@@ -66,7 +66,7 @@ class OrdersController < ApplicationController
       result = order.create_express_payment_intent
       render json: result
     else
-      render json: { error: "Could not create order" }, status: :unprocessable_entity
+      render json: { error: "Could not create order" }, status: :unprocessable_content
     end
   end
 

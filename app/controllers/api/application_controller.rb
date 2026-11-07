@@ -47,7 +47,7 @@ module Api
     def handle_unprocessable_entity
       # Filtered, so api keys and passwords in the body stay out of the logs
       Rails.logger.warn "UNPROCESSABLE ENTITY: #{request.filtered_parameters.except('controller', 'action').to_json}"
-      head :unprocessable_entity
+      head :unprocessable_content
     end
 
     private

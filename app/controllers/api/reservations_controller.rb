@@ -37,7 +37,7 @@ module Api
       starts_at = reservation_params[:starts_at].present? ? Time.zone.parse(reservation_params[:starts_at].to_s) : Time.current
       ends_at = reservation_params[:ends_at].present? ? Time.zone.parse(reservation_params[:ends_at].to_s) : 2.hours.from_now
       if SiteSetting.free_server_limit_reached?(current_user, starts_at, ends_at)
-        render json: { error: "All free servers are currently in use. Try again later or get premium for more servers." }, status: :unprocessable_entity
+        render json: { error: "All free servers are currently in use. Try again later or get premium for more servers." }, status: :unprocessable_content
         return
       end
 
@@ -98,7 +98,7 @@ module Api
 
     def stv
       return render_stv_unavailable unless StvtfToken.enabled?
-      return render(json: { error: "stv.tf can only watch a running reservation, and not on SDR servers" }, status: :unprocessable_entity) unless reservation.stv_watchable?
+      return render(json: { error: "stv.tf can only watch a running reservation, and not on SDR servers" }, status: :unprocessable_content) unless reservation.stv_watchable?
 
       render_stv_link(connect: T.must(reservation.stv_connect_string), reservation: reservation.id)
     end
@@ -190,7 +190,7 @@ module Api
       @reservation = creator.create!
       render :show
     rescue DockerHostReservationCreator::CapacityError => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      render json: { error: e.message }, status: :unprocessable_content
     rescue DockerHostReservationCreator::ValidationError => e
       @reservation = e.reservation
       @servers = free_servers

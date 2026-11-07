@@ -29,7 +29,7 @@ class ServersController < ApplicationController
       flash[:notice] = "Server created"
     else
       respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
       end
     end
   end
@@ -47,7 +47,7 @@ class ServersController < ApplicationController
       redirect_to servers_path
     else
       respond_to do |format|
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
       end
     end
   end

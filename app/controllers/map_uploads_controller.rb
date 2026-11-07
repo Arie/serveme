@@ -30,7 +30,7 @@ class MapUploadsController < ApplicationController
       format.html do
         if params[:map_upload].nil?
           @map_upload = MapUpload.new
-          return render :new, status: :unprocessable_entity
+          return render :new, status: :unprocessable_content
         end
 
         @map_upload = MapUpload.new(params[:map_upload].permit(:file))
@@ -40,7 +40,7 @@ class MapUploadsController < ApplicationController
           flash[:notice] = "Map upload succeeded. It can take a few minutes for it to get synced to all servers."
           redirect_to new_map_upload_path
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end
@@ -52,7 +52,7 @@ class MapUploadsController < ApplicationController
     filename = params[:filename]
 
     unless filename.end_with?(".bsp")
-      return render json: { error: "Only .bsp files are allowed" }, status: :unprocessable_entity
+      return render json: { error: "Only .bsp files are allowed" }, status: :unprocessable_content
     end
 
     begin
@@ -62,11 +62,11 @@ class MapUploadsController < ApplicationController
     end
 
     if ActiveStorage::Blob.service.exist?("maps/#{filename}")
-      return render json: { error: "Map already exists" }, status: :unprocessable_entity
+      return render json: { error: "Map already exists" }, status: :unprocessable_content
     end
 
     if MapUpload.blacklisted_type?(filename)
-      return render json: { error: "Game type not allowed" }, status: :unprocessable_entity
+      return render json: { error: "Game type not allowed" }, status: :unprocessable_content
     end
 
     # The browser uploads to a quarantine key that isn't served or listed;
@@ -108,7 +108,7 @@ class MapUploadsController < ApplicationController
     if result[:success]
       render json: { message: "Upload completed successfully" }
     else
-      render json: { error: result[:error] }, status: :unprocessable_entity
+      render json: { error: result[:error] }, status: :unprocessable_content
     end
   end
 

@@ -24,7 +24,7 @@ class LogUploadsController < ApplicationController
           flash[:notice] = "Logfile uploaded to logs.tf"
           redirect_to(reservation_log_uploads_path(reservation))
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end

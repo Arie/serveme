@@ -152,13 +152,13 @@ describe "v2 template smoke render", type: :request do
   # :edit, which have no +v2 of their own. They must still render in the v2 layout.
   it "re-renders :new in v2 on a failed create (conventional)" do
     post server_configs_path, params: { server_config: { file: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.body).to include("/builds/v2.css"), "failed create did not render the v2 layout"
   end
 
   it "re-renders :index in v2 on a failed create (beta_renders_as :index)" do
     post admin_server_notifications_path, params: { server_notification: { message: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.body).to include("/builds/v2.css"), "failed create did not render the v2 layout"
   end
 end

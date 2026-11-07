@@ -41,7 +41,7 @@ class LiveMapsController < ApplicationController
     redirect_to start_url(input), allow_other_host: true
   rescue StvConnect::Error, DemostfDemo::Error => e
     flash.now[:alert] = e.message
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
   end
 
   private

@@ -60,7 +60,7 @@ class DiscordController < ApplicationController
 
     steam_connection = connections&.find { |c| c["type"] == "steam" }
     unless steam_connection
-      return render plain: "No Steam account linked to your Discord. Please link Steam in Discord Settings > Connections first.", status: :unprocessable_entity
+      return render plain: "No Steam account linked to your Discord. Please link Steam in Discord Settings > Connections first.", status: :unprocessable_content
     end
 
     discord_uid = discord_user["id"]

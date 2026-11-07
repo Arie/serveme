@@ -76,7 +76,7 @@ class PlayerStatisticsController < ApplicationController
       @geocoded = load_geocoded(player_statistics)
       format.html { render :index }
     else
-      format.html { render :index, status: :unprocessable_entity }
+      format.html { render :index, status: :unprocessable_content }
     end
   end
 

@@ -22,7 +22,7 @@ class VouchersController < ApplicationController
         else
           flash[:alert] = "Invalid code or already used"
           @voucher = Voucher.new
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end

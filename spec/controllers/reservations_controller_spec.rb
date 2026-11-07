@@ -199,7 +199,7 @@ describe ReservationsController do
     it 'renders the new form with an error when an unparseable date is given' do
       post :create, params: { reservation: { starts_at: 'garbage', ends_at: 'garbage', password: 'x', rcon: 'y' } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(flash[:alert]).to include('Invalid date or time')
     end
 
@@ -222,7 +222,7 @@ describe ReservationsController do
       } }
 
       expect(Reservation.where(server_id: server.id).count).to eq(1)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'does not double-book a server when the competitor commits on another connection' do
@@ -246,7 +246,7 @@ describe ReservationsController do
       end
 
       expect(Reservation.where(server_id: server.id).count).to eq(1)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'shows an error instead of crashing when the competitor commits after the last validation' do
@@ -270,7 +270,7 @@ describe ReservationsController do
       } }
 
       expect(Reservation.where(user_id: @user.id, server_id: server.id)).to be_empty
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(assigns(:reservation).errors[:server_id]).to include('already booked in the selected timeframe')
     end
 
@@ -296,7 +296,7 @@ describe ReservationsController do
       } }
 
       expect(Reservation.where(user_id: @user.id, server_id: server.id)).to be_empty
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(assigns(:reservation).errors[:server_id]).to include('already booked in the selected timeframe')
     end
   end
@@ -850,7 +850,7 @@ describe ReservationsController do
       post :create, params: { reservation: { server_id: "dh-#{docker_host.id}", password: 'x', rcon: 'y',
                                               starts_at: Time.current.to_s, ends_at: 2.hours.from_now.to_s } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response).to render_template(:new)
       expect(assigns(:reservation)).to be(invalid)
       expect(assigns(:docker_hosts)).to include(docker_host)
@@ -1203,7 +1203,7 @@ describe ReservationsController do
 
       post :prepare_zip, params: { id: reservation.id }, format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

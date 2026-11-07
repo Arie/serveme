@@ -30,7 +30,7 @@ describe LiveMapsController do
     allow_any_instance_of(StvConnect).to receive(:check!).and_raise(StvConnect::Error, 'No SourceTV answers at 1.2.3.4:27020')
     expect(StvtfToken).not_to receive(:start_url)
     post :create, params: { connect: '1.2.3.4:27020' }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(flash.now[:alert]).to include('No SourceTV answers')
   end
 
@@ -45,7 +45,7 @@ describe LiveMapsController do
     allow_any_instance_of(DemostfDemo).to receive(:check!).and_raise(DemostfDemo::Error, 'demos.tf has no demo 1')
     expect(StvtfToken).not_to receive(:start_url)
     post :create, params: { connect: 'https://demos.tf/1' }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(flash.now[:alert]).to eq('demos.tf has no demo 1')
   end
 

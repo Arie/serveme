@@ -9,7 +9,7 @@ module Api
       ip_lookup = IpLookup.upsert_from_sync(ip_lookup_params)
       render json: { ip_lookup: { id: ip_lookup.id, ip: ip_lookup.ip } }, status: :created
     rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      render json: { error: e.message }, status: :unprocessable_content
     end
 
     private

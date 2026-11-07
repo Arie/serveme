@@ -22,7 +22,7 @@ class ServerConfigsController < ApplicationController
           flash[:notice] = "Server config added"
           redirect_to server_configs_path
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end

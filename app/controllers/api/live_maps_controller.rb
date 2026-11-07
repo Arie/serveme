@@ -25,7 +25,7 @@ module Api
         render_stv_link(connect: StvConnect.parse(input).check!.connect_string)
       end
     rescue StvConnect::Error, DemostfDemo::Error => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      render json: { error: e.message }, status: :unprocessable_content
     end
 
     private

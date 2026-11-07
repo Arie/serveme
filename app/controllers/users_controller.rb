@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     end
 
     if cached_response[:error]
-      render json: cached_response, status: :unprocessable_entity
+      render json: cached_response, status: :unprocessable_content
     else
       render json: cached_response
     end

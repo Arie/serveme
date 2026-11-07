@@ -22,7 +22,7 @@ class WhitelistsController < ApplicationController
           flash[:notice] = "Whitelist added"
           redirect_to whitelists_path
         else
-          render :new, status: :unprocessable_entity
+          render :new, status: :unprocessable_content
         end
       end
     end

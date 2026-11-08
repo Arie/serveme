@@ -1,6 +1,6 @@
 local:
   service: Disk
-  root: <%= Rails.root.join("storage#{ENV['TEST_ENV_NUMBER']}") %>
+  root: <%= Rails.root.join("#{ENV.fetch('STORAGE_DIR', 'storage')}#{ENV['TEST_ENV_NUMBER']}") %>
 
 cloudflare:
   service: S3

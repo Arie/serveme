@@ -53,7 +53,7 @@ tasks:
     depends_on: db_copy_rspec
 
   cucumber:
-    command: "%{debug}TEST_DATABASE=serveme_test_cucumber REDIS_LOCK_DB=6 SESSION_KEY_SUFFIX=_cucumber bundle exec parallel_cucumber -n %{cucumber_worker_count}%{cucumber_seed_arg}"
+    command: "%{debug}TEST_DATABASE=serveme_test_cucumber REDIS_LOCK_DB=6 SESSION_KEY_SUFFIX=_cucumber STORAGE_DIR=tmp/storage_cucumber bundle exec parallel_cucumber -n %{cucumber_worker_count}%{cucumber_seed_arg}"
     depends_on: db_copy_cucumber
 
 # Sections define which tasks to run and in what order

@@ -12,6 +12,8 @@ class StacLogProcessor
   AIM_DETECTION_PATTERN = /\s*\[StAC\] ((?:Possible )?[Tt]riggerbot|SilentAim|Aimsnap) detection(?:s)? (?:of \d+\.\d+° )?on (.+?)$/m
   CMDNUM_SPIKE_PATTERN = /\s*\[StAC\] Cmdnum SPIKE of \d+ on (.*?)\..*?Player: (.*?)<.*?\[U:1:(\d+)\].*?#{STEAM_ID_PATTERN}/m
   GENERAL_DETECTION_PATTERN = /\s*\[StAC\] \[Detection\] Player (.*?) is cheating - (.*?)!.*?#{STEAM_ID_PATTERN}/m
+  PLAYERPERF_PATTERN = /^\s*\[StAC\] Player (.+?) sent the playerperf command/
+  PLAYER_BLOCK_PATTERN = /^\s*Player: (.*?)<.*?#{STEAM_ID_PATTERN}/m
 
   # Detection type normalization
   DETECTION_TYPE_MAPPING = {
@@ -94,6 +96,7 @@ class StacLogProcessor
     parse_aim_detections(content, detections)
     parse_cmdnum_spike_detections(content, detections)
     parse_general_detections(content, detections)
+    parse_playerperf_detections(content, detections)
 
     detections
   end
@@ -108,19 +111,32 @@ class StacLogProcessor
       name = parse_player_name(name_raw)
       next if name.nil?
 
-      # The player block right after this detection, not the first block with
-      # a similar name: "Bob" must not pick up "Bobby"'s SteamID
-      log_segment_after_detection = T.must(content[match.end(0)..])
-      player_block = log_segment_after_detection.match(/^\s*Player: (.*?)<.*?#{STEAM_ID_PATTERN}/m)
-      next unless player_block && player_block[1] == name
+      steam_id = steam_id_of_following_player_block(content, match, name)
+      next if steam_id.nil?
 
-      steam_id = player_block[2]
-      steam_id64 = convert_steam_id(steam_id)
-
-      detection_type = normalize_detection_type(detection_type_raw)
-
-      add_detection(detections, steam_id64, name, steam_id, detection_type)
+      add_detection(detections, convert_steam_id(steam_id), name, steam_id, normalize_detection_type(detection_type_raw))
     end
+  end
+
+  sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }
+  def parse_playerperf_detections(content, detections)
+    content.to_enum(:scan, PLAYERPERF_PATTERN).each do
+      match = T.must(::Regexp.last_match)
+      name = T.must(match[1])
+
+      steam_id = steam_id_of_following_player_block(content, match, name)
+      next if steam_id.nil?
+
+      add_detection(detections, convert_steam_id(steam_id), name, steam_id, "playerperf")
+    end
+  end
+
+  # The player block right after a detection, not the first block with a
+  # similar name: "Bob" must not pick up "Bobby"'s SteamID
+  sig { params(content: String, detection: MatchData, name: String).returns(T.nilable(String)) }
+  def steam_id_of_following_player_block(content, detection, name)
+    player_block = T.must(content[detection.end(0)..]).match(PLAYER_BLOCK_PATTERN)
+    player_block[2] if player_block && player_block[1] == name
   end
 
   sig { params(content: String, detections: T::Hash[T.untyped, T.untyped]).void }

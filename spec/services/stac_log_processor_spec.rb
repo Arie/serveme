@@ -486,6 +486,42 @@ describe StacLogProcessor do
       end
     end
 
+    context "with playerperf detections" do
+      let(:reservation) { build_stubbed(:reservation) }
+      let(:processor) { described_class.new(reservation) }
+
+      it "records one detection per playerperf block, ignoring the summary lines" do
+        log_content = <<~LOG
+          <06:27:45>
+
+          ----------
+
+          [StAC] Player GET SMAK'D sent the playerperf command (used by seed-prediction / crit hacks).
+          Detections so far: 1.
+          <06:27:45>
+           Player: GET SMAK'D<4><[U:1:370442068]><>
+           StAC cached SteamID: STEAM_0:0:185221034
+          <06:27:45> Player GET SMAK'D sent `playerperf` (detection 1).
+          <06:27:47>
+
+          ----------
+
+          [StAC] Player GET SMAK'D sent the playerperf command (used by seed-prediction / crit hacks).
+          Detections so far: 2.
+          <06:27:47>
+           Player: GET SMAK'D<4><[U:1:370442068]><>
+           StAC cached SteamID: STEAM_0:0:185221034
+          <06:27:47> Player GET SMAK'D sent `playerperf` (detection 2).
+        LOG
+
+        result = processor.extract_detections(log_content)
+
+        expect(result.values).to contain_exactly(
+          hash_including(name: "GET SMAK'D", steam_id: "STEAM_0:0:185221034", detections: [ "playerperf", "playerperf" ])
+        )
+      end
+    end
+
     context "with edge case player names" do
       let(:reservation) { build_stubbed(:reservation) }
       let(:processor) { described_class.new(reservation) }

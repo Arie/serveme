@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem rspec-support`.
 
 
-# pkg:gem/rspec-support#lib/rspec/support.rb:3
+# pkg:gem/rspec-support#lib/rspec/support.rb:13
 module RSpec
   extend ::RSpec::Support::Warnings
 end
@@ -18,6 +18,8 @@ end
 # pkg:gem/rspec-support#lib/rspec/support/caller_filter.rb:10
 class RSpec::CallerFilter
   class << self
+    # Earlier rubies do not support the two argument form of `caller`. This
+    # fallback is logically the same, but slower.
     # This supports args because it's more efficient when the caller specifies
     # these. It allows us to skip frames the caller knows are part of RSpec,
     # and to decrease the increment size if the caller is confident the line will
@@ -34,8 +36,6 @@ class RSpec::CallerFilter
     # such a way that would return the wrong stack frame, a test will fail to tell you.
     #
     # See benchmarks/skip_frames_for_caller_filter.rb for measurements.
-    # Earlier rubies do not support the two argument form of `caller`. This
-    # fallback is logically the same, but slower.
     #
     # pkg:gem/rspec-support#lib/rspec/support/caller_filter.rb:49
     def first_non_rspec_line(skip_frames = T.unsafe(nil), increment = T.unsafe(nil)); end
@@ -61,14 +61,14 @@ RSpec::CallerFilter::LIB_REGEX = T.let(T.unsafe(nil), Regexp)
 # pkg:gem/rspec-support#lib/rspec/support/caller_filter.rb:11
 RSpec::CallerFilter::RSPEC_LIBS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/rspec-support#lib/rspec/support.rb:4
+# pkg:gem/rspec-support#lib/rspec/support.rb:14
 module RSpec::Support
   class << self
     # @api private
     #
     # Used internally to get a class of a given object, even if it does not respond to #class.
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:86
+    # pkg:gem/rspec-support#lib/rspec/support.rb:96
     def class_of(object); end
 
     # @api private
@@ -83,7 +83,7 @@ module RSpec::Support
     # hand, does a linear O(N) search over the dirs in the $LOAD_PATH until
     # it can resolve the file relative to one of the dirs.
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:16
+    # pkg:gem/rspec-support#lib/rspec/support.rb:26
     def define_optimized_require_for_rspec(lib, &require_relative); end
 
     # Remove a previously registered matcher. Useful for cleaning up after
@@ -96,12 +96,12 @@ module RSpec::Support
 
     # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:113
+    # pkg:gem/rspec-support#lib/rspec/support.rb:123
     def failure_notifier; end
 
     # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:105
+    # pkg:gem/rspec-support#lib/rspec/support.rb:115
     def failure_notifier=(callable); end
 
     # @private
@@ -114,12 +114,12 @@ module RSpec::Support
     # pkg:gem/rspec-support#lib/rspec/support/matcher_definition.rb:6
     def matcher_definitions; end
 
-    # pkg:gem/rspec-support#lib/rspec/support.rb:54
+    # pkg:gem/rspec-support#lib/rspec/support.rb:64
     def method_handle_for(object, method_name); end
 
     # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:118
+    # pkg:gem/rspec-support#lib/rspec/support.rb:128
     def notify_failure(failure, options = T.unsafe(nil)); end
 
     # Used internally to break cyclic dependency between mocks, expectations,
@@ -132,7 +132,7 @@ module RSpec::Support
     # pkg:gem/rspec-support#lib/rspec/support/matcher_definition.rb:16
     def register_matcher_definition(&block); end
 
-    # pkg:gem/rspec-support#lib/rspec/support.rb:25
+    # pkg:gem/rspec-support#lib/rspec/support.rb:35
     def require_rspec_support(f); end
 
     # @api private
@@ -142,34 +142,32 @@ module RSpec::Support
     # pkg:gem/rspec-support#lib/rspec/support/matcher_definition.rb:36
     def rspec_description_for_object(object); end
 
-    # pkg:gem/rspec-support#lib/rspec/support.rb:95
+    # pkg:gem/rspec-support#lib/rspec/support.rb:105
     def thread_local_data; end
 
     # @api private
-    # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:140
+    # pkg:gem/rspec-support#lib/rspec/support.rb:150
     def warning_notifier; end
 
     # @api private
-    # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:133
+    # pkg:gem/rspec-support#lib/rspec/support.rb:143
     def warning_notifier=(_arg0); end
 
     # @api private
     #
-    # pkg:gem/rspec-support#lib/rspec/support.rb:123
+    # pkg:gem/rspec-support#lib/rspec/support.rb:133
     def with_failure_notifier(callable); end
   end
 end
 
 # @private
 #
-# pkg:gem/rspec-support#lib/rspec/support.rb:145
+# pkg:gem/rspec-support#lib/rspec/support.rb:155
 module RSpec::Support::AllExceptionsExceptOnesWeMustNotRescue
   class << self
-    # pkg:gem/rspec-support#lib/rspec/support.rb:150
+    # pkg:gem/rspec-support#lib/rspec/support.rb:160
     def ===(exception); end
   end
 end
@@ -177,7 +175,7 @@ end
 # These exceptions are dangerous to rescue as rescuing them
 # would interfere with things we should not interfere with.
 #
-# pkg:gem/rspec-support#lib/rspec/support.rb:148
+# pkg:gem/rspec-support#lib/rspec/support.rb:158
 RSpec::Support::AllExceptionsExceptOnesWeMustNotRescue::AVOID_RESCUING = T.let(T.unsafe(nil), Array)
 
 # Deals with the slightly different semantics of block arguments.
@@ -217,12 +215,12 @@ end
 
 # @private
 #
-# pkg:gem/rspec-support#lib/rspec/support.rb:110
+# pkg:gem/rspec-support#lib/rspec/support.rb:120
 RSpec::Support::DEFAULT_FAILURE_NOTIFIER = T.let(T.unsafe(nil), Proc)
 
 # @private
 #
-# pkg:gem/rspec-support#lib/rspec/support.rb:137
+# pkg:gem/rspec-support#lib/rspec/support.rb:147
 RSpec::Support::DEFAULT_WARNING_NOTIFIER = T.let(T.unsafe(nil), Proc)
 
 # pkg:gem/rspec-support#lib/rspec/support/differ.rb:11
@@ -512,7 +510,7 @@ end
 
 # @api private
 #
-# pkg:gem/rspec-support#lib/rspec/support.rb:40
+# pkg:gem/rspec-support#lib/rspec/support.rb:50
 RSpec::Support::KERNEL_METHOD_METHOD = T.let(T.unsafe(nil), UnboundMethod)
 
 # Allows matchers to be used instead of providing keyword arguments. In
@@ -1288,13 +1286,27 @@ module RSpec::Support::WithKeywordsWhenNeeded
   # this is used. Works around a warning in Ruby 2.7
   #
   # pkg:gem/rspec-support#lib/rspec/support/with_keywords_when_needed.rb:17
-  def class_exec(klass, *args, **_arg2, &block); end
+  def class_exec(klass, *args, **, &block); end
 
   class << self
     # Remove this in RSpec 4 in favour of explicitly passed in kwargs where
     # this is used. Works around a warning in Ruby 2.7
     #
     # pkg:gem/rspec-support#lib/rspec/support/with_keywords_when_needed.rb:17
-    def class_exec(klass, *args, **_arg2, &block); end
+    def class_exec(klass, *args, **, &block); end
+  end
+end
+
+# pkg:gem/rspec-support#lib/rspec/support.rb:4
+class Thread
+  # pkg:gem/rspec-support#lib/rspec/support.rb:5
+  def __rspec_local_data; end
+
+  # pkg:gem/rspec-support#lib/rspec/support.rb:5
+  def __rspec_local_data=(_arg0); end
+
+  class << self
+    # pkg:gem/rspec-support#lib/rspec/support.rb:8
+    def __rspec_current_thread; end
   end
 end

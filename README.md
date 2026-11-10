@@ -3,45 +3,27 @@
 
 Competitive TF2 servers worldwide in 60 seconds or less
 
-## Requirements
+## Running it yourself
+`script/lan-quickstart` runs the website and the TF2 servers on one Linux machine with Docker. It's meant for LAN parties, but it's also the easiest way to try serveme out. See [docs/lan-party.md](docs/lan-party.md).
 
-* Ruby 4.0+ — install via [mise](https://mise.jdx.dev/). See `.ruby-version` for the exact version.
-* A Steam API key for user sign in
-* Postgres database
-* Redis
+## Development
+You need Ruby (see `.ruby-version`, install it with [mise](https://mise.jdx.dev/)), Postgres, Redis and a [Steam Web API key](https://steamcommunity.com/dev/apikey).
 
-### Server Requirements
-* A Source game dedicated server installation, only tested with TF2 on linux for now.
-* Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
-* [libmaxminddb](https://github.com/maxmind/libmaxminddb), for GeoIP lookups. Or you can configure another one in the
-  [geocoder initializer](https://github.com/alexreisner/geocoder)
-* Ripgrep installed
-
-## Running it at a LAN party
-`script/lan-quickstart` runs the website and the TF2 servers on one machine with Docker. See [docs/lan-party.md](docs/lan-party.md).
-
-## Running locally
-1. Make sure you've installed the requirements.
-2. Review the yaml files in the `config` directory.
-3. Get a Steam API key from https://steamcommunity.com/dev/apikey.
-4. Add the Steam API key (and any other secrets) to Rails credentials via `bin/rails credentials:edit`:
+1. Install the gems: `bundle install`. Native extensions need development headers for postgres, libmaxminddb and libvips.
+2. Set `STEAM_API_KEY` in your environment, or add it to Rails credentials with `bin/rails credentials:edit`:
 ```yaml
 steam:
   api_key: <your_api_key_here>
 ```
-5. Go to https://dev.maxmind.com/geoip/geoip2/geolite2/ and download the `GeoLite2 City` DB file. Unzip and place in `/doc/`.
-6. Install required libraries for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_).
-7. Install the required gems: `gem install bundler && bundle install`. You may need development header packages for native extensions (postgres, libmaxminddb, libvips).
-8. Edit the seed data in `db/seeds.rb`, i.e. the servers list.
-9. Set up and migrate the databases: `bin/rails db:setup RAILS_ENV=development`.
-10. Start the webserver: `bin/rails s`.
-11. Add `exec reservation.cfg` to the `server.cfg` of the gameserver.
+3. For geolocation, download the GeoLite2 City database from [MaxMind](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) and put it at `doc/GeoLite2-City.mmdb`.
+4. Set up the database: `bin/rails db:setup`.
+5. Start the website with `bin/rails s` and the background jobs with `bundle exec sidekiq`.
 
-### Running the test suite
 `script/test -a` runs the full check: RuboCop, Brakeman, RSpec, import-map verification, Tapioca, and Swagger regeneration.
 
-
 ## Servers
+Game servers need a Source dedicated server installation (only tested with TF2 on Linux), started with `-port PORTNUMBER -autoupdate`, with `exec reservation.cfg` in its `server.cfg`. The machine running the website needs [ripgrep](https://github.com/BurntSushi/ripgrep).
+
 There's currently no web interface for adding/editing servers (pull requests welcome). So you'll have to enter them manually in the database or using the rails console.
 
 

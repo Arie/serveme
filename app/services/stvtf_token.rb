@@ -6,7 +6,8 @@
 # base64url(12-byte nonce | ciphertext | 16-byte tag) of {connect, owner, exp}, or of
 # {demo, owner, exp} to play a demos.tf demo. `owner` is the user's Steam uid, which the map server
 # only logs: it limits nothing. `reservation` links the match to a reservation; {list, exp} reads the
-# hub's list of matches; {signin: {uid, name, streamer}, exp} signs a user in to its rooms.
+# hub's list of matches; {signin: {uid, name, streamer}, exp} signs a user in to its rooms. The map
+# server seals one itself, {link, exp}, to ask who a Discord user is (StvtfDiscordLinksController).
 class StvtfToken
   extend T::Sig
 
@@ -54,6 +55,30 @@ class StvtfToken
     seal(claims)
   end
 
+  # Whether `token` is the map server's, asking who Discord user `discord_uid` is: {link, exp},
+  # sealed as above.
+  sig { params(token: String, discord_uid: String, now: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Boolean) }
+  def self.link?(token, discord_uid, now: Time.current)
+    claims = open(token)
+    !claims.nil? && discord_uid.present? && claims["link"] == discord_uid && claims["exp"].is_a?(Integer) && claims["exp"] >= now.to_i
+  end
+
+  sig { params(token: String).returns(T.nilable(T::Hash[String, T.untyped])) }
+  def self.open(token)
+    raw = Base64.urlsafe_decode64(token)
+    return nil if raw.bytesize < 12 + 16
+
+    cipher = OpenSSL::Cipher.new("aes-256-gcm").decrypt
+    cipher.key = key
+    cipher.iv = raw.byteslice(0, 12)
+    cipher.auth_tag = raw.byteslice(-16, 16)
+    cipher.auth_data = ""
+    claims = JSON.parse(cipher.update(raw.byteslice(12, raw.bytesize - 28)) + cipher.final)
+    claims.is_a?(Hash) ? claims : nil
+  rescue ArgumentError, OpenSSL::Cipher::CipherError, JSON::ParserError
+    nil
+  end
+
   sig { params(claims: T::Hash[Symbol, T.untyped]).returns(String) }
   def self.seal(claims)
     cipher = OpenSSL::Cipher.new("aes-256-gcm").encrypt
@@ -68,5 +93,5 @@ class StvtfToken
   def self.key
     [ ENV.fetch("STVTF_TOKEN_KEY") ].pack("H*")
   end
-  private_class_method :key, :seal
+  private_class_method :key, :seal, :open
 end

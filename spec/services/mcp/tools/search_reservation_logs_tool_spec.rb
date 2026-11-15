@@ -304,6 +304,29 @@ RSpec.describe Mcp::Tools::SearchReservationLogsTool do
         expect(result[:truncated]).to be true
       end
 
+      it "pages through matches across reservations with offset" do
+        page1 = tool.execute(steam_uid: player_uid, search_term: "say", max_results: 1)
+        page2 = tool.execute(steam_uid: player_uid, search_term: "say", max_results: 1, offset: 1)
+        page3 = tool.execute(steam_uid: player_uid, search_term: "say", max_results: 1, offset: 2)
+
+        lines = [ page1, page2 ].map { |page| page[:results_by_reservation].flat_map { |r| r[:lines] } }
+        expect(lines.map(&:size)).to eq([ 1, 1 ])
+        expect(lines.flatten.uniq.size).to eq(2)
+        expect(page3[:results_by_reservation]).to eq([])
+        expect(page3[:reservations_searched]).to eq(2)
+      end
+
+      it "reaches older reservations with reservations_offset" do
+        reservation.update_columns(starts_at: 2.days.ago, ends_at: 2.days.ago + 1.hour)
+        reservation2.update_columns(starts_at: 1.day.ago, ends_at: 1.day.ago + 1.hour)
+
+        newest = tool.execute(steam_uid: player_uid, search_term: "say", reservations_limit: 1)
+        older = tool.execute(steam_uid: player_uid, search_term: "say", reservations_limit: 1, reservations_offset: 1)
+
+        expect(newest[:results_by_reservation].map { |r| r[:reservation_id] }).to eq([ reservation2.id ])
+        expect(older[:results_by_reservation].map { |r| r[:reservation_id] }).to eq([ reservation.id ])
+      end
+
       it "requires search_term with steam_uid" do
         result = tool.execute(steam_uid: player_uid)
 

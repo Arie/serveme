@@ -64,7 +64,8 @@ module Mcp
             },
             offset: {
               type: "integer",
-              description: "Number of matches to skip before returning results (for pagination, default: 0)",
+              description: "Number of matches to skip before returning results (for pagination, default: 0). " \
+                          "With steam_uid, matches are counted across the searched reservations.",
               default: 0
             },
             steam_uid: {
@@ -77,6 +78,12 @@ module Mcp
               type: "integer",
               description: "Maximum number of recent reservations to search when using steam_uid (default: 10, max: 25)",
               default: 10
+            },
+            reservations_offset: {
+              type: "integer",
+              description: "Number of the player's most recent reservations to skip when using steam_uid, " \
+                          "to reach older history (default: 0)",
+              default: 0
             }
           }
         }
@@ -169,6 +176,7 @@ module Mcp
           log_file: File.basename(log_file),
           total_lines: total_lines,
           offset: offset,
+          skipped: skipped,
           match_count: lines.size,
           truncated: lines.size >= max_results,
           lines: lines
@@ -219,17 +227,22 @@ module Mcp
         reservations_limit = [ params.fetch(:reservations_limit, 10).to_i, 25 ].min
         context_lines = [ params.fetch(:context_lines, 0).to_i, 10 ].min
         max_results = [ params.fetch(:max_results, 200).to_i, 1000 ].min
+        offset = [ params.fetch(:offset, 0).to_i, 0 ].max
+        reservations_offset = [ params.fetch(:reservations_offset, 0).to_i, 0 ].max
 
         reservations = Reservation
           .joins(:reservation_players)
           .where(reservation_players: { steam_uid: steam_uid })
           .order(starts_at: :desc)
           .limit(reservations_limit)
+          .offset(reservations_offset)
           .select("reservations.id, reservations.logsecret, reservations.starts_at")
           .distinct
 
         results_by_reservation = []
         total_match_count = 0
+        reservations_searched = 0
+        remaining_offset = offset
 
         reservations.each do |reservation|
           break if total_match_count >= max_results
@@ -239,9 +252,13 @@ module Mcp
 
           remaining = max_results - total_match_count
           total_lines = count_lines(log_file)
-          result = search_log(log_file, search_term, context_lines, remaining, 0, reservation.id, total_lines, player_filter: steam_id3)
+          result = search_log(log_file, search_term, context_lines, remaining, remaining_offset, reservation.id, total_lines, player_filter: steam_id3)
 
-          next if result[:error] || result[:lines].empty?
+          next if result[:error]
+
+          reservations_searched += 1
+          remaining_offset -= result[:skipped]
+          next if result[:lines].empty?
 
           total_match_count += result[:lines].size
           results_by_reservation << result
@@ -250,7 +267,9 @@ module Mcp
         {
           steam_uid: steam_uid,
           steam_id3: steam_id3,
-          reservations_searched: results_by_reservation.size,
+          reservations_searched: reservations_searched,
+          reservations_offset: reservations_offset,
+          offset: offset,
           total_match_count: total_match_count,
           truncated: total_match_count >= max_results,
           results_by_reservation: results_by_reservation

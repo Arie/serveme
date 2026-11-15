@@ -42,6 +42,9 @@ class Reservation < ActiveRecord::Base
 
   attr_accessor :extending, :rcon_command
 
+  # Not under public/: zips must only be served through UploadsController
+  ZIPFILE_DIR = T.let(Rails.root.join(Rails.env.test? ? "tmp/uploads" : "uploads"), Pathname)
+
   sig { returns(Integer) }
   def self.cleanup_age_in_days
     (SITE_HOST == "au.serveme.tf" && 7) || 30
@@ -525,7 +528,7 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.nilable(Pathname)) }
   def local_zipfile_path
-    Rails.root.join("public", "uploads", zipfile_name)
+    ZIPFILE_DIR.join(zipfile_name)
   end
 
   private

@@ -6,7 +6,7 @@ class RemoteLogCopier < LogCopier
 
   sig { override.void }
   def copy_logs
-    zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
+    zipfile_name_and_path = Reservation::ZIPFILE_DIR.join(reservation.zipfile_name)
     return unless File.exist?(zipfile_name_and_path)
 
     Zip::File.open(zipfile_name_and_path) do |zip|

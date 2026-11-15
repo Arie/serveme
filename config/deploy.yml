@@ -93,7 +93,7 @@ servers:
 volumes:
   - "/var/www/serveme/shared/server_logs:/rails/server_logs"
   - "/var/www/serveme/shared/log:/rails/log"
-  - "/var/www/serveme/shared/public/uploads:/rails/public/uploads"
+  - "/var/www/serveme/shared/public/uploads:/rails/uploads"
   - "/var/www/serveme/shared/public/system:/rails/public/system"
   - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"
   - "/etc/serveme/cacert.pem:/rails/config/cacert.pem:ro"

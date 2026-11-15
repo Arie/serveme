@@ -22,6 +22,7 @@ class UploadsController < ApplicationController
     local_path = reservation.local_zipfile_path
     if local_path && File.exist?(local_path)
       Rails.logger.info("Serving local zip for reservation #{reservation.id} from #{local_path}")
+      no_store
       send_file(local_path, filename: reservation.zipfile_name, type: "application/zip", disposition: "attachment")
     else
       Rails.logger.warn("UploadsController: Local zip file not found at expected path #{local_path} for reservation #{reservation.id}.")

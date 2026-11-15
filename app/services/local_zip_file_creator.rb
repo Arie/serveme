@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # Copies the files instead of downloading them, then strips IPs and API keys
-# and zips like any other server: the zip ends up in public/uploads.
+# and zips like any other server: the zip ends up in Reservation::ZIPFILE_DIR.
 class LocalZipFileCreator < DownloadThenZipFileCreator
   extend T::Sig
 

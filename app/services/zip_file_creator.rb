@@ -30,7 +30,7 @@ class ZipFileCreator
 
   sig { returns(Pathname) }
   def zipfile_name_and_path
-    Rails.root.join("public", "uploads", zipfile_name)
+    Reservation::ZIPFILE_DIR.join(zipfile_name)
   end
 
   sig { returns(T::Array[String]) }

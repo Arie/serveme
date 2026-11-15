@@ -32,7 +32,7 @@
 
 # Server-side accumulated data — provided by host volumes in production.
 /server_logs/
-/public/uploads/
+/uploads/
 /public/system/*
 !/public/system/.keep
 

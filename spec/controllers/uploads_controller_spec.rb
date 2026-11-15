@@ -31,6 +31,7 @@ RSpec.describe UploadsController do
     expect(response.body).to eq("zip contents")
     expect(response.headers["Content-Type"]).to eq("application/zip")
     expect(response.headers["Content-Disposition"]).to include("attachment", reservation.zipfile_name)
+    expect(response.headers["Cache-Control"]).to eq("no-store")
   end
 
   it "serves the zip to a player of the ended reservation" do

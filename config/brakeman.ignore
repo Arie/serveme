@@ -231,13 +231,13 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "fcd2f037660ac28b3e0f708e70e25302130f86a4f754617dd18e084c03c71af6",
+      "fingerprint": "431f76d8976f6c79bf45712b78141abf63dfdceb1b8755a14cae8d6c33938a59",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/workers/cleanup_worker.rb",
-      "line": 31,
+      "line": 30,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`find #{Rails.root.join(\"public\", \"uploads\").to_s.shellescape} -type f -name '*.zip' -mtime +#{Reservation.cleanup_age_in_days.to_i} -delete`",
+      "code": "`find #{Reservation::ZIPFILE_DIR.to_s.shellescape} -type f -name '*.zip' -mtime +#{Reservation.cleanup_age_in_days.to_i} -delete`",
       "render_path": null,
       "location": {
         "type": "method",
@@ -254,20 +254,20 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "9e886201bf3df24bc2d897090abaf82fa580d88f0984b04c03a521d6fdbbea37",
+      "fingerprint": "7a20eb2e6cbd1513a77c30a23d9d3be6560c9c2f392cfaca8530ca1e623a8c89",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/workers/reservation_cleanup_worker.rb",
-      "line": 52,
+      "line": 64,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "system(\"zip -j #{Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name).to_s.shellescape} #{Dir.glob(File.join(temp_directory_path, \"*\")).map(&:shellescape).join(\" \")}\")",
+      "code": "system(\"zip -j #{Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s.shellescape} #{Dir.glob(File.join(temp_directory_path, \"*\")).map(&:shellescape).join(\" \")}\")",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "ReservationCleanupWorker",
         "method": "zip_local_server_files"
       },
-      "user_input": "Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name).to_s",
+      "user_input": "Dir.glob(File.join(temp_directory_path, \"*\")).map(&:shellescape).join(\" \")",
       "confidence": "Medium",
       "cwe_id": [
         77
@@ -399,6 +399,52 @@
         79
       ],
       "note": "False positive - location flag is a standard 2-letter country code used for CSS classes"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "cfb091137fb2de7f77d31eb001f8ecd32dcaca3982f87f41d63453cf5b2241db",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/reservation_cleanup_worker.rb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.rm_f(Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReservationCleanupWorker",
+        "method": "zip_local_server_files"
+      },
+      "user_input": "Reservation::ZIPFILE_DIR.join(reservation.zipfile_name)",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": "False positive - zipfile_name is built from the reservation's own ids and date"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "9537516d25f221add44f7b1d10811f213e48c339dc39ba5ee91c75b1a81c9633",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/reservation_cleanup_worker.rb",
+      "line": 107,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "FileUtils.rm_f(Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReservationCleanupWorker",
+        "method": "zip_downloaded_files"
+      },
+      "user_input": "Reservation::ZIPFILE_DIR.join(reservation.zipfile_name)",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": "False positive - zipfile_name is built from the reservation's own ids and date"
     }
   ],
   "brakeman_version": "7.1.2"

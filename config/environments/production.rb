@@ -31,9 +31,8 @@ Serveme::Application.configure do
   # alongside ours, and Sprockets would otherwise pick one alphabetically.
   config.assets.manifest = Rails.root.join("public/assets/.sprockets-manifest.json").to_s
 
-  # Specifies the header that your server uses for sending files
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
+  # Thruster sends the file, so a zip download doesn't hold a puma thread
+  config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = false

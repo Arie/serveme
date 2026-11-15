@@ -21,7 +21,7 @@ describe ZipFileCreator do
   describe '#chmod' do
     it 'chmods the zipfile' do
       reservation = double(zipfile_name: 'destination_file.zip', server: server)
-      File.should_receive(:chmod).with(0o755, Rails.root.join('public', 'uploads', 'destination_file.zip').to_s)
+      File.should_receive(:chmod).with(0o755, Reservation::ZIPFILE_DIR.join('destination_file.zip').to_s)
       LocalZipFileCreator.any_instance.stub(:fetch_files)
       LocalZipFileCreator.any_instance.stub(:zip)
 

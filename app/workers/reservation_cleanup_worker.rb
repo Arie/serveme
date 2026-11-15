@@ -55,7 +55,7 @@ class ReservationCleanupWorker
     # Strip IPs and API keys from log files before zipping
     strip_ips_and_api_keys_from_log_files(temp_directory_path)
 
-    zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name).to_s
+    zipfile_name_and_path = Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s
 
     # Remove existing zipfile to ensure idempotency on retry
     FileUtils.rm_f(zipfile_name_and_path) if File.exist?(zipfile_name_and_path)
@@ -102,7 +102,7 @@ class ReservationCleanupWorker
 
   def zip_downloaded_files(tmp_dir)
     reservation.status_update("Zipping logs and demos")
-    zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name).to_s
+    zipfile_name_and_path = Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s
 
     FileUtils.rm_f(zipfile_name_and_path) if File.exist?(zipfile_name_and_path)
 

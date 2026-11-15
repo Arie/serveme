@@ -138,7 +138,7 @@ describe ReservationCleanupWorker do
         ])
 
         # Expect file permissions change
-        zipfile_path = Rails.root.join("public", "uploads", reservation.zipfile_name).to_s
+        zipfile_path = Reservation::ZIPFILE_DIR.join(reservation.zipfile_name).to_s
         expect(File).to receive(:chmod).with(0o755, zipfile_path)
 
         # Expect log copy

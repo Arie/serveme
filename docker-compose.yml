@@ -25,7 +25,7 @@ x-app: &app
   volumes:
     - server_logs:/rails/server_logs
     - logs:/rails/log
-    - uploads:/rails/public/uploads
+    - uploads:/rails/uploads
     - storage:/rails/storage
     - maps:/rails/tmp/maps
     - ./lan/ssh:/home/rails/.ssh

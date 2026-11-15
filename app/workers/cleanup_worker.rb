@@ -24,7 +24,7 @@ class CleanupWorker
   def remove_old_reservation_logs_and_zips
     age = Reservation.cleanup_age_in_days
     server_logs = Rails.root.join("server_logs").to_s
-    uploads = Rails.root.join("public", "uploads").to_s
+    uploads = Reservation::ZIPFILE_DIR.to_s
 
     `find #{server_logs.shellescape} -mindepth 1 -type d -ctime +#{age.to_i} -exec rm -rf {} +`
     `find #{uploads.shellescape} -type f -name '*.zip' -mtime +#{age.to_i} -delete`

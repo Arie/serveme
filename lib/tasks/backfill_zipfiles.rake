@@ -2,7 +2,7 @@
 
 namespace :backfill do
   task enqueue_zipfiles: :environment do
-    uploads_dir = Rails.root.join("public", "uploads")
+    uploads_dir = Reservation::ZIPFILE_DIR
     zip_pattern = uploads_dir.join("[0-9]*-[0-9]*-[0-9]*-[0-9]*.zip")
     processed_count = 0
     enqueued_count = 0

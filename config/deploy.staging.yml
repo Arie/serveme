@@ -33,7 +33,7 @@ env:
 volumes:
   - "/var/lib/serveme/log:/rails/log"
   - "/var/lib/serveme/server_logs:/rails/server_logs"
-  - "/var/lib/serveme/uploads:/rails/public/uploads"
+  - "/var/lib/serveme/uploads:/rails/uploads"
   - "/var/lib/serveme/public_system:/rails/public/system"
   - "/var/lib/serveme/maps:/rails/tmp/maps"
   - "/etc/serveme/paypal.yml:/rails/config/paypal.yml:ro"

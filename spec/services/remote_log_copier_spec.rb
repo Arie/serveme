@@ -14,7 +14,7 @@ describe RemoteLogCopier do
       log_copier = RemoteLogCopier.new(reservation, server)
       log_copier.stub(directory_to_copy_to: destination)
 
-      zipfile_path = Rails.root.join('public', 'uploads', 'foo.zip').to_s
+      zipfile_path = Reservation::ZIPFILE_DIR.join('foo.zip').to_s
       FileUtils.mkdir_p(File.dirname(zipfile_path))
 
       Zip::File.open(zipfile_path, create: true) do |zip|

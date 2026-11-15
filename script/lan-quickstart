@@ -160,7 +160,7 @@ prepare_app() {
   compose up -d --wait db redis
   # The volumes and the SSH key have to belong to the rails user in the image.
   compose run --rm --no-deps --user root --entrypoint "" web \
-    chown -R 1000:1000 /rails/server_logs /rails/log /rails/public/uploads /rails/storage /rails/tmp/maps /home/rails/.ssh
+    chown -R 1000:1000 /rails/server_logs /rails/log /rails/uploads /rails/storage /rails/tmp/maps /home/rails/.ssh
   compose run --rm --no-deps web bin/rails db:prepare db:seed lan:setup
 
   say "Checking the website can SSH into this machine"

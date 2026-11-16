@@ -564,7 +564,7 @@ end
 
 # Support spaces in placeholder params
 #
-# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:7
+# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:8
 class Pagy::EscapedValue < ::String; end
 
 # pkg:gem/pagy#lib/pagy/toolbox/helpers/loaders.rb:27
@@ -1016,47 +1016,53 @@ Pagy::LIMIT_TOKEN = T.let(T.unsafe(nil), Pagy::EscapedValue)
 
 # Handle the url and anchor
 #
-# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:10
+# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:11
 module Pagy::Linkable
   protected
 
   # Overriding support for classes with composite page param
   #
-  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:42
+  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:48
   def compose_page_param(page); end
 
   # Return the URL for the page, relying on the Pagy::Request
   #
-  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:45
+  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:51
   def compose_page_url(page, **options); end
 
   # Overriding support
   #
-  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:67
+  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:73
   def compose_url(absolute, path, params, fragment); end
 end
 
-# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:11
+# pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:12
 module Pagy::Linkable::QueryUtils
   private
 
   # Extracted from Rack::Utils and reformatted for rubocop.
   # Allow unescaped Pagy::RawQueryValue.
   #
-  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:16
+  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:17
   def build_nested_query(value, prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:34
+  # CGI.escape is several times faster than URI.encode_www_form_component and returns the same bytes,
+  # except for '*' and '~', which are left to URI. URI returns US-ASCII, CGI the input encoding.
+  #
+  # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:37
   def escape(str); end
 
   class << self
     # Extracted from Rack::Utils and reformatted for rubocop.
     # Allow unescaped Pagy::RawQueryValue.
     #
-    # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:16
+    # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:17
     def build_nested_query(value, prefix = T.unsafe(nil)); end
 
-    # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:34
+    # CGI.escape is several times faster than URI.encode_www_form_component and returns the same bytes,
+    # except for '*' and '~', which are left to URI. URI returns US-ASCII, CGI the input encoding.
+    #
+    # pkg:gem/pagy#lib/pagy/modules/abilities/linkable.rb:37
     def escape(str); end
   end
 end

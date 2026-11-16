@@ -7,69 +7,69 @@
 
 # pkg:gem/lograge#lib/lograge/version.rb:3
 module Lograge
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def application; end
 
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def application=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:50
+  # pkg:gem/lograge#lib/lograge.rb:51
   def before_format=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:36
+  # pkg:gem/lograge#lib/lograge.rb:37
   def custom_options=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:107
+  # pkg:gem/lograge#lib/lograge.rb:108
   def formatter; end
 
-  # pkg:gem/lograge#lib/lograge.rb:107
+  # pkg:gem/lograge#lib/lograge.rb:108
   def formatter=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def ignore_tests=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:99
+  # pkg:gem/lograge#lib/lograge.rb:100
   def log_level; end
 
-  # pkg:gem/lograge#lib/lograge.rb:99
+  # pkg:gem/lograge#lib/lograge.rb:100
   def log_level=(val); end
 
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def logger; end
 
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def logger=(val); end
 
   private
 
-  # pkg:gem/lograge#lib/lograge.rb:166
+  # pkg:gem/lograge#lib/lograge.rb:187
   def attach_to_action_cable; end
 
-  # pkg:gem/lograge#lib/lograge.rb:162
+  # pkg:gem/lograge#lib/lograge.rb:183
   def attach_to_action_controller; end
 
-  # pkg:gem/lograge#lib/lograge.rb:53
+  # pkg:gem/lograge#lib/lograge.rb:54
   def before_format(data, payload); end
 
-  # pkg:gem/lograge#lib/lograge.rb:78
+  # pkg:gem/lograge#lib/lograge.rb:79
   def controller_field(params); end
 
-  # pkg:gem/lograge#lib/lograge.rb:39
+  # pkg:gem/lograge#lib/lograge.rb:40
   def custom_options(event); end
 
-  # pkg:gem/lograge#lib/lograge.rb:237
+  # pkg:gem/lograge#lib/lograge.rb:258
   def deprecator; end
 
-  # pkg:gem/lograge#lib/lograge.rb:202
+  # pkg:gem/lograge#lib/lograge.rb:223
   def disable_rack_cache_verbose_output; end
 
-  # pkg:gem/lograge#lib/lograge.rb:185
+  # pkg:gem/lograge#lib/lograge.rb:206
   def extend_base_class(klass); end
 
-  # pkg:gem/lograge#lib/lograge.rb:86
+  # pkg:gem/lograge#lib/lograge.rb:87
   def ignore(test); end
 
-  # pkg:gem/lograge#lib/lograge.rb:94
+  # pkg:gem/lograge#lib/lograge.rb:95
   def ignore?(event); end
 
   # Set conditions for events that should be ignored
@@ -84,103 +84,113 @@ module Lograge
   # are given to 'ignore'.  Both methods can be called multiple times, which
   # just adds more ignore conditions to a list that is checked before logging.
   #
-  # pkg:gem/lograge#lib/lograge.rb:71
+  # pkg:gem/lograge#lib/lograge.rb:72
   def ignore_actions(actions); end
 
-  # pkg:gem/lograge#lib/lograge.rb:90
+  # pkg:gem/lograge#lib/lograge.rb:91
   def ignore_nothing; end
 
-  # pkg:gem/lograge#lib/lograge.rb:28
+  # pkg:gem/lograge#lib/lograge.rb:29
   def ignore_tests; end
 
-  # pkg:gem/lograge#lib/lograge.rb:206
+  # pkg:gem/lograge#lib/lograge.rb:227
   def keep_original_rails_log; end
 
-  # pkg:gem/lograge#lib/lograge.rb:233
+  # pkg:gem/lograge#lib/lograge.rb:254
   def lograge_config; end
 
-  # pkg:gem/lograge#lib/lograge.rb:243
+  # pkg:gem/lograge#lib/lograge.rb:264
   def notification_listeners_for(name); end
 
-  # pkg:gem/lograge#lib/lograge.rb:216
+  # pkg:gem/lograge#lib/lograge.rb:237
   def rack_cache_hashlike?(app); end
 
-  # pkg:gem/lograge#lib/lograge.rb:129
+  # pkg:gem/lograge#lib/lograge.rb:132
+  def rails_event_reporter_log_subscriber_classes; end
+
+  # pkg:gem/lograge#lib/lograge.rb:150
   def rails_log_subscriber?(listener, subscriber); end
 
-  # pkg:gem/lograge#lib/lograge.rb:109
+  # Rails 8.2+ framework log subscribers inherit from
+  # ActiveSupport::EventReporter::LogSubscriber and are subscribed to
+  # ActiveSupport.event_reporter instead of ActiveSupport::Notifications.
+  #
+  # pkg:gem/lograge#lib/lograge.rb:126
+  def remove_event_reporter_log_subscriptions; end
+
+  # pkg:gem/lograge#lib/lograge.rb:110
   def remove_existing_log_subscriptions; end
 
-  # pkg:gem/lograge#lib/lograge.rb:158
+  # pkg:gem/lograge#lib/lograge.rb:179
   def set_formatter; end
 
-  # pkg:gem/lograge#lib/lograge.rb:153
+  # pkg:gem/lograge#lib/lograge.rb:174
   def set_ignores; end
 
-  # pkg:gem/lograge#lib/lograge.rb:195
+  # pkg:gem/lograge#lib/lograge.rb:216
   def set_lograge_log_options; end
 
-  # pkg:gem/lograge#lib/lograge.rb:138
+  # pkg:gem/lograge#lib/lograge.rb:159
   def setup(app); end
 
-  # pkg:gem/lograge#lib/lograge.rb:173
+  # pkg:gem/lograge#lib/lograge.rb:194
   def setup_custom_payload; end
 
   # TODO: Remove with version 1.0
   #
-  # pkg:gem/lograge#lib/lograge.rb:223
+  # pkg:gem/lograge#lib/lograge.rb:244
   def support_deprecated_config; end
 
-  # pkg:gem/lograge#lib/lograge.rb:120
+  # pkg:gem/lograge#lib/lograge.rb:141
   def unsubscribe(component, subscriber); end
 
   class << self
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def application; end
 
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def application=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:166
+    # pkg:gem/lograge#lib/lograge.rb:187
     def attach_to_action_cable; end
 
-    # pkg:gem/lograge#lib/lograge.rb:162
+    # pkg:gem/lograge#lib/lograge.rb:183
     def attach_to_action_controller; end
 
-    # pkg:gem/lograge#lib/lograge.rb:53
+    # pkg:gem/lograge#lib/lograge.rb:54
     def before_format(data, payload); end
 
-    # pkg:gem/lograge#lib/lograge.rb:50
+    # pkg:gem/lograge#lib/lograge.rb:51
     def before_format=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:78
+    # pkg:gem/lograge#lib/lograge.rb:79
     def controller_field(params); end
 
-    # pkg:gem/lograge#lib/lograge.rb:39
+    # pkg:gem/lograge#lib/lograge.rb:40
     def custom_options(event); end
 
-    # pkg:gem/lograge#lib/lograge.rb:36
+    # pkg:gem/lograge#lib/lograge.rb:37
     def custom_options=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:237
+    # pkg:gem/lograge#lib/lograge.rb:258
     def deprecator; end
 
-    # pkg:gem/lograge#lib/lograge.rb:202
+    # pkg:gem/lograge#lib/lograge.rb:223
     def disable_rack_cache_verbose_output; end
 
-    # pkg:gem/lograge#lib/lograge.rb:185
+    # pkg:gem/lograge#lib/lograge.rb:206
     def extend_base_class(klass); end
 
-    # pkg:gem/lograge#lib/lograge.rb:107
+    # pkg:gem/lograge#lib/lograge.rb:108
     def formatter; end
 
-    # pkg:gem/lograge#lib/lograge.rb:107
+    # pkg:gem/lograge#lib/lograge.rb:108
     def formatter=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:86
+    # pkg:gem/lograge#lib/lograge.rb:87
     def ignore(test); end
 
-    # pkg:gem/lograge#lib/lograge.rb:94
+    # pkg:gem/lograge#lib/lograge.rb:95
     def ignore?(event); end
 
     # Set conditions for events that should be ignored
@@ -195,72 +205,82 @@ module Lograge
     # are given to 'ignore'.  Both methods can be called multiple times, which
     # just adds more ignore conditions to a list that is checked before logging.
     #
-    # pkg:gem/lograge#lib/lograge.rb:71
+    # pkg:gem/lograge#lib/lograge.rb:72
     def ignore_actions(actions); end
 
-    # pkg:gem/lograge#lib/lograge.rb:90
+    # pkg:gem/lograge#lib/lograge.rb:91
     def ignore_nothing; end
 
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def ignore_tests; end
 
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def ignore_tests=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:206
+    # pkg:gem/lograge#lib/lograge.rb:227
     def keep_original_rails_log; end
 
-    # pkg:gem/lograge#lib/lograge.rb:99
+    # pkg:gem/lograge#lib/lograge.rb:100
     def log_level; end
 
-    # pkg:gem/lograge#lib/lograge.rb:99
+    # pkg:gem/lograge#lib/lograge.rb:100
     def log_level=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def logger; end
 
-    # pkg:gem/lograge#lib/lograge.rb:28
+    # pkg:gem/lograge#lib/lograge.rb:29
     def logger=(val); end
 
-    # pkg:gem/lograge#lib/lograge.rb:233
+    # pkg:gem/lograge#lib/lograge.rb:254
     def lograge_config; end
 
-    # pkg:gem/lograge#lib/lograge.rb:243
+    # pkg:gem/lograge#lib/lograge.rb:264
     def notification_listeners_for(name); end
 
-    # pkg:gem/lograge#lib/lograge.rb:129
+    # pkg:gem/lograge#lib/lograge.rb:150
     def rails_log_subscriber?(listener, subscriber); end
 
-    # pkg:gem/lograge#lib/lograge.rb:109
+    # pkg:gem/lograge#lib/lograge.rb:110
     def remove_existing_log_subscriptions; end
 
-    # pkg:gem/lograge#lib/lograge.rb:158
+    # pkg:gem/lograge#lib/lograge.rb:179
     def set_formatter; end
 
-    # pkg:gem/lograge#lib/lograge.rb:153
+    # pkg:gem/lograge#lib/lograge.rb:174
     def set_ignores; end
 
-    # pkg:gem/lograge#lib/lograge.rb:195
+    # pkg:gem/lograge#lib/lograge.rb:216
     def set_lograge_log_options; end
 
-    # pkg:gem/lograge#lib/lograge.rb:138
+    # pkg:gem/lograge#lib/lograge.rb:159
     def setup(app); end
 
-    # pkg:gem/lograge#lib/lograge.rb:173
+    # pkg:gem/lograge#lib/lograge.rb:194
     def setup_custom_payload; end
 
     # TODO: Remove with version 1.0
     #
-    # pkg:gem/lograge#lib/lograge.rb:223
+    # pkg:gem/lograge#lib/lograge.rb:244
     def support_deprecated_config; end
 
-    # pkg:gem/lograge#lib/lograge.rb:120
+    # pkg:gem/lograge#lib/lograge.rb:141
     def unsubscribe(component, subscriber); end
 
     private
 
-    # pkg:gem/lograge#lib/lograge.rb:216
+    # pkg:gem/lograge#lib/lograge.rb:237
     def rack_cache_hashlike?(app); end
+
+    # pkg:gem/lograge#lib/lograge.rb:132
+    def rails_event_reporter_log_subscriber_classes; end
+
+    # Rails 8.2+ framework log subscribers inherit from
+    # ActiveSupport::EventReporter::LogSubscriber and are subscribed to
+    # ActiveSupport.event_reporter instead of ActiveSupport::Notifications.
+    #
+    # pkg:gem/lograge#lib/lograge.rb:126
+    def remove_event_reporter_log_subscriptions; end
   end
 end
 
@@ -295,6 +315,88 @@ module Lograge::Formatters::Helpers::MethodAndPath
   # pkg:gem/lograge#lib/lograge/formatters/helpers/method_and_path.rb:7
   def method_and_path_string(data); end
 end
+
+# Serializes log data to JSON without dropping the whole log event when
+# the data cannot be generated as-is. Newer versions of the json gem are
+# stricter about their input:
+#
+# * json 3.1 rejects non-ASCII ASCII-8BIT (binary) strings, which are
+#   common in exception messages and HTTP response bodies.
+# * json 3.0 rejects hashes with keys that serialize to the same name,
+#   such as +:status+ and <tt>"status"</tt>.
+#
+# Strings that are invalid UTF-8 have always been rejected.
+#
+# The data is only normalized after the first attempt fails, so well
+# formed events are serialized exactly as before and pay no extra cost.
+#
+# pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:21
+module Lograge::Formatters::Helpers::SafeJson
+  private
+
+  # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:31
+  def dump(data); end
+
+  # Returns a copy of +value+ that the json gem can always generate:
+  #
+  # * every hash key is a UTF-8 string. When two keys serialize to the same
+  #   name, the first key keeps its position and the later value wins,
+  #   which matches how the log subscriber merges custom options.
+  # * every string and symbol becomes a valid UTF-8 string. Bytes that
+  #   cannot be converted are replaced with U+FFFD.
+  # * other objects are kept if they can be generated on their own, and
+  #   are otherwise replaced by their normalized +to_s+ (for example an
+  #   exception whose message holds binary bytes).
+  #
+  # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:47
+  def normalize(value); end
+
+  # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:58
+  def normalize_hash(hash); end
+
+  # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:64
+  def normalize_object(object); end
+
+  # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:71
+  def to_utf8(string); end
+
+  class << self
+    # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:31
+    def dump(data); end
+
+    # Returns a copy of +value+ that the json gem can always generate:
+    #
+    # * every hash key is a UTF-8 string. When two keys serialize to the same
+    #   name, the first key keeps its position and the later value wins,
+    #   which matches how the log subscriber merges custom options.
+    # * every string and symbol becomes a valid UTF-8 string. Bytes that
+    #   cannot be converted are replaced with U+FFFD.
+    # * other objects are kept if they can be generated on their own, and
+    #   are otherwise replaced by their normalized +to_s+ (for example an
+    #   exception whose message holds binary bytes).
+    #
+    # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:47
+    def normalize(value); end
+
+    # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:58
+    def normalize_hash(hash); end
+
+    # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:64
+    def normalize_object(object); end
+
+    # pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:71
+    def to_utf8(string); end
+  end
+end
+
+# ArgumentError is included because, on TruffleRuby, json 3's pure-Ruby
+# generator serializes objects such as Symbols and Times through
+# ActiveSupport's encoder, which before Rails 8.1 passes the
+# +quirks_mode+ option that json 3 no longer accepts. Normalizing turns
+# those objects into plain strings, which avoids that code path.
+#
+# pkg:gem/lograge#lib/lograge/formatters/helpers/safe_json.rb:27
+Lograge::Formatters::Helpers::SafeJson::GENERATION_ERRORS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/lograge#lib/lograge/formatters/json.rb:6
 class Lograge::Formatters::Json
@@ -482,7 +584,7 @@ class Lograge::LogSubscribers::Base < ::ActiveSupport::LogSubscriber
 
   private
 
-  # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:76
+  # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:96
   def before_format(data, payload); end
 
   # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:71
@@ -490,6 +592,9 @@ class Lograge::LogSubscribers::Base < ::ActiveSupport::LogSubscriber
 
   # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:55
   def default_status; end
+
+  # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:86
+  def existing_key(data, key); end
 
   # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:63
   def extract_allocations(event); end
@@ -514,6 +619,13 @@ class Lograge::LogSubscribers::Base < ::ActiveSupport::LogSubscriber
 
   # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:41
   def initial_data(*_arg); end
+
+  # Merges +options+ into +data+. A String key overrides an existing Symbol
+  # key of the same name (and vice versa) instead of being added alongside
+  # it, so the two never end up serialized as duplicate keys.
+  #
+  # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:79
+  def merge_options(data, options); end
 
   # pkg:gem/lograge#lib/lograge/log_subscribers/base.rb:19
   def process_main_event(event); end

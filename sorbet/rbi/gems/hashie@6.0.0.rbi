@@ -311,7 +311,7 @@ module Hashie::Extensions::StringifyKeys::ClassMethods
   # @param [Hash] hash
   # @return [Hash] a shallow copy with stringified keys
   #
-  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:112
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:113
   def stringify_keys(hash); end
 
   # Converts all keys in a hash recursively to strings, in place.
@@ -325,15 +325,17 @@ module Hashie::Extensions::StringifyKeys::ClassMethods
   # @param [Hash] hash
   # @return [Hash] the passed hash with stringified keys
   #
-  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:92
+  # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:93
   def stringify_keys!(hash); end
+
+  private
 
   # Stringify all keys recursively within nested
   # hashes and arrays.
   # @api private
   #
   # pkg:gem/hashie#lib/hashie/extensions/stringify_keys.rb:71
-  def stringify_keys_recursively!(object); end
+  def _stringify_keys_recursively!(object); end
 end
 
 # A Hashie Hash is simply a Hash that has convenience
@@ -383,10 +385,10 @@ class Hashie::Hash < ::Hash
   private
 
   # pkg:gem/hashie#lib/hashie/hash.rb:70
-  def flexibly_convert_to_hash(object, options = T.unsafe(nil)); end
+  def _flexibly_convert_to_hash(object, options = T.unsafe(nil)); end
 
   # pkg:gem/hashie#lib/hashie/hash.rb:64
-  def maybe_convert_to_hash(object, options); end
+  def _maybe_convert_to_hash(object, options); end
 end
 
 # Mash allows you to create pseudo-objects that have method-like
@@ -456,8 +458,8 @@ class Hashie::Mash < ::Hashie::Hash
 
   # If you pass in an existing hash, it will
   # convert it to a Mash including recursively
-  # descending into arrays and hashes, converting
-  # them as well.
+  # descending into arrays and plain hashes, converting
+  # them as well. Nested custom Hash subclasses retain their identity.
   #
   # @example Recursively convert hashes nested in arrays
   #   mash = Hashie::Mash.new(users: [{ name: 'Ada' }])
@@ -866,28 +868,28 @@ class Hashie::Mash < ::Hashie::Hash
   # Symbol#name returns the symbol's interned frozen string, where
   # Symbol#to_s allocates a new one on every read and write.
   #
-  # pkg:gem/hashie#lib/hashie/mash.rb:602
+  # pkg:gem/hashie#lib/hashie/mash.rb:604
   def convert_key(key); end
 
-  # pkg:gem/hashie#lib/hashie/mash.rb:608
+  # pkg:gem/hashie#lib/hashie/mash.rb:610
   def convert_value(val, duping = T.unsafe(nil)); end
-
-  # pkg:gem/hashie#lib/hashie/mash.rb:586
-  def method_name_and_suffix(method_name); end
-
-  # pkg:gem/hashie#lib/hashie/mash.rb:595
-  def method_suffix(method_name); end
 
   private
 
   # pkg:gem/hashie#lib/hashie/mash.rb:410
   def _deep_update(other_hash, &blk); end
 
-  # pkg:gem/hashie#lib/hashie/mash.rb:626
-  def log_built_in_message(method_key); end
+  # pkg:gem/hashie#lib/hashie/mash.rb:630
+  def _log_built_in_message(method_key); end
 
-  # pkg:gem/hashie#lib/hashie/mash.rb:639
-  def log_collision?(method_key); end
+  # pkg:gem/hashie#lib/hashie/mash.rb:643
+  def _log_collision?(method_key); end
+
+  # pkg:gem/hashie#lib/hashie/mash.rb:586
+  def _method_name_and_suffix(method_name); end
+
+  # pkg:gem/hashie#lib/hashie/mash.rb:595
+  def _method_suffix(method_name); end
 
   # @example Discover dynamic readers and suffix methods
   #   mash = Hashie::Mash.new(name: 'Ada')
@@ -905,8 +907,8 @@ class Hashie::Mash < ::Hashie::Hash
     # pkg:gem/hashie#lib/hashie/mash.rb:164
     def [](*_arg0); end
 
-    # Loads a YAML file. The default parser evaluates ERB templates, so only
-    # use this default with trusted files. Pass YamlParser to avoid ERB.
+    # Loads YAML without evaluating ERB. Pass YamlErbParser explicitly to
+    # evaluate templates from trusted files.
     #
     # @example Load and cache a frozen configuration from a YAML file
     #   require 'tempfile'
@@ -962,14 +964,6 @@ Hashie::Mash::HASH_DEFAULT_PROC = T.let(T.unsafe(nil), UnboundMethod)
 # pkg:gem/hashie#lib/hashie/utils.rb:8
 module Hashie::Utils
   class << self
-    # Lists the classes Ruby uses for integers
-    #
-    # @api private
-    # @return [Array<Class>]
-    #
-    # pkg:gem/hashie#lib/hashie/utils.rb:51
-    def integer_classes; end
-
     # Describes a method by where it was defined.
     #
     # @param bound_method [Method] The method to describe.
@@ -998,5 +992,15 @@ module Hashie::Utils
     #
     # pkg:gem/hashie#lib/hashie/utils.rb:38
     def safe_dup(value); end
+
+    private
+
+    # Lists the classes Ruby uses for integers
+    #
+    # @api private
+    # @return [Array<Class>]
+    #
+    # pkg:gem/hashie#lib/hashie/utils.rb:51
+    def _integer_classes; end
   end
 end

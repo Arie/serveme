@@ -408,7 +408,7 @@ class OmniAuth::KeyStore < ::Hashie::Mash
   end
 end
 
-# pkg:gem/omniauth#lib/omniauth/strategy.rb:10
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:11
 class OmniAuth::NoSessionError < ::StandardError; end
 
 # pkg:gem/omniauth#lib/omniauth.rb:8
@@ -488,17 +488,17 @@ module OmniAuth::Strategy
   #
   # @yield [Options] Yields options to block for further configuration.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:49
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:50
   def initialize(app, *args); end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:32
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:33
   def app; end
 
   # Duplicates this instance and runs #call! on it. A request that can't be
   # the strategy's goes straight to the app instead, skipping the copy.
   # @param [Hash] The Rack environment.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:85
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:86
   def call(env); end
 
   # The logic for dispatching any additional actions that need
@@ -507,27 +507,27 @@ module OmniAuth::Strategy
   #
   # @param env [Hash] The Rack environment.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:96
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:97
   def call!(env); end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:265
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:269
   def call_app!(app_env = T.unsafe(nil)); end
 
   # Performs the steps necessary to run the callback phase of a strategy.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:220
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:224
   def callback_call; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:260
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:264
   def callback_phase; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:32
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:33
   def env; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:301
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:309
   def fail!(message_key, exception = T.unsafe(nil)); end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:69
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:70
   def inspect; end
 
   # Direct access to the OmniAuth logger, automatically prefixed
@@ -536,74 +536,74 @@ module OmniAuth::Strategy
   # @example
   #   log :warn, "This is a warning."
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:78
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:79
   def log(level, message); end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:280
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:284
   def name; end
 
   # The params the app sent to the request phase, from both the query
   # string and the form, which the callback phase hands back as
   # env['omniauth.params'].
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:203
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:204
   def omniauth_params; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:32
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:33
   def options; end
 
   # Responds to an OPTIONS request.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:160
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:161
   def options_call; end
 
   # True for an OPTIONS request to the request or callback path.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:130
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:131
   def options_call?; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:233
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:237
   def options_request?; end
 
   # Runs the phase that matches the current request, or returns nil
   # if the request isn't for this strategy.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:115
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:116
   def phase_call; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:284
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:288
   def redirect(uri); end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:276
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:280
   def request; end
 
   # Performs the steps necessary to run the request phase of a strategy.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:167
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:168
   def request_call; end
 
   # True for a request to the request path with an allowed method.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:135
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:136
   def request_call?; end
 
   # @abstract This method is called when the user is on the request path. You should
   # perform any information gathering you need to be able to authenticate
   # the user in this phase.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:256
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:260
   def request_phase; end
 
   # Renders the login form (from a Rack endpoint or the app itself) if
   # one is configured, or else runs the strategy's request phase.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:183
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:184
   def request_response; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:32
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:33
   def response; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:272
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:276
   def session; end
 
   # The setup phase looks for the `:setup` option to exist and,
@@ -611,70 +611,121 @@ module OmniAuth::Strategy
   # `:setup` option or it will call out to the setup path of the
   # underlying application. This will default to `/auth/:provider/setup`.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:241
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:245
   def setup_phase; end
 
   # Remembers where the user came from (the origin param, or else the
   # referer) so the callback phase can send them back there.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:209
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:210
   def store_origin; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:297
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:305
   def user_info; end
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:139
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:140
   def warn_if_using_get_on_request_path; end
 
   protected
+
+  # Safe to write into the inline :iframe script: a relative/protocol-relative
+  # path or an http(s) URL. A javascript:/data:/vbscript: URI is excluded here
+  # because escaping leaves it able to run in the application's origin.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:379
+  def allowed_redirect_uri?(uri); end
+
+  # A URI in an encoding that isn't ASCII-compatible, such as UTF-16, can't
+  # be matched against the scheme checks or written into the UTF-8 response,
+  # so it's transcoded to UTF-8 first. Anything else is returned as-is.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:406
+  def ascii_compatible_uri(uri); end
 
   # True when OmniAuth's own dispatch runs, with no test mode or
   # other_phase, and no path lambdas, which would otherwise run twice on
   # the strategy's own paths.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:354
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:447
   def dispatch_by_path?; end
+
+  # Rewrites each unsafe character as a \uXXXX escape, which the browser
+  # decodes back to that character inside the string literal. Binary strings
+  # (which Rack hands back for query strings and the like) are read as UTF-8
+  # so multibyte characters survive, any other encoding is transcoded so a
+  # non-UTF-8 charset isn't misread, and only invalid bytes are replaced.
+  # A valid UTF-8 string goes straight through without being copied.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:338
+  def escape_javascript(value); end
 
   # Re-raises errors from the downstream app; reports anything else
   # raised during a phase as an authentication failure.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:321
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:414
   def handle_phase_error(error); end
+
+  # The URI as a browser reads its scheme: tab/newline/CR dropped anywhere
+  # and leading control bytes and spaces trimmed, so a split or padded scheme
+  # can't slip past the checks. A URI with none of those is returned as-is,
+  # so the common case allocates nothing. Invalid bytes are scrubbed first,
+  # since matching a regexp against them raises ArgumentError.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:368
+  def normalize_redirect_uri(uri); end
 
   # True when #call! would only hand env to the app: there's a session, the
   # path alone decides, and env isn't on the strategy's paths. The
   # strategy's own path methods check, on a copy that shares its options.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:344
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:437
   def passthrough?(env); end
 
   # A copy like #dup makes, but sharing this instance's options, so the
   # path methods can memoize on it instead of on this shared instance.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:361
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:454
   def path_probe(env); end
+
+  # The referer to fall back on as the origin, unless it is the request path
+  # itself or has a scheme that runs as script. It's scrubbed before any
+  # matching, which would otherwise raise on invalid bytes.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:395
+  def referer_origin; end
 
   # Calls the named OmniAuth.config hook (such as :before_request_phase)
   # with the Rack env. A hook set to nil or false is skipped.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:329
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:422
   def run_hook(name); end
+
+  # Safe to persist as an origin: anything but a scheme that runs as script.
+  # Unlike the iframe check this keeps non-web deep links such as myapp://,
+  # which mobile sign-in relies on, while still refusing a URI that a later
+  # redirect to omniauth.origin could execute.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:388
+  def safe_origin?(uri); end
 
   private
 
-  # pkg:gem/omniauth#lib/omniauth/strategy.rb:336
+  # pkg:gem/omniauth#lib/omniauth/strategy.rb:429
   def initialize_copy(*args); end
 
   class << self
-    # pkg:gem/omniauth#lib/omniauth/strategy.rb:23
+    # pkg:gem/omniauth#lib/omniauth/strategy.rb:24
     def included(base); end
   end
 end
 
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:357
+OmniAuth::Strategy::ANY_SCHEME = T.let(T.unsafe(nil), Regexp)
+
 # The authenticity token never goes into omniauth.params, so the app
 # can't leak it by echoing the params back.
 #
-# pkg:gem/omniauth#lib/omniauth/strategy.rb:198
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:199
 OmniAuth::Strategy::AUTHENTICITY_PARAM = T.let(T.unsafe(nil), String)
 
 # pkg:gem/omniauth#lib/omniauth/strategy/class_methods.rb:3
@@ -792,6 +843,13 @@ end
 # pkg:gem/omniauth#lib/omniauth/strategy/class_methods.rb:4
 OmniAuth::Strategy::ClassMethods::DISPATCH_METHODS = T.let(T.unsafe(nil), Array)
 
+# Schemes a browser runs as script when it follows the URL. Escaping can't
+# neutralize one (none of its characters are unsafe), so such a URI must
+# never reach the inline :iframe script or be persisted as an origin.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:354
+OmniAuth::Strategy::DANGEROUS_SCHEME = T.let(T.unsafe(nil), Regexp)
+
 # Builds the auth hash from the uid, info, credentials, and extra
 # blocks a strategy declares with the class-level fetcher DSL.
 #
@@ -859,7 +917,19 @@ module OmniAuth::Strategy::Hosts
   def warn_if_using_request_host; end
 end
 
-# pkg:gem/omniauth#lib/omniauth/strategy.rb:315
+# Characters that could end the single-quoted string literal or the
+# <script> element the :iframe redirect writes the URI into.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:329
+OmniAuth::Strategy::JAVASCRIPT_UNSAFE = T.let(T.unsafe(nil), Regexp)
+
+# Tab/newline/CR anywhere, or a leading control byte or space, which a
+# browser strips before it reads the scheme.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:348
+OmniAuth::Strategy::NEEDS_NORMALIZING = T.let(T.unsafe(nil), Regexp)
+
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:323
 class OmniAuth::Strategy::Options < ::OmniAuth::KeyStore; end
 
 # Works out the request, callback, and setup paths for a strategy and
@@ -963,43 +1033,98 @@ OmniAuth::Strategy::Paths::SSL_ENV_VALUES = T.let(T.unsafe(nil), Hash)
 # A strategy opts in when its provider sends a value from the request
 # phase back to the callback, such as OAuth 2.0's state. Its request
 # phase calls remember_sign_in with that value, and it overrides
-# callback_sign_in_key to return the value from the callback.
+# callback_sign_in_key to return the value from the callback. It can
+# store its own values for the callback in the same sign-in, such as
+# OAuth 2.0's PKCE verifier, and read them back with
+# remembered_sign_in.
 #
-# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:12
+# The sign-ins live in the session, which is often a 4 KB cookie, so
+# each one stores only what isn't empty.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:18
 module OmniAuth::Strategy::SignIns
   # The key the callback sends back, which a strategy that calls
   # remember_sign_in returns. Nil for a strategy that doesn't.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:30
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:50
   def callback_sign_in_key; end
 
-  # Remembers the origin and params stored for the current request phase
-  # under key, which the provider sends back to the callback.
+  # Remembers the current request phase's sign-in under key, which the
+  # provider sends back to the callback: the strategy's own data, plus
+  # the origin and params OmniAuth stored, under "origin" and "params",
+  # so data shouldn't use those keys.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:19
-  def remember_sign_in(key); end
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:37
+  def remember_sign_in(key, data = T.unsafe(nil)); end
 
   protected
 
   # The origin and params for this callback, removed from the session:
   # the ones remembered under its key, or else omniauth.origin and
-  # omniauth.params, which hold the latest sign-in's.
+  # omniauth.params, which hold the latest sign-in's. Either may be
+  # missing.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:37
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:73
   def recall_sign_in; end
+
+  # The sign-in remembered under the callback's key, removed from the
+  # session, or nil if none is. It's the same for the whole callback,
+  # so the strategy can read its own data after OmniAuth takes the
+  # origin and params.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:58
+  def remembered_sign_in; end
 
   # A copy of the remembered sign-ins, which are changed by assigning the
   # session key, not in place.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:51
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:80
   def remembered_sign_ins; end
+
+  private
+
+  # Adds the origin and params stored for the current request phase to
+  # sign_in, leaving out an empty origin, empty params, and params too
+  # large to keep.
+  #
+  # The origin moves out of omniauth.origin into the sign-in. Otherwise,
+  # if this sign-in were abandoned, the next one would get its origin
+  # whenever it has no origin param or referer of its own. So a second
+  # sign-in remembered in the same request phase gets no origin.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:95
+  def add_origin_and_params(sign_in); end
+
+  # The bytes in the keys and values of params, nested hashes and arrays
+  # included. It's counted without building a string, since every
+  # request phase with params counts them.
+  #
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:112
+  def params_bytesize(value); end
+
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:102
+  def params_small_enough?(params); end
 end
+
+# The largest params, counting the bytes of their keys and values, that
+# a sign-in remembers. The params come from the request, so they can be any
+# size, and a few large ones would overflow a cookie session.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:26
+OmniAuth::Strategy::SignIns::MAX_REMEMBERED_PARAMS_BYTESIZE = T.let(T.unsafe(nil), Integer)
 
 # How many sign-ins are remembered. Remembering another forgets the
 # oldest.
 #
-# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:15
+# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:21
 OmniAuth::Strategy::SignIns::MAX_REMEMBERED_SIGN_INS = T.let(T.unsafe(nil), Integer)
+
+# The session key of the request phase's origin, frozen so moving it
+# doesn't make a new string in every request phase: unlike
+# session[...], delete has no fast path for a string literal.
+#
+# pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:31
+OmniAuth::Strategy::SignIns::ORIGIN_KEY = T.let(T.unsafe(nil), String)
 
 # Runs the request and callback phases against OmniAuth.config.mock_auth
 # instead of the provider when OmniAuth.config.test_mode is enabled.
@@ -1019,6 +1144,9 @@ module OmniAuth::Strategy::TestMode
   # pkg:gem/omniauth#lib/omniauth/strategy/test_mode.rb:21
   def mock_request_call; end
 end
+
+# pkg:gem/omniauth#lib/omniauth/strategy.rb:360
+OmniAuth::Strategy::WEB_SCHEME = T.let(T.unsafe(nil), Regexp)
 
 # Support for testing OmniAuth strategies.
 #

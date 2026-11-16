@@ -14,15 +14,12 @@
 # Copyright The OpenTelemetry Authors
 #
 # SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
-# Copyright The OpenTelemetry Authors
-#
-# SPDX-License-Identifier: Apache-2.0
 #
 # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation.rb:13
-module OpenTelemetry; end
+module OpenTelemetry
+  extend ::OpenTelemetry::Logs::LegacyGlobalCompat
+  extend ::OpenTelemetry::Metrics::LegacyGlobalCompat
+end
 
 # Instrumentation should be able to handle the case when the library is not installed on a user's system.
 #
@@ -40,12 +37,18 @@ module OpenTelemetry::Instrumentation::Anthropic; end
 class OpenTelemetry::Instrumentation::Anthropic::Instrumentation < ::OpenTelemetry::Instrumentation::Base
   private
 
-  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:23
+  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:34
+  def gem_version; end
+
+  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:38
   def patch; end
 
-  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:27
+  # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:42
   def require_dependencies; end
 end
+
+# pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/instrumentation.rb:12
+OpenTelemetry::Instrumentation::Anthropic::Instrumentation::MAX_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # pkg:gem/opentelemetry-instrumentation-anthropic#lib/opentelemetry/instrumentation/anthropic/version.rb:10
 OpenTelemetry::Instrumentation::Anthropic::VERSION = T.let(T.unsafe(nil), String)

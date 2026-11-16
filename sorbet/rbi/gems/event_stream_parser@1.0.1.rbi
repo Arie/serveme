@@ -20,24 +20,24 @@ class EventStreamParser::Parser
   # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:15
   def initialize; end
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:30
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:31
   def feed(chunk, &proc); end
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:55
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:66
   def stream; end
 
   private
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:165
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:176
   def dispatch_event; end
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:220
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:231
   def ignore; end
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:111
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:122
   def process_field(field, value); end
 
-  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:61
+  # pkg:gem/event_stream_parser#lib/event_stream_parser.rb:72
   def process_line(line, &proc); end
 end
 

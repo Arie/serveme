@@ -4448,54 +4448,54 @@ end
 # Wrapper for request body that implements application-layer
 # chunking with Digest computed on chunks + added as a trailer
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:484
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:498
 class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:488
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:502
   def initialize(options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:546
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:560
   def eof?; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:526
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:540
   def read(length = T.unsafe(nil), buf = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:519
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:533
   def rewind; end
 
   # the size of the application layer aws-chunked + trailer body
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:505
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:519
   def size; end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:552
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:566
   def calculate_overhead(chunk_size); end
 
   # Returns true if more data needs to be read into the buffer
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:584
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:598
   def fill_data?(length); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:564
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:578
   def fill_encoded_buffer(required_length); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:556
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:570
   def read_chunk_with_buffer; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:560
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:574
   def read_chunk_without_buffer; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:579
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:593
   def trailer_string; end
 end
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:485
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:499
 Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::CHUNK_OVERHEAD = T.let(T.unsafe(nil), Integer)
 
 # "\r\n\r\n"
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:486
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:500
 Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::HEX_BASE = T.let(T.unsafe(nil), Integer)
 
 # Priority order of checksum algorithms to validate responses against.
@@ -4542,26 +4542,26 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   # This prevents the body from being read multiple times
   # verification is done only once a successful response has completed
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:427
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:441
   def add_verify_response_checksum_handlers(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:452
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:466
   def add_verify_response_data_handler(context, checksum_context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:434
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:448
   def add_verify_response_headers_handler(context, checksum_context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:458
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:472
   def add_verify_response_success_handler(context, checksum_context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:359
-  def apply_request_checksum(context, headers, checksum_properties); end
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:360
+  def apply_request_checksum(context, headers, checksum_properties, buffer_enabled); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:389
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:403
   def apply_request_trailer_checksum(context, headers, checksum_properties, buffer_enabled); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:367
-  def calculate_checksum(algorithm, body); end
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:369
+  def calculate_checksum(algorithm, body, buffer_enabled); end
 
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:328
   def calculate_request_checksum(context, checksum_properties); end
@@ -4596,7 +4596,7 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:257
   def request_validation_mode(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:473
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:487
   def response_header_to_verify(headers, validation_list); end
 
   # Determines whether a request checksum should be calculated.
@@ -4606,17 +4606,23 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:277
   def should_calculate_request_checksum?(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:345
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:346
   def should_fallback_to_header?(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:420
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:434
   def should_verify_response_checksum?(context); end
 
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:324
   def supports_trailer_checksums?(operation); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:379
-  def update_in_chunks(digest, io); end
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:381
+  def update_in_chunks(digest, io, buffer_enabled); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:390
+  def update_in_chunks_with_buffer(digest, io); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:397
+  def update_in_chunks_without_buffer(digest, io); end
 
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:202
   def with_metrics(config, algorithm, &block); end
@@ -5478,9 +5484,7 @@ Aws::Plugins::Retries::ErrorInspector::THROTTLING_ERRORS = T.let(T.unsafe(nil), 
 #
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:9
 class Aws::Plugins::Retries::RetryQuota
-  # TODO: Remove when new retries become default
-  #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:17
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:15
   def initialize(opts = T.unsafe(nil)); end
 
   # check if there is sufficient capacity to retry
@@ -5488,14 +5492,14 @@ class Aws::Plugins::Retries::RetryQuota
   # return 0
   # @return [Integer] The amount of capacity checked out
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:27
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:25
   def checkout_capacity(error_inspector); end
 
   # capacity_amount refers to the amount of capacity requested from
   # the last retry. It can either be RETRY_COST,
-  # THROTTLING_RETRY_COST/TIMEOUT_RETRY_COST, or unset.
+  # THROTTLING_RETRY_COST, or unset.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:47
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:41
   def release(capacity_amount); end
 end
 
@@ -5503,63 +5507,44 @@ end
 Aws::Plugins::Retries::RetryQuota::INITIAL_RETRY_TOKENS = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:12
-Aws::Plugins::Retries::RetryQuota::LEGACY_RETRY_COST = T.let(T.unsafe(nil), Integer)
-
-# TODO: Remove when new retries become default
-#
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:13
 Aws::Plugins::Retries::RetryQuota::NO_RETRY_INCREMENT = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:11
 Aws::Plugins::Retries::RetryQuota::RETRY_COST = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:14
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:13
 Aws::Plugins::Retries::RetryQuota::THROTTLING_RETRY_COST = T.let(T.unsafe(nil), Integer)
-
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retries/retry_quota.rb:15
-Aws::Plugins::Retries::RetryQuota::TIMEOUT_RETRY_COST = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:12
 class Aws::Plugins::RetryErrors < ::Seahorse::Client::Plugin
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:574
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:546
   def add_handlers(handlers, config); end
 
   class << self
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:237
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:227
     def default_max_attempts(cfg); end
 
-    # TODO: Remove this gate and hardcode new retry behavior once
-    # AWS_NEW_RETRIES_2026 is enabled by default, which includes:
-    # - Default retry_mode to 'standard'
-    # - Default max_attempts to 4 for DynamoDB
-    # - Remove the old retries branch in Handler#call
-    # - Remove the old retries branch in #exponential_backoff
-    # - Remove LEGACY_RETRY_COST and TIMEOUT_RETRY_COST from RetryQuota
-    #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:197
-    def new_retries?; end
-
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:245
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:232
     def resolve_adaptive_retry_wait_to_fill(cfg); end
 
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:259
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:246
     def resolve_correct_clock_skew(cfg); end
 
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:273
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:260
     def resolve_disable_clock_skew_correction(cfg); end
 
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:220
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:210
     def resolve_max_attempts(cfg); end
 
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:201
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:191
     def resolve_retry_mode(cfg); end
 
     # @api private
     # HTTP retries preserve the listener, so register it only once.
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:182
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:183
     def track_response_time(context); end
   end
 end
@@ -5567,7 +5552,7 @@ end
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:29
 Aws::Plugins::RetryErrors::DEFAULT_BACKOFF = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:177
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:178
 Aws::Plugins::RetryErrors::DYNAMODB_SERVICES = T.let(T.unsafe(nil), Set)
 
 # BEGIN LEGACY OPTIONS
@@ -5578,61 +5563,56 @@ Aws::Plugins::RetryErrors::EQUAL_JITTER = T.let(T.unsafe(nil), Proc)
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:15
 Aws::Plugins::RetryErrors::FULL_JITTER = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:291
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:278
 class Aws::Plugins::RetryErrors::Handler < ::Seahorse::Client::Handler
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:304
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:291
   def call(context); end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:474
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:446
   def add_retry_headers(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:421
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:398
   def backoff(context, error_inspector, service_id); end
 
   # True when clock skew correction is turned off. The fallback
   # correct_clock_skew option is folded in by the option resolver.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:368
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:345
   def clock_skew_correction_disabled?(config); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:488
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:460
   def compute_request_ttl(context); end
 
-  # TODO: Remove gate, remove default nil params, keep only new retries branch
-  #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:431
-  def exponential_backoff(retries, error_inspector = T.unsafe(nil), service_id = T.unsafe(nil)); end
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:407
+  def exponential_backoff(retries, error_inspector, service_id); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:377
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:354
   def get_send_token(config); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:413
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:390
   def long_polling_operation?(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:362
-  def new_retries?; end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:446
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:418
   def parse_retry_after(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:469
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:441
   def refresh_credentials?(context, error); end
 
   # maxsendrate is updated if on adaptive mode and based on response
   # retry quota is updated if the request is successful (both modes)
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:392
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:369
   def request_bookkeeping(context, response, error_inspector); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:460
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:432
   def retry_request(context, error); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:406
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:383
   def retryable?(context, response, error_inspector); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:373
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:350
   def with_metric(retry_mode, &block); end
 end
 
@@ -5640,46 +5620,46 @@ end
 # Hard-coded combination of services and operations as having the
 # longPoll trait. To be removed when trait is enabled.
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:298
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:285
 Aws::Plugins::RetryErrors::Handler::LONG_POLLING_OPERATIONS = T.let(T.unsafe(nil), Hash)
 
 # Max backoff (in seconds)
 #
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:293
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:280
 Aws::Plugins::RetryErrors::Handler::MAX_BACKOFF = T.let(T.unsafe(nil), Integer)
 
 # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:18
 Aws::Plugins::RetryErrors::JITTERS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:504
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:476
 class Aws::Plugins::RetryErrors::LegacyHandler < ::Seahorse::Client::Handler
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:506
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:478
   def call(context); end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:550
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:522
   def delay_retry(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:560
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:532
   def refresh_credentials?(context, error); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:569
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:541
   def response_truncatable?(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:531
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:503
   def retry_if_possible(response, error_inspector); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:565
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:537
   def retry_limit(context); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:540
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:512
   def retry_request(context, error); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:554
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:526
   def should_retry?(context, error); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:527
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/retry_errors.rb:499
   def with_metric(&block); end
 end
 
@@ -7368,7 +7348,8 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #     An integer representing the maximum number attempts that will be made for
   #     a single request, including the initial attempt.  For example,
   #     setting this value to 5 will result in a request being retried up to
-  #     4 times. Used in `standard` and `adaptive` retry modes.
+  #     4 times. Used in `standard` and `adaptive` retry modes. Defaults to 3,
+  #     except for DynamoDB and DynamoDB Streams, which default to 4.
   #
   #   @option options [String] :profile ("default")
   #     Used when loading credentials from the shared credentials file at `HOME/.aws/credentials`.
@@ -7431,15 +7412,15 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #     used by the default backoff function. This option is only used in the
   #     `legacy` retry mode.
   #
-  #   @option options [String] :retry_mode ("legacy")
+  #   @option options [String] :retry_mode ("standard")
   #     Specifies which retry algorithm to use. Values are:
   #
-  #     * `legacy` - The pre-existing retry behavior. This is the default
-  #       value if no retry mode is provided.
+  #     * `legacy` - The pre-existing retry behavior.
   #
   #     * `standard` - A standardized set of retry rules across the AWS SDKs.
   #       This includes support for retry quotas, which limit the number of
-  #       unsuccessful retries a client can make.
+  #       unsuccessful retries a client can make. This is the default value
+  #       if no retry mode is provided.
   #
   #     * `adaptive` - A retry mode that includes all the functionality of
   #       `standard` mode along with automatic client side throttling.
@@ -7579,13 +7560,13 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:478
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:479
   def initialize(*args); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:692
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:693
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Returns the STS short-term credentials for a given role name that is
@@ -7630,7 +7611,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload get_role_credentials(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:525
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:526
   def get_role_credentials(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all roles that are assigned to the user for a given AWS account.
@@ -7682,7 +7663,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload list_account_roles(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:578
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:579
   def list_account_roles(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all AWS accounts assigned to the user. These AWS accounts are
@@ -7738,7 +7719,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload list_accounts(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:635
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:636
   def list_accounts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes the locally stored SSO tokens from the client-side cache and
@@ -7785,24 +7766,24 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload logout(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:683
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:684
   def logout(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:712
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:713
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:722
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:723
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:719
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-sso/client.rb:720
     def identifier; end
   end
 end
@@ -8771,7 +8752,8 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #     An integer representing the maximum number attempts that will be made for
   #     a single request, including the initial attempt.  For example,
   #     setting this value to 5 will result in a request being retried up to
-  #     4 times. Used in `standard` and `adaptive` retry modes.
+  #     4 times. Used in `standard` and `adaptive` retry modes. Defaults to 3,
+  #     except for DynamoDB and DynamoDB Streams, which default to 4.
   #
   #   @option options [String] :profile ("default")
   #     Used when loading credentials from the shared credentials file at `HOME/.aws/credentials`.
@@ -8834,15 +8816,15 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #     used by the default backoff function. This option is only used in the
   #     `legacy` retry mode.
   #
-  #   @option options [String] :retry_mode ("legacy")
+  #   @option options [String] :retry_mode ("standard")
   #     Specifies which retry algorithm to use. Values are:
   #
-  #     * `legacy` - The pre-existing retry behavior. This is the default
-  #       value if no retry mode is provided.
+  #     * `legacy` - The pre-existing retry behavior.
   #
   #     * `standard` - A standardized set of retry rules across the AWS SDKs.
   #       This includes support for retry quotas, which limit the number of
-  #       unsuccessful retries a client can make.
+  #       unsuccessful retries a client can make. This is the default value
+  #       if no retry mode is provided.
   #
   #     * `adaptive` - A retry mode that includes all the functionality of
   #       `standard` mode along with automatic client side throttling.
@@ -8982,13 +8964,13 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:478
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:479
   def initialize(*args); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1075
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1076
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients that are
@@ -9125,7 +9107,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload create_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:617
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:618
   def create_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for authorized client
@@ -9384,7 +9366,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload create_token_with_iam(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:877
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:878
   def create_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Registers a public client with IAM Identity Center. This allows
@@ -9497,7 +9479,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload register_client(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:991
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:992
   def register_client(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Initiates device authorization by requesting a pair of verification
@@ -9571,24 +9553,24 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload start_device_authorization(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1066
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1067
   def start_device_authorization(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1095
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1096
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1105
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1106
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1102
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-ssooidc/client.rb:1103
     def identifier; end
   end
 end
@@ -11373,7 +11355,8 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #     An integer representing the maximum number attempts that will be made for
   #     a single request, including the initial attempt.  For example,
   #     setting this value to 5 will result in a request being retried up to
-  #     4 times. Used in `standard` and `adaptive` retry modes.
+  #     4 times. Used in `standard` and `adaptive` retry modes. Defaults to 3,
+  #     except for DynamoDB and DynamoDB Streams, which default to 4.
   #
   #   @option options [String] :profile ("default")
   #     Used when loading credentials from the shared credentials file at `HOME/.aws/credentials`.
@@ -11436,15 +11419,15 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #     used by the default backoff function. This option is only used in the
   #     `legacy` retry mode.
   #
-  #   @option options [String] :retry_mode ("legacy")
+  #   @option options [String] :retry_mode ("standard")
   #     Specifies which retry algorithm to use. Values are:
   #
-  #     * `legacy` - The pre-existing retry behavior. This is the default
-  #       value if no retry mode is provided.
+  #     * `legacy` - The pre-existing retry behavior.
   #
   #     * `standard` - A standardized set of retry rules across the AWS SDKs.
   #       This includes support for retry quotas, which limit the number of
-  #       unsuccessful retries a client can make.
+  #       unsuccessful retries a client can make. This is the default value
+  #       if no retry mode is provided.
   #
   #     * `adaptive` - A retry mode that includes all the functionality of
   #       `standard` mode along with automatic client side throttling.
@@ -11589,7 +11572,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:485
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:486
   def initialize(*args); end
 
   # Returns a set of temporary security credentials that you can use to
@@ -12098,7 +12081,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload assume_role(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:996
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:997
   def assume_role(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -12469,7 +12452,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload assume_role_with_saml(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1368
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1369
   def assume_role_with_saml(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -12882,7 +12865,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload assume_role_with_web_identity(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1782
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1783
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of short term credentials you can use to perform
@@ -13021,13 +13004,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload assume_root(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1922
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:1923
   def assume_root(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2796
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2797
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -13107,7 +13090,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload decode_authorization_message(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2003
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2004
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -13167,7 +13150,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_access_key_info(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2064
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2065
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -13250,7 +13233,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_caller_identity(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2148
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2149
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Exchanges a trade-in token for temporary Amazon Web Services
@@ -13289,7 +13272,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_delegated_access_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2188
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2189
   def get_delegated_access_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -13648,7 +13631,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_federation_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2548
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2549
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -13816,7 +13799,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_session_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2717
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2718
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a signed JSON Web Token (JWT) that represents the calling
@@ -13885,24 +13868,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload get_web_identity_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2787
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2788
   def get_web_identity_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2816
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2817
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2826
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2827
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2823
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-sts/client.rb:2824
     def identifier; end
   end
 end
@@ -17137,7 +17120,8 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   #     An integer representing the maximum number attempts that will be made for
   #     a single request, including the initial attempt.  For example,
   #     setting this value to 5 will result in a request being retried up to
-  #     4 times. Used in `standard` and `adaptive` retry modes.
+  #     4 times. Used in `standard` and `adaptive` retry modes. Defaults to 3,
+  #     except for DynamoDB and DynamoDB Streams, which default to 4.
   #
   #   @option options [String] :profile ("default")
   #     Used when loading credentials from the shared credentials file at `HOME/.aws/credentials`.
@@ -17200,15 +17184,15 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   #     used by the default backoff function. This option is only used in the
   #     `legacy` retry mode.
   #
-  #   @option options [String] :retry_mode ("legacy")
+  #   @option options [String] :retry_mode ("standard")
   #     Specifies which retry algorithm to use. Values are:
   #
-  #     * `legacy` - The pre-existing retry behavior. This is the default
-  #       value if no retry mode is provided.
+  #     * `legacy` - The pre-existing retry behavior.
   #
   #     * `standard` - A standardized set of retry rules across the AWS SDKs.
   #       This includes support for retry quotas, which limit the number of
-  #       unsuccessful retries a client can make.
+  #       unsuccessful retries a client can make. This is the default value
+  #       if no retry mode is provided.
   #
   #     * `adaptive` - A retry mode that includes all the functionality of
   #       `standard` mode along with automatic client side throttling.
@@ -17348,13 +17332,13 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   #   @option options [Boolean] :ssl_verify_peer (true)
   #     When `true`, SSL peer certificates are verified when establishing a connection.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:478
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:479
   def initialize(*args); end
 
   # @param params ({})
   # @api private
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1024
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1025
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates a bearer token that represents your IAM credentials and can be
@@ -17397,7 +17381,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload create_bearer_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:523
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:524
   def create_bearer_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Exchanges an authorization code or refresh token for an OAuth 2.0
@@ -17439,7 +17423,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload create_o_auth_2_token(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:566
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:567
   def create_o_auth_2_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Exchanges client credentials for an OAuth 2.0 access token scoped to a
@@ -17476,7 +17460,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload create_o_auth_2_token_with_iam(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:604
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:605
   def create_o_auth_2_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Exchanges a supported token for an OAuth 2.0 access token scoped to a
@@ -17536,7 +17520,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload create_o_auth_2_token_with_token_exchange(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:665
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:666
   def create_o_auth_2_token_with_token_exchange(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Delete console authorization configuration with automatic scope
@@ -17568,7 +17552,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload delete_console_authorization_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:698
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:699
   def delete_console_authorization_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Remove a permission statement from the account's SignIn
@@ -17597,7 +17581,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload delete_resource_permission_statement(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:728
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:729
   def delete_resource_permission_statement(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Get console authorization configuration with automatic scope detection
@@ -17628,7 +17612,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload get_console_authorization_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:760
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:761
   def get_console_authorization_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieve the account's consolidated SignIn resource-based policy
@@ -17657,7 +17641,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload get_resource_policy(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:790
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:791
   def get_resource_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Inspects the metadata and active state of an OAuth 2.0 access token or
@@ -17722,7 +17706,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload introspect_o_auth_2_token_with_iam(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:856
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:857
   def introspect_o_auth_2_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieve all permission statements in the account's SignIn
@@ -17763,7 +17747,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload list_resource_permission_statements(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:898
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:899
   def list_resource_permission_statements(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Enable console authorization configuration with automatic scope
@@ -17795,7 +17779,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload put_console_authorization_configuration(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:931
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:932
   def put_console_authorization_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Create a permission statement in the account's SignIn resource-based
@@ -17855,7 +17839,7 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload put_resource_permission_statement(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:992
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:993
   def put_resource_permission_statement(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Revokes an OAuth 2.0 refresh token and its associated token chain.
@@ -17877,24 +17861,24 @@ class Aws::Signin::Client < ::Seahorse::Client::Base
   # @overload revoke_o_auth_2_token_with_iam(params = {})
   # @param [Hash] params ({})
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1015
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1016
   def revoke_o_auth_2_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1044
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1045
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1054
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1055
     def errors_module; end
 
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1051
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-signin/client.rb:1052
     def identifier; end
   end
 end

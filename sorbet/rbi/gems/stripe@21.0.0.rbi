@@ -260,12 +260,12 @@ module Stripe::APIOperations::Request
   # pkg:gem/stripe#lib/stripe/api_operations/request.rb:74
   def execute_resource_request(method, url, base_address = T.unsafe(nil), params = T.unsafe(nil), opts = T.unsafe(nil), usage = T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/api_operations/request.rb:80
+  # pkg:gem/stripe#lib/stripe/api_operations/request.rb:81
   def execute_resource_request_stream(method, url, base_address = T.unsafe(nil), params = T.unsafe(nil), opts = T.unsafe(nil), usage = T.unsafe(nil), &read_body_chunk_block); end
 
   private
 
-  # pkg:gem/stripe#lib/stripe/api_operations/request.rb:89
+  # pkg:gem/stripe#lib/stripe/api_operations/request.rb:91
   def request_stripe_object(method:, path:, params:, base_address: T.unsafe(nil), opts: T.unsafe(nil), usage: T.unsafe(nil)); end
 
   class << self
@@ -500,23 +500,23 @@ class Stripe::APIRequestor
 
   private
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:557
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:558
   def api_url(url, base_url); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:561
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:562
   def check_api_key!(api_key); end
 
   # Encodes a set of body parameters using multipart if `Content-Type` is set
   # for that, or standard form-encoding otherwise. Returns the encoded body
   # and a version of the encoded body that's safe to be logged.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:581
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:582
   def encode_body(body_params, headers, api_mode); end
 
   # pkg:gem/stripe#lib/stripe/api_requestor.rb:476
   def execute_request_internal(method, path, base_address, params, opts, usage, &read_body_chunk_block); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:624
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:625
   def execute_request_with_rescues(base_url, headers, api_mode, usage, context); end
 
   # Formats a plugin "app info" hash into a string that we can tack onto the
@@ -524,25 +524,25 @@ class Stripe::APIRequestor
   # the Dashboard. Note that this formatting has been implemented to match
   # other libraries, and shouldn't be changed without universal consensus.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:750
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:751
   def format_app_info(info); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:740
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:741
   def general_api_error(status, body); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:757
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:758
   def handle_error_response(http_resp, context, api_mode); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:988
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:989
   def handle_network_error(error, context, num_retries, base_url); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1063
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1064
   def log_request(context, num_retries); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1082
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1083
   def log_response(context, request_start, status, body, resp); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1113
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1114
   def log_response_error(context, request_start, error); end
 
   # pkg:gem/stripe#lib/stripe/api_requestor.rb:221
@@ -556,31 +556,31 @@ class Stripe::APIRequestor
   # to a unified query parameter hash so that all parameters end up in one
   # place and all of them are correctly included in the final request.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:786
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:787
   def merge_query_params(query_params, path); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:697
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:698
   def notify_request_begin(context); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:712
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:713
   def notify_request_end(context, duration, http_status, num_retries, user_data, resp, headers); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1013
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1014
   def request_headers(method, api_mode, req_opts); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:620
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:621
   def should_handle_as_error(http_status); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:801
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:802
   def specific_api_error(resp, error_data, context); end
 
   # Attempts to look at a response's error code and return an OAuth error if
   # one matches. Will return `nil` if the code isn't recognized.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:952
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:953
   def specific_oauth_error(resp, error_code, context); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:849
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:850
   def specific_v2_api_error(resp, error_data, context); end
 
   class << self
@@ -702,30 +702,30 @@ Stripe::APIRequestor::NETWORK_ERROR_MESSAGES_MAP = T.let(T.unsafe(nil), Hash)
 # that we can log certain information. It's useful because it means that we
 # don't have to pass around as many parameters.
 #
-# pkg:gem/stripe#lib/stripe/api_requestor.rb:1127
+# pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
 class Stripe::APIRequestor::RequestLogContext
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def account; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def account=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def api_key; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def api_key=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def api_version; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def api_version=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def body; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def body=(_arg0); end
 
   # The idea with this method is that we might want to update some of
@@ -735,79 +735,79 @@ class Stripe::APIRequestor::RequestLogContext
   # a `Stripe-Version` header beyond what configuration information that we
   # might have had available.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1136
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1137
   def dup_from_response_headers(headers); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def idempotency_key; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def idempotency_key=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def method; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def method=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def path; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def path=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def query; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def query=(_arg0); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def request_id; end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1128
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1129
   def request_id=(_arg0); end
 end
 
 # StripeRequestMetrics tracks metadata to be reported to stripe for metrics
 # collection
 #
-# pkg:gem/stripe#lib/stripe/api_requestor.rb:1201
+# pkg:gem/stripe#lib/stripe/api_requestor.rb:1202
 class Stripe::APIRequestor::StripeRequestMetrics
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1211
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1212
   def initialize(request_id, request_duration_ms, usage: T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1217
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1218
   def payload; end
 
   # Request duration in milliseconds
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1206
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1207
   def request_duration_ms; end
 
   # Request duration in milliseconds
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1206
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1207
   def request_duration_ms=(_arg0); end
 
   # The Stripe request ID of the response.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1203
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1204
   def request_id; end
 
   # The Stripe request ID of the response.
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1203
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1204
   def request_id=(_arg0); end
 
   # list of names of tracked behaviors associated with this request
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1209
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1210
   def usage; end
 
   # list of names of tracked behaviors associated with this request
   #
-  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1209
+  # pkg:gem/stripe#lib/stripe/api_requestor.rb:1210
   def usage=(_arg0); end
 end
 
@@ -815,18 +815,18 @@ end
 # in so that we can generate a rich user agent header to help debug
 # integrations.
 #
-# pkg:gem/stripe#lib/stripe/api_requestor.rb:1149
+# pkg:gem/stripe#lib/stripe/api_requestor.rb:1150
 class Stripe::APIRequestor::SystemProfiler
   class << self
-    # pkg:gem/stripe#lib/stripe/api_requestor.rb:1167
+    # pkg:gem/stripe#lib/stripe/api_requestor.rb:1168
     def detect_ai_agent(env = T.unsafe(nil)); end
 
-    # pkg:gem/stripe#lib/stripe/api_requestor.rb:1174
+    # pkg:gem/stripe#lib/stripe/api_requestor.rb:1175
     def user_agent; end
   end
 end
 
-# pkg:gem/stripe#lib/stripe/api_requestor.rb:1150
+# pkg:gem/stripe#lib/stripe/api_requestor.rb:1151
 Stripe::APIRequestor::SystemProfiler::AI_AGENTS = T.let(T.unsafe(nil), Array)
 
 # A record representing any data that `APIRequestor` puts into
@@ -218830,7 +218830,7 @@ class Stripe::QuoteUpdateParams::TransferData < ::Stripe::RequestParams
   def destination=(_destination); end
 end
 
-# pkg:gem/stripe#lib/stripe/resources.rb:1147
+# pkg:gem/stripe#lib/stripe/resources.rb:1148
 Stripe::RESOURCE_FILES = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/stripe#lib/stripe/resources.rb:1029
@@ -224147,48 +224147,60 @@ end
 # pkg:gem/stripe#lib/stripe/request_options.rb:11
 module Stripe::RequestOptions
   class << self
+    # Raises if the given API key is the serialization placeholder, meaning the
+    # object was deserialized and credentials haven't been reattached.
+    #
+    # pkg:gem/stripe#lib/stripe/request_options.rb:38
+    def assert_api_key_attached!(api_key); end
+
     # Merges requestor options hash on a StripeObject
     # with a per-request options hash, giving precedence
     # to the per-request options. Returns the merged request options.
     # Expects two hashes, expects extract_opts_from_hash to be called first!!!
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:70
+    # pkg:gem/stripe#lib/stripe/request_options.rb:86
     def combine_opts(object_opts, req_opts); end
 
     # Get options that are copyable from StripeObject to StripeObject
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:134
+    # pkg:gem/stripe#lib/stripe/request_options.rb:152
     def copyable(req_opts); end
 
     # Validates a normalized opts hash.
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:106
+    # pkg:gem/stripe#lib/stripe/request_options.rb:124
     def error_on_non_string_user_opts(normalized_opts); end
 
     # Extracts options from a user-provided hash, returning a new request options hash
     # containing the recognized request options and a `headers` entry for the remaining options.
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:88
+    # pkg:gem/stripe#lib/stripe/request_options.rb:106
     def extract_opts_from_hash(opts); end
 
     # Merges requestor options on a StripeConfiguration object
     # with a per-request options hash, giving precedence
     # to the per-request options. Expects StripeConfiguration and hash.
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:45
+    # pkg:gem/stripe#lib/stripe/request_options.rb:61
     def merge_config_and_opts(config, req_opts); end
 
     # Get options that persist between requests
     #
-    # pkg:gem/stripe#lib/stripe/request_options.rb:122
+    # pkg:gem/stripe#lib/stripe/request_options.rb:140
     def persistable(req_opts); end
 
     private
 
-    # pkg:gem/stripe#lib/stripe/request_options.rb:35
+    # pkg:gem/stripe#lib/stripe/request_options.rb:51
     def merge_context(config_ctx, req_ctx); end
   end
 end
+
+# Written in place of API keys when a StripeObject is serialized with
+# Marshal or YAML, so that credentials never end up in caches or queues.
+#
+# pkg:gem/stripe#lib/stripe/request_options.rb:34
+Stripe::RequestOptions::API_KEY_SERIALIZATION_CONSTANT = T.let(T.unsafe(nil), String)
 
 # Options that should be copyable from one StripeObject to another
 # including options that may be internal.
@@ -248415,7 +248427,7 @@ class Stripe::StripeObject
 
   # Instance methods to get inner class types
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:674
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:733
   def _get_inner_class_type(field_name); end
 
   # Resolves a discriminated-union field to its variant class by reading the
@@ -248426,7 +248438,7 @@ class Stripe::StripeObject
   # The caller then falls back to the union's base class, so a variant the API
   # adds after this release still deserializes instead of blowing up.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:685
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:744
   def _get_union_variant_class(field_name, value); end
 
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:210
@@ -248450,6 +248462,13 @@ class Stripe::StripeObject
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:231
   def each(&blk); end
 
+  # Implements custom encoding for YAML (Psych). Without it, Psych dumps
+  # every instance variable, including the API key in @opts and the
+  # requestor's configuration.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:278
+  def encode_with(coder); end
+
   # Hash equality. As with `#==`, we consider two equivalent Stripe objects
   # equal.
   #
@@ -248461,6 +248480,12 @@ class Stripe::StripeObject
   #
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:117
   def hash; end
+
+  # Implements custom decoding for YAML (Psych). Consumes data that's
+  # produced by #encode_with.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:286
+  def init_with(coder); end
 
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:132
   def inspect; end
@@ -248483,10 +248508,17 @@ class Stripe::StripeObject
   # Implements custom decoding for Ruby's Marshal. Consumes data that's
   # produced by #marshal_dump.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:264
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:269
   def marshal_load(data, api_mode: T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:270
+  # Attaches credentials to an object restored from Marshal or YAML, and to
+  # any nested objects that were restored without credentials. Each object
+  # keeps its saved connected account and API version.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:293
+  def reattach_api_key(api_key); end
+
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:329
   def serialize_params(options = T.unsafe(nil)); end
 
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:214
@@ -248527,10 +248559,10 @@ class Stripe::StripeObject
 
   # Should only be for v2 events and lists, for now.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:533
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:592
   def _request(method:, path:, base_address:, params: T.unsafe(nil), opts: T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:371
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:430
   def add_accessors(keys, values); end
 
   # Re-initializes the object based on a hash of values (usually one that's
@@ -248546,26 +248578,26 @@ class Stripe::StripeObject
   # * +:partial:+ Indicates that the re-initialization should not attempt to
   #   remove accessors.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:497
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:556
   def initialize_from(values, opts, last_response = T.unsafe(nil), api_mode:, requestor: T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:325
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:384
   def metaclass; end
 
   # Disabling the cop because it's confused by the fact that the methods are
   # protected, but we do define `#respond_to_missing?` just below. Hopefully
   # this is fixed in more recent Rubocop versions.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:423
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:482
   def method_missing(name, *args); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:329
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:388
   def remove_accessors(keys); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:481
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:540
   def respond_to_missing?(symbol, include_private = T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:546
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:605
   def serialize_params_value(value, original, unsaved, force, key: T.unsafe(nil)); end
 
   private
@@ -248573,14 +248605,20 @@ class Stripe::StripeObject
   # pkg:gem/stripe#lib/stripe/stripe_object.rb:167
   def convert_value_with_inner_types(key, value, opts); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:647
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:706
   def dirty_value!(value); end
 
   # Returns a hash of empty values for all the values that are in the given
   # StripeObject.
   #
-  # pkg:gem/stripe#lib/stripe/stripe_object.rb:658
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:717
   def empty_values(obj); end
+
+  # Identity-based `seen` because StripeObject#hash and #== compare values,
+  # and restored objects can contain cycles.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_object.rb:310
+  def reattach_api_key_to(value, api_key, seen); end
 
   class << self
     # Sets the given parameter name to one which is known to be an additive
@@ -248645,34 +248683,34 @@ class Stripe::StripeObject
     # pkg:gem/stripe#lib/stripe/stripe_object.rb:93
     def construct_from(values, opts = T.unsafe(nil), last_response = T.unsafe(nil), api_mode = T.unsafe(nil), requestor = T.unsafe(nil)); end
 
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:714
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:773
     def field_encodings; end
 
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:710
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:769
     def field_remappings; end
 
     # Class methods for inner class types, similar to Python's implementation
     #
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:699
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:758
     def inner_class_types; end
 
     # Maps a discriminated-union field to [discriminator, {value => class}].
     # Generated subclasses override this; the default keeps the lookup in
     # convert_value_with_inner_types cheap for every other object.
     #
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:706
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:765
     def inner_class_union_variant_types; end
 
     # A protected field is one that doesn't get an accessor assigned to it
     # (i.e. `obj.public = ...`) and one which is not allowed to be updated via
     # the class level `Model.update(id, { ... })`.
     #
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:300
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:359
     def protected_fields; end
 
     private
 
-    # pkg:gem/stripe#lib/stripe/stripe_object.rb:625
+    # pkg:gem/stripe#lib/stripe/stripe_object.rb:684
     def deep_copy(obj, api_mode:); end
   end
 end
@@ -248695,7 +248733,7 @@ end
 # and forcing people to access it with `obj.metadata[:my_field]` because
 # the potential for trouble is just too high. For now, reserve names.
 #
-# pkg:gem/stripe#lib/stripe/stripe_object.rb:321
+# pkg:gem/stripe#lib/stripe/stripe_object.rb:380
 Stripe::StripeObject::RESERVED_FIELD_NAMES = T.let(T.unsafe(nil), Array)
 
 # StripeResponse encapsulates some vitals of a response that came back from
@@ -248814,8 +248852,14 @@ class Stripe::StripeService
   # pkg:gem/stripe#lib/stripe/stripe_service.rb:11
   def request(method:, path:, base_address:, params: T.unsafe(nil), opts: T.unsafe(nil)); end
 
-  # pkg:gem/stripe#lib/stripe/stripe_service.rb:32
+  # pkg:gem/stripe#lib/stripe/stripe_service.rb:36
   def request_stream(method:, path:, base_address:, params: T.unsafe(nil), opts: T.unsafe(nil), &read_body_chunk_block); end
+
+  # V2 search uses POST but sends limit in the URL, not the JSON body. Rebuild
+  # the initial query from params; pagination uses the ordinary request path.
+  #
+  # pkg:gem/stripe#lib/stripe/stripe_service.rb:25
+  def request_v2_search(method:, path:, base_address:, params: T.unsafe(nil), opts: T.unsafe(nil)); end
 end
 
 # Subscriptions allow you to charge a customer on a recurring basis.
@@ -355119,7 +355163,7 @@ end
 # You can access events through the [Retrieve Event API](https://docs.stripe.com/api/v2/core/events/retrieve) for 30 days.
 #
 # pkg:gem/stripe#lib/stripe/resources/v2/core/event.rb:9
-class Stripe::V2::Core::Event < ::Stripe::APIResource
+class Stripe::V2::Core::Event < ::Stripe::V2::Core::EventBase
   # Before and after changes for the primary related object.
   #
   # pkg:gem/stripe#lib/stripe/resources/v2/core/event.rb:44
@@ -355233,6 +355277,32 @@ class Stripe::V2::Core::Event::Reason::Request < ::Stripe::StripeObject
     # pkg:gem/stripe#lib/stripe/resources/v2/core/event.rb:22
     def inner_class_types; end
   end
+end
+
+# pkg:gem/stripe#lib/stripe/resources/v2/core/event_base.rb:6
+class Stripe::V2::Core::EventBase < ::Stripe::APIResource
+  protected
+
+  # Overridden so that every generated `fetch_related_object` (which calls
+  # this method) routes through #scoped_requestor. Still combines with this
+  # event's retained @opts so a retained api_key/stripe_version override
+  # survives, but with @opts's own stripe_account/stripe_context forced to
+  # the safe values first, since those are exactly what may be stale left
+  # over from how this Event itself was retrieved.
+  #
+  # pkg:gem/stripe#lib/stripe/resources/v2/core/event_base.rb:27
+  def _request(method:, path:, base_address:, params: T.unsafe(nil), opts: T.unsafe(nil)); end
+
+  private
+
+  # internal use: a requestor scoped to this event's own Stripe-Context,
+  # discarding any Stripe-Account the configured requestor may carry.
+  # `context`, not account, is what routes a direct-retrieve `Event` (and
+  # requests made through #fetch_related_object) to the right account --
+  # mirrors how EventNotification#initialize scopes @client.
+  #
+  # pkg:gem/stripe#lib/stripe/resources/v2/core/event_base.rb:12
+  def scoped_requestor; end
 end
 
 # Set up an event destination to receive events from Stripe across multiple destination types, including [webhook endpoints](https://docs.stripe.com/webhooks), [Amazon EventBridge](https://docs.stripe.com/event-destinations/eventbridge), and [Azure Event Grid](https://docs.stripe.com/event-destinations/eventgrid). Event destinations support receiving [thin events](https://docs.stripe.com/api/v2/events) and [snapshot events](https://docs.stripe.com/api/events).
@@ -356304,7 +356374,7 @@ class Stripe::V2::Core::RelatedSingletonObject
   def url; end
 end
 
-# pkg:gem/stripe#lib/stripe/resources.rb:1119
+# pkg:gem/stripe#lib/stripe/resources.rb:1120
 module Stripe::V2::Core::Vault; end
 
 # Use the GBBankAccounts API to create and manage GB bank account objects
@@ -357143,7 +357213,7 @@ end
 # pkg:gem/stripe#lib/stripe/v2_list_object.rb:6
 Stripe::V2::ListObject::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# pkg:gem/stripe#lib/stripe/resources.rb:1125
+# pkg:gem/stripe#lib/stripe/resources.rb:1126
 module Stripe::V2::MoneyManagement; end
 
 # An Adjustment records a credit or debit that Stripe makes to your Financial Account balance,
@@ -364553,26 +364623,26 @@ end
 # pkg:gem/stripe#lib/stripe/webhook.rb:5
 Stripe::Webhook::DEFAULT_TOLERANCE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/stripe#lib/stripe/webhook.rb:71
+# pkg:gem/stripe#lib/stripe/webhook.rb:77
 module Stripe::Webhook::Signature
   class << self
     # Computes a webhook signature given a time (probably the current time),
     # a payload, and a signing secret.
     #
-    # pkg:gem/stripe#lib/stripe/webhook.rb:76
+    # pkg:gem/stripe#lib/stripe/webhook.rb:84
     def compute_signature(timestamp, payload, secret); end
 
     # Compute the `Stripe-Signature` header for a given webhook body & secret. Useful for signing
     # payloads in unit tests.
     #
-    # pkg:gem/stripe#lib/stripe/webhook.rb:91
+    # pkg:gem/stripe#lib/stripe/webhook.rb:99
     def generate_header(timestamp, signature, scheme: T.unsafe(nil)); end
 
     # Verifies the authenticity (and recency) of a webhook, raising a `SignatureVerificationError` if
     # there's a mismatch. Useful for quickly validating incoming webhooks before storing them for later
     # processing (at which time you can use the `*_without_verification` methods for parsing).
     #
-    # pkg:gem/stripe#lib/stripe/webhook.rb:115
+    # pkg:gem/stripe#lib/stripe/webhook.rb:123
     def verify_header(payload, header, secret, tolerance: T.unsafe(nil)); end
 
     private
@@ -364580,12 +364650,59 @@ module Stripe::Webhook::Signature
     # Extracts the timestamp and the signature(s) with the desired scheme
     # from the header
     #
-    # pkg:gem/stripe#lib/stripe/webhook.rb:104
+    # pkg:gem/stripe#lib/stripe/webhook.rb:112
     def get_timestamp_and_signatures(header, scheme); end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:225
+    def safe_metadata_value?(value); end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:213
+    def signature_debug_metadata(header); end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:173
+    def signature_error_message(header, payload, secret); end
   end
 end
 
-# pkg:gem/stripe#lib/stripe/webhook.rb:72
+# pkg:gem/stripe#lib/stripe/webhook.rb:79
+class Stripe::Webhook::Signature::DebugMetadata < ::Struct
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def destination; end
+
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def destination=(_); end
+
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def payload; end
+
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def payload=(_); end
+
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def secret; end
+
+  # pkg:gem/stripe#lib/stripe/webhook.rb:79
+  def secret=(_); end
+
+  class << self
+    # pkg:gem/stripe#lib/stripe/webhook.rb:79
+    def [](*_arg0); end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:79
+    def inspect; end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:79
+    def keyword_init?; end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:79
+    def members; end
+
+    # pkg:gem/stripe#lib/stripe/webhook.rb:79
+    def new(*_arg0); end
+  end
+end
+
+# pkg:gem/stripe#lib/stripe/webhook.rb:78
 Stripe::Webhook::Signature::EXPECTED_SCHEME = T.let(T.unsafe(nil), String)
 
 # You can configure [webhook endpoints](https://docs.stripe.com/webhooks/) via the API to be

@@ -48,6 +48,7 @@ Serveme::Application.routes.draw do
   get "/stv/live", to: "live_maps#index", as: :live_stv
   get "/stv/sign_in", to: "stvtf_sign_ins#show", as: :stv_sign_in
   get "/stv/discord_links/:discord_uid", to: "stvtf_discord_links#show", as: :stv_discord_link, constraints: { discord_uid: /\d{1,20}/ }
+  get "/stv/league_players", to: "stvtf_league_players#index", as: :stv_league_players
   get "/stv", to: "live_maps#new", as: :live_map
   post "/stv", to: "live_maps#create"
 

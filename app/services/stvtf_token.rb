@@ -7,7 +7,8 @@
 # {demo, owner, exp} to play a demos.tf demo. `owner` is the user's Steam uid, which the map server
 # only logs: it limits nothing. `reservation` links the match to a reservation; {list, exp} reads the
 # hub's list of matches; {signin: {uid, name, streamer}, exp} signs a user in to its rooms. The map
-# server seals one itself, {link, exp}, to ask who a Discord user is (StvtfDiscordLinksController).
+# server seals two itself: {link, exp} to ask who a Discord user is (StvtfDiscordLinksController),
+# {league, exp} to ask how the league knows players (StvtfLeaguePlayersController).
 class StvtfToken
   extend T::Sig
 
@@ -61,6 +62,13 @@ class StvtfToken
   def self.link?(token, discord_uid, now: Time.current)
     claims = open(token)
     !claims.nil? && discord_uid.present? && claims["link"] == discord_uid && claims["exp"].is_a?(Integer) && claims["exp"] >= now.to_i
+  end
+
+  # Whether `token` is the map server's, asking about players in the league: {league, exp}.
+  sig { params(token: String, now: T.any(Time, ActiveSupport::TimeWithZone)).returns(T::Boolean) }
+  def self.league?(token, now: Time.current)
+    claims = open(token)
+    !claims.nil? && claims["league"] == true && claims["exp"].is_a?(Integer) && claims["exp"] >= now.to_i
   end
 
   sig { params(token: String).returns(T.nilable(T::Hash[String, T.untyped])) }

@@ -613,16 +613,16 @@ end
 # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:10
 module WebMock::HttpLibAdapters; end
 
-# pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:14
+# pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:17
 class WebMock::HttpLibAdapters::HttpRbAdapter < ::WebMock::HttpLibAdapter
   class << self
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:22
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:25
     def disable!; end
 
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:18
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:21
     def enable!; end
 
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:26
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/http_rb_adapter.rb:29
     def enabled?; end
   end
 end
@@ -1613,7 +1613,7 @@ class WebMock::Util::QueryMapper
 
     # new_query_values have form [['key1', 'value1'], ['key2', 'value2']]
     #
-    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:247
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:246
     def to_query(parent, value, options = T.unsafe(nil)); end
 
     # Sets the query component for this URI from a Hash object.

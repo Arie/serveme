@@ -655,6 +655,9 @@ module GeneratedUrlHelpersModule
   def stv_discord_link_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def stv_league_players_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def stv_sign_in_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

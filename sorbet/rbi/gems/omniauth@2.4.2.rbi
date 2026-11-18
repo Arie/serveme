@@ -8,16 +8,16 @@
 # pkg:gem/omniauth#lib/omniauth.rb:5
 module OmniAuth
   class << self
-    # pkg:gem/omniauth#lib/omniauth.rb:142
+    # pkg:gem/omniauth#lib/omniauth.rb:157
     def config; end
 
-    # pkg:gem/omniauth#lib/omniauth.rb:146
+    # pkg:gem/omniauth#lib/omniauth.rb:161
     def configure; end
 
-    # pkg:gem/omniauth#lib/omniauth.rb:150
+    # pkg:gem/omniauth#lib/omniauth.rb:165
     def logger; end
 
-    # pkg:gem/omniauth#lib/omniauth.rb:154
+    # pkg:gem/omniauth#lib/omniauth.rb:169
     def mock_auth_for(provider); end
 
     # pkg:gem/omniauth#lib/omniauth.rb:20
@@ -161,7 +161,7 @@ class OmniAuth::Configuration
   include ::Singleton
   extend ::Singleton::SingletonClassMethods
 
-  # pkg:gem/omniauth#lib/omniauth.rb:54
+  # pkg:gem/omniauth#lib/omniauth.rb:56
   def initialize; end
 
   # This is a convenience method to be used by strategy authors
@@ -171,112 +171,124 @@ class OmniAuth::Configuration
   # @param name [String] The underscored name, e.g. `oauth`
   # @param camelized [String] The properly camelized name, e.g. 'OAuth'
   #
-  # pkg:gem/omniauth#lib/omniauth.rb:132
+  # pkg:gem/omniauth#lib/omniauth.rb:134
   def add_camelization(name, camelized); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:106
+  # pkg:gem/omniauth#lib/omniauth.rb:108
   def add_mock(provider, original = T.unsafe(nil)); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:98
+  # pkg:gem/omniauth#lib/omniauth.rb:100
   def after_request_phase(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def after_request_phase=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def allowed_hosts; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def allowed_hosts=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def allowed_request_methods; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def allowed_request_methods=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:66
+  # pkg:gem/omniauth#lib/omniauth.rb:68
   def before_callback_phase(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def before_callback_phase=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:74
+  # pkg:gem/omniauth#lib/omniauth.rb:76
   def before_options_phase(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def before_options_phase=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:90
+  # pkg:gem/omniauth#lib/omniauth.rb:92
   def before_request_phase(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def before_request_phase=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def camelizations; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def camelizations=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def failure_raise_out_environments; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def failure_raise_out_environments=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def form_css; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def form_css=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def full_host; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def full_host=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def logger; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def logger=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:150
+  def max_remembered_params_bytesize; end
+
+  # pkg:gem/omniauth#lib/omniauth.rb:144
+  def max_remembered_params_bytesize=(value); end
+
+  # pkg:gem/omniauth#lib/omniauth.rb:150
+  def max_remembered_sign_ins; end
+
+  # pkg:gem/omniauth#lib/omniauth.rb:138
+  def max_remembered_sign_ins=(value); end
+
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def mock_auth; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def mock_auth=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:58
+  # pkg:gem/omniauth#lib/omniauth.rb:60
   def on_failure(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def on_failure=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def path_prefix; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def path_prefix=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:82
+  # pkg:gem/omniauth#lib/omniauth.rb:84
   def request_validation_phase(&block); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:136
+  # pkg:gem/omniauth#lib/omniauth.rb:151
   def request_validation_phase=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def silence_get_warning; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def silence_get_warning=(_arg0); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def test_mode; end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:137
+  # pkg:gem/omniauth#lib/omniauth.rb:152
   def test_mode=(_arg0); end
 
   class << self
@@ -1099,7 +1111,7 @@ module OmniAuth::Strategy::SignIns
   # included. It's counted without building a string, since every
   # request phase with params counts them.
   #
-  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:112
+  # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:113
   def params_bytesize(value); end
 
   # pkg:gem/omniauth#lib/omniauth/strategy/sign_ins.rb:102
@@ -1206,27 +1218,27 @@ module OmniAuth::Test::StrategyTestCase
   def strategy; end
 end
 
-# pkg:gem/omniauth#lib/omniauth.rb:158
+# pkg:gem/omniauth#lib/omniauth.rb:173
 module OmniAuth::Utils
   private
 
-  # pkg:gem/omniauth#lib/omniauth.rb:176
+  # pkg:gem/omniauth#lib/omniauth.rb:191
   def camelize(word, first_letter_in_uppercase = T.unsafe(nil)); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:165
+  # pkg:gem/omniauth#lib/omniauth.rb:180
   def deep_merge(hash, other_hash); end
 
-  # pkg:gem/omniauth#lib/omniauth.rb:161
+  # pkg:gem/omniauth#lib/omniauth.rb:176
   def form_css; end
 
   class << self
-    # pkg:gem/omniauth#lib/omniauth.rb:176
+    # pkg:gem/omniauth#lib/omniauth.rb:191
     def camelize(word, first_letter_in_uppercase = T.unsafe(nil)); end
 
-    # pkg:gem/omniauth#lib/omniauth.rb:165
+    # pkg:gem/omniauth#lib/omniauth.rb:180
     def deep_merge(hash, other_hash); end
 
-    # pkg:gem/omniauth#lib/omniauth.rb:161
+    # pkg:gem/omniauth#lib/omniauth.rb:176
     def form_css; end
   end
 end

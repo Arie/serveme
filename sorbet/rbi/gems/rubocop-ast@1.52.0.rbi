@@ -5,16 +5,163 @@
 # Please instead update this file by running `bin/tapioca gem rubocop-ast`.
 
 
+module Parser
+  extend ::RuboCop::AST::ParserSource::LazyConstants
+end
+
+module Parser::AST
+  extend ::RuboCop::AST::ParserSource::LazyConstants
+end
+
+# @api public
+#
+# @!attribute [r] level
+#  @see LEVELS
+#  @return [Symbol] diagnostic level
+#
+# @!attribute [r] reason
+#  @see Parser::MESSAGES
+#  @return [Symbol] reason for error
+#
+# @!attribute [r] arguments
+#  @see Parser::MESSAGES
+#  @return [Symbol] extended arguments that describe the error
+#
+# @!attribute [r] message
+#  @return [String] error message
+#
+# @!attribute [r] location
+#  Main error-related source range.
+#  @return [Parser::Source::Range]
+#
+# @!attribute [r] highlights
+#  Supplementary error-related source ranges.
+#  @return [Array<Parser::Source::Range>]
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:23
+class Parser::Diagnostic; end
+
+module Parser::Source
+  extend ::RuboCop::AST::ParserSource::LazyConstants
+end
+
+# {Map} relates AST nodes to the source code they were parsed from.
+# More specifically, a {Map} or its subclass contains a set of ranges:
+#
+#  * `expression`: smallest range which includes all source corresponding
+#    to the node and all `expression` ranges of its children.
+#  * other ranges (`begin`, `end`, `operator`, ...): node-specific ranges
+#    pointing to various interesting tokens corresponding to the node.
+#
+# Note that the {Map::Heredoc} map is the only one whose `expression` does
+# not include other ranges. It only covers the heredoc marker (`<<HERE`),
+# not the here document itself.
+#
+# All ranges except `expression` are defined by {Map} subclasses.
+#
+# Ranges (except `expression`) can be `nil` if the corresponding token is
+# not present in source. For example, a hash may not have opening/closing
+# braces, and so would its source map.
+#
+#     p Parser::CurrentRuby.parse('[1 => 2]').children[0].loc
+#     # => <Parser::Source::Map::Collection:0x007f5492b547d8
+#     #  @end=nil, @begin=nil,
+#     #  @expression=#<Source::Range (string) 1...7>>
+#
+# The {file:doc/AST_FORMAT.md} document describes how ranges associated to source
+# code tokens. For example, the entry
+#
+#     (array (int 1) (int 2))
+#
+#     "[1, 2]"
+#      ^ begin
+#           ^ end
+#      ~~~~~~ expression
+#
+# means that if `node` is an {Parser::AST::Node} `(array (int 1) (int 2))`,
+# then `node.loc` responds to `begin`, `end` and `expression`, and
+# `node.loc.begin` returns a range pointing at the opening bracket, and so on.
+#
+# If you want to write code polymorphic by the source map (i.e. accepting
+# several subclasses of {Map}), use `respond_to?` instead of `is_a?` to
+# check whether the map features the range you need. Concrete {Map}
+# subclasses may not be preserved between versions, but their interfaces
+# will be kept compatible.
+#
+# You can visualize the source maps with `ruby-parse -E` command-line tool.
+#
+# @example
+#  require 'parser/current'
+#
+#  p Parser::CurrentRuby.parse('[1, 2]').loc
+#  # => #<Parser::Source::Map::Collection:0x007f14b80eccd8
+#  #  @end=#<Source::Range (string) 5...6>,
+#  #  @begin=#<Source::Range (string) 0...1>,
+#  #  @expression=#<Source::Range (string) 0...6>>
+#
+# @!attribute [r] node
+#  The node that is described by this map. Nodes and maps have 1:1 correspondence.
+#  @return [Parser::AST::Node]
+#
+# @!attribute [r] expression
+#  @return [Range]
+#
+# @api public
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:23
+class Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:24
+class Parser::Source::Map::Collection < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:30
+class Parser::Source::Map::Condition < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:27
+class Parser::Source::Map::Constant < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:29
+class Parser::Source::Map::Keyword < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:25
+class Parser::Source::Map::Operator < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:28
+class Parser::Source::Map::Send < ::Parser::Source::Map; end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:26
+class Parser::Source::Map::Variable < ::Parser::Source::Map; end
+
+# A range of characters in a particular source buffer.
+#
+# The range is always exclusive, i.e. a range with `begin_pos` of 3 and
+# `end_pos` of 5 will contain the following characters:
+#
+#     example
+#        ^^
+#
+# @!attribute [r] source_buffer
+#  @return [Parser::Source::Buffer]
+#
+# @!attribute [r] begin_pos
+#  @return [Integer] index of the first character in the range
+#
+# @!attribute [r] end_pos
+#  @return [Integer] index of the character after the last character in the range
+#
+# @api public
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:22
 class Parser::Source::Range
   include ::RuboCop::AST::Ext::Range
 end
 
-# pkg:gem/rubocop-ast#lib/rubocop/ast/ext/range.rb:3
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:5
 module RuboCop; end
 
 # ...
 #
-# pkg:gem/rubocop-ast#lib/rubocop/ast/ext/range.rb:4
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:6
 module RuboCop::AST
   extend ::RuboCop::AST::RuboCopCompatibility
 end
@@ -446,7 +593,7 @@ end
 #   parser = Parser::Ruby25.new(builder)
 #   root_node = parser.parse(buffer)
 #
-# pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:129
+# pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:18
 class RuboCop::AST::Builder < ::Parser::Builders::Default
   include ::RuboCop::AST::BuilderExtensions
 end
@@ -454,35 +601,35 @@ end
 # Common functionality between the parser and prism builder
 # @api private
 #
-# pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:7
+# pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:7
 module RuboCop::AST::BuilderExtensions
   # Generates {Node} from the given information.
   #
   # @return [Node] the generated node
   #
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:101
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:101
   def n(type, children, source_map); end
 
   # Overwrite the base method to allow strings with invalid encoding
   # More details here https://github.com/whitequark/parser/issues/283
   #
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:107
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:107
   def string_value(token); end
 
   private
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:113
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:113
   def node_klass(type); end
 
   class << self
-    # pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:8
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:8
     def included(base); end
   end
 end
 
 # @api private
 #
-# pkg:gem/rubocop-ast#lib/rubocop/ast/builder.rb:14
+# pkg:gem/rubocop-ast#lib/rubocop/ast/builder_extensions.rb:14
 RuboCop::AST::BuilderExtensions::NODE_MAP = T.let(T.unsafe(nil), Hash)
 
 # A parser builder, based on the one provided by prism,
@@ -6119,6 +6266,49 @@ module RuboCop::AST::ParameterizedNode::WrappedArguments
   def arguments; end
 end
 
+# Loads the part of the `parser` gem that every parser engine needs: the
+# node base class, the source layer (buffers, ranges, comments, source
+# maps, the tree rewriter) and the diagnostics.
+#
+# They come from the gem when it is installed, because its parsers and
+# builders create objects of the very same classes. Without the gem, a
+# copy of those files that ships with this gem is loaded instead, which is
+# all that the `prism` parser engine needs.
+# @api private
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:16
+module RuboCop::AST::ParserSource
+  class << self
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:46
+    def ensure_parser_gem(parser_engine); end
+
+    # Whether the classes come from the copy that ships with this gem,
+    # which is the case when the `parser` gem is not installed.
+    #
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:42
+    def vendored?; end
+  end
+end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:17
+RuboCop::AST::ParserSource::FILES = T.let(T.unsafe(nil), Array)
+
+# Loads the rest of `parser` when something refers to a constant that
+# is not part of the files above, like `Parser::Base` or
+# `Parser::Builders::Default`.
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:64
+module RuboCop::AST::ParserSource::LazyConstants
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:65
+  def const_missing(name); end
+end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:32
+RuboCop::AST::ParserSource::VENDORED = T.let(T.unsafe(nil), FalseClass)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/parser_source.rb:30
+RuboCop::AST::ParserSource::VENDOR_DIR = T.let(T.unsafe(nil), String)
+
 # Common functionality for nodes that are predicates:
 # `or`, `and` ...
 #
@@ -6164,6 +6354,1054 @@ RuboCop::AST::PredicateOperatorNode::SEMANTIC_OPERATORS = T.let(T.unsafe(nil), A
 # pkg:gem/rubocop-ast#lib/rubocop/ast/node/mixin/predicate_operator_node.rb:14
 RuboCop::AST::PredicateOperatorNode::SEMANTIC_OR = T.let(T.unsafe(nil), String)
 
+# Builds a `RuboCop::AST::Node` tree directly from a Prism syntax tree.
+#
+# `Prism::Translation::Parser` gets to the same tree by replaying the Prism
+# nodes as lexer tokens into `Parser::Builders::Default`. This class skips
+# both steps: it visits the Prism nodes and creates the final nodes and
+# their source maps itself. The resulting tree is meant to be identical to
+# the one the translation layer produces, node for node and range for range.
+#
+# It needs Prism 2, and it still relies on the `parser` gem for `Parser::Source::Range` and the
+# `Parser::Source::Map` classes.
+#
+# @api private
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:21
+class RuboCop::AST::PrismCompiler < ::Prism::Compiler
+  # @param source_buffer [Parser::Source::Buffer]
+  # @param offset_cache [Array<Integer>, #call] maps byte offsets to
+  #   character offsets, an array when the source has multibyte characters
+  # @param diagnostics [Parser::Diagnostic::Engine, nil] receives what
+  #   prism does not report itself: invalid regexps and duplicate hash keys
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:46
+  def initialize(source_buffer, offset_cache, diagnostics = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:62
+  def visit_alias_global_variable_node(node); end
+
+  # alias foo bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:58
+  def visit_alias_method_node(node); end
+
+  # foo => bar | baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:65
+  def visit_alternation_pattern_node(node); end
+
+  # a and b
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:70
+  def visit_and_node(node); end
+
+  # foo(bar)
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:115
+  def visit_arguments_node(node); end
+
+  # []
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:80
+  def visit_array_node(node); end
+
+  # foo => [bar]
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:93
+  def visit_array_pattern_node(node); end
+
+  # { a: 1 }
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:120
+  def visit_assoc_node(node); end
+
+  # { **foo }
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:137
+  def visit_assoc_splat_node(node); end
+
+  # $+
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:151
+  def visit_back_reference_read_node(node); end
+
+  # begin end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:156
+  def visit_begin_node(node); end
+
+  # foo(&bar)
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:179
+  def visit_block_argument_node(node); end
+
+  # foo { |; bar| }
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:185
+  def visit_block_local_variable_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_block_node(_node); end
+
+  # def foo(&bar); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:190
+  def visit_block_parameter_node(node); end
+
+  # A block's parameters.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:195
+  def visit_block_parameters_node(node); end
+
+  # break foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:200
+  def visit_break_node(node); end
+
+  # foo.bar &&= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:257
+  def visit_call_and_write_node(node); end
+
+  # foo.bar() {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:215
+  def visit_call_node(node); end
+
+  # foo.bar += baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:251
+  def visit_call_operator_write_node(node); end
+
+  # foo.bar ||= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:262
+  def visit_call_or_write_node(node); end
+
+  # foo.bar, = 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:267
+  def visit_call_target_node(node); end
+
+  # foo => bar => baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:275
+  def visit_capture_pattern_node(node); end
+
+  # case foo; in bar; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:290
+  def visit_case_match_node(node); end
+
+  # case foo; when bar; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:280
+  def visit_case_node(node); end
+
+  # class Foo; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:301
+  def visit_class_node(node); end
+
+  # @@foo &&= bar and friends
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:386
+  def visit_class_variable_and_write_node(node); end
+
+  # @@foo += bar and friends
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:369
+  def visit_class_variable_operator_write_node(node); end
+
+  # @@foo ||= bar and friends
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:403
+  def visit_class_variable_or_write_node(node); end
+
+  # @@foo, @foo, $foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:329
+  def visit_class_variable_read_node(node); end
+
+  # @@foo, = bar and friends
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:420
+  def visit_class_variable_target_node(node); end
+
+  # @@foo = 1, @foo = 1, $foo = 1, foo = 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:352
+  def visit_class_variable_write_node(node); end
+
+  # Foo &&= bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:459
+  def visit_constant_and_write_node(node); end
+
+  # Foo += bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:453
+  def visit_constant_operator_write_node(node); end
+
+  # Foo ||= bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:465
+  def visit_constant_or_write_node(node); end
+
+  # Foo::Bar &&= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:492
+  def visit_constant_path_and_write_node(node); end
+
+  # Foo::Bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:476
+  def visit_constant_path_node(node); end
+
+  # Foo::Bar += baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:486
+  def visit_constant_path_operator_write_node(node); end
+
+  # Foo::Bar ||= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:498
+  def visit_constant_path_or_write_node(node); end
+
+  # Foo::Bar, = baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:504
+  def visit_constant_path_target_node(node); end
+
+  # Foo::Bar = 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:481
+  def visit_constant_path_write_node(node); end
+
+  # Foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:438
+  def visit_constant_read_node(node); end
+
+  # Foo, = bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:471
+  def visit_constant_target_node(node); end
+
+  # Foo = 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:444
+  def visit_constant_write_node(node); end
+
+  # def foo; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:509
+  def visit_def_node(node); end
+
+  # defined?(a)
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:537
+  def visit_defined_node(node); end
+
+  # if foo then bar else baz end
+  #                 ^^^^^^^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:554
+  def visit_else_node(node); end
+
+  # "foo #{bar}"
+  #      ^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:560
+  def visit_embedded_statements_node(node); end
+
+  # "foo #@bar"
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:565
+  def visit_embedded_variable_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_ensure_node(_node); end
+
+  # A node that is missing from the syntax tree, only seen for invalid code.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:956
+  def visit_error_recovery_node(node); end
+
+  # false, true, nil, self
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:575
+  def visit_false_node(node); end
+
+  # foo => [*, bar, *]
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:592
+  def visit_find_pattern_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1090
+  def visit_flip_flop_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:624
+  def visit_float_node(node); end
+
+  # for foo in bar do end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:637
+  def visit_for_node(node); end
+
+  # def foo(...); bar(...); end
+  #                   ^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:654
+  def visit_forwarding_arguments_node(node); end
+
+  # def foo(...); end
+  #         ^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:660
+  def visit_forwarding_parameter_node(node); end
+
+  # super {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:665
+  def visit_forwarding_super_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:394
+  def visit_global_variable_and_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:377
+  def visit_global_variable_operator_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:411
+  def visit_global_variable_or_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:337
+  def visit_global_variable_read_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:428
+  def visit_global_variable_target_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:360
+  def visit_global_variable_write_node(node); end
+
+  # {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:692
+  def visit_hash_node(node); end
+
+  # foo => {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:606
+  def visit_hash_pattern_node(node); end
+
+  # if foo then bar end, bar if foo, foo ? bar : baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:707
+  def visit_if_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:632
+  def visit_imaginary_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_implicit_node(_node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_implicit_rest_node(_node); end
+
+  # case foo; in bar; end
+  #           ^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:755
+  def visit_in_node(node); end
+
+  # foo[bar] &&= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:788
+  def visit_index_and_write_node(node); end
+
+  # foo[bar] += baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:782
+  def visit_index_operator_write_node(node); end
+
+  # foo[bar] ||= baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:793
+  def visit_index_or_write_node(node); end
+
+  # foo[bar], = 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:798
+  def visit_index_target_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:390
+  def visit_instance_variable_and_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:373
+  def visit_instance_variable_operator_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:407
+  def visit_instance_variable_or_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:333
+  def visit_instance_variable_read_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:424
+  def visit_instance_variable_target_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:356
+  def visit_instance_variable_write_node(node); end
+
+  # 1, 1.0, 1r, 1i
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:620
+  def visit_integer_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:807
+  def visit_interpolated_match_last_line_node(node); end
+
+  # /foo #{bar}/
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:804
+  def visit_interpolated_regular_expression_node(node); end
+
+  # "foo #{bar}"
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:826
+  def visit_interpolated_string_node(node); end
+
+  # :"foo #{bar}"
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:839
+  def visit_interpolated_symbol_node(node); end
+
+  # `foo #{bar}`
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:845
+  def visit_interpolated_x_string_node(node); end
+
+  # -> { it }
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:347
+  def visit_it_local_variable_read_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_it_parameters_node(_node); end
+
+  # foo(bar: baz)
+  #     ^^^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:700
+  def visit_keyword_hash_node(node); end
+
+  # def foo(**bar); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1027
+  def visit_keyword_rest_parameter_node(node); end
+
+  # -> {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:929
+  def visit_lambda_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:398
+  def visit_local_variable_and_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:381
+  def visit_local_variable_operator_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:415
+  def visit_local_variable_or_write_node(node); end
+
+  # foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:342
+  def visit_local_variable_read_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:432
+  def visit_local_variable_target_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:364
+  def visit_local_variable_write_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:823
+  def visit_match_last_line_node(node); end
+
+  # foo in bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:936
+  def visit_match_predicate_node(node); end
+
+  # foo => bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:943
+  def visit_match_required_node(node); end
+
+  # /(?<foo>foo)/ =~ bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:950
+  def visit_match_write_node(node); end
+
+  # module Foo; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:311
+  def visit_module_node(node); end
+
+  # foo, bar = baz
+  # ^^^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:962
+  def visit_multi_target_node(node); end
+
+  # foo, bar = baz
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:968
+  def visit_multi_write_node(node); end
+
+  # next foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:205
+  def visit_next_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:583
+  def visit_nil_node(node); end
+
+  # def foo(&nil); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:980
+  def visit_no_block_parameter_node(node); end
+
+  # def foo(**nil); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:985
+  def visit_no_keywords_parameter_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_numbered_parameters_node(_node); end
+
+  # $1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:991
+  def visit_numbered_reference_read_node(node); end
+
+  # def foo(bar: baz); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:996
+  def visit_optional_keyword_parameter_node(node); end
+
+  # def foo(bar = 1); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1007
+  def visit_optional_parameter_node(node); end
+
+  # a or b
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:75
+  def visit_or_node(node); end
+
+  # def foo(bar, *baz); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1033
+  def visit_parameters_node(node); end
+
+  # ()
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:570
+  def visit_parentheses_node(node); end
+
+  # foo => ^(bar)
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1046
+  def visit_pinned_expression_node(node); end
+
+  # foo => ^bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1053
+  def visit_pinned_variable_node(node); end
+
+  # END {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1059
+  def visit_post_execution_node(node); end
+
+  # BEGIN {}
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1065
+  def visit_pre_execution_node(node); end
+
+  # The top-level program node.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1071
+  def visit_program_node(node); end
+
+  # 0..5
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1076
+  def visit_range_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:628
+  def visit_rational_node(node); end
+
+  # redo, retry
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1093
+  def visit_redo_node(node); end
+
+  # /foo/
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:810
+  def visit_regular_expression_node(node); end
+
+  # def foo(bar:); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1002
+  def visit_required_keyword_parameter_node(node); end
+
+  # def foo(bar); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1016
+  def visit_required_parameter_node(node); end
+
+  # foo rescue bar
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1102
+  def visit_rescue_modifier_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1189
+  def visit_rescue_node(_node); end
+
+  # def foo(*bar); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1021
+  def visit_rest_parameter_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1097
+  def visit_retry_node(node); end
+
+  # return foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:210
+  def visit_return_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:587
+  def visit_self_node(node); end
+
+  # A shareable constant.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1108
+  def visit_shareable_constant_node(node); end
+
+  # class << self; end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:320
+  def visit_singleton_class_node(node); end
+
+  # __ENCODING__, __FILE__, __LINE__
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1113
+  def visit_source_encoding_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1118
+  def visit_source_file_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1122
+  def visit_source_line_node(node); end
+
+  # foo(*bar), def foo((bar, *baz)); end
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1128
+  def visit_splat_node(node); end
+
+  # A list of statements.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1146
+  def visit_statements_node(node); end
+
+  # "foo"
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:858
+  def visit_string_node(node); end
+
+  # super(foo)
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:671
+  def visit_super_node(node); end
+
+  # :foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:903
+  def visit_symbol_node(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:579
+  def visit_true_node(node); end
+
+  # undef foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1157
+  def visit_undef_node(node); end
+
+  # unless foo; bar end, bar unless foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:727
+  def visit_unless_node(node); end
+
+  # until foo; bar end, bar until foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1163
+  def visit_until_node(node); end
+
+  # case foo; when bar; end
+  #           ^^^^^^^^^^^^^
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1174
+  def visit_when_node(node); end
+
+  # while foo; bar end, bar while foo
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1168
+  def visit_while_node(node); end
+
+  # `foo`
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:881
+  def visit_x_string_node(node); end
+
+  # yield 1
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:686
+  def visit_yield_node(node); end
+
+  private
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1286
+  def arg_prefix_map(operator, name); end
+
+  # `tail` is the range up to the trailing comma of `in a,`.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1751
+  def array_pattern(begin_l, elements, end_l, tail); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1347
+  def assign(target, operator, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1616
+  def begin_body(body, rescue_bodies, else_l, else_body, ensure_l, ensure_body); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1579
+  def begin_keyword(begin_l, body, end_l); end
+
+  # --- begin, rescue, ensure ---------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1568
+  def begin_node(begin_l, body, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1202
+  def binary(type, left, operator, right); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1535
+  def block_node(call, begin_l, parameters, body, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1396
+  def call_write_target(node); end
+
+  # Conditions give regexp and range literals a different meaning.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1499
+  def check_condition(condition); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1214
+  def check_duplicate_keys(pairs); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1926
+  def check_regexp(parts, options, range); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1864
+  def collapse_string_parts?(parts); end
+
+  # --- source maps -------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1257
+  def collection_map(begin_l, parts, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1480
+  def compile_regexp(parts, options); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1322
+  def condition_map(keyword, condition, begin_l, body, else_l, else_body, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1764
+  def const_pattern(const, begin_l, pattern, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1384
+  def constant_path(type, node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1380
+  def constant_target(name, range); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1210
+  def diagnostic(level, reason, arguments, range); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1328
+  def eh_keyword_map(body, keyword, bodies, else_l, else_body); end
+
+  # The anonymous parameters that a method body is allowed to forward.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1695
+  def find_forwarding(parameters); end
+
+  # --- pattern matching --------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1739
+  def guard_node(type, keyword, body); end
+
+  # --- conditionals ------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1637
+  def if_statement_map(node, predicate, statements, if_false); end
+
+  # `{ foo: }` and the pattern `in { foo: }`.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1772
+  def implicit_assoc(key, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1410
+  def index(name, receiver, lbrack, indexes, rbrack); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1403
+  def index_write_target(node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1206
+  def join(left, right); end
+
+  # --- compound builders -------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1343
+  def keyword_cmd(type, keyword, lparen, args, rparen); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1308
+  def keyword_map(keyword, begin_l, args, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1290
+  def kwarg_map(label, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1801
+  def match_hash_var(key); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1807
+  def match_hash_var_from_str(begin_l, strings, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1456
+  def match_op(receiver, operator, argument); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1743
+  def match_rest(operator, name_location); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1710
+  def multi_target_elements(node); end
+
+  # --- node construction -------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1198
+  def n(type, children, map); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:2079
+  def non_interpolating_lines(unescaped, escaped, start_offset, percent_array); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1441
+  def not_op(node); end
+
+  # --- numbers -----------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1849
+  def numeric(type, node, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1352
+  def op_assign(target, operator, operator_l, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1819
+  def pair_keyword(name, key_range, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1840
+  def pair_quoted(begin_l, parts, end_l, value); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1934
+  def percent_array_elements(node, opening); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1992
+  def push_heredoc_child(children, child); end
+
+  # The parts of the key in `{ "foo": 1 }`, one for each of its lines.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1827
+  def quoted_key_parts(key); end
+
+  # --- ranges ------------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1231
+  def r(location); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1914
+  def regexp(node, parts); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1609
+  def rescue_body(keyword, exceptions, assoc, variable, then_l, body); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1589
+  def rescue_clause_body(node, clause); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1237
+  def ro(start_offset, end_offset); end
+
+  # The range of a semicolon between the two offsets, not looking past
+  # newlines or comments. `end_offset` may be nil to search to the end.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1247
+  def semicolon(start_offset, end_offset); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1295
+  def send_map(receiver, dot, selector, begin_l = T.unsafe(nil), args = T.unsafe(nil), end_l = T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1281
+  def send_unary_op_map(selector, argument); end
+
+  # A regexp literal without interpolation that Ruby can compile declares
+  # its named captures as local variables.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1468
+  def static_regexp?(node); end
+
+  # --- strings, symbols, regexps -----------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1860
+  def str_internal(value, range); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1868
+  def string_compose(begin_l, parts, end_l, heredoc: T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1269
+  def string_map(begin_l, parts, end_l, heredoc: T.unsafe(nil)); end
+
+  # The `parser` gem creates a string node for each line of a string whose
+  # content spans several lines.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:2006
+  def string_nodes_from_interpolation(node, opening); end
+
+  # Splits the content of a single prism string node into the string nodes
+  # the `parser` gem has for it, which "glues" lines together when a line
+  # continuation is encountered.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:2020
+  def string_nodes_from_line_continuations(unescaped, escaped, start_offset, opening); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1878
+  def symbol_compose(begin_l, parts, end_l); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1276
+  def unary_op_map(operator, argument); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1375
+  def variable_logical_write(type, operator, node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1370
+  def variable_operator_write(type, node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1362
+  def variable_write(type, node); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1888
+  def visit_delimited_string_node(node, opening); end
+
+  # Visit a heredoc that can be either a string or an xstring.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1954
+  def visit_heredoc(node); end
+
+  # --- loops -------------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1659
+  def visit_loop(type, node, keyword_loc); end
+
+  # --- parameters --------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1682
+  def visit_positional_parameter(param); end
+
+  # The calls that do not end up as a plain `send`. Returns nil for the rest.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1416
+  def visit_special_call(node, name, arguments, block); end
+
+  # --- blocks ------------------------------------------------------------
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1528
+  def with_block(call, prism_block); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1717
+  def with_forwarding(forwarding); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1725
+  def with_pattern(in_pattern); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:1733
+  def within_pattern(&block); end
+end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:33
+RuboCop::AST::PrismCompiler::BLOCK_CALL_TYPES = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:24
+RuboCop::AST::PrismCompiler::Collection = Parser::Source::Map::Collection
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:30
+RuboCop::AST::PrismCompiler::Condition = Parser::Source::Map::Condition
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:27
+RuboCop::AST::PrismCompiler::Constant = Parser::Source::Map::Constant
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:38
+RuboCop::AST::PrismCompiler::DUPLICATE_KEY_TYPES = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:32
+RuboCop::AST::PrismCompiler::EMPTY = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:29
+RuboCop::AST::PrismCompiler::Keyword = Parser::Source::Map::Keyword
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:23
+RuboCop::AST::PrismCompiler::Map = Parser::Source::Map
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:31
+RuboCop::AST::PrismCompiler::NODE_MAP = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:25
+RuboCop::AST::PrismCompiler::Operator = Parser::Source::Map::Operator
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:34
+RuboCop::AST::PrismCompiler::PERCENT_ARRAY = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:22
+RuboCop::AST::PrismCompiler::Range = Parser::Source::Range
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:28
+RuboCop::AST::PrismCompiler::Send = Parser::Source::Map::Send
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_compiler.rb:26
+RuboCop::AST::PrismCompiler::Variable = Parser::Source::Map::Variable
+
+# A syntax error or a warning that `parser` has no message for, reported
+# with the message of Prism.
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:7
+class RuboCop::AST::PrismDiagnostic < ::Parser::Diagnostic
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:10
+  def initialize(message, level, reason, location); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:8
+  def message; end
+end
+
 # Extends the prism translation parsers so that the conversion of tokens
 # into the `parser` gem's format is deferred until the tokens are first
 # accessed. Building the tokens is a significant part of the translation
@@ -6183,6 +7421,268 @@ module RuboCop::AST::PrismLazyTokens
   # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:54
   def deferred_tokens(source_buffer, tokens, offset_cache); end
 end
+
+# Converts the tokens of Prism into the tokens of the `parser` gem.
+#
+# This is the lexer of `Prism::Translation::Parser` as of Prism 2.1, which
+# is private to Prism, adapted to live here. It needs the tokens of Prism 2,
+# which already tell apart what Prism 1 needed lexer states for.
+#
+# The code is kept close to the original, so that the fixes made there are
+# easy to carry over.
+#
+# @api private
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:19
+class RuboCop::AST::PrismLexer
+  # Initialize the lexer with the given source buffer, prism tokens, and
+  # offset cache.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:215
+  def initialize(source_buffer, lexed, offset_cache); end
+
+  # An array of tuples that contain prism tokens and their associated lex
+  # state when they were lexed.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:208
+  def lexed; end
+
+  # A hash that maps offsets in bytes to offsets in characters.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:211
+  def offset_cache; end
+
+  # The Parser::Source::Buffer that the tokens were lexed from.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:204
+  def source_buffer; end
+
+  # Convert the prism tokens into the expected format for the parser gem.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:225
+  def to_a; end
+
+  private
+
+  # `String#append_as_bytes` for the Ruby versions that do not have it.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:495
+  def append_bytes(string, bytes); end
+
+  # Wonky heredoc tab/spaces rules.
+  # https://github.com/ruby/prism/blob/v1.3.0/src/prism.c#L10548-L10558
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:553
+  def calculate_heredoc_whitespace(heredoc_token_index); end
+
+  # Escape a byte value, given the control and meta flags.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:692
+  def escape_build(value, control, meta); end
+
+  # Read an escape out of the string scanner, given the control and meta
+  # flags, and push the unescaped value into the result.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:700
+  def escape_read(result, scanner, control, meta); end
+
+  # Determine if characters preceded by a backslash should be escaped or not
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:762
+  def interpolation?(quote); end
+
+  # Parse a complex from the string representation.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:524
+  def parse_complex(value); end
+
+  # Parse a float from the string representation.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:517
+  def parse_float(value); end
+
+  # Parse an integer from the string representation.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:510
+  def parse_integer(value); end
+
+  # Parse a rational from the string representation.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:539
+  def parse_rational(value); end
+
+  # Determine if the string is part of a %-style array.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:772
+  def percent_array?(quote); end
+
+  # For %-arrays whitespace, the parser gem only considers whitespace before the newline.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:749
+  def percent_array_leading_whitespace(string); end
+
+  # In a percent array, certain whitespace can be preceded with a backslash,
+  # causing the following characters to be part of the previous element.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:741
+  def percent_array_unescape(string); end
+
+  # Creates a new parser range, taking prisms byte offsets into account
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:505
+  def range(start_offset, end_offset); end
+
+  # Regexp allow interpolation but are handled differently during unescaping
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:767
+  def regexp?(quote); end
+
+  # `StringScanner#scan_byte` for the Ruby versions that do not have it.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:500
+  def scan_byte(scanner); end
+
+  # Certain strings are merged into a single string token.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:675
+  def simplify_string?(value, quote); end
+
+  # Wonky heredoc tab/spaces rules.
+  # https://github.com/ruby/prism/blob/v1.3.0/src/prism.c#L16528-L16545
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:598
+  def trim_heredoc_whitespace(string, heredoc); end
+
+  # Apply Ruby string escaping rules
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:632
+  def unescape_string(string, quote); end
+end
+
+# When one of these delimiters is encountered, then the other
+# one is allowed to be escaped as well.
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:624
+RuboCop::AST::PrismLexer::DELIMITER_SYMMETRY = T.let(T.unsafe(nil), Hash)
+
+# Escape sequences that have special and should appear unescaped in the resulting string.
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:615
+RuboCop::AST::PrismLexer::ESCAPES = T.let(T.unsafe(nil), Hash)
+
+# Heredocs are complex and require us to keep track of a bit of info to refer to later
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+class RuboCop::AST::PrismLexer::HeredocData < ::Struct
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+  def common_whitespace; end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+  def common_whitespace=(_); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+  def identifier; end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+  def identifier=(_); end
+
+  class << self
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+    def [](*_arg0); end
+
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+    def inspect; end
+
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+    def keyword_init?; end
+
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+    def members; end
+
+    # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:199
+    def new(*_arg0); end
+  end
+end
+
+# https://github.com/whitequark/parser/blob/v3.3.6.0/lib/parser/lexer-strings.rl#L14
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:628
+RuboCop::AST::PrismLexer::REGEXP_META_CHARACTERS = T.let(T.unsafe(nil), Array)
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:221
+RuboCop::AST::PrismLexer::Range = Parser::Source::Range
+
+# The direct translating of types between the two lexers.
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:25
+RuboCop::AST::PrismLexer::TYPES = T.let(T.unsafe(nil), Hash)
+
+# These tokens are always skipped
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_lexer.rb:21
+RuboCop::AST::PrismLexer::TYPES_ALWAYS_SKIP = T.let(T.unsafe(nil), Set)
+
+# Parses a source with Prism and builds the AST, the comments, the tokens
+# and the diagnostics from the result, without `Prism::Translation::Parser`
+# and without the parser classes of the `parser` gem. What it returns is
+# meant to be the same as what the translation layer returns. Needs Prism 2.
+#
+# @api private
+#
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:22
+class RuboCop::AST::PrismParser
+  # @param ruby_version [Float] the Ruby version to parse the source as
+  # @param prism [#parse_lex] what provides the result of Prism
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:32
+  def initialize(ruby_version, prism: T.unsafe(nil)); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:28
+  def diagnostics; end
+
+  # @return [Array] the AST, the comments and a callable that returns the
+  #   tokens in the format of the `parser` gem
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:51
+  def tokenize_deferred(source_buffer); end
+
+  private
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:91
+  def build_ast(program); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:95
+  def build_comments(comments); end
+
+  # Prism counts in bytes, `parser` in characters.
+  #
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:73
+  def build_offset_cache(source); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:99
+  def deferred_tokens(tokens); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:112
+  def error_diagnostic(error); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:66
+  def prism_options; end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:103
+  def process_diagnostics(result); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:85
+  def range(location); end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:184
+  def warning_diagnostic(warning); end
+end
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:23
+RuboCop::AST::PrismParser::Diagnostic = Parser::Diagnostic
+
+# pkg:gem/rubocop-ast#lib/rubocop/ast/prism_parser.rb:24
+RuboCop::AST::PrismParser::PRISM_VERSIONS = T.let(T.unsafe(nil), Hash)
 
 # A `Prism` interface's class that provides a fixed `Prism::ParseLexResult` instead of parsing.
 #
@@ -6368,29 +7868,27 @@ class RuboCop::AST::ProcessedSource
 
   private
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:451
-  def builder_class(parser_engine); end
-
   # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:309
   def comment_index; end
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:461
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:460
   def create_parser(ruby_version, parser_engine, prism_result); end
 
   # Prism is used for all Ruby versions it can parse (3.3 and later);
   # the Parser gem does not support Ruby 3.5 or later and is not fully
-  # compatible with Ruby 3.4.
+  # compatible with Ruby 3.4. The translation layer of Prism needs the
+  # Parser gem as well, so without it the `prism` engine is the default.
   #
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:509
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:506
   def default_parser_engine(ruby_version); end
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:517
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:516
   def first_token_index(range_or_node); end
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:522
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:521
   def last_token_index(range_or_node); end
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:492
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:488
   def normalize_parser_engine(parser_engine, ruby_version); end
 
   # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:315
@@ -6408,7 +7906,7 @@ class RuboCop::AST::ProcessedSource
   # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:289
   def sort_tokens; end
 
-  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:527
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:526
   def source_range(range_or_node); end
 
   # The tokens may be an already converted array, or a deferred conversion
@@ -6422,6 +7920,9 @@ class RuboCop::AST::ProcessedSource
 
   # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:283
   def tokens_sorted?; end
+
+  # pkg:gem/rubocop-ast#lib/rubocop/ast/processed_source.rb:453
+  def translation_parser(ruby_version, prism); end
 
   # `__END__` only starts a data section when it isn't nested inside a
   # string or heredoc, which is what the last token's line disambiguates.

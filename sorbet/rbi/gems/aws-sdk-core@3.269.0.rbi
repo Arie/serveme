@@ -4453,40 +4453,43 @@ class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:502
   def initialize(options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:560
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:561
   def eof?; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:540
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:541
   def read(length = T.unsafe(nil), buf = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:533
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:534
   def rewind; end
 
   # the size of the application layer aws-chunked + trailer body
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:519
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:520
   def size; end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:566
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:567
   def calculate_overhead(chunk_size); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:594
+  def chunk_size_hex(bytesize); end
 
   # Returns true if more data needs to be read into the buffer
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:598
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:603
   def fill_data?(length); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:578
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:579
   def fill_encoded_buffer(required_length); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:570
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:571
   def read_chunk_with_buffer; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:574
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:575
   def read_chunk_without_buffer; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:593
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/plugins/checksum_algorithm.rb:598
   def trailer_string; end
 end
 

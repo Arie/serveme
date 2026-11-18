@@ -37,10 +37,157 @@ class Sentry::Engine < ::Rails::Engine; end
 # pkg:gem/sentry-rails#lib/sentry/rails/version.rb:4
 module Sentry::Rails
   extend ::Sentry::Integrable
+
+  class << self
+    # Returns the extension for the job class' queue adapter, or the default
+    # {ActiveJobExtension} when none is registered.
+    #
+    # @param job_class [Class]
+    # @return [ActiveJobExtension]
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails.rb:53
+    def active_job_extension_for(job_class); end
+
+    # Returns the registered extensions by adapter name.
+    #
+    # @return [Hash{Symbol => ActiveJobExtension}]
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails.rb:60
+    def active_job_extensions; end
+
+    # Returns whether sentry-rails reports ActiveJob jobs run through the given
+    # queue adapter, in which case the backend gem should not report them itself.
+    # The result depends on the current configuration, so check it when a job is
+    # handled rather than caching it.
+    #
+    # @param adapter_class_name [String, Class]
+    # @return [Boolean]
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails.rb:30
+    def active_job_owns_adapter?(adapter_class_name); end
+
+    # Registers the extension for ActiveJob jobs run through the given queue
+    # adapter. Raises ArgumentError if it is not an {ActiveJobExtension}.
+    #
+    # @param adapter [Symbol] the adapter name, such as `:sidekiq`
+    # @param extension [ActiveJobExtension]
+    # @return [ActiveJobExtension]
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails.rb:40
+    def register_active_job_extension(adapter, extension); end
+  end
 end
 
 # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:72
 Sentry::Rails::ACTIVE_SUPPORT_LOGGER_SUBSCRIPTION_ITEMS_DEFAULT = T.let(T.unsafe(nil), Hash)
+
+# The job extension sentry-rails uses for ActiveJob jobs. Backend gems
+# subclass it to enrich ActiveJob jobs run through their queue adapter, and
+# register it with {Sentry::Rails.register_active_job_extension}.
+#
+# pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:11
+class Sentry::Rails::ActiveJobExtension < ::Sentry::JobExtensions::Extension
+  include ::Sentry::Rails::ErrorReporterContext
+
+  # @param serializer [#serialize] serializes job arguments for error events
+  # @see Sentry::JobExtensions::Extension#initialize
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:18
+  def initialize(name: T.unsafe(nil), integration: T.unsafe(nil), origin: T.unsafe(nil), serializer: T.unsafe(nil)); end
+
+  # Also adds the job's ActiveJob data to the event.
+  #
+  # @see Sentry::JobExtensions::Extension#capture_exception
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:91
+  def capture_exception(job:, exception:, contexts: T.unsafe(nil), tags: T.unsafe(nil), extra: T.unsafe(nil), **context); end
+
+  # Reads the trace propagation headers stored in the job's Sentry payload.
+  #
+  # @see Sentry::JobExtensions::Extension#extract_trace_headers
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:107
+  def extract_trace_headers(job:, **); end
+
+  # Enqueues the job even when recording its `queue.publish` span fails.
+  #
+  # @see Sentry::JobExtensions::Extension#instrument_enqueue
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:64
+  def instrument_enqueue(job:, **context, &enqueue); end
+
+  # Describes the job with its ActiveJob messaging attributes, its receive
+  # latency and body size.
+  #
+  # @see Sentry::JobExtensions::Extension#messaging_data
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:115
+  def messaging_data(job:, **); end
+
+  # Returns the job's serialized payload carrying Sentry's trace propagation
+  # headers and user data.
+  #
+  # @param job [ActiveJob::Base]
+  # @param payload [Hash]
+  # @return [Hash]
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:38
+  def prepare_payload(job:, payload:); end
+
+  # Describes the job with its ActiveJob messaging attributes.
+  #
+  # @see Sentry::JobExtensions::Extension#publish_messaging_data
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:125
+  def publish_messaging_data(job:, **); end
+
+  # Follows `config.rails.active_job_report_on_retry_error`.
+  #
+  # @see Sentry::JobExtensions::Extension#report_retried_exception?
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:132
+  def report_retried_exception?(job:, exception:, **); end
+
+  # Also applies the user and ActiveJob context the job carries.
+  #
+  # @see Sentry::JobExtensions::Extension#start_job
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:80
+  def start_job(scope:, job:, **context); end
+
+  private
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:169
+  def active_job_error_data(job); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:142
+  def active_job_messaging_data(job); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:158
+  def apply_active_job_context(scope, job); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:152
+  def body_size(payload); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:138
+  def log_failure(context, error); end
+
+  # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:188
+  def serialize_arguments(arguments); end
+
+  class << self
+    # Returns the name of the job class' queue adapter.
+    #
+    # @param job_class [Class]
+    # @return [Symbol]
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:27
+    def adapter_name(job_class); end
+  end
+end
+
+# pkg:gem/sentry-rails#lib/sentry/rails/active_job_extension.rb:14
+Sentry::Rails::ActiveJobExtension::SPAN_ORIGIN = T.let(T.unsafe(nil), String)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/backtrace_cleaner.rb:8
 class Sentry::Rails::BacktraceCleaner < ::ActiveSupport::BacktraceCleaner
@@ -90,7 +237,7 @@ Sentry::Rails::CaptureExceptions::SPAN_ORIGIN = T.let(T.unsafe(nil), String)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:132
 class Sentry::Rails::Configuration
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:195
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:200
   def initialize; end
 
   # Whether we should inject trace propagation headers into the serialized job
@@ -187,6 +334,20 @@ class Sentry::Rails::Configuration
   # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:153
   def enable_db_query_source=(_arg0); end
 
+  # GoodJob cron keys to skip when the :good_job_cron patch is enabled.
+  # Strings and Symbols match the key exactly; Regexps are matched against it.
+  # @return [Array<String, Symbol, Regexp>]
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  def good_job_exclude_cron_jobs; end
+
+  # GoodJob cron keys to skip when the :good_job_cron patch is enabled.
+  # Strings and Symbols match the key exactly; Regexps are matched against it.
+  # @return [Array<String, Symbol, Regexp>]
+  #
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  def good_job_exclude_cron_jobs=(_arg0); end
+
   # Rails 7.0 introduced a new error reporter feature, which the SDK once opted-in by default.
   # But after receiving multiple issue reports, the integration seemed to cause serious troubles to some users.
   # So the integration is now controlled by this configuration, which is disabled (false) by default.
@@ -235,20 +396,20 @@ class Sentry::Rails::Configuration
   # Strings match the key exactly; Regexps are matched against it.
   # @return [Array<String, Regexp>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:194
   def solid_queue_exclude_recurring_tasks; end
 
   # Solid Queue recurring task keys to skip when the :solid_queue_recurring patch is enabled.
   # Strings match the key exactly; Regexps are matched against it.
   # @return [Array<String, Regexp>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:189
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:194
   def solid_queue_exclude_recurring_tasks=(_arg0); end
 
   # Configuration for structured logging feature
   # @return [StructuredLoggingConfiguration]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:193
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:198
   def structured_logging; end
 
   # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:149
@@ -258,6 +419,9 @@ class Sentry::Rails::Configuration
   def tracing_subscribers=(_arg0); end
 end
 
+# pkg:gem/sentry-rails#lib/sentry/rails.rb:20
+Sentry::Rails::DEFAULT_ACTIVE_JOB_EXTENSION = T.let(T.unsafe(nil), Sentry::Rails::ActiveJobExtension)
+
 # pkg:gem/sentry-rails#lib/sentry/rails/error_reporter_context.rb:7
 module Sentry::Rails::ErrorReporterContext
   # pkg:gem/sentry-rails#lib/sentry/rails/error_reporter_context.rb:11
@@ -266,6 +430,64 @@ end
 
 # pkg:gem/sentry-rails#lib/sentry/rails/error_reporter_context.rb:8
 Sentry::Rails::ErrorReporterContext::SUPPORTS_EXECUTION_CONTEXT = T.let(T.unsafe(nil), TrueClass)
+
+# Sends Crons check-ins for GoodJob cron entries.
+# Enable with `config.enabled_patches << :good_job_cron`.
+#
+# pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:7
+module Sentry::Rails::GoodJobCron
+  class << self
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:12
+    def excluded?(key); end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:72
+    def finish(_name, _id, payload); end
+
+    # The persisted record identifies the cron run, including retries and callable classes.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:25
+    def monitor_for(job); end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:85
+    def patch; end
+
+    # Evented subscribers receive start before execution and finish afterwards.
+    # State belongs to the notification payload, so nested and concurrent runs are independent.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:52
+    def start(_name, _id, payload); end
+
+    private
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:93
+    def log_error(error); end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:128
+    def monitored?(entry); end
+
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:97
+    def monotonic_now; end
+
+    # Proc schedules can change between runs. Match the scheduler's local-zone
+    # resolution: EtOrbi prefers ENV['TZ'], then the Rails app's default zone.
+    # A request's temporary Time.use_zone must not change the monitor's zone.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:104
+    def schedule_for(entry); end
+
+    # Different keys can share a slug, like long keys cut at the same length.
+    # One monitor can't follow two schedules, so none of them are monitored.
+    #
+    # pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:113
+    def slug_shared?(key, slug); end
+  end
+end
+
+# pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:8
+Sentry::Rails::GoodJobCron::EVENT_STATE = T.let(T.unsafe(nil), Symbol)
+
+# pkg:gem/sentry-rails#lib/sentry/rails/good_job_cron.rb:9
+Sentry::Rails::GoodJobCron::MINIMUM_GOOD_JOB_VERSION = T.let(T.unsafe(nil), Gem::Version)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:49
 Sentry::Rails::IGNORE_DEFAULT = T.let(T.unsafe(nil), Array)
@@ -525,17 +747,17 @@ module Sentry::Rails::SolidQueueRecurring
     # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:45
     def monitor_for(task, job); end
 
-    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:79
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:80
     def patch; end
 
-    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:61
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:63
     def perform(job); end
 
     private
 
     # Mirrors RecurringTask, which applies SolidQueue.time_zone to zoneless schedules.
     #
-    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:100
+    # pkg:gem/sentry-rails#lib/sentry/rails/solid_queue_recurring.rb:101
     def cron_for(task); end
   end
 end
@@ -572,43 +794,43 @@ module Sentry::Rails::StructuredLogging
   end
 end
 
-# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:218
+# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:224
 class Sentry::Rails::StructuredLoggingConfiguration
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:232
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:238
   def initialize; end
 
   # Enable or disable structured logging
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:221
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:227
   def enabled; end
 
   # Enable or disable structured logging
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:221
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:227
   def enabled=(_arg0); end
 
   # Returns true if structured logging should be enabled.
   # @return [Boolean]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:239
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:245
   def enabled?; end
 
   # Hash of components to subscriber classes for structured logging
   # @return [Hash<Symbol, Class>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:225
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:231
   def subscribers; end
 
   # Hash of components to subscriber classes for structured logging
   # @return [Hash<Symbol, Class>]
   #
-  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:225
+  # pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:231
   def subscribers=(_arg0); end
 end
 
-# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:227
+# pkg:gem/sentry-rails#lib/sentry/rails/configuration.rb:233
 Sentry::Rails::StructuredLoggingConfiguration::DEFAULT_SUBSCRIBERS = T.let(T.unsafe(nil), Hash)
 
 # pkg:gem/sentry-rails#lib/sentry/rails/tracing.rb:5

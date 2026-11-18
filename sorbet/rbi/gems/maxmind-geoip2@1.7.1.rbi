@@ -253,7 +253,7 @@ class MaxMind::GeoIP2::Client
   # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:313
   def handle_client_error(endpoint, status, body, is_json); end
 
-  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:348
+  # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:347
   def handle_success(endpoint, body, is_json); end
 
   # pkg:gem/maxmind-geoip2#lib/maxmind/geoip2/client.rb:262

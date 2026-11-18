@@ -811,10 +811,12 @@ class Pagy::Keyset < ::Pagy
 
   # The prefixed arguments from a cutoff
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:144
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:146
   def arguments_from(cutoff, prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:91
+  # Decode the page, restarting from the first page if it is missing or malformed
+  #
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:92
   def assign_page; end
 
   # Compose the parameterized predicate used to extract the page records.
@@ -831,13 +833,13 @@ class Pagy::Keyset < ::Pagy
   #
   #     ("pets"."animal", "pets"."name", "pets"."id") > (:animal, :name, :id)
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:116
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:118
   def compose_predicate(prefix = T.unsafe(nil)); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:149
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:151
   def extract_cutoff; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:95
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:97
   def fetch_records; end
 
   # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:89
@@ -937,45 +939,61 @@ class Pagy::Keyset::Keynav < ::Pagy::Keyset
 
   # Finalize the instance variables needed for the UI
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:18
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:23
   def initialize(set, **); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:25
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
   def last; end
 
-  # Prepare the @update for the client when it's a new page, and return the next page number
+  # Prepare the @update for the client when its cutoffs must change, and return the next page number
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:29
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:34
   def next; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:26
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:31
   def pages; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:25
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
   def previous; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:25
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
   def update; end
 
   protected
 
-  # Process the page array
+  # Process the page array, restarting from page 1 if it is missing or malformed
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:49
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:48
   def assign_page; end
 
-  # Use a compound predicate to fetch the records
+  # Use a compound predicate to fetch the records after the prior cutoff, and not after the page cutoff
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:60
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:105
+  def fetch_between(set, prior_cutoff, page_cutoff, limit); end
+
+  # Fetch the records between the cutoffs of the visited pages, rebalancing the pages that changed size
+  #
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:79
   def fetch_records; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:46
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:45
   def keynav?; end
+
+  # Add the change of the page cutoff to the @update for the client: last + splice arguments + guard
+  #
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:60
+  def update_cutoffs; end
+
+  # Check the page array coming from the client, which stores its cutoffs at the positions from 1 to last - 1:
+  # each cutoff of the array (prior, page and next cutoff, if sent) must be present only at those positions
+  #
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:72
+  def valid_page?(storage_key = T.unsafe(nil), page = T.unsafe(nil), last = T.unsafe(nil), *cutoffs); end
 end
 
 # Define empty subclasses to allow specific typing without triggering autoload
 #
-# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:12
+# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:17
 class Pagy::Keyset::Keynav::ActiveRecord < ::Pagy::Keyset::Keynav; end
 
 # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:9
@@ -986,7 +1004,12 @@ Pagy::Keyset::Keynav::PAGE_PREFIX = T.let(T.unsafe(nil), String)
 # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:8
 Pagy::Keyset::Keynav::PRIOR_PREFIX = T.let(T.unsafe(nil), String)
 
-# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:13
+# The delete count of the client splice and the increment of @last for each type of update
+#
+# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:11
+Pagy::Keyset::Keynav::SPLICE = T.let(T.unsafe(nil), Hash)
+
+# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:18
 class Pagy::Keyset::Keynav::Sequel < ::Pagy::Keyset::Keynav; end
 
 # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:20

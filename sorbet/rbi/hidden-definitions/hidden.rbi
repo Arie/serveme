@@ -15737,10 +15737,6 @@ class Regexp
   def timeout(); end
 end
 
-class Regexp
-  def self.linear_time?(*arg); end
-end
-
 class Reline::DialogRenderInfo
   def face(); end
 

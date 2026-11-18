@@ -655,6 +655,9 @@ module GeneratedPathHelpersModule
   def stv_discord_link_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def stv_league_players_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def stv_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -8,7 +8,7 @@ module ServemeBot
         log_command("appeal")
 
         return unless require_serveme_guild!
-        return unless require_linked_account!
+        return unless require_linked_account!(allow_banned: true)
 
         steam_uid = current_user.uid
 

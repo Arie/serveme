@@ -25,5 +25,13 @@ RSpec.describe ServemeBot::Commands::BaseCommand do
       expect(event).to have_received(:respond).with(hash_including(content: /banned: cheating/, ephemeral: true))
       expect(user).to be_persisted
     end
+
+    it "lets a banned user through when asked to, so they can appeal" do
+      create(:user, discord_uid: "123456789")
+      allow_any_instance_of(User).to receive(:banned?).and_return(true)
+
+      expect(command.require_linked_account!(allow_banned: true)).to be true
+      expect(event).not_to have_received(:respond)
+    end
   end
 end

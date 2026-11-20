@@ -28,9 +28,11 @@ module ServemeBot
         Rails.logger.info "[Discord] #{command_name} by #{discord_username} (#{discord_uid}) -> #{user_info}#{options_str}"
       end
 
-      def require_linked_account!
+      def require_linked_account!(allow_banned: false)
         # AU region: try ozfortress auto-link before showing error
-        return require_not_banned! if current_user || (Config.region_key == "au" && try_ozfortress_auto_link)
+        if current_user || (Config.region_key == "au" && try_ozfortress_auto_link)
+          return allow_banned || require_not_banned!
+        end
 
         respond_with_error(
           "Your Discord account is not linked to #{SITE_HOST}.\n\n" \

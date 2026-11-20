@@ -126,13 +126,13 @@ class Pagy::Calendar < ::Hash
 
   # Create an instance of a Unit subclass by using its name (internal use)
   #
-  # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:93
+  # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:92
   def create(unit, **); end
 
   # Create the calendar
   #
   # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:63
-  def init(conf, period, params); end
+  def init(conf, period); end
 
   class << self
     # pkg:gem/pagy#lib/pagy/classes/calendar/calendar.rb:24
@@ -445,7 +445,7 @@ module Pagy::CountishPaginator
 
   # Get the count from the page and set epoch when ttl (Time To Live) requires it
   #
-  # pkg:gem/pagy#lib/pagy/toolbox/paginators/countish.rb:25
+  # pkg:gem/pagy#lib/pagy/toolbox/paginators/countish.rb:26
   def setup_options(count, epoch, collection, options); end
 
   class << self
@@ -454,7 +454,7 @@ module Pagy::CountishPaginator
 
     # Get the count from the page and set epoch when ttl (Time To Live) requires it
     #
-    # pkg:gem/pagy#lib/pagy/toolbox/paginators/countish.rb:25
+    # pkg:gem/pagy#lib/pagy/toolbox/paginators/countish.rb:26
     def setup_options(count, epoch, collection, options); end
   end
 end
@@ -939,61 +939,61 @@ class Pagy::Keyset::Keynav < ::Pagy::Keyset
 
   # Finalize the instance variables needed for the UI
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:23
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:24
   def initialize(set, **); end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:31
   def last; end
 
   # Prepare the @update for the client when its cutoffs must change, and return the next page number
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:34
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:35
   def next; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:31
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:32
   def pages; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:31
   def previous; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:30
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:31
   def update; end
 
   protected
 
   # Process the page array, restarting from page 1 if it is missing or malformed
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:48
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:49
   def assign_page; end
 
   # Use a compound predicate to fetch the records after the prior cutoff, and not after the page cutoff
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:105
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:110
   def fetch_between(set, prior_cutoff, page_cutoff, limit); end
 
   # Fetch the records between the cutoffs of the visited pages, rebalancing the pages that changed size
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:79
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:80
   def fetch_records; end
 
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:45
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:46
   def keynav?; end
 
   # Add the change of the page cutoff to the @update for the client: last + splice arguments + guard
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:60
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:61
   def update_cutoffs; end
 
   # Check the page array coming from the client, which stores its cutoffs at the positions from 1 to last - 1:
   # each cutoff of the array (prior, page and next cutoff, if sent) must be present only at those positions
   #
-  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:72
+  # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:73
   def valid_page?(storage_key = T.unsafe(nil), page = T.unsafe(nil), last = T.unsafe(nil), *cutoffs); end
 end
 
 # Define empty subclasses to allow specific typing without triggering autoload
 #
-# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:17
+# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:18
 class Pagy::Keyset::Keynav::ActiveRecord < ::Pagy::Keyset::Keynav; end
 
 # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:9
@@ -1009,7 +1009,7 @@ Pagy::Keyset::Keynav::PRIOR_PREFIX = T.let(T.unsafe(nil), String)
 # pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:11
 Pagy::Keyset::Keynav::SPLICE = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:18
+# pkg:gem/pagy#lib/pagy/classes/keyset/keynav.rb:19
 class Pagy::Keyset::Keynav::Sequel < ::Pagy::Keyset::Keynav; end
 
 # pkg:gem/pagy#lib/pagy/classes/keyset/keyset.rb:20
@@ -1402,29 +1402,29 @@ class Pagy::Request
   # pkg:gem/pagy#lib/pagy/classes/request.rb:7
   def initialize(options); end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:19
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:22
   def base_url; end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:19
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:22
   def cookie; end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:19
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:22
   def params; end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:19
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:22
   def path; end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:29
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:31
   def resolve_limit; end
 
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:21
-  def resolve_page(force_integer: T.unsafe(nil)); end
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:24
+  def resolve_page(page_key = T.unsafe(nil), force_integer: T.unsafe(nil)); end
 
   private
 
   # Overriding support
   #
-  # pkg:gem/pagy#lib/pagy/classes/request.rb:42
+  # pkg:gem/pagy#lib/pagy/classes/request.rb:44
   def get_params(request); end
 end
 

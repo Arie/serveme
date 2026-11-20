@@ -111,59 +111,70 @@ end
 module Net::WebMockHTTPResponse
   # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http_response.rb:19
   def read_body(dest = T.unsafe(nil), &block); end
+
+  private
+
+  # Net::HTTPResponse#read_body applies the encoding set with #body_encoding=
+  # (or Net::HTTP#response_body_encoding=) once, to the body it reads, which
+  # happens in the request block or right after it. A stubbed body is set
+  # without reading, so apply the encoding the first time the body is read
+  # or when the request block returns, and ignore later changes to it.
+  #
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http_response.rb:47
+  def webmock_apply_body_encoding; end
 end
 
-# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:248
+# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:254
 class StubSocket
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:252
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:258
   def initialize(*args); end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:260
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:266
   def close; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:262
   def closed?; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def continue_timeout; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def continue_timeout=(_arg0); end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:268
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:274
   def io; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def read_timeout; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def read_timeout=(_arg0); end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:265
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:271
   def readuntil(*args); end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def write_timeout; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:250
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:256
   def write_timeout=(_arg0); end
 end
 
-# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:272
+# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:278
 class StubSocket::StubIO
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:277
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:283
   def cipher; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:274
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:280
   def peer_cert; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:275
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:281
   def peeraddr; end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:273
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:279
   def setsockopt(*args); end
 
-  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:276
+  # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:282
   def ssl_version; end
 end
 
@@ -789,19 +800,19 @@ class WebMock::NetConnectNotAllowedError < ::Exception
   def initialize(request_signature); end
 end
 
-# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:282
+# pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:288
 module WebMock::NetHTTPUtility
   class << self
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:321
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:327
     def check_right_http_connection; end
 
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:312
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:318
     def get_uri(net_http, path = T.unsafe(nil)); end
 
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:325
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:331
     def puts_warning_for_right_http_if_needed; end
 
-    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:284
+    # pkg:gem/webmock#lib/webmock/http_lib_adapters/net_http.rb:290
     def request_signature_from_request(net_http, request, body = T.unsafe(nil)); end
   end
 end
@@ -1550,14 +1561,27 @@ end
 # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:4
 class WebMock::Util::QueryMapper
   class << self
+    # Returns the hash in an array of hashes that a nested key goes into.
+    # As in Rack, that is the last hash, unless the rest of the key is
+    # already set there, so a[][b][c]=1&a[][b][c]=2 makes two hashes.
+    #
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:166
+    def array_element_for(array, subkeys); end
+
     # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:81
     def collect_query_hash(query_array, empty_accumulator, options); end
 
     # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:74
     def collect_query_parts(query); end
 
-    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:221
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:235
     def dehash(hash); end
+
+    # A query such as a[][b][0][c]=1 produces an array whose element holds
+    # {"0" => ...}, so the numeric keys have to be collapsed inside arrays too.
+    #
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:247
+    def dehash_value(value); end
 
     # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:106
     def fill_accumulator_for_dot(accumulator, key, value); end
@@ -1570,6 +1594,12 @@ class WebMock::Util::QueryMapper
 
     # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:125
     def fill_accumulator_for_subscript(accumulator, key, value); end
+
+    # Whether the rest of a key fits into the hash without replacing a
+    # value. A part ending in [] fits while it holds an array.
+    #
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:175
+    def key_path_free?(hash, subkeys); end
 
     # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:63
     def normalize_query_hash(query_hash, empty_accumulator, options); end
@@ -1613,7 +1643,7 @@ class WebMock::Util::QueryMapper
 
     # new_query_values have form [['key1', 'value1'], ['key2', 'value2']]
     #
-    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:246
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:266
     def to_query(parent, value, options = T.unsafe(nil)); end
 
     # Sets the query component for this URI from a Hash object.
@@ -1622,7 +1652,7 @@ class WebMock::Util::QueryMapper
     #
     # @param [Hash, #to_hash, Array] new_query_values The new query values.
     #
-    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:179
+    # pkg:gem/webmock#lib/webmock/util/query_mapper.rb:193
     def values_to_query(new_query_values, options = T.unsafe(nil)); end
   end
 end

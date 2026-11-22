@@ -216,7 +216,7 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && tar xzf ozfortress.tar.gz --strip-components=1 server-configs-master/cfg/ \
     && rm ozfortress.tar.gz \
     # tf2-comp-fixes must land AFTER the RGL pack, which bundles an older copy of it
-    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.1/tf2-comp-fixes.zip \
+    && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.2/tf2-comp-fixes.zip \
     && unzip -o tf2-comp-fixes.zip \
     && rm tf2-comp-fixes.zip
 

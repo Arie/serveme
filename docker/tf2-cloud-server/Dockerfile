@@ -138,8 +138,6 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     && wget -nv https://codeberg.org/spire/mapdownloader/raw/master/plugin/mapdownloader.smx \
     # demos.tf uploader
     && wget -nv https://codeberg.org/demostf/plugin/raw/467a8858e642729c2bdbc769a28c7d450a2c1123/demostf.smx \
-    # Pause
-    && wget -nv https://codeberg.org/spire/docker-comp-server/raw/master/pause.smx \
     # SdrConnect
     && wget -nv https://codeberg.org/spire/sdrconnect/raw/main/plugin/sdrconnect.smx \
     # SetTeam

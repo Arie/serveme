@@ -1,0 +1,200 @@
+"Games"
+{
+    "tf"
+    {
+        "Signatures"
+        {
+            // CTFPlayer::ManageRegularWeapons has unique string "ManageRegularWeapons" and the only xref is GiveDefaultItems
+            "CTFPlayer::GiveDefaultItems"
+            {
+                "library"   "server"
+                "linux"     "@_ZN9CTFPlayer16GiveDefaultItemsEv"
+                // this was inlined on Windows. rip
+            }
+            // "Item Whitelist file '%s' could not be found. All items" etc
+            "CEconItemSystem::ReloadWhitelist"
+            {
+                "library"   "server"
+                "linux"     "@_ZN15CEconItemSystem15ReloadWhitelistEv"
+                // sub_10398640
+                "windows"   "\x55\x8B\xEC\x83\xEC\x0C\x53\x56\x57\x8B\xD9\xC6\x45\xFF\x01"
+            }
+            // "Available item definitions for whitelisting:"
+            /*
+            item_show_whitelistable_definitions
+            int __cdecl item_show_whitelistable_definitions()
+            {
+                int v0; // esi
+                int result; // eax
+                int v2; // ebx
+                int v3; // edx
+                int v4; // edx
+                int v5; // [esp+Ch] [ebp-1Ch]
+
+                Msg("Available item definitions for whitelisting:\n");
+                v0 = ItemSystem() // <-
+                ...
+            */
+            "ItemSystem"
+            {
+                "library"   "server"
+                "linux"     "@_Z10ItemSystemv"
+                // sub_10398320
+                "windows"   "\xA1\x2A\x2A\x2A\x2A\x85\xC0\x75\x2A\x56"
+            }
+            // "#Item_BlacklistedInMatch"
+            "CTFPlayer::GetLoadoutItem"
+            {
+                "library"   "server"
+                "linux"     "@_ZN9CTFPlayer14GetLoadoutItemEiib"
+                // sub_104D3220
+                "windows"   "\x55\x8B\xEC\x83\xEC\x10\x53\x56\x8B\xF1\x8B\x0D\x2A\x2A\x2A\x2A"
+            }
+        }
+        // some verify blocks are commented out because i don't think there's stable unchanging bytes to verify against
+        "MemPatches"
+        {
+            // Make mp_tournament_whitelist not require mp_tournament to be 1
+            /*
+            there's
+
+                call <random kv function>
+                itemwhitelist string
+                call <different random kv function>
+                jz
+
+            you're looking for that jz
+            */
+            "CEconItemSystem::ReloadWhitelist::nopnop"
+            {
+                "signature"     "CEconItemSystem::ReloadWhitelist"
+                "linux"
+                {
+                    "offset"    "48h"
+                    // jz
+                    "verify"    "\x74\x64"
+                    // nop nop
+                    "patch"     "\x90\x90"
+                }
+                // see CEconItemSystem::ReloadWhitelist above
+                // sub_10398640
+                "windows"
+                {
+                    "offset"    "45h"
+                    // jz
+                    "verify"    "\x74\x73"
+                    // nop nop
+                    "patch"     "\x90\x90"
+                }
+            }
+            // Ignore spam Msgs when applying whitelist
+            // " -> Removing %s"
+            // " -> Allowing %s"
+            "CEconItemSystem::ReloadWhitelist::nopMsg"
+            {
+                "signature"     "CEconItemSystem::ReloadWhitelist"
+                "linux"
+                {
+                    "offset"    "216h"
+                    // call Msg
+                    // "verify"    "\xE8\x2A\x2A\x2A\x2A"
+                    // nop nop
+                    "patch"     "\x90\x90\x90\x90\x90"
+                }
+                // see CEconItemSystem::ReloadWhitelist above
+                // " -> %s '%s'\n"
+                // sub_10398640+199  024 push    offset aSS_14   ; " -> %s '%s'\n"
+                // sub_10398640+19E  028 call    esi ; Msg
+                "windows"
+                {
+                    "offset"    "1A7h"
+                    // call Msg
+                    "verify"    "\xFF\x15"
+                    // nop nop
+                    "patch"     "\x90\x90\x90\x90\x90\x90"
+                }
+            }
+            // Ignore spam Warnings when applying whitelist
+            // " -> Could not find an item definition named %s"
+            "CEconItemSystem::ReloadWhitelist::nopWarning"
+            {
+                "signature"     "CEconItemSystem::ReloadWhitelist"
+                "linux"
+                {
+                    "offset"    "2DFh"
+                    // "call Warning"
+                    "verify"    "\xE8\x2A\x2A\x2A\x2A"
+                    // nop nop
+                    "patch"     "\x90\x90\x90\x90\x90"
+                }
+                // sub_10398640
+                "windows"
+                {
+                    "offset"    "1B7h"
+                    "verify"    "\xFF\x15\x2A\x2A\x2A\x2A"
+                    // call Warning
+                    // "verify"     "\xFF\x15\xBC\x62\x72\x10"
+                    "patch"     "\x90\x90\x90\x90\x90"
+                }
+            }
+            // always apply whitelist regardless of tournament mode
+            "CTFPlayer::GetLoadoutItem::nopnop"
+            {
+                "signature"     "CTFPlayer::GetLoadoutItem"
+                "linux"
+                {
+                    "offset"    "149h"
+                    // jz (near)
+                    "verify"    "\x0F\x84"
+                    // nop x6
+                    "patch"     "\x90\x90\x90\x90\x90\x90"
+                }
+                // see CTFPlayer::GetLoadoutItem above
+                // this was very annoying
+                /*
+                CTFPlayer::GetLoadoutItem(int,int,bool)+C7   04C mov     [esp], edx      ; this
+                CTFPlayer::GetLoadoutItem(int,int,bool)+CA   04C mov     [ebp+var_20], edx
+                CTFPlayer::GetLoadoutItem(int,int,bool)+CD   04C call    _ZNK13CEconItemView13GetStaticDataEv ; CEconItemView::GetStaticData(void)
+                CTFPlayer::GetLoadoutItem(int,int,bool)+D2   04C mov     edx, [ebp+var_20]
+                CTFPlayer::GetLoadoutItem(int,int,bool)+D5   04C cmp     byte ptr [eax+12Ch], 0
+                CTFPlayer::GetLoadoutItem(int,int,bool)+DC   04C jnz     short loc_F77A46
+
+                if FALSE
+
+                CTFPlayer::GetLoadoutItem(int,int,bool)+DE   04C mov     eax, ds:g_pGameRules
+                CTFPlayer::GetLoadoutItem(int,int,bool)+E3   04C mov     [esp], eax      ; this
+                CTFPlayer::GetLoadoutItem(int,int,bool)+E6   04C call    _ZN24CTeamplayRoundBasedRules18IsInTournamentModeEv ;
+                CTFPlayer::GetLoadoutItem(int,int,bool)+EB   04C mov     edx, [ebp+var_20]
+                CTFPlayer::GetLoadoutItem(int,int,bool)+EE   04C test    al, al
+                CTFPlayer::GetLoadoutItem(int,int,bool)+F0   04C jz      short loc_F77A46 // <--
+
+                you can tell it's GetStaticData because it has two identifiable ItemDefinition pushes
+                sub_1039C180+13   004 push    offset ??_R0?AVCTFItemDefinition@@@8 ; struct TypeDescriptor *
+                sub_1039C180+18   008 push    offset ??_R0?AVCEconItemDefinition@@@8 ; struct TypeDescriptor *
+
+                so
+
+                sub_104D3220+8A   014 mov     ecx, esi
+                sub_104D3220+8C   014 call    sub_1039C180 // <- CEconItemView::GetStaticData
+                sub_104D3220+91   014 cmp     byte ptr [eax+12Ch], 0
+                sub_104D3220+98   014 jnz     short loc_104D3301
+
+                if FALSE
+
+                sub_104D3220+9A   014 mov     ecx, dword_10A11E74
+                sub_104D3220+A0   014 call    sub_10322050  // CTeamplayRoundBasedRules::IsInTournamentMode
+                sub_104D3220+A5   014 test    al, al
+                sub_104D3220+A7   014 jz      short loc_104D3301 // <- this is the jz we want to change to ignore the result of the IsInTournamentMode call
+                */
+                "windows"
+                {
+                    "offset"    "18Fh"
+                    // jz
+                    "verify"    "\x74\x38"
+                    // nop nop
+                    "patch"     "\x90\x90"
+                }
+            }
+        }
+    }
+}

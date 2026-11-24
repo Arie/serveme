@@ -222,8 +222,8 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && wget -nv https://github.com/ldesgoui/tf2-comp-fixes/releases/download/v1.18.2/tf2-comp-fixes.zip \
     && unzip -o tf2-comp-fixes.zip \
     && rm tf2-comp-fixes.zip \
-    # TF2 11267535 added a game rules virtual; v1.18.2's RestartTournament/SetWinningTeam offsets are off by one
-    && wget -nv "https://raw.githubusercontent.com/Arie/tf2-comp-fixes/9a0abe414ee8e6dd1efebcf44040d3bfab1fa862/gamedata/tf2-comp-fixes.games.txt" -O addons/sourcemod/gamedata/tf2-comp-fixes.games.txt \
+    # v1.18.2's RestartTournament/SetWinningTeam (TF2 11267535) and DeflectEntity vtable offsets are off by one
+    && wget -nv "https://raw.githubusercontent.com/Arie/tf2-comp-fixes/d62652bfcd3f73e056618e1dfdfb44f36523929e/gamedata/tf2-comp-fixes.games.txt" -O addons/sourcemod/gamedata/tf2-comp-fixes.games.txt \
     # srctvplus must also land AFTER the RGL pack, which bundles v3.0; that one fails on TF2 11267535 (_ZdlPv)
     && wget -nv "https://github.com/Arie/srctvplus/releases/download/v3.1/srctvplus.so" -O addons/srctvplus.so \
     && echo "80ccc6c542750ff6390387c480f9e91e8ccd7f8cb2e60d9ef562726347238f50  addons/srctvplus.so" | sha256sum -c -

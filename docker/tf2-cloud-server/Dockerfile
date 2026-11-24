@@ -226,7 +226,12 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && wget -nv "https://raw.githubusercontent.com/Arie/tf2-comp-fixes/d62652bfcd3f73e056618e1dfdfb44f36523929e/gamedata/tf2-comp-fixes.games.txt" -O addons/sourcemod/gamedata/tf2-comp-fixes.games.txt \
     # srctvplus must also land AFTER the RGL pack, which bundles v3.0; that one fails on TF2 11267535 (_ZdlPv)
     && wget -nv "https://github.com/Arie/srctvplus/releases/download/v3.1/srctvplus.so" -O addons/srctvplus.so \
-    && echo "80ccc6c542750ff6390387c480f9e91e8ccd7f8cb2e60d9ef562726347238f50  addons/srctvplus.so" | sha256sum -c -
+    && echo "80ccc6c542750ff6390387c480f9e91e8ccd7f8cb2e60d9ef562726347238f50  addons/srctvplus.so" | sha256sum -c - \
+    # StAC bundles an older sourcetvmanager that crashes on SourceTV chat since TF2 11267535
+    && wget -nv "https://github.com/peace-maker/sourcetvmanager/releases/download/v1.3-beta2/sourcetvmanager-sm1.12-linux-v1.3-beta2.tar.gz" -O sourcetvmanager.tar.gz \
+    && echo "17c4e83c2d5d8866c323814b7d8d48f94a697b806feff32ad5741cb24270dd8c  sourcetvmanager.tar.gz" | sha256sum -c - \
+    && tar -xzf sourcetvmanager.tar.gz addons/sourcemod/extensions/sourcetvmanager.ext.2.tf2.so addons/sourcemod/gamedata/sourcetvmanager.games.txt \
+    && rm sourcetvmanager.tar.gz
 
 COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 

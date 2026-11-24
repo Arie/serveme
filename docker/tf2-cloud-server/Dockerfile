@@ -124,7 +124,9 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     # srctvplus
     && cd /home/tf2/hlserver/tf2/tf/addons \
     && wget -nv https://github.com/dalegaard/srctvplus/releases/download/v3.0/srctvplus.vdf \
-    && wget -nv https://github.com/dalegaard/srctvplus/releases/download/v3.0/srctvplus.so \
+    # v3.0 with libstdc++.so.6 added as a dependency: TF2 11267535 no longer loads it, so the stock .so fails on _ZdlPv
+    && wget -nv "https://fastdl.serveme.tf/sourcemod/srctvplus-3.0-libstdcxx.so" -O srctvplus.so \
+    && echo "5755abbda6c8fbc6d677964baa4d0a0ce76ccacd0be9a5cdbb8f518751eb97c9  srctvplus.so" | sha256sum -c - \
     # neocurl
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod \
     && wget -nv "https://github.com/sapphonie/SM-neocurl-ext/releases/download/v2.0.1-beta1/sm-neocurl-repack.zip" -O "sm-neocurl.zip" \

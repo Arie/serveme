@@ -13,25 +13,25 @@ module Down
 
   # Allows setting a backend via a symbol or a downloader object.
   #
-  # pkg:gem/down#lib/down.rb:18
+  # pkg:gem/down#lib/down.rb:25
   def backend(value = T.unsafe(nil)); end
 
-  # pkg:gem/down#lib/down.rb:9
+  # pkg:gem/down#lib/down.rb:13
   def download(*, **, &); end
 
-  # pkg:gem/down#lib/down.rb:13
+  # pkg:gem/down#lib/down.rb:18
   def open(*, **, &); end
 
   class << self
     # Allows setting a backend via a symbol or a downloader object.
     #
-    # pkg:gem/down#lib/down.rb:18
+    # pkg:gem/down#lib/down.rb:25
     def backend(value = T.unsafe(nil)); end
 
-    # pkg:gem/down#lib/down.rb:9
+    # pkg:gem/down#lib/down.rb:13
     def download(*, **, &); end
 
-    # pkg:gem/down#lib/down.rb:13
+    # pkg:gem/down#lib/down.rb:18
     def open(*, **, &); end
   end
 end
@@ -43,18 +43,18 @@ class Down::Backend
   # If destination path is defined, move tempfile to the destination,
   # otherwise return the tempfile unchanged.
   #
-  # pkg:gem/down#lib/down/backend.rb:24
+  # pkg:gem/down#lib/down/backend.rb:33
   def download_result(tempfile, destination); end
 
-  # pkg:gem/down#lib/down/backend.rb:33
+  # pkg:gem/down#lib/down/backend.rb:43
   def normalize_headers(response_headers); end
 
   class << self
-    # pkg:gem/down#lib/down/backend.rb:12
-    def download(*args, **options, &block); end
+    # pkg:gem/down#lib/down/backend.rb:19
+    def download(*, **, &); end
 
-    # pkg:gem/down#lib/down/backend.rb:16
-    def open(*args, **options, &block); end
+    # pkg:gem/down#lib/down/backend.rb:24
+    def open(*, **, &); end
   end
 end
 
@@ -66,60 +66,68 @@ end
 # * IO#gets
 # * IO#size
 # * IO#pos
+# * IO#seek
 # * IO#eof?
 # * IO#rewind
 # * IO#close
 #
-# By default the Down::ChunkedIO caches all read content into a tempfile,
-# allowing it to be rewindable. If rewindability won't be used, it can be
-# disabled by setting `:rewindable` to false, which eliminates any disk I/O.
+# Retrieved chunks are appended to a backing store which the reading methods
+# delegate to, so they behave like the corresponding native IO methods. New
+# chunks are retrieved only when the store runs out of content.
+#
+# By default the store is a tempfile which keeps all read content, allowing
+# the Down::ChunkedIO to be rewindable. If rewindability won't be used, it
+# can be disabled by setting `:rewindable` to false, in which case the store
+# is an in-memory buffer that discards read content, eliminating disk I/O.
 #
 # Any cleanup code (i.e. ensure block) that the given enumerator carries is
 # guaranteed to get executed, either when all content has been retrieved or
 # when Down::ChunkedIO is closed. One can also specify an `:on_close`
 # callback that will also get executed in those situations.
 #
-# pkg:gem/down#lib/down/chunked_io.rb:27
+# pkg:gem/down#lib/down/chunked_io.rb:34
 class Down::ChunkedIO
-  # pkg:gem/down#lib/down/chunked_io.rb:30
+  # pkg:gem/down#lib/down/chunked_io.rb:50
   def initialize(chunks:, size: T.unsafe(nil), on_close: T.unsafe(nil), data: T.unsafe(nil), rewindable: T.unsafe(nil), encoding: T.unsafe(nil)); end
 
   # Implements IO#close semantics. Closes the Down::ChunkedIO by terminating
-  # chunk retrieval and deleting the cached content.
+  # chunk retrieval and deleting the retrieved content.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:263
+  # pkg:gem/down#lib/down/chunked_io.rb:251
   def close; end
 
   # Returns whether the Down::ChunkedIO has been closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:273
+  # pkg:gem/down#lib/down/chunked_io.rb:263
   def closed?; end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
+  # pkg:gem/down#lib/down/chunked_io.rb:36
   def data; end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
+  # pkg:gem/down#lib/down/chunked_io.rb:36
   def data=(_arg0); end
 
   # Yields elements of the underlying enumerator.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:51
+  # pkg:gem/down#lib/down/chunked_io.rb:82
   def each_chunk; end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
+  # pkg:gem/down#lib/down/chunked_io.rb:37
   def encoding; end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
-  def encoding=(_arg0); end
+  # Sets the encoding that read content is returned in.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:68
+  def encoding=(encoding); end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:248
+  # pkg:gem/down#lib/down/chunked_io.rb:235
   def eof; end
 
   # Implements IO#eof? semantics. Returns whether we've reached end of file.
-  # It returns true if cache is at the end and there is no more content to
-  # retrieve. Raises IOError if closed.
+  # It returns true if the store is at the end and there is no more content
+  # to retrieve. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:242
+  # pkg:gem/down#lib/down/chunked_io.rb:230
   def eof?; end
 
   # Implements IO#gets semantics. Without arguments it retrieves lines of
@@ -130,37 +138,40 @@ class Down::ChunkedIO
   # * if `separator` is a nonempty string returns chunks of content
   #   surrounded with that sequence of bytes
   # * if `separator` is an empty string returns paragraphs of content
-  #   (content delimited by two newlines)
-  # * if `separator` is nil and `limit` is nil returns all content
+  #   (content delimited by two or more newlines, which are skipped)
+  # * if `separator` is nil returns all content
   #
-  # With `limit` argument returns maximum of that amount of bytes.
+  # With `limit` argument returns maximum of that amount of bytes, plus any
+  # bytes needed to complete a multibyte character.
+  #
+  # With `chomp: true` removes the trailing separator from the line.
   #
   # Returns nil if end of file is reached. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:103
-  def gets(separator_or_limit = T.unsafe(nil), limit = T.unsafe(nil)); end
+  # pkg:gem/down#lib/down/chunked_io.rb:144
+  def gets(separator_or_limit = T.unsafe(nil), limit = T.unsafe(nil), chomp: T.unsafe(nil)); end
 
   # Returns useful information about the Down::ChunkedIO object.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:283
+  # pkg:gem/down#lib/down/chunked_io.rb:275
   def inspect; end
 
   # For compatibility with multipart-post gem.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:46
+  # pkg:gem/down#lib/down/chunked_io.rb:75
   def length; end
 
   # Implements IO#pos semantics. Returns the current position of the
-  # Down::ChunkedIO.
+  # Down::ChunkedIO. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:234
+  # pkg:gem/down#lib/down/chunked_io.rb:219
   def pos; end
 
   # Implements IO#read semantics. Without arguments it retrieves and returns
-  # all content.
+  # all content in the external encoding.
   #
   # With `length` argument returns exactly that number of bytes if they're
-  # available.
+  # available, as a binary string.
   #
   # With `outbuf` argument each call will return that same string object,
   # where the value is replaced with retrieved content.
@@ -168,16 +179,12 @@ class Down::ChunkedIO
   # If end of file is reached, returns empty string if called without
   # arguments, or nil if called with arguments. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:70
+  # pkg:gem/down#lib/down/chunked_io.rb:106
   def read(length = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
   # Implements IO#readpartial semantics. If there is any content readily
-  # available reads from it, otherwise fetches and reads from the next chunk.
-  # It writes to and reads from the cache when needed.
-  #
-  # Without arguments it either returns all content that's readily available,
-  # or the next chunk. This is useful when you don't care about the size of
-  # chunks and you want to minimize string allocations.
+  # available reads from it, otherwise retrieves the next chunk and reads
+  # from it.
   #
   # With `maxlen` argument returns maximum of that amount of bytes (default
   # is 16KB).
@@ -187,46 +194,41 @@ class Down::ChunkedIO
   #
   # Raises EOFError if end of file is reached. Raises IOError if closed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:163
+  # pkg:gem/down#lib/down/chunked_io.rb:171
   def readpartial(maxlen = T.unsafe(nil), outbuf = T.unsafe(nil)); end
 
-  # Implements IO#rewind semantics. Rewinds the Down::ChunkedIO by rewinding
-  # the cache and setting the position to the beginning of the file. Raises
-  # IOError if closed or not rewindable.
+  # Implements IO#rewind semantics. Rewinds the Down::ChunkedIO by setting
+  # the position to the beginning of the file. Raises IOError if closed or
+  # not rewindable.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:253
+  # pkg:gem/down#lib/down/chunked_io.rb:241
   def rewind; end
 
   # Returns whether the Down::ChunkedIO was specified as rewindable.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:278
+  # pkg:gem/down#lib/down/chunked_io.rb:269
   def rewindable?; end
 
-  # Implements IO#seek semantics.
+  # Implements IO#seek semantics. It retrieves content up to the target
+  # position. Raises Errno::ESPIPE if not rewindable.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:203
+  # pkg:gem/down#lib/down/chunked_io.rb:193
   def seek(amount, whence = T.unsafe(nil)); end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
+  # pkg:gem/down#lib/down/chunked_io.rb:35
   def size; end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:28
+  # pkg:gem/down#lib/down/chunked_io.rb:35
   def size=(_arg0); end
 
-  # pkg:gem/down#lib/down/chunked_io.rb:237
+  # pkg:gem/down#lib/down/chunked_io.rb:224
   def tell; end
 
   private
 
-  # If Down::ChunkedIO is specified as rewindable, returns a new Tempfile for
-  # writing read content to. This allows the Down::ChunkedIO to be rewinded.
-  #
-  # pkg:gem/down#lib/down/chunked_io.rb:300
-  def cache; end
-
   # Returns whether there is any content left to retrieve.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:320
+  # pkg:gem/down#lib/down/chunked_io.rb:505
   def chunks_depleted?; end
 
   # Creates a Fiber wrapper around the underlying enumerator. The advantage
@@ -234,35 +236,97 @@ class Down::ChunkedIO
   # way that executes any cleanup code that the enumerator potentially
   # carries. At the end of iteration the :on_close callback is executed.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:328
+  # pkg:gem/down#lib/down/chunked_io.rb:514
   def chunks_fiber; end
+
+  # Retrieves all remaining chunks.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:482
+  def fill_all; end
+
+  # Retrieves the next chunk and appends it to the store, without changing
+  # the store position. Returns false if there are no more chunks.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:432
+  def fill_chunk; end
+
+  # Retrieves chunks until the store holds content up to the given
+  # position, or until there are no more chunks.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:476
+  def fill_until(position); end
 
   # Finds encoding by name. If the encoding couldn't be find, falls back to
   # the generic binary encoding.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:343
+  # pkg:gem/down#lib/down/chunked_io.rb:530
   def find_encoding(encoding); end
 
-  # Returns whether the filesystem has POSIX semantics.
+  # Returns whether the line read from the given start position of the store
+  # can't continue in content that wasn't retrieved yet, which is when it
+  # ends with the separator or reaches the limit with a complete character.
+  # In paragraph mode it's never complete, as newlines after it are skipped.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:350
-  def posix?; end
+  # pkg:gem/down#lib/down/chunked_io.rb:406
+  def line_complete?(line, separator, limit, start); end
 
-  # Returns current chunk and retrieves the next chunk. If next chunk is nil,
-  # we know we've reached EOF.
+  # Reads a line from the store, retrieving more content if the line might
+  # continue in content that wasn't retrieved yet.
   #
-  # pkg:gem/down#lib/down/chunked_io.rb:313
+  # pkg:gem/down#lib/down/chunked_io.rb:316
+  def read_line(separator, limit, chomp); end
+
+  # Reads a paragraph from a StringIO store. StringIO's paragraph mode
+  # differs from IO's in how it applies the limit and chomps lines, so we
+  # implement it on top of the double-newline separator, like IO does.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:356
+  def read_paragraph(limit, chomp); end
+
+  # Returns current chunk and retrieves the next chunk, skipping empty ones.
+  # If there are no more chunks, we know we've reached EOF.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:489
   def retrieve_chunk; end
+
+  # Moves the store position past any consecutive newlines, retrieving more
+  # content as needed.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:369
+  def skip_newlines; end
+
+  # Returns the IO object that retrieved content is appended to and read
+  # from. If Down::ChunkedIO is specified as rewindable, it's an anonymous
+  # tempfile which keeps all retrieved content, otherwise it's a StringIO
+  # from which read content gets discarded.
+  # @rbs %a{pure}
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:296
+  def store; end
+
+  # Returns the given number of bytes stored at the given store position.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:422
+  def store_bytes(position, length); end
+
+  # Returns whether the line just read from the given start position of a
+  # StringIO store was truncated. A line read with a positive limit that
+  # stops before the end of the store must reach the limit or end with the
+  # separator, which JRuby's StringIO violates when the limit cuts a
+  # multibyte character that's incomplete at the end of the store.
+  #
+  # pkg:gem/down#lib/down/chunked_io.rb:387
+  def truncated_line?(separator, limit, start); end
 end
 
 # raised when response returned 4xx response
 #
-# pkg:gem/down#lib/down/errors.rb:30
+# pkg:gem/down#lib/down/errors.rb:32
 class Down::ClientError < ::Down::ResponseError; end
 
 # raised when there was an error connecting to the server
 #
-# pkg:gem/down#lib/down/errors.rb:39
+# pkg:gem/down#lib/down/errors.rb:41
 class Down::ConnectionError < ::Down::Error; end
 
 # generic error which is a superclass to all other errors
@@ -281,19 +345,19 @@ class Down::InvalidUrl < ::Down::Error; end
 class Down::NetHttp < ::Down::Backend
   # Initializes the backend with common defaults.
   #
-  # pkg:gem/down#lib/down/net_http.rb:33
+  # pkg:gem/down#lib/down/net_http.rb:36
   def initialize(*, **, &); end
 
   # Downloads a remote file to disk using open-uri. Accepts any open-uri
   # options, and a few more.
   #
-  # pkg:gem/down#lib/down/net_http.rb:39
+  # pkg:gem/down#lib/down/net_http.rb:44
   def download(url, *, **, &); end
 
   # Starts retrieving the remote file using Net::HTTP and returns an IO-like
   # object which downloads the response body on-demand.
   #
-  # pkg:gem/down#lib/down/net_http.rb:113
+  # pkg:gem/down#lib/down/net_http.rb:119
   def open(url, *, **, &); end
 
   private
@@ -302,95 +366,131 @@ class Down::NetHttp < ::Down::Backend
   # Net::HTTP will decode the body, in which case it doesn't reflect the
   # number of bytes read. Decoding conditions mirror Net::HTTPResponse#inflater.
   #
-  # pkg:gem/down#lib/down/net_http.rb:307
+  # pkg:gem/down#lib/down/net_http.rb:398
   def content_length(response); end
+
+  # Returns the Cookie request header value from the given headers.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:246
+  def cookie_header(headers); end
+
+  # Returns whether the given header name is the Cookie header.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:260
+  def cookie_header?(name); end
 
   # Build a Net::HTTP object for making a request.
   #
-  # pkg:gem/down#lib/down/net_http.rb:261
+  # pkg:gem/down#lib/down/net_http.rb:350
   def create_net_http(uri, proxy: T.unsafe(nil), ssl_verify_mode: T.unsafe(nil), ssl_ca_cert: T.unsafe(nil), read_timeout: T.unsafe(nil), open_timeout: T.unsafe(nil), headers: T.unsafe(nil), http_basic_authentication: T.unsafe(nil), **); end
 
   # Converts the given IO into a Tempfile if it isn't one already (open-uri
   # returns a StringIO when there is less than 10KB of content), and gives
   # it the specified file extension.
   #
-  # pkg:gem/down#lib/down/net_http.rb:194
+  # pkg:gem/down#lib/down/net_http.rb:276
   def ensure_tempfile(io, extension, tempfile_name = T.unsafe(nil)); end
 
   # Checks that the url is a valid URI and that its scheme is http or https.
   #
-  # pkg:gem/down#lib/down/net_http.rb:319
+  # pkg:gem/down#lib/down/net_http.rb:412
   def ensure_uri(url, allow_relative: T.unsafe(nil)); end
+
+  # Adds name/value pairs from the given Set-Cookie header values to the
+  # Cookie request header, ignoring any cookie attributes.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:216
+  def forward_cookies(headers, set_cookies); end
 
   # Merge default and ad-hoc options, merging nested headers.
   #
-  # pkg:gem/down#lib/down/net_http.rb:393
-  def merge_options(options, headers = T.unsafe(nil), **new_options); end
+  # pkg:gem/down#lib/down/net_http.rb:491
+  def merge_options(options, **new_options); end
 
   # Makes a Net::HTTP request and follows redirects.
   #
-  # pkg:gem/down#lib/down/net_http.rb:212
+  # pkg:gem/down#lib/down/net_http.rb:295
   def net_http_request(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options, &); end
 
   # Makes sure that the URL is properly encoded.
   #
-  # pkg:gem/down#lib/down/net_http.rb:334
+  # pkg:gem/down#lib/down/net_http.rb:428
   def normalize_uri(url, uri_normalizer:); end
 
   # Calls open-uri's URI::HTTP#open method. Additionally handles redirects.
+  # Receives String-keyed header kwargs alongside the options, which RBS keyword types can't express.
   #
-  # pkg:gem/down#lib/down/net_http.rb:149
+  # pkg:gem/down#lib/down/net_http.rb:158
   def open_uri(uri, max_redirects:, auth_on_redirect: T.unsafe(nil), **options); end
+
+  # Parses the Cookie request header value into a hash.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:233
+  def parse_cookie_header(value); end
 
   # When open-uri raises an exception, it doesn't expose the response object.
   # Fortunately, the exception object holds response data that can be used to
   # rebuild the Net::HTTP response object.
   #
-  # pkg:gem/down#lib/down/net_http.rb:343
+  # pkg:gem/down#lib/down/net_http.rb:438
   def rebuild_response_from_open_uri_exception(exception); end
 
   # Re-raise Net::HTTP exceptions as Down::Error exceptions.
   #
-  # pkg:gem/down#lib/down/net_http.rb:377
+  # pkg:gem/down#lib/down/net_http.rb:474
   def request_error!(exception); end
 
   # Raises non-sucessful response as a Down::ResponseError.
   #
-  # pkg:gem/down#lib/down/net_http.rb:362
+  # pkg:gem/down#lib/down/net_http.rb:458
   def response_error!(response); end
+
+  # Returns whether the given URIs have the same scheme, host and port.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:266
+  def same_origin?(uri, other_uri); end
+
+  # Sets the Cookie request header value in the given headers, removing it
+  # if the value is nil or empty.
+  #
+  # pkg:gem/down#lib/down/net_http.rb:253
+  def set_cookie_header(headers, value); end
 
   # Yields chunks of the response body to the block.
   #
-  # pkg:gem/down#lib/down/net_http.rb:298
+  # pkg:gem/down#lib/down/net_http.rb:388
   def stream_body(response, &); end
 end
 
 # Content encodings that Net::HTTP transparently decodes.
 #
-# pkg:gem/down#lib/down/net_http.rb:21
+# pkg:gem/down#lib/down/net_http.rb:23
 Down::NetHttp::DECODED_ENCODINGS = T.let(T.unsafe(nil), Array)
 
-# pkg:gem/down#lib/down/net_http.rb:24
+# pkg:gem/down#lib/down/net_http.rb:26
 Down::NetHttp::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
 # Defines some additional attributes for the returned Tempfile (on top of what
 # OpenURI::Meta already defines).
+# @rbs module-self OpenURI::Meta
 #
-# pkg:gem/down#lib/down/net_http.rb:414
+# pkg:gem/down#lib/down/net_http.rb:502
 module Down::NetHttp::DownloadedFile
-  # pkg:gem/down#lib/down/net_http.rb:420
+  # pkg:gem/down#lib/down/net_http.rb:510
   def content_type; end
 
-  # pkg:gem/down#lib/down/net_http.rb:415
+  # pkg:gem/down#lib/down/net_http.rb:504
   def original_filename; end
 end
 
-# pkg:gem/down#lib/down/net_http.rb:15
+# @rbs @options: Hash[Symbol, untyped]
+#
+# pkg:gem/down#lib/down/net_http.rb:17
 Down::NetHttp::URI_NORMALIZER = T.let(T.unsafe(nil), Proc)
 
 # raised when response returned 404 response
 #
-# pkg:gem/down#lib/down/errors.rb:33
+# pkg:gem/down#lib/down/errors.rb:35
 class Down::NotFound < ::Down::ClientError; end
 
 # raised when the requested resource has not been modified
@@ -402,26 +502,28 @@ class Down::NotModified < ::Down::Error; end
 #
 # pkg:gem/down#lib/down/errors.rb:20
 class Down::ResponseError < ::Down::Error
-  # pkg:gem/down#lib/down/errors.rb:23
+  # pkg:gem/down#lib/down/errors.rb:25
   def initialize(message, response = T.unsafe(nil)); end
 
-  # pkg:gem/down#lib/down/errors.rb:21
+  # The backend-specific response object (e.g. Net::HTTPResponse, HTTP::Response, HTTPX::Response).
+  #
+  # pkg:gem/down#lib/down/errors.rb:22
   def response; end
 end
 
 # raised when an SSL error was raised
 #
-# pkg:gem/down#lib/down/errors.rb:45
+# pkg:gem/down#lib/down/errors.rb:47
 class Down::SSLError < ::Down::Error; end
 
 # raised when response returned 5xx response
 #
-# pkg:gem/down#lib/down/errors.rb:36
+# pkg:gem/down#lib/down/errors.rb:38
 class Down::ServerError < ::Down::ResponseError; end
 
 # raised when connecting to the server too longer than the specified timeout
 #
-# pkg:gem/down#lib/down/errors.rb:42
+# pkg:gem/down#lib/down/errors.rb:44
 class Down::TimeoutError < ::Down::ConnectionError; end
 
 # raised when the file is larger than the specified maximum size
@@ -440,23 +542,23 @@ module Down::Utils
 
   # Retrieves potential filename from the "Content-Disposition" header.
   #
-  # pkg:gem/down#lib/down/utils.rb:12
+  # pkg:gem/down#lib/down/utils.rb:13
   def filename_from_content_disposition(content_disposition); end
 
   # Retrieves potential filename from the URL path.
   #
-  # pkg:gem/down#lib/down/utils.rb:26
+  # pkg:gem/down#lib/down/utils.rb:28
   def filename_from_path(path); end
 
   class << self
     # Retrieves potential filename from the "Content-Disposition" header.
     #
-    # pkg:gem/down#lib/down/utils.rb:12
+    # pkg:gem/down#lib/down/utils.rb:13
     def filename_from_content_disposition(content_disposition); end
 
     # Retrieves potential filename from the URL path.
     #
-    # pkg:gem/down#lib/down/utils.rb:26
+    # pkg:gem/down#lib/down/utils.rb:28
     def filename_from_path(path); end
   end
 end

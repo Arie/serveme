@@ -21,8 +21,28 @@ module Aws
 
     # @api private
     #
-    # pkg:gem/aws-sdk-core#lib/aws-sdk-core.rb:157
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core.rb:186
     def eager_autoload!(*args); end
+
+    # Eager loads SDK constants from gems that have already been required.
+    #
+    # Call this method during application startup, after requiring the service
+    # gems your application uses:
+    #
+    #     require 'aws-sdk-s3'
+    #     require 'aws-sdk-sqs'
+    #
+    #     Aws.eager_load!
+    #
+    # Service gems required after this call are not eager loaded. This method
+    # loads Ruby code but does not make any AWS service requests. Eager loading
+    # can increase memory usage, so applications should require only the
+    # service gems they use.
+    #
+    # @return [void]
+    #
+    # pkg:gem/aws-sdk-core#lib/aws-sdk-core.rb:172
+    def eager_load!; end
 
     # Close any long-lived connections maintained by the SDK's internal
     # connection pool.
@@ -552,28 +572,42 @@ class Aws::Cbor::Decoder
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:7
   def initialize(bytes); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:13
+  # With a block, the block reads the item from the decoder instead of #decode_item.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:14
   def decode; end
-
-  private
 
   # high level, generic decode. Based on the next type. Consumes and returns
   # the next item as a ruby object.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:33
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:34
   def decode_item; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:302
-  def peek(n_bytes); end
+  # Reads a definite-length array, yielding once per element. The block must read the element.
+  # Counts toward the #decode_item nesting limit.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:327
+  def each_array_element; end
+
+  # Reads a definite-length map, yielding each key and the map's size. The block must read the key's
+  # value. Counts toward the #decode_item nesting limit.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:311
+  def each_map_key; end
 
   # low level streaming interface
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:88
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:89
   def peek_type; end
+
+  private
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:303
+  def peek(n_bytes); end
 
   # returns only the length of the array, caller must read the correct number of values after this
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:146
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:147
   def read_array; end
 
   # A decimal fraction or a bigfloat is represented as a tagged array
@@ -581,35 +615,35 @@ class Aws::Cbor::Decoder
   # an exponent e and a mantissa m
   # See: https://www.rfc-editor.org/rfc/rfc8949.html#name-decimal-fractions-and-bigfl
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:264
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:265
   def read_big_decimal; end
 
   # tag type 2 or 3
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:245
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:246
   def read_bignum(tag_value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:135
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:136
   def read_binary_string; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:185
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:186
   def read_boolean; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:118
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:119
   def read_break_stop_code; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:280
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:281
   def read_count(add_info); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:239
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:240
   def read_double; end
 
   # returns nothing but consumes and checks the type/info.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:164
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:165
   def read_end_indefinite_collection; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:234
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:235
   def read_float; end
 
   # 16 bit IEEE 754 half-precision floats
@@ -619,71 +653,71 @@ class Aws::Cbor::Decoder
   # exponent - 5 bits
   # precision - 10 bits
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:211
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:212
   def read_half; end
 
   # return a tuple of major_type, add_info
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:275
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:276
   def read_info; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:123
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:124
   def read_integer; end
 
   # returns only the length of the array, caller must read the correct number of key value pairs after this
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:169
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:170
   def read_map; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:195
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:196
   def read_nil; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:180
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:181
   def read_reserved_undefined; end
 
   # returns nothing but consumes and checks the type/info.
   # Caller must keep reading until encountering the stop sequence
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:153
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:154
   def read_start_indefinite_array; end
 
   # returns nothing but consumes and checks the type/info.
   # Caller must keep reading until encountering the stop sequence
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:159
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:160
   def read_start_indefinite_map; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:140
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:141
   def read_string; end
 
   # returns only the tag, caller must interpret the tag and read another value as appropriate
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:175
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:176
   def read_tag; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:200
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:201
   def read_undefined; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:293
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:294
   def take(n_bytes); end
 end
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:24
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:25
 Aws::Cbor::Decoder::FIVE_BIT_MASK = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:29
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:30
 Aws::Cbor::Decoder::MAX_DEPTH = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:28
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:29
 Aws::Cbor::Decoder::TAG_TYPE_BIGDEC = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:26
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:27
 Aws::Cbor::Decoder::TAG_TYPE_BIGNUM = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:25
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:26
 Aws::Cbor::Decoder::TAG_TYPE_EPOCH = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:27
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/decoder.rb:28
 Aws::Cbor::Decoder::TAG_TYPE_NEG_BIGNUM = T.let(T.unsafe(nil), Integer)
 
 # Pure ruby implementation of CBOR encoder.
@@ -698,18 +732,53 @@ class Aws::Cbor::Encoder
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:19
   def add(value); end
 
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:170
+  def add_auto_float(value); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:143
+  def add_auto_integer(value); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:187
+  def add_boolean(value); end
+
+  # Encoding MUST already be Encoding::BINARY
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:192
+  def add_byte_string(value); end
+
+  # Writes a definite-length map when the entry count is only known after writing the entries.
+  # The block adds the entries and returns their count.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:268
+  def add_counted_map; end
+
+  # Appends bytes that are already CBOR encoded, such as a cached map key.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:280
+  def add_encoded(bytes); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:197
+  def add_string(value); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:251
+  def add_time(value); end
+
   # @return the encoded bytes in CBOR format for all added data
   #
   # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:14
   def bytes; end
 
+  # caller is responsible for adding length values
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:208
+  def start_array(length); end
+
+  # caller is responsible for adding length key/value pairs
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:217
+  def start_map(length); end
+
   private
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:167
-  def add_auto_float(value); end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:140
-  def add_auto_integer(value); end
 
   # A decimal fraction or a bigfloat is represented as a tagged array
   # that contains exactly two integer numbers:
@@ -717,69 +786,45 @@ class Aws::Cbor::Encoder
   # decimal fractions are always represented with a base of 10
   # See: https://www.rfc-editor.org/rfc/rfc8949.html#name-decimal-fractions-and-bigfl
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:123
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:126
   def add_big_decimal(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:104
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:107
   def add_bignum(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:184
-  def add_boolean(value); end
-
-  # Encoding MUST already be Encoding::BINARY
-  #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:189
-  def add_byte_string(value); end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:163
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:166
   def add_double(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:159
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:162
   def add_float(value); end
 
   # streaming style, lower level interface
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:93
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:96
   def add_integer(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:180
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:183
   def add_nil; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:194
-  def add_string(value); end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:223
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:230
   def add_tag(tag); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:227
-  def add_time(value); end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:233
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:257
   def bignum_to_bytes(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:218
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:225
   def end_indefinite_collection; end
 
-  # 2^64
+  # Appending an Integer to the BINARY buffer adds it as one byte, without allocating.
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:74
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:75
   def head(major_type, value); end
 
-  # caller is responsible for adding length values
-  #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:201
-  def start_array(length); end
-
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:205
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:212
   def start_indefinite_array; end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:214
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:221
   def start_indefinite_map; end
-
-  # caller is responsible for adding length key/value pairs
-  #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/cbor/encoder.rb:210
-  def start_map(length); end
 end
 
 # 111_11010 - Major type 7 (Float) + value: 26
@@ -6965,33 +7010,76 @@ module Aws::RpcV2
   end
 end
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:7
+# Fast path: params whose Ruby types match their shapes are written straight into one Encoder, using a
+# per-shape plan (encoded member keys and writer kinds) cached on the shape. Anything else goes through the
+# original format-then-encode code, so output and errors are unchanged.
+#
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:10
 class Aws::RpcV2::Builder
   include ::Seahorse::Model::Shapes
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:10
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:13
   def initialize(rules, _options = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:14
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:17
   def serialize(params); end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:47
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:183
   def blob(value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:51
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:147
+  def build_member_table(shape); end
+
+  # [member_or_value_ref, writer kind] for a list or map shape, cached on the shape.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:155
+  def container_plan(shape, part); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:187
   def format(ref, value); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:35
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:77
+  def kind_of(shape); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:171
   def list(ref, values); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:40
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:176
   def map(ref, values); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:24
+  # Member name => [encoded wire key, member_ref, writer kind], cached on the shape.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:142
+  def member_table(shape); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:160
   def structure(ref, values); end
+
+  # Writes value with the writer kind cached for its shape.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:46
+  def write(encoder, kind, ref, value); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:119
+  def write_list(encoder, ref, values); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:125
+  def write_map(encoder, ref, values); end
+
+  # Present, non-nil members as a definite-length map, in params order. Values without #each_pair raise
+  # NoMethodError, handled in #serialize.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:94
+  def write_structure(encoder, ref, values); end
 end
+
+# Raised before the fast path reads an IO, iterates a list or map that isn't an Array or Hash, or writes
+# keys that #format would merge.
+#
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/builder.rb:42
+class Aws::RpcV2::Builder::Fallback < ::StandardError; end
 
 # Pure Ruby implementation of CBOR encode and decode
 #
@@ -7086,36 +7174,88 @@ class Aws::RpcV2::Handler < ::Seahorse::Client::Handler
   def with_metric(&block); end
 end
 
-# pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:7
+# Fast path: definite-length maps and arrays are read straight from the decoder into structs, lists and
+# hashes. Anything else goes through the original decode-then-walk code, so behavior is unchanged.
+#
+# pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:9
 class Aws::RpcV2::Parser
   include ::Seahorse::Model::Shapes
 
   # @param [Seahorse::Model::ShapeRef] rules
   #
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:11
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:13
   def initialize(rules, query_compatible: T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:16
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:18
   def parse(cbor, target = T.unsafe(nil)); end
 
   private
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:89
+  # In services that were previously Query/XML, members that were
+  # "flattened" defaulted to empty lists. In JSON, these values are nil,
+  # which is backwards incompatible. To preserve backwards compatibility,
+  # we set a default value of [] for these members.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:165
+  def apply_query_compatible(shape, target); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:131
+  def build_members_by_wire_name(shape); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:98
+  def build_union(shape, member, value); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:206
   def flattened_list?(shape); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:93
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:210
   def flattened_map?(shape); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:60
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:177
   def list(ref, values, target = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:68
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:185
   def map(ref, values, target = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:76
+  # Wire key => [member_name, member_ref], cached on the shape.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:126
+  def members_by_wire_name(shape); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:193
   def parse_ref(ref, value, target = T.unsafe(nil)); end
 
-  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:24
+  # Whether #apply_query_compatible could set a member of this union.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:94
+  def query_compatible_defaults?(shape); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:32
+  def read(decoder, ref, target = T.unsafe(nil)); end
+
+  # Original behavior: decode the item generically, then walk it.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:52
+  def read_fallback(decoder, ref, target); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:104
+  def read_list(decoder, ref); end
+
+  # Duplicate keys keep their first position and last value, as in Decoder#decode; nulls are dropped.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:112
+  def read_map(decoder, ref); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:56
+  def read_structure(decoder, ref, target); end
+
+  # Builds the member subclass directly for one known member with a non-nil value. Anything else (empty,
+  # unknown key, __type, null value, several keys, query-compatible defaults) goes to #structure.
+  #
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:73
+  def read_union(decoder, ref, target); end
+
+  # pkg:gem/aws-sdk-core#lib/aws-sdk-core/rpc_v2/parser.rb:139
   def structure(ref, values, target = T.unsafe(nil)); end
 end
 

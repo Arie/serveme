@@ -711,22 +711,22 @@ class Rack::Directory
 
   # Rack response to use for requests with invalid paths, or nil if path is valid.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:110
+  # pkg:gem/rack#lib/rack/directory.rb:111
   def check_bad_request(path_info); end
 
   # Rack response to use for requests with paths outside the root, or nil if path is inside the root.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:120
+  # pkg:gem/rack#lib/rack/directory.rb:121
   def check_forbidden(path_info); end
 
   # Rack response to use for unreadable and non-file, non-directory entries.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:184
+  # pkg:gem/rack#lib/rack/directory.rb:185
   def entity_not_found(path_info); end
 
   # Provide human readable file sizes
   #
-  # pkg:gem/rack#lib/rack/directory.rb:200
+  # pkg:gem/rack#lib/rack/directory.rb:201
   def filesize_format(int); end
 
   # Internals of request handling.  Similar to call but does
@@ -737,13 +737,13 @@ class Rack::Directory
 
   # Rack response to use for directories under the root.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:133
+  # pkg:gem/rack#lib/rack/directory.rb:134
   def list_directory(path_info, path, script_name); end
 
   # Rack response to use for files and directories under the root.
   # Unreadable and non-file, non-directory entries will get a 404 response.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:174
+  # pkg:gem/rack#lib/rack/directory.rb:175
   def list_path(env, path, path_info, script_name); end
 
   # The root of the directory hierarchy.  Only requests for files and
@@ -754,7 +754,7 @@ class Rack::Directory
 
   # File::Stat for the given path, but return nil for missing/bad entries.
   #
-  # pkg:gem/rack#lib/rack/directory.rb:166
+  # pkg:gem/rack#lib/rack/directory.rb:167
   def stat(path); end
 end
 
@@ -787,7 +787,7 @@ end
 
 # Stolen from Ramaze
 #
-# pkg:gem/rack#lib/rack/directory.rb:192
+# pkg:gem/rack#lib/rack/directory.rb:193
 Rack::Directory::FILESIZE_FORMAT = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/rack#lib/rack/constants.rb:22
@@ -1841,7 +1841,7 @@ end
 #
 # Usually, Rack::Request#POST takes care of calling this.
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:9
+# pkg:gem/rack#lib/rack/multipart/parser.rb:10
 module Rack::Multipart
   class << self
     # pkg:gem/rack#lib/rack/multipart.rb:72
@@ -1858,28 +1858,28 @@ end
 # Base class for multipart exceptions that do not subclass from
 # other exception classes for backwards compatibility.
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:26
+# pkg:gem/rack#lib/rack/multipart/parser.rb:27
 class Rack::Multipart::BoundaryTooLongError < ::StandardError
   include ::Rack::BadRequest
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:33
+# pkg:gem/rack#lib/rack/multipart/parser.rb:34
 Rack::Multipart::EOL = T.let(T.unsafe(nil), String)
 
 # Use specific error class when parsing multipart request
 # that ends early.
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:20
+# pkg:gem/rack#lib/rack/multipart/parser.rb:21
 class Rack::Multipart::EmptyContentError < ::EOFError
   include ::Rack::BadRequest
 end
 
 # Prefer to use the BoundaryTooLongError class or Rack::BadRequest.
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:31
+# pkg:gem/rack#lib/rack/multipart/parser.rb:32
 Rack::Multipart::Error = Rack::Multipart::BoundaryTooLongError
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:34
+# pkg:gem/rack#lib/rack/multipart/parser.rb:35
 Rack::Multipart::FWS = T.let(T.unsafe(nil), Regexp)
 
 # pkg:gem/rack#lib/rack/multipart/generator.rb:7
@@ -1907,24 +1907,24 @@ end
 
 # whitespace with optional folding
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:35
+# pkg:gem/rack#lib/rack/multipart/parser.rb:36
 Rack::Multipart::HEADER_VALUE = T.let(T.unsafe(nil), String)
 
 # anything but a non-folding CRLF
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:36
+# pkg:gem/rack#lib/rack/multipart/parser.rb:37
 Rack::Multipart::MULTIPART = T.let(T.unsafe(nil), Regexp)
 
 # pkg:gem/rack#lib/rack/multipart.rb:16
 Rack::Multipart::MULTIPART_BOUNDARY = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:38
+# pkg:gem/rack#lib/rack/multipart/parser.rb:39
 Rack::Multipart::MULTIPART_CONTENT_DISPOSITION = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:39
+# pkg:gem/rack#lib/rack/multipart/parser.rb:40
 Rack::Multipart::MULTIPART_CONTENT_ID = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:37
+# pkg:gem/rack#lib/rack/multipart/parser.rb:38
 Rack::Multipart::MULTIPART_CONTENT_TYPE = T.let(T.unsafe(nil), Regexp)
 
 # pkg:gem/rack#lib/rack/multipart.rb:18
@@ -1932,12 +1932,12 @@ class Rack::Multipart::MissingInputError < ::StandardError
   include ::Rack::BadRequest
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:10
+# pkg:gem/rack#lib/rack/multipart/parser.rb:11
 class Rack::Multipart::MultipartPartLimitError < ::Errno::EMFILE
   include ::Rack::BadRequest
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:14
+# pkg:gem/rack#lib/rack/multipart/parser.rb:15
 class Rack::Multipart::MultipartTotalPartLimitError < ::StandardError
   include ::Rack::BadRequest
 end
@@ -1979,18 +1979,18 @@ end
 # * +:tempfile+ - A Tempfile object containing the uploaded data
 # * +:head+ - The raw header content for this part
 #
-# pkg:gem/rack#lib/rack/multipart/parser.rb:53
+# pkg:gem/rack#lib/rack/multipart/parser.rb:54
 class Rack::Multipart::Parser
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:258
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:314
   def initialize(boundary, tempfile, bufsize, query_parser); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:279
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:335
   def parse(io); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:303
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:359
   def result; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:256
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:312
   def state; end
 
   private
@@ -2000,23 +2000,23 @@ class Rack::Multipart::Parser
   # end of the boundary.  If we don't find the start or end of the
   # boundary, clear the buffer and return nil.
   #
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:539
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:596
   def consume_boundary; end
 
   # Return the related Encoding object. However, because
   # enc is submitted by the user, it may be invalid, so
   # use a binary encoding in that case.
   #
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:594
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:654
   def find_encoding(enc); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:362
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:418
   def handle_consume_token; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:609
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:680
   def handle_dummy_encoding(name, body); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:619
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:690
   def handle_empty_content!(content); end
 
   # This handles the initial parser state.  We read until we find the starting
@@ -2027,166 +2027,188 @@ class Rack::Multipart::Parser
   # boundary.  The client would have to deliberately craft a response
   # with the opening boundary beyond the buffer size for that to happen.
   #
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:335
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:391
   def handle_fast_forward; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:506
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:563
   def handle_mime_body; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:377
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:433
   def handle_mime_head; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:548
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:605
   def normalize_filename(filename); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:316
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:372
   def read_data(io, outbuf); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:561
+  # Whether to respect the given encoding (given as a string). If a
+  # requested encoding is not respected, binary encoding is used.
+  # The string may be nil or in any encoding, so compare it as bytes.
+  #
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:667
+  def respect_requested_encoding?(encoding_string); end
+
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:618
   def tag_multipart_encoding(filename, content_type, name, body); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:528
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:585
   def update_retained_size(size); end
 
   class << self
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:141
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:197
     def parse(io, content_length, content_type, tmpfile, bufsize, qp); end
 
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:122
+    # Parse the boundary parameter from a multipart content type, following
+    # the media type grammar in RFC 9110 Section 8.3.1:
+    #
+    #   media-type = type "/" subtype parameters
+    #   parameters = *( OWS ";" OWS [ parameter ] )
+    #   parameter  = parameter-name "=" parameter-value
+    #   parameter-value = ( token / quoted-string )
+    #
+    # Returns nil if the content type is not multipart or has no boundary
+    # parameter. Raises Error if the parameters are malformed, the boundary
+    # is empty, or there is more than one boundary parameter.
+    #
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:134
     def parse_boundary(content_type); end
   end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:62
+# pkg:gem/rack#lib/rack/multipart/parser.rb:63
 Rack::Multipart::Parser::BOUNDARY_START_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:80
+# pkg:gem/rack#lib/rack/multipart/parser.rb:81
 Rack::Multipart::Parser::BUFFERED_UPLOAD_BYTESIZE_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:54
+# pkg:gem/rack#lib/rack/multipart/parser.rb:55
 Rack::Multipart::Parser::BUFSIZE = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:90
+# pkg:gem/rack#lib/rack/multipart/parser.rb:91
 class Rack::Multipart::Parser::BoundedIO
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:91
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:92
   def initialize(io, content_length); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:97
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:98
   def read(size, outbuf = T.unsafe(nil)); end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:558
+# pkg:gem/rack#lib/rack/multipart/parser.rb:615
 Rack::Multipart::Parser::CHARSET = T.let(T.unsafe(nil), String)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:373
+# pkg:gem/rack#lib/rack/multipart/parser.rb:429
 Rack::Multipart::Parser::CONTENT_DISPOSITION_MAX_BYTES = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:372
+# pkg:gem/rack#lib/rack/multipart/parser.rb:428
 Rack::Multipart::Parser::CONTENT_DISPOSITION_MAX_PARAMS = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:87
+# pkg:gem/rack#lib/rack/multipart/parser.rb:88
 Rack::Multipart::Parser::CONTENT_DISPOSITION_QUOTED_ESCAPES_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:165
+# pkg:gem/rack#lib/rack/multipart/parser.rb:221
 class Rack::Multipart::Parser::Collector
   include ::Enumerable
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:201
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:257
   def initialize(tempfile); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:207
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:263
   def each; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:227
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:283
   def on_mime_body(mime_index, content); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:231
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:287
   def on_mime_finish(mime_index); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:211
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:267
   def on_mime_head(mime_index, head, filename, content_type, name); end
 
   private
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:236
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:292
   def check_part_limits; end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:189
+# pkg:gem/rack#lib/rack/multipart/parser.rb:245
 class Rack::Multipart::Parser::Collector::BufferPart < ::Rack::Multipart::Parser::Collector::MimePart
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:191
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:247
   def close; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:190
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:246
   def file?; end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:166
+# pkg:gem/rack#lib/rack/multipart/parser.rb:222
 class Rack::Multipart::Parser::Collector::MimePart < ::Struct
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:167
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:223
   def get_data; end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:194
+# pkg:gem/rack#lib/rack/multipart/parser.rb:250
 class Rack::Multipart::Parser::Collector::TempfilePart < ::Rack::Multipart::Parser::Collector::MimePart
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:196
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:252
   def close; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:195
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:251
   def file?; end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:120
+# pkg:gem/rack#lib/rack/multipart/parser.rb:121
 Rack::Multipart::Parser::EMPTY = T.let(T.unsafe(nil), Rack::Multipart::Parser::MultipartInfo)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:65
+# pkg:gem/rack#lib/rack/multipart/parser.rb:648
+Rack::Multipart::Parser::ENCODING_NAMES = T.let(T.unsafe(nil), Set)
+
+# pkg:gem/rack#lib/rack/multipart/parser.rb:66
 Rack::Multipart::Parser::MIME_HEADER_BYTESIZE_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:119
+# pkg:gem/rack#lib/rack/multipart/parser.rb:120
 class Rack::Multipart::Parser::MultipartInfo < ::Struct
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:120
   def params; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:120
   def params=(_); end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:120
   def tmp_files; end
 
-  # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+  # pkg:gem/rack#lib/rack/multipart/parser.rb:120
   def tmp_files=(_); end
 
   class << self
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:120
     def [](*_arg0); end
 
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:120
     def inspect; end
 
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:120
     def keyword_init?; end
 
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:120
     def members; end
 
-    # pkg:gem/rack#lib/rack/multipart/parser.rb:119
+    # pkg:gem/rack#lib/rack/multipart/parser.rb:120
     def new(*_arg0); end
   end
 end
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:374
+# pkg:gem/rack#lib/rack/multipart/parser.rb:430
 Rack::Multipart::Parser::OBS_UNFOLD = T.let(T.unsafe(nil), Regexp)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:84
+# pkg:gem/rack#lib/rack/multipart/parser.rb:85
 Rack::Multipart::Parser::PARSER_BYTESIZE_LIMIT = T.let(T.unsafe(nil), Integer)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:600
+# pkg:gem/rack#lib/rack/multipart/parser.rb:671
 Rack::Multipart::Parser::REENCODE_DUMMY_ENCODINGS = T.let(T.unsafe(nil), Hash)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:56
+# pkg:gem/rack#lib/rack/multipart/parser.rb:57
 Rack::Multipart::Parser::TEMPFILE_FACTORY = T.let(T.unsafe(nil), Proc)
 
-# pkg:gem/rack#lib/rack/multipart/parser.rb:55
+# pkg:gem/rack#lib/rack/multipart/parser.rb:56
 Rack::Multipart::Parser::TEXT_PLAIN = T.let(T.unsafe(nil), String)
 
 # Despite the misleading name, UploadedFile is designed for use for
@@ -2442,7 +2464,7 @@ class Rack::QueryParser
   # pkg:gem/rack#lib/rack/query_parser.rb:128
   def _normalize_params(params, name, v, depth); end
 
-  # pkg:gem/rack#lib/rack/query_parser.rb:222
+  # pkg:gem/rack#lib/rack/query_parser.rb:229
   def each_query_pair(qs, separator, unescaper = T.unsafe(nil)); end
 
   # pkg:gem/rack#lib/rack/query_parser.rb:210
@@ -2451,7 +2473,7 @@ class Rack::QueryParser
   # pkg:gem/rack#lib/rack/query_parser.rb:206
   def params_hash_type?(obj); end
 
-  # pkg:gem/rack#lib/rack/query_parser.rb:253
+  # pkg:gem/rack#lib/rack/query_parser.rb:267
   def unescape(string, encoding = T.unsafe(nil)); end
 
   class << self
@@ -2467,7 +2489,7 @@ Rack::QueryParser::BYTESIZE_LIMIT = T.let(T.unsafe(nil), Integer)
 Rack::QueryParser::COMMON_SEP = T.let(T.unsafe(nil), Hash)
 
 # pkg:gem/rack#lib/rack/query_parser.rb:8
-Rack::QueryParser::DEFAULT_SEP = T.let(T.unsafe(nil), Regexp)
+Rack::QueryParser::DEFAULT_SEP = T.let(T.unsafe(nil), String)
 
 # InvalidParameterError is the error that is raised when incoming structural
 # parameters (parsed by parse_nested_query) contain invalid format or byte
@@ -2489,9 +2511,9 @@ class Rack::QueryParser::ParameterTypeError < ::TypeError
   include ::Rack::BadRequest
 end
 
-# pkg:gem/rack#lib/rack/query_parser.rb:257
+# pkg:gem/rack#lib/rack/query_parser.rb:271
 class Rack::QueryParser::Params < ::Hash
-  # pkg:gem/rack#lib/rack/query_parser.rb:258
+  # pkg:gem/rack#lib/rack/query_parser.rb:272
   def to_params_hash; end
 end
 
@@ -4576,7 +4598,7 @@ class Rack::Utils::Context
 end
 
 # pkg:gem/rack#lib/rack/utils.rb:24
-Rack::Utils::DEFAULT_SEP = T.let(T.unsafe(nil), Regexp)
+Rack::Utils::DEFAULT_SEP = T.let(T.unsafe(nil), String)
 
 # Every standard HTTP code mapped to the appropriate message.
 # Generated with:

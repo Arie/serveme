@@ -8,12 +8,24 @@
 # pkg:gem/image_processing#lib/image_processing/chainable.rb:1
 module ImageProcessing
   class << self
-    # Whether calling +name+ on +receiver+ would dispatch to an unsafe Ruby core
-    # method rather than a genuine operation. Used as a single, shared guard at
-    # every place where a user-provided name is dispatched via +public_send+.
+    # Whether +name+ can be safely dispatched on +receiver+ when the name comes
+    # from user input. A name is allowed if the receiver doesn't define it, in
+    # which case it falls through to #method_missing and becomes an image
+    # operation, or if it's defined by one of +allowed_owners+, a subclass, or a
+    # module mixed into either (e.g. custom macros added to a processor with
+    # `Processor.include(MyMacros)`).
     #
-    # pkg:gem/image_processing#lib/image_processing.rb:21
-    def unsafe_method?(receiver, name); end
+    # Any other method is rejected: Ruby core methods such as Kernel#send or
+    # BasicObject#instance_eval, but also methods that other libraries mix into
+    # every object, such as ActiveSupport's Object#try. Allowing only known
+    # owners keeps the guard correct regardless of what else is loaded.
+    #
+    # Private methods are ignored, because public_send can't call them and
+    # forwards them to #method_missing instead. This keeps CLI options named
+    # like private Kernel methods (e.g. -format, -print) working.
+    #
+    # pkg:gem/image_processing#lib/image_processing.rb:25
+    def allowed_method?(receiver, name, allowed_owners); end
   end
 end
 
@@ -97,28 +109,38 @@ module ImageProcessing::Chainable
 
   private
 
-  # This prevents calling unsafe Ruby core methods such as `Kernel#system`,
-  # which would allow for remote shell execution. The processor enforces the
-  # same guard when operations are dispatched, which also covers paths that
-  # bypass this early check (e.g. the #operation meta-builder).
+  # Operation names may come from user input, so only allow Chainable's own
+  # builder methods and unknown names (which become processor operations via
+  # #method_missing). This prevents dispatching to methods such as
+  # `Kernel#send`, `BasicObject#instance_eval` or ActiveSupport's
+  # `Object#try`, which would allow remote code execution. The processor
+  # enforces the same guard when operations are dispatched, which also covers
+  # paths that bypass this early check (e.g. the #operation meta-builder).
   #
   # Bang names are rejected here because they are Chainable's execution
-  # shortcut (see #method_missing), not operations to chain.
+  # shortcut (see #method_missing), not operations to chain. #branch and
+  # #call are rejected because they would let input overwrite internal
+  # builder options or the destination path.
   #
-  # pkg:gem/image_processing#lib/image_processing/chainable.rb:95
+  # pkg:gem/image_processing#lib/image_processing/chainable.rb:100
   def invalid_operation?(name); end
 
   # Assume that any unknown method names an operation supported by the
   # processor. Add a bang ("!") if you want processing to be performed.
   #
-  # pkg:gem/image_processing#lib/image_processing/chainable.rb:101
+  # pkg:gem/image_processing#lib/image_processing/chainable.rb:111
   def method_missing(name, *, **, &); end
 end
 
 # Empty options which the builder starts with.
 #
-# pkg:gem/image_processing#lib/image_processing/chainable.rb:109
+# pkg:gem/image_processing#lib/image_processing/chainable.rb:119
 ImageProcessing::Chainable::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
+
+# Chainable methods that must not be reachable through #apply.
+#
+# pkg:gem/image_processing#lib/image_processing/chainable.rb:107
+ImageProcessing::Chainable::NON_OPERATION_METHODS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/image_processing#lib/image_processing.rb:8
 class ImageProcessing::Error < ::StandardError; end
@@ -211,7 +233,7 @@ class ImageProcessing::Processor
   # Calls the given block with the accumulator object. Useful for when you
   # want to access the accumulator object directly.
   #
-  # pkg:gem/image_processing#lib/image_processing/processor.rb:79
+  # pkg:gem/image_processing#lib/image_processing/processor.rb:88
   def custom(&block); end
 
   class << self
@@ -235,16 +257,6 @@ class ImageProcessing::Processor
     def supports_resize_on_load?; end
   end
 end
-
-# Method owners considered unsafe to dispatch to when a method name comes
-# from user input, because they expose Ruby's metaprogramming and shell
-# primitives (e.g. Kernel#send, Kernel#eval, BasicObject#instance_eval,
-# Kernel#system). Any name whose implementation is inherited from one of
-# these should never be treated as an image operation or a loader/saver
-# option.
-#
-# pkg:gem/image_processing#lib/image_processing.rb:16
-ImageProcessing::UNSAFE_METHOD_OWNERS = T.let(T.unsafe(nil), Array)
 
 # pkg:gem/image_processing#lib/image_processing/version.rb:2
 ImageProcessing::VERSION = T.let(T.unsafe(nil), String)

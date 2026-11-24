@@ -124,9 +124,6 @@ RUN echo "Cache bust: ${CACHEBUST}" \
     # srctvplus
     && cd /home/tf2/hlserver/tf2/tf/addons \
     && wget -nv https://github.com/dalegaard/srctvplus/releases/download/v3.0/srctvplus.vdf \
-    # v3.0 with libstdc++.so.6 added as a dependency: TF2 11267535 no longer loads it, so the stock .so fails on _ZdlPv
-    && wget -nv "https://fastdl.serveme.tf/sourcemod/srctvplus-3.0-libstdcxx.so" -O srctvplus.so \
-    && echo "5755abbda6c8fbc6d677964baa4d0a0ce76ccacd0be9a5cdbb8f518751eb97c9  srctvplus.so" | sha256sum -c - \
     # neocurl
     && cd /home/tf2/hlserver/tf2/tf/addons/sourcemod \
     && wget -nv "https://github.com/sapphonie/SM-neocurl-ext/releases/download/v2.0.1-beta1/sm-neocurl-repack.zip" -O "sm-neocurl.zip" \
@@ -229,7 +226,10 @@ RUN cd /home/tf2/hlserver/tf2/tf \
     && unzip -o tf2-comp-fixes.zip \
     && rm tf2-comp-fixes.zip \
     # TF2 11267535 added a game rules virtual; v1.18.2's RestartTournament/SetWinningTeam offsets are off by one
-    && wget -nv "https://raw.githubusercontent.com/Arie/tf2-comp-fixes/9a0abe414ee8e6dd1efebcf44040d3bfab1fa862/gamedata/tf2-comp-fixes.games.txt" -O addons/sourcemod/gamedata/tf2-comp-fixes.games.txt
+    && wget -nv "https://raw.githubusercontent.com/Arie/tf2-comp-fixes/9a0abe414ee8e6dd1efebcf44040d3bfab1fa862/gamedata/tf2-comp-fixes.games.txt" -O addons/sourcemod/gamedata/tf2-comp-fixes.games.txt \
+    # srctvplus must also land AFTER the RGL pack, which bundles v3.0; that one fails on TF2 11267535 (_ZdlPv)
+    && wget -nv "https://github.com/Arie/srctvplus/releases/download/v3.1/srctvplus.so" -O addons/srctvplus.so \
+    && echo "80ccc6c542750ff6390387c480f9e91e8ccd7f8cb2e60d9ef562726347238f50  addons/srctvplus.so" | sha256sum -c -
 
 COPY --chown=tf2:tf2 base-configs/ /home/tf2/hlserver/tf2/tf/
 

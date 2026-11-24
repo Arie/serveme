@@ -74,18 +74,15 @@ RUN echo "Sourcemod cache bust: ${SOURCEMOD_CACHEBUST}" \
     && cd /home/tf2/hlserver/tf2/tf \
     # Download pages link to GitHub release assets now (previously smdrop/mmsdrop), so match on filename only
     && mm_url=$(wget -q -O - "https://www.metamodsource.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-zA-Z0-9./_-]+/mmsource-[0-9.]+-git[0-9]+-linux\.tar\.gz") \
-    && sm_url=$(wget -q -O - "http://www.sourcemod.net/downloads.php?branch=stable" | grep -oP -m1 "https://[a-zA-Z0-9./_-]+/sourcemod-[0-9.]+-git[0-9]+-linux\.tar\.gz") \
+    # Stock SourceMod crashes on TF2 11267535 (KeyValues layout). Our fork's build until upstream ships a fix;
+    # then go back to the stable link from http://www.sourcemod.net/downloads.php?branch=stable
+    && sm_url="https://github.com/Arie/sourcemod/releases/download/1.12.0.7262-tf2/sourcemod-1.12.0-git7262-tf2-linux.tar.gz" \
     && wget -nv $mm_url \
     && wget -nv $sm_url \
+    && echo "d4c434282c52298d7c1f8f47e5754d22b90dcbf14f633d8acd7a5d8f08d1594d  sourcemod-1.12.0-git7262-tf2-linux.tar.gz" | sha256sum -c - \
     && tar -xzf mmsource-*-linux.tar.gz \
     && tar -xzf sourcemod-*-linux.tar.gz \
     && rm *.tar.gz \
-    # TF2 11267535 repacked KeyValues; stock 1.12.0-git7260 crashes on client KeyValues commands.
-    # Rebuilt core + extensions with the fixed layout. Remove once upstream ships a fixed build.
-    && wget -nv "https://fastdl.serveme.tf/sourcemod/sourcemod-1.12.0-git7260-tf2-kvfix-linux.tar.gz" -O sm-kvfix.tar.gz \
-    && echo "c2e28dda39209cf73013f9f1a6aa7d8d07842f45ec633fe9a96ea56bacaf0e65  sm-kvfix.tar.gz" | sha256sum -c - \
-    && tar -xzf sm-kvfix.tar.gz \
-    && rm sm-kvfix.tar.gz \
     && rm -f addons/sourcemod/plugins/nextmap.smx \
            addons/sourcemod/plugins/funcommands.smx \
            addons/sourcemod/plugins/funvotes.smx

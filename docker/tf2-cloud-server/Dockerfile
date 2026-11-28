@@ -80,6 +80,10 @@ RUN echo "Sourcemod cache bust: ${SOURCEMOD_CACHEBUST}" \
     && tar -xzf mmsource-*-linux.tar.gz \
     && tar -xzf sourcemod-*-linux.tar.gz \
     && rm *.tar.gz \
+    # Stock sdktools can set the slot-8191 entity as a player's owner (SetEntityCollisionGroup), which crashes
+    # on the next rocket splash. Built from Arie/sourcemod fix-collision-rules-owner-lookup-1.12; remove once upstream has it
+    && wget -nv "https://github.com/Arie/sourcemod/releases/download/1.12.0.7264-collision-owner-fix/sdktools.ext.2.tf2.so" -O addons/sourcemod/extensions/sdktools.ext.2.tf2.so \
+    && echo "4215050cbe9e5055c5bbea2bf6f955022b9f2cf552063bc73b9392c1fb8d87fd  addons/sourcemod/extensions/sdktools.ext.2.tf2.so" | sha256sum -c - \
     && rm -f addons/sourcemod/plugins/nextmap.smx \
            addons/sourcemod/plugins/funcommands.smx \
            addons/sourcemod/plugins/funvotes.smx
